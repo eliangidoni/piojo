@@ -1,0 +1,39 @@
+    Piojo is a small C library of common containers and other useful structures.
+
+
+                                  Dependencies
+
+1) CMake 2.6 (or any later version).
+2) (optional) Doxygen for docs generation.
+3) (optional) gcov/lcov for code coverage.
+
+
+                                     Build
+
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+$ make
+
+To generate docs:
+$ make doc
+
+
+                                     Usage
+
+See directory test/ for code samples.
+
+
+                                  Development
+
+1) Debug
+
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Debug ..
+$ make
+
+2) Testing / Coverage
+
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Testing ..
+$ make
+$ CTEST_OUTPUT_ON_FAILURE=1 make test

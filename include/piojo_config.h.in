@@ -1,0 +1,5 @@
+/* the configured options and settings. */
+#define PIOJO_VERSION_MAJOR @piojo_VERSION_MAJOR@
+#define PIOJO_VERSION_MINOR @piojo_VERSION_MINOR@
+#define PIOJO_VERSION_PATCH @piojo_VERSION_PATCH@
+#cmakedefine PIOJO_DEBUG
