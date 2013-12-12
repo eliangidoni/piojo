@@ -114,7 +114,8 @@ Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gadc40c8ed04cd754590b32f60ceb885ee">piojo_buffer_sizeof</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>Piojo Buffer implementation. </p>
+<p>Piojo Buffer implementation for binary data. Assumes two's complement representation for signed numbers. </p>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>Reads and writes shouldn't be mixed (unless buffer is new/clear). </dd></dl>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="ga8e023688d541815652575733ee1a4bb6"></a><!-- doxytag: member="piojo_buffer.c::piojo_buffer_alloc" ref="ga8e023688d541815652575733ee1a4bb6" args="(void)" -->
 <div class="memitem">
@@ -1030,7 +1031,7 @@ Variables</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 12:43:07 for piojo-0.1 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2013 16:22:26 for piojo-0.1 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

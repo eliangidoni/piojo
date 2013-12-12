@@ -116,7 +116,7 @@ Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojotree.html#gae768f03d3912be3e33bf337b4eca577f">piojo_tree_sizeof</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>Piojo B-tree implementation. Use <em>maxchildren</em> = <b>16</b> for good performance. </p>
+<p>Piojo B-tree implementation. Use <em>maxchildren</em> &gt;= <b>8</b> for good performance. </p>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="gad212eb4e81901388302a9e5374b74ef5"></a><!-- doxytag: member="piojo_tree.c::piojo_tree_alloc_cb_cmp" ref="gad212eb4e81901388302a9e5374b74ef5" args="(uint8_t maxchildren, size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize, piojo_alloc_kv_t allocator)" -->
 <div class="memitem">
@@ -163,7 +163,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">keycmp</td><td>Entry key comparison function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">eksize</td><td>Entry key size (0 for <b>NULL</b> terminated strings). </td></tr>
@@ -208,7 +208,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>int32_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -251,7 +251,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>int64_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -294,7 +294,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>int</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -337,7 +337,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>size_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -380,7 +380,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size returned by <code>strlen()</code> . </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -423,7 +423,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>uint32_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -466,7 +466,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>uint64_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -509,7 +509,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses key size of <b>unsigned</b> <b>int</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -558,7 +558,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">keycmp</td><td>Entry key comparison function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">eksize</td><td>Entry key size (0 for <b>NULL</b> terminated strings). </td></tr>
@@ -596,7 +596,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>int32_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -632,7 +632,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>int64_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -668,7 +668,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>int</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -704,7 +704,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>size_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -740,7 +740,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size returned by <code>strlen()</code> . </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -776,7 +776,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>uint32_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -812,7 +812,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>uint64_t</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -848,7 +848,7 @@ Variables</h2></td></tr>
 <p>Allocates a new tree. Uses default allocator and key size of <b>unsigned</b> <b>int</b>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (multiple of 2). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxchildren</td><td>Maximum children in each node (should be &gt;= 4 and multiple of 2). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
   </table>
   </dd>
@@ -1318,7 +1318,7 @@ Variables</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2013 12:43:07 for piojo-0.1 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2013 16:22:26 for piojo-0.1 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

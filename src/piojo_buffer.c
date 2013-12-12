@@ -26,7 +26,9 @@
  * @file
  * @addtogroup piojobuffer Piojo Buffer
  * @{
- * Piojo Buffer implementation.
+ * Piojo Buffer implementation for binary data.
+ * Assumes two's complement representation for signed numbers.
+ * @warning Reads and writes shouldn't be mixed (unless buffer is new/clear).
  */
 
 #include <piojo/piojo_buffer.h>
