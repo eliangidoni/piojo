@@ -49,6 +49,7 @@
 #define array_insert piojo_array_insert
 #define array_set piojo_array_set
 #define array_append piojo_array_append
+#define array_has_p piojo_array_has_p
 #define array_delete piojo_array_delete
 #define array_at piojo_array_at
 
