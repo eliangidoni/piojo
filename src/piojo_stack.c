@@ -105,7 +105,7 @@ piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator)
         PIOJO_ASSERT(ecount > 0);
 
         st->allocator = allocator;
-        st->data = piojo_array_alloc_cb_n(esize, ecount, st->allocator);
+        st->data = piojo_array_alloc_cb_n(NULL, esize, ecount, st->allocator);
         PIOJO_ASSERT(st->data);
 
         return st;

@@ -39,19 +39,21 @@ typedef struct piojo_array piojo_array_t;
 extern const size_t piojo_array_sizeof;
 
 piojo_array_t*
-piojo_array_alloc(void);
+piojo_array_alloc(piojo_cmp_cb_t cmp);
 
 piojo_array_t*
-piojo_array_alloc_s(size_t esize);
+piojo_array_alloc_s(piojo_cmp_cb_t cmp, size_t esize);
 
 piojo_array_t*
-piojo_array_alloc_n(size_t esize, size_t ecount);
+piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount);
 
 piojo_array_t*
-piojo_array_alloc_cb(size_t esize, piojo_alloc_t allocator);
+piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize,
+                     piojo_alloc_t allocator);
 
 piojo_array_t*
-piojo_array_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator);
+piojo_array_alloc_cb_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount,
+                       piojo_alloc_t allocator);
 
 piojo_array_t*
 piojo_array_copy(const piojo_array_t *array);
@@ -73,6 +75,9 @@ piojo_array_set(size_t idx, const void *data, piojo_array_t *array);
 
 void
 piojo_array_append(const void *data, piojo_array_t *array);
+
+bool
+piojo_array_has_p(const void *data, const piojo_array_t *array, size_t *idx);
 
 size_t
 piojo_array_delete(size_t idx, piojo_array_t *array);

@@ -36,6 +36,7 @@ struct piojo_array {
         uint8_t *data;
         size_t esize, usedcnt, ecount;
         piojo_alloc_t allocator;
+        piojo_cmp_cb_t cmp_cb;
 };
 /** @hideinitializer Size of array in bytes */
 const size_t piojo_array_sizeof = sizeof(piojo_array_t);
@@ -55,60 +56,67 @@ finish_all(const piojo_array_t *array);
 /**
  * Allocates a new array.
  * Uses default allocator and entry size of @b int.
+ * @param[in] cmp Comparison function, can be @b NULL.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc(void)
+piojo_array_alloc(piojo_cmp_cb_t cmp)
 {
-        return piojo_array_alloc_s(sizeof(int));
+        return piojo_array_alloc_s(cmp, sizeof(int));
 }
 
 /**
  * Allocates a new array.
  * Uses default allocator.
+ * @param[in] cmp Comparison function, can be @b NULL.
  * @param[in] esize Entry size in bytes.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_s(size_t esize)
+piojo_array_alloc_s(piojo_cmp_cb_t cmp, size_t esize)
 {
-        return piojo_array_alloc_n(esize, DEFAULT_ADT_ECOUNT);
+        return piojo_array_alloc_n(cmp, esize, DEFAULT_ADT_ECOUNT);
 }
 
 /**
  * Allocates a new array.
  * Uses default allocator.
+ * @param[in] cmp Comparison function, can be @b NULL.
  * @param[in] esize Entry size in bytes.
  * @param[in] ecount Number of entries to reserve space for.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_n(size_t esize, size_t ecount)
+piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount)
 {
-        return piojo_array_alloc_cb_n(esize, ecount, piojo_alloc_default);
+        return piojo_array_alloc_cb_n(cmp, esize, ecount, piojo_alloc_default);
 }
 
 /**
  * Allocates a new array.
+ * @param[in] cmp Comparison function, can be @b NULL.
  * @param[in] esize Entry size in bytes.
  * @param[in] allocator Allocator to be used.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_cb(size_t esize, piojo_alloc_t allocator)
+piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_t allocator)
 {
-        return piojo_array_alloc_cb_n(esize, DEFAULT_ADT_ECOUNT, allocator);
+        return piojo_array_alloc_cb_n(cmp, esize, DEFAULT_ADT_ECOUNT,
+                                      allocator);
 }
 
 /**
  * Allocates a new array.
+ * @param[in] cmp Comparison function, can be @b NULL.
  * @param[in] esize Entry size in bytes.
  * @param[in] ecount Number of entries to reserve space for.
  * @param[in] allocator Allocator to be used.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator)
+piojo_array_alloc_cb_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount,
+                       piojo_alloc_t allocator)
 {
         piojo_array_t * arr;
         arr = (piojo_array_t *) allocator.alloc_cb(sizeof(piojo_array_t));
@@ -120,6 +128,7 @@ piojo_array_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator)
         arr->esize = esize;
         arr->ecount = ecount;
         arr->usedcnt = 0;
+        arr->cmp_cb = cmp;
         arr->data = (uint8_t *) arr->allocator.alloc_cb(arr->ecount *
                                                         arr->esize);
         PIOJO_ASSERT(arr->data);
@@ -144,7 +153,8 @@ piojo_array_copy(const piojo_array_t *array)
         allocator = array->allocator;
         esize = array->esize;
 
-        newarray = piojo_array_alloc_cb_n(esize, array->ecount, allocator);
+        newarray = piojo_array_alloc_cb_n(array->cmp_cb, esize, array->ecount,
+                                          allocator);
         PIOJO_ASSERT(newarray);
         newarray->usedcnt = array->usedcnt;
 
@@ -241,14 +251,70 @@ piojo_array_set(size_t idx, const void *data, piojo_array_t *array)
 }
 
 /**
- * Inserts a new entry after the last entry.
+ * Inserts a new entry after the last entry or
+ * in order given by @a cmp if it's not @b NULL.
  * @param[in] data Entry value.
  * @param[out] array Array being modified.
  */
 void
 piojo_array_append(const void *data, piojo_array_t *array)
 {
-        piojo_array_insert(piojo_array_size(array), data, array);
+        size_t i, cnt;
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(data);
+
+        cnt = piojo_array_size(array);
+        if (array->cmp_cb != NULL && cnt > 0){
+                piojo_array_has_p(data, array, &i);
+        }else{
+                i = cnt;
+        }
+        piojo_array_insert(i, data, array);
+}
+
+/**
+ * Searches an entry, only if @a cmp is not @b NULL.
+ * @param[in] data Entry value.
+ * @param[in] array Array.
+ * @param[out] idx Index where @a data is/should be found
+ *                 (can be @b NULL).
+ * @return @b TRUE if @a data is present, @b FALSE otherwise.
+ */
+bool
+piojo_array_has_p(const void *data, const piojo_array_t *array, size_t *idx)
+{
+        int cmpval;
+        bool found_p = FALSE;
+        size_t imin, imax, mid, cnt;
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(data);
+
+        imin = 0;
+        cnt = piojo_array_size(array);
+        if (array->cmp_cb != NULL && cnt > 0){
+                /* Binary search. */
+                imax = cnt - 1;
+                while (imin <= imax){
+                        mid = imin + ((imax - imin) / 2);
+                        cmpval = array->cmp_cb(data,
+                                               piojo_array_at(mid, array));
+                        if (cmpval == 0){
+                                imin = mid;
+                                found_p = TRUE;
+                                break;
+                        }else if (cmpval > 0){
+                                imin = mid + 1;
+                        }else if (imin != mid){
+                                imax = mid - 1;
+                        }else{
+                                break;
+                        }
+                }
+        }
+        if (idx != NULL){
+                *idx = imin;
+        }
+        return found_p;
 }
 
 /**
