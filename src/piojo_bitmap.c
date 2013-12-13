@@ -40,7 +40,7 @@ typedef struct {
 static const uint8_t BITMAP_MAXBITS = 64;
 
 /**
- * Initializes a bitmap of @b BITMAP_MAXBITS bits.
+ * Initializes a bitmap of @b 64 bits.
  * @param[out] bitmap User allocated bitmap.
  */
 void
@@ -51,7 +51,7 @@ piojo_bitmap_init(piojo_bitmap_t *bitmap)
 
 /**
  * Initializes a bitmap of @a maxbits bits.
- * @param[in] maxbits Maximum bits.
+ * @param[in] maxbits Maximum bits (from 1 to 64).
  * @param[out] bitmap User allocated bitmap.
  */
 void
