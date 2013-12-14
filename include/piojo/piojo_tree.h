@@ -43,28 +43,28 @@ typedef struct piojo_tree piojo_tree_t;
 extern const size_t piojo_tree_sizeof;
 
 piojo_tree_t*
-piojo_tree_alloc_intk(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_intk(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_uintk(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_uintk(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_i32k(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_i32k(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_u32k(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_u32k(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_i64k(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_i64k(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_u64k(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_u64k(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_strk(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_strk(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_sizk(uint8_t maxchildren, size_t evsize);
+piojo_tree_alloc_sizk(size_t evsize);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
@@ -99,8 +99,7 @@ piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_kv_t allocator);
 
 piojo_tree_t*
-piojo_tree_alloc_cmp(uint8_t maxchildren, size_t evsize,
-                     piojo_cmp_cb_t keycmp, size_t eksize);
+piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,

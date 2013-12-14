@@ -33,42 +33,42 @@ void test_alloc()
 {
         piojo_tree_t *tree;
 
-        tree = piojo_tree_alloc_intk(4, 2);
+        tree = piojo_tree_alloc_intk(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_uintk(4, 2);
+        tree = piojo_tree_alloc_uintk(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_i32k(4, 2);
+        tree = piojo_tree_alloc_i32k(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_u32k(4, 2);
+        tree = piojo_tree_alloc_u32k(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_i64k(4, 2);
+        tree = piojo_tree_alloc_i64k(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_u64k(4, 2);
+        tree = piojo_tree_alloc_u64k(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_sizk(4, 2);
+        tree = piojo_tree_alloc_sizk(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_strk(4, 2);
+        tree = piojo_tree_alloc_strk(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
@@ -168,7 +168,7 @@ void test_size()
         piojo_tree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_tree_alloc_intk(4, sizeof(int));
+        tree = piojo_tree_alloc_intk(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -237,7 +237,7 @@ void test_insertset()
         piojo_tree_t *tree;
         int i=1;
 
-        tree = piojo_tree_alloc_intk(4, sizeof(bool));
+        tree = piojo_tree_alloc_intk(sizeof(bool));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, NULL, tree);
@@ -266,7 +266,7 @@ void test_search()
         piojo_tree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_tree_alloc_cmp(4, sizeof(int), my_cmp, sizeof(int));
+        tree = piojo_tree_alloc_cmp(sizeof(int), my_cmp, sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -297,7 +297,7 @@ void test_searchuint()
         unsigned int i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_uintk(4, sizeof(int));
+        tree = piojo_tree_alloc_uintk(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -327,7 +327,7 @@ void test_searchi32()
         int32_t i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_i32k(4, sizeof(int));
+        tree = piojo_tree_alloc_i32k(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -357,7 +357,7 @@ void test_searchu32()
         uint32_t i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_u32k(4, sizeof(int));
+        tree = piojo_tree_alloc_u32k(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -387,7 +387,7 @@ void test_searchi64()
         int64_t i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_i64k(4, sizeof(int));
+        tree = piojo_tree_alloc_i64k(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -417,7 +417,7 @@ void test_searchu64()
         uint64_t i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_u64k(4, sizeof(int));
+        tree = piojo_tree_alloc_u64k(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -447,7 +447,7 @@ void test_searchsiz()
         size_t i=3;
         int j=10;
 
-        tree = piojo_tree_alloc_sizk(4, sizeof(int));
+        tree = piojo_tree_alloc_sizk(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(&i, &j, tree);
@@ -477,7 +477,7 @@ void test_searchstr()
         const char *i="tzest";
         int j=10;
 
-        tree = piojo_tree_alloc_strk(4, sizeof(int));
+        tree = piojo_tree_alloc_strk(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(i, &j, tree);
@@ -501,7 +501,7 @@ void test_delete()
         piojo_tree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_tree_alloc_intk(4, sizeof(int));
+        tree = piojo_tree_alloc_intk(sizeof(int));
         piojo_tree_insert(&i, &j, tree);
 
         ++i;
@@ -521,7 +521,7 @@ void test_first_next()
         piojo_tree_t *tree;
         int i=1, i2=i+1, j=10, j2=j+1, tmp;
 
-        tree = piojo_tree_alloc_intk(4, sizeof(int));
+        tree = piojo_tree_alloc_intk(sizeof(int));
         piojo_tree_insert(&i, &j, tree);
         piojo_tree_insert(&i2, &j2, tree);
 
@@ -545,7 +545,7 @@ void test_last_prev()
         piojo_tree_t *tree;
         int i=1, i2=i+1, j=10, j2=j+1, tmp;
 
-        tree = piojo_tree_alloc_intk(4, sizeof(int));
+        tree = piojo_tree_alloc_intk(sizeof(int));
         piojo_tree_insert(&i, &j, tree);
         piojo_tree_insert(&i2, &j2, tree);
 
@@ -568,7 +568,7 @@ void test_tree_expand()
         piojo_tree_t *tree;
         int i,j;
 
-        tree = piojo_tree_alloc_intk(10, sizeof(int));
+        tree = piojo_tree_alloc_intk(sizeof(int));
         for (i = 1023; i >= 0; --i){
                 j = i * 10;
                 piojo_tree_insert(&i, &j, tree);

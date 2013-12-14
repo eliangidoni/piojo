@@ -7,7 +7,7 @@
 #define PIOJO_UNUSED(x) (void)(x)
 #define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
 #define PIOJO_FAIL_IF(cond) do{ assert(! (cond)); } while(0)
-#define TEST_STRESS_COUNT 100000
+#define TEST_STRESS_COUNT 10000000
 
 static int alloc_cnt = 0;
 static int init_cnt = 0;
