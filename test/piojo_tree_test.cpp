@@ -36,34 +36,42 @@ void test_alloc()
         tree = piojo_tree_alloc_intk(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_uintk(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_i32k(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_u32k(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_i64k(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_u64k(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_sizk(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 
         tree = piojo_tree_alloc_strk(4, 2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+        piojo_tree_free(tree);
 }
 
 void test_copy_def()
@@ -179,6 +187,8 @@ void test_size()
 
         piojo_tree_clear(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
+
+        piojo_tree_free(tree);
 }
 
 void test_insert()
@@ -235,6 +245,7 @@ void test_insertset()
 
         piojo_tree_insert(&i, NULL, tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 1);
+        piojo_tree_free(tree);
 }
 
 static int
@@ -276,6 +287,8 @@ void test_search()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
+
+        piojo_tree_free(tree);
 }
 
 void test_searchuint()
@@ -305,6 +318,7 @@ void test_searchuint()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
+        piojo_tree_free(tree);
 }
 
 void test_searchi32()
@@ -334,7 +348,7 @@ void test_searchi32()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
-
+        piojo_tree_free(tree);
 }
 
 void test_searchu32()
@@ -364,7 +378,7 @@ void test_searchu32()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
-
+        piojo_tree_free(tree);
 }
 
 void test_searchi64()
@@ -394,7 +408,7 @@ void test_searchi64()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
-
+        piojo_tree_free(tree);
 }
 
 void test_searchu64()
@@ -424,7 +438,7 @@ void test_searchu64()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
-
+        piojo_tree_free(tree);
 }
 
 void test_searchsiz()
@@ -454,7 +468,7 @@ void test_searchsiz()
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
         i=100;
         PIOJO_ASSERT(NULL == piojo_tree_search(&i, tree));
-
+        piojo_tree_free(tree);
 }
 
 void test_searchstr()
@@ -479,6 +493,7 @@ void test_searchstr()
 
         j = *(int*) piojo_tree_search(i, tree);
         PIOJO_ASSERT(11 == j);
+        piojo_tree_free(tree);
 }
 
 void test_delete()
@@ -497,6 +512,7 @@ void test_delete()
         --i;
         j = *(int*) piojo_tree_search(&i, tree);
         PIOJO_ASSERT(10 == j);
+        piojo_tree_free(tree);
 }
 
 void test_first_next()
@@ -520,6 +536,7 @@ void test_first_next()
         PIOJO_ASSERT(i2 == tmp);
         tmp = *(int*) piojo_tree_entryv(next);
         PIOJO_ASSERT(j2 == tmp);
+        piojo_tree_free(tree);
 }
 
 void test_last_prev()
@@ -543,6 +560,7 @@ void test_last_prev()
         PIOJO_ASSERT(i == tmp);
         tmp = *(int*) piojo_tree_entryv(next);
         PIOJO_ASSERT(j == tmp);
+        piojo_tree_free(tree);
 }
 
 void test_tree_expand()

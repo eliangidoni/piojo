@@ -33,22 +33,27 @@ void test_alloc()
         stack = piojo_stack_alloc();
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+        piojo_stack_free(stack);
 
         stack = piojo_stack_alloc_s(2);
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+        piojo_stack_free(stack);
 
         stack = piojo_stack_alloc_n(2, 2);
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+        piojo_stack_free(stack);
 
         stack = piojo_stack_alloc_cb(2, piojo_alloc_default);
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+        piojo_stack_free(stack);
 
         stack = piojo_stack_alloc_cb_n(2, 2, piojo_alloc_default);
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+        piojo_stack_free(stack);
 }
 
 void test_copy_def()
@@ -141,6 +146,8 @@ void test_size()
 
         piojo_stack_clear(stack);
         PIOJO_ASSERT(piojo_stack_size(stack) == 0);
+
+        piojo_stack_free(stack);
 }
 
 void test_push()
@@ -163,6 +170,8 @@ void test_push()
 
         j = *(int*) piojo_stack_peek(stack);
         PIOJO_ASSERT(i == j);
+
+        piojo_stack_free(stack);
 }
 
 void test_pop()
@@ -186,6 +195,8 @@ void test_pop()
         piojo_stack_pop(stack);
         j = *(int*) piojo_stack_peek(stack);
         PIOJO_ASSERT(i - 1 == j);
+
+        piojo_stack_free(stack);
 }
 
 void test_peek()
@@ -206,6 +217,7 @@ void test_peek()
 
         j = *(int*) piojo_stack_peek(stack);
         PIOJO_ASSERT(i == j);
+        piojo_stack_free(stack);
 }
 
 void test_stack_expand()
@@ -225,6 +237,8 @@ void test_stack_expand()
                 PIOJO_ASSERT(i == j);
                 piojo_stack_pop(stack);
         }
+
+        piojo_stack_free(stack);
 }
 
 void test_stress()
@@ -244,6 +258,8 @@ void test_stress()
                 PIOJO_ASSERT(i == j);
                 piojo_stack_pop(stack);
         }
+
+        piojo_stack_free(stack);
 }
 
 int main()

@@ -33,42 +33,52 @@ void test_alloc()
         queue = piojo_queue_alloc(PIOJO_QUEUE_DYN_TRUE);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_s(PIOJO_QUEUE_DYN_TRUE, 2);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_n(PIOJO_QUEUE_DYN_TRUE, 2, 2);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE, 2, piojo_alloc_default);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_cb_n(PIOJO_QUEUE_DYN_TRUE, 2, 2, piojo_alloc_default);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc(PIOJO_QUEUE_DYN_FALSE);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_s(PIOJO_QUEUE_DYN_FALSE, 2);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_n(PIOJO_QUEUE_DYN_FALSE, 2, 2);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_FALSE, 2, piojo_alloc_default);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 
         queue = piojo_queue_alloc_cb_n(PIOJO_QUEUE_DYN_FALSE, 2, 2, piojo_alloc_default);
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 }
 
 void test_copy_def()
@@ -162,6 +172,7 @@ void test_size()
 
         piojo_queue_clear(queue);
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+        piojo_queue_free(queue);
 }
 
 void test_push()
@@ -184,6 +195,8 @@ void test_push()
 
         j = *(int*) piojo_queue_peek(queue);
         PIOJO_ASSERT(i - 1 == j);
+
+        piojo_queue_free(queue);
 }
 
 void test_pop()
@@ -207,6 +220,8 @@ void test_pop()
         piojo_queue_pop(queue);
         j = *(int*) piojo_queue_peek(queue);
         PIOJO_ASSERT(i == j);
+
+        piojo_queue_free(queue);
 }
 
 void test_peek()
@@ -227,6 +242,8 @@ void test_peek()
 
         j = *(int*) piojo_queue_peek(queue);
         PIOJO_ASSERT(i - 1 == j);
+
+        piojo_queue_free(queue);
 }
 
 void test_queue_expand()
@@ -246,6 +263,7 @@ void test_queue_expand()
                 PIOJO_ASSERT(i == j);
                 piojo_queue_pop(queue);
         }
+        piojo_queue_free(queue);
 }
 
 void test_full_p()
@@ -264,6 +282,8 @@ void test_full_p()
         piojo_queue_clear(queue);
         PIOJO_ASSERT(! piojo_queue_full_p(queue));
         PIOJO_ASSERT(piojo_queue_size(queue) == 0);
+
+        piojo_queue_free(queue);
 }
 
 void test_stress()
@@ -283,6 +303,7 @@ void test_stress()
                 PIOJO_ASSERT(i == j);
                 piojo_queue_pop(queue);
         }
+        piojo_queue_free(queue);
 }
 
 int main()

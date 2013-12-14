@@ -641,12 +641,13 @@ static void
 finish_all(const piojo_hash_t *hash)
 {
         size_t bidx;
-        piojo_hash_entry_t *kv;
+        piojo_hash_entry_t *kv, *next;
         for (bidx = 0; bidx < hash->bucketcnt; ++bidx){
                 kv = hash->buckets[bidx];
                 while (kv != NULL){
+                        next = kv->next;
                         finish_entry(hash, kv);
-                        kv = kv->next;
+                        kv = next;
                 }
         }
 }

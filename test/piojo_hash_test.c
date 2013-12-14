@@ -33,22 +33,27 @@ void test_alloc()
         hash = piojo_hash_alloc_intk(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+        piojo_hash_free(hash);
 
         hash = piojo_hash_alloc_i32k(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+        piojo_hash_free(hash);
 
         hash = piojo_hash_alloc_i64k(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+        piojo_hash_free(hash);
 
         hash = piojo_hash_alloc_sizk(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+        piojo_hash_free(hash);
 
         hash = piojo_hash_alloc_strk(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+        piojo_hash_free(hash);
 }
 
 void test_copy_def()
@@ -172,6 +177,8 @@ void test_size()
 
         piojo_hash_clear(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
+
+        piojo_hash_free(hash);
 }
 
 void test_insert()
@@ -206,6 +213,8 @@ void test_insertset()
 
         piojo_hash_insert(&i, NULL, hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 1);
+
+        piojo_hash_free(hash);
 }
 
 void test_set()
@@ -262,6 +271,8 @@ void test_search()
 
         j = *(int*) piojo_hash_search(&i, hash);
         PIOJO_ASSERT(11 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_search32()
@@ -286,6 +297,8 @@ void test_search32()
 
         j = *(int*) piojo_hash_search(&i, hash);
         PIOJO_ASSERT(11 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_search64()
@@ -310,6 +323,8 @@ void test_search64()
 
         j = *(int*) piojo_hash_search(&i, hash);
         PIOJO_ASSERT(11 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_searchsiz()
@@ -334,6 +349,8 @@ void test_searchsiz()
 
         j = *(int*) piojo_hash_search(&i, hash);
         PIOJO_ASSERT(11 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_searchstr()
@@ -358,6 +375,8 @@ void test_searchstr()
 
         j = *(int*) piojo_hash_search(i, hash);
         PIOJO_ASSERT(11 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_delete()
@@ -376,6 +395,8 @@ void test_delete()
         --i;
         j = *(int*) piojo_hash_search(&i, hash);
         PIOJO_ASSERT(10 == j);
+
+        piojo_hash_free(hash);
 }
 
 void test_first_next()
@@ -399,6 +420,8 @@ void test_first_next()
         PIOJO_ASSERT(i == tmp || i2 == tmp);
         tmp = *(int*) piojo_hash_entryv(next);
         PIOJO_ASSERT(j == tmp || j2 == tmp);
+
+        piojo_hash_free(hash);
 }
 
 void test_hash_expand()
@@ -418,6 +441,7 @@ void test_hash_expand()
                 j = *(int*) piojo_hash_search(&i, hash);
                 PIOJO_ASSERT(j == i * 10);
         }
+        piojo_hash_free(hash);
 }
 
 void test_stress()
@@ -457,6 +481,7 @@ void test_stress()
                 PIOJO_ASSERT(deleted_p == TRUE);
         }
 
+        piojo_hash_free(hash);
 }
 
 int main()

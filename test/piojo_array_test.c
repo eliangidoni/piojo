@@ -33,22 +33,27 @@ void test_alloc()
         array = piojo_array_alloc(NULL);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+        piojo_array_free(array);
 
         array = piojo_array_alloc_s(NULL, 2);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+        piojo_array_free(array);
 
         array = piojo_array_alloc_n(NULL, 2, 2);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+        piojo_array_free(array);
 
         array = piojo_array_alloc_cb(NULL, 2, piojo_alloc_default);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+        piojo_array_free(array);
 
         array = piojo_array_alloc_cb_n(NULL, 2, 2, piojo_alloc_default);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+        piojo_array_free(array);
 }
 
 void test_copy_def()
@@ -140,6 +145,8 @@ void test_size()
 
         piojo_array_clear(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
+
+        piojo_array_free(array);
 }
 
 void test_insert()
@@ -162,6 +169,8 @@ void test_insert()
 
         j = *(int*) piojo_array_at(0, array);
         PIOJO_ASSERT(i == j);
+
+        piojo_array_free(array);
 }
 
 void test_set()
@@ -217,6 +226,8 @@ void test_append()
 
         j = *(int*) piojo_array_at(1, array);
         PIOJO_ASSERT(i == j);
+
+        piojo_array_free(array);
 }
 
 static int
@@ -253,6 +264,8 @@ void test_append_cmp()
         piojo_array_append(&i, array);
         k = *(int*) piojo_array_at(piojo_array_size(array)-1, array);
         PIOJO_ASSERT(i == k);
+
+        piojo_array_free(array);
 }
 
 void test_delete()
@@ -280,6 +293,7 @@ void test_delete()
 
         j = *(int*) piojo_array_at(0, array);
         PIOJO_ASSERT(i - 1 == j);
+        piojo_array_free(array);
 }
 
 void test_at()
@@ -304,6 +318,8 @@ void test_at()
 
         j = *(int*) piojo_array_at(2, array);
         PIOJO_ASSERT(i == j);
+
+        piojo_array_free(array);
 }
 
 void test_array_expand()
@@ -322,6 +338,8 @@ void test_array_expand()
                 j = *(int*) piojo_array_at(i, array);
                 PIOJO_ASSERT(i == j);
         }
+
+        piojo_array_free(array);
 }
 
 void test_stress()
@@ -340,6 +358,7 @@ void test_stress()
                 j = *(int*) piojo_array_at(i, array);
                 PIOJO_ASSERT(i+1 == j);
         }
+        piojo_array_free(array);
 }
 
 int main()

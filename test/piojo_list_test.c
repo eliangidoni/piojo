@@ -33,14 +33,17 @@ void test_alloc()
         list = piojo_list_alloc();
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(piojo_list_size(list) == 0);
+        piojo_list_free(list);
 
         list = piojo_list_alloc_s(2);
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(piojo_list_size(list) == 0);
+        piojo_list_free(list);
 
         list = piojo_list_alloc_cb(2, piojo_alloc_default);
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(piojo_list_size(list) == 0);
+        piojo_list_free(list);
 }
 
 void test_copy_def()
@@ -133,6 +136,8 @@ void test_size()
 
         piojo_list_clear(list);
         PIOJO_ASSERT(piojo_list_size(list) == 0);
+
+        piojo_list_free(list);
 }
 
 void test_insert()
@@ -159,6 +164,8 @@ void test_insert()
 
         j = *(int*) piojo_list_entry(piojo_list_prev(piojo_list_last(list)));
         PIOJO_ASSERT(i == j);
+
+        piojo_list_free(list);
 }
 
 void test_set()
@@ -214,6 +221,8 @@ void test_prepend()
 
         j = *(int*) piojo_list_entry(piojo_list_first(list));
         PIOJO_ASSERT(i == j);
+
+        piojo_list_free(list);
 }
 
 void test_append()
@@ -236,6 +245,8 @@ void test_append()
 
         j = *(int*) piojo_list_entry(piojo_list_last(list));
         PIOJO_ASSERT(i == j);
+
+        piojo_list_free(list);
 }
 
 void test_delete()
@@ -273,6 +284,8 @@ void test_delete()
                 node = piojo_list_delete(node, list);
         }
         PIOJO_ASSERT(piojo_list_size(list) == 0);
+
+        piojo_list_free(list);
 }
 
 void test_first_last()
@@ -297,6 +310,8 @@ void test_first_last()
 
         j = *(int*) piojo_list_entry(piojo_list_last(list));
         PIOJO_ASSERT(j == i);
+
+        piojo_list_free(list);
 }
 
 void test_next_prev()
@@ -321,6 +336,8 @@ void test_next_prev()
 
         PIOJO_ASSERT(NULL == piojo_list_next(piojo_list_next(piojo_list_first(list))));
         PIOJO_ASSERT(NULL == piojo_list_prev(piojo_list_prev(piojo_list_last(list))));
+
+        piojo_list_free(list);
 }
 
 void test_stress()
@@ -342,6 +359,7 @@ void test_stress()
                 PIOJO_ASSERT(j == i);
                 node = piojo_list_next(node);
         }
+        piojo_list_free(list);
 
 }
 
