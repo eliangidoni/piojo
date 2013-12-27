@@ -52,7 +52,7 @@ my_finish(void *ptr)
 #define assert_allocator_init(val) PIOJO_ASSERT(init_cnt == val)
 #define assert_allocator_alloc(val) PIOJO_ASSERT(alloc_cnt == val)
 
-static piojo_alloc_t my_allocator = {
+static piojo_alloc_if my_allocator = {
         my_alloc,
         my_free,
         my_init,
@@ -61,7 +61,7 @@ static piojo_alloc_t my_allocator = {
 };
 
 
-static piojo_alloc_kv_t my_kvallocator = {
+static piojo_alloc_kv_if my_kvallocator = {
         my_alloc,
         my_free,
         my_init,

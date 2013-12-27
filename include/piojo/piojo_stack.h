@@ -48,10 +48,10 @@ piojo_stack_t*
 piojo_stack_alloc_n(size_t esize, size_t ecount);
 
 piojo_stack_t*
-piojo_stack_alloc_cb(size_t esize, piojo_alloc_t allocator);
+piojo_stack_alloc_cb(size_t esize, piojo_alloc_if allocator);
 
 piojo_stack_t*
-piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator);
+piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_if allocator);
 
 piojo_stack_t*
 piojo_stack_copy(const piojo_stack_t *stack);

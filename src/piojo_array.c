@@ -35,7 +35,7 @@
 struct piojo_array {
         uint8_t *data;
         size_t esize, usedcnt, ecount;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         piojo_cmp_cb_t cmp_cb;
 };
 /** @hideinitializer Size of array in bytes */
@@ -100,7 +100,7 @@ piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount)
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_t allocator)
+piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_if allocator)
 {
         return piojo_array_alloc_cb_n(cmp, esize, DEFAULT_ADT_ECOUNT,
                                       allocator);
@@ -116,7 +116,7 @@ piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_t allocator)
  */
 piojo_array_t*
 piojo_array_alloc_cb_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount,
-                       piojo_alloc_t allocator)
+                       piojo_alloc_if allocator)
 {
         piojo_array_t * arr;
         arr = (piojo_array_t *) allocator.alloc_cb(sizeof(piojo_array_t));
@@ -147,7 +147,7 @@ piojo_array_copy(const piojo_array_t *array)
         size_t esize;
         size_t i;
         piojo_array_t *newarray;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(array);
 
         allocator = array->allocator;
@@ -173,7 +173,7 @@ piojo_array_copy(const piojo_array_t *array)
 void
 piojo_array_free(const piojo_array_t *array)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(array);
 
         allocator = array->allocator;
@@ -395,7 +395,7 @@ expand_array(piojo_array_t *array)
 static void
 finish_all(const piojo_array_t *array)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         size_t i;
         allocator = array->allocator;
         for (i = 0; i < array->usedcnt; ++i){

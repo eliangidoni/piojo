@@ -38,7 +38,7 @@
 struct piojo_buffer {
         piojo_array_t *data;
         size_t ridx;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of buffer in bytes */
 const size_t piojo_buffer_sizeof = sizeof(piojo_buffer_t);
@@ -90,7 +90,7 @@ piojo_buffer_alloc_n(size_t count)
  * @return New buffer.
  */
 piojo_buffer_t*
-piojo_buffer_alloc_cb(piojo_alloc_t allocator)
+piojo_buffer_alloc_cb(piojo_alloc_if allocator)
 {
         return piojo_buffer_alloc_cb_n(DEFAULT_ADT_ECOUNT, allocator);
 }
@@ -102,7 +102,7 @@ piojo_buffer_alloc_cb(piojo_alloc_t allocator)
  * @return New buffer.
  */
 piojo_buffer_t*
-piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_t allocator)
+piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_if allocator)
 {
         piojo_buffer_t * buf;
         buf = (piojo_buffer_t *) allocator.alloc_cb(sizeof(piojo_buffer_t));
@@ -125,7 +125,7 @@ piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_t allocator)
 piojo_buffer_t*
 piojo_buffer_copy(const piojo_buffer_t *buffer)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         piojo_buffer_t * newbuffer;
         PIOJO_ASSERT(buffer);
 
@@ -148,7 +148,7 @@ piojo_buffer_copy(const piojo_buffer_t *buffer)
 void
 piojo_buffer_free(const piojo_buffer_t *buffer)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(buffer);
 
         allocator = buffer->allocator;

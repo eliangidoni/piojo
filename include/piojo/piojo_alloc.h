@@ -40,7 +40,7 @@ extern "C" {
 
 /** @{ */
 
-/** Allocator. */
+/** Allocator interface. */
 typedef struct {
         /** Allocation callback. */
         piojo_alloc_cb_t alloc_cb;
@@ -52,9 +52,9 @@ typedef struct {
         piojo_copy_cb_t copy_cb;
         /** Finish callback. */
         piojo_finish_cb_t finish_cb;
-} piojo_alloc_t;
+} piojo_alloc_if;
 
-/** Key-Value allocator. */
+/** Key-value allocator interface. */
 typedef struct {
         /** Allocation callback. */
         piojo_alloc_cb_t alloc_cb;
@@ -72,10 +72,10 @@ typedef struct {
         piojo_copy_cb_t copyk_cb;
         /** Key finish callback. */
         piojo_finish_cb_t finishk_cb;
-} piojo_alloc_kv_t;
+} piojo_alloc_kv_if;
 
-extern piojo_alloc_t piojo_alloc_default;
-extern piojo_alloc_kv_t piojo_alloc_kv_default;
+extern piojo_alloc_if piojo_alloc_default;
+extern piojo_alloc_kv_if piojo_alloc_kv_default;
 
 void* piojo_alloc_def_alloc(size_t size);
 void piojo_alloc_def_free(const void *ptr);

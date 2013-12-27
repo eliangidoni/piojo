@@ -56,7 +56,7 @@ struct piojo_tree {
         piojo_tree_bnode_t *root;
         size_t eksize, evsize, ecount, cmin, cmax;
         piojo_cmp_cb_t cmp_cb;
-        piojo_alloc_kv_t allocator;
+        piojo_alloc_kv_if allocator;
 };
 /** @hideinitializer Size of tree in bytes */
 const size_t piojo_tree_sizeof = sizeof(piojo_tree_t);
@@ -265,7 +265,7 @@ piojo_tree_alloc_sizk(size_t evsize)
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        int_cmp, sizeof(int), allocator);
@@ -282,7 +282,7 @@ piojo_tree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_uintk(uint8_t maxchildren, size_t evsize,
-                          piojo_alloc_kv_t allocator)
+                          piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        uint_cmp, sizeof(unsigned int),
@@ -300,7 +300,7 @@ piojo_tree_alloc_cb_uintk(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_i32k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        i32_cmp, sizeof(int32_t), allocator);
@@ -317,7 +317,7 @@ piojo_tree_alloc_cb_i32k(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_u32k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        u32_cmp, sizeof(uint32_t), allocator);
@@ -334,7 +334,7 @@ piojo_tree_alloc_cb_u32k(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_i64k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        i64_cmp, sizeof(int64_t), allocator);
@@ -351,7 +351,7 @@ piojo_tree_alloc_cb_i64k(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        u64_cmp, sizeof(uint64_t), allocator);
@@ -368,7 +368,7 @@ piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_strk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        str_cmp, 0, allocator);
@@ -385,7 +385,7 @@ piojo_tree_alloc_cb_strk(uint8_t maxchildren, size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator)
+                         piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
                                        siz_cmp, sizeof(size_t), allocator);
@@ -419,7 +419,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize)
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
                         piojo_cmp_cb_t keycmp, size_t eksize,
-                        piojo_alloc_kv_t allocator)
+                        piojo_alloc_kv_if allocator)
 {
         piojo_tree_t * tree;
         PIOJO_ASSERT(sizeof(piojo_tree_node_t) >= sizeof(piojo_tree_iter_t));
@@ -758,7 +758,7 @@ piojo_tree_entryv(const piojo_tree_node_t *node)
 static piojo_tree_bnode_t*
 alloc_bnode(const piojo_tree_t *tree)
 {
-        piojo_alloc_kv_t ator = tree->allocator;
+        piojo_alloc_kv_if ator = tree->allocator;
         piojo_tree_bnode_t *bnode;
         size_t entriessiz = sizeof(piojo_tree_entry_t) * (tree->cmax - 1);
         size_t childrensiz = sizeof(piojo_tree_bnode_t*) * tree->cmax;
@@ -944,7 +944,7 @@ init_entry(const void *key, const void *data, const piojo_tree_t *tree)
 {
         bool null_p = TRUE;
         piojo_tree_entry_t kv;
-        piojo_alloc_kv_t ator = tree->allocator;
+        piojo_alloc_kv_if ator = tree->allocator;
         size_t ksize = tree->eksize;
 
         if (ksize == 0){
@@ -968,7 +968,7 @@ static piojo_tree_entry_t
 copy_entry(const void *key, const void *data, const piojo_tree_t *tree)
 {
         piojo_tree_entry_t kv;
-        piojo_alloc_kv_t ator = tree->allocator;
+        piojo_alloc_kv_if ator = tree->allocator;
         size_t ksize = tree->eksize;
 
         if (ksize == 0){
@@ -988,7 +988,7 @@ copy_entry(const void *key, const void *data, const piojo_tree_t *tree)
 static void
 finish_entry(const piojo_tree_t *tree, piojo_tree_entry_t *kv)
 {
-        piojo_alloc_kv_t ator = tree->allocator;
+        piojo_alloc_kv_if ator = tree->allocator;
 
         ator.finishk_cb(kv->key);
         ator.finish_cb(kv->data);
@@ -999,8 +999,8 @@ finish_entry(const piojo_tree_t *tree, piojo_tree_entry_t *kv)
 static void
 finish_all(const piojo_tree_t *tree)
 {
-        piojo_alloc_kv_t allocator;
-        piojo_alloc_t qator = piojo_alloc_default;
+        piojo_alloc_kv_if allocator;
+        piojo_alloc_if qator = piojo_alloc_default;
         piojo_queue_t *q;
         piojo_tree_bnode_t *bnode;
         size_t i;

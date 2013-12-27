@@ -48,7 +48,7 @@ piojo_list_t*
 piojo_list_alloc_s(size_t esize);
 
 piojo_list_t*
-piojo_list_alloc_cb(size_t esize, piojo_alloc_t allocator);
+piojo_list_alloc_cb(size_t esize, piojo_alloc_if allocator);
 
 piojo_list_t*
 piojo_list_copy(const piojo_list_t *list);

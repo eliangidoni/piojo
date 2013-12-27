@@ -64,11 +64,11 @@ piojo_queue_alloc_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount);
 
 piojo_queue_t*
 piojo_queue_alloc_cb(piojo_queue_dyn_t dyn, size_t esize,
-                     piojo_alloc_t allocator);
+                     piojo_alloc_if allocator);
 
 piojo_queue_t*
 piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
-                       piojo_alloc_t allocator);
+                       piojo_alloc_if allocator);
 
 piojo_queue_t*
 piojo_queue_copy(const piojo_queue_t *queue);

@@ -45,10 +45,10 @@ piojo_buffer_t*
 piojo_buffer_alloc_n(size_t count);
 
 piojo_buffer_t*
-piojo_buffer_alloc_cb(piojo_alloc_t allocator);
+piojo_buffer_alloc_cb(piojo_alloc_if allocator);
 
 piojo_buffer_t*
-piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_t allocator);
+piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_if allocator);
 
 piojo_buffer_t*
 piojo_buffer_copy(const piojo_buffer_t *buffer);

@@ -33,7 +33,7 @@
 #include <piojo_defs.h>
 
 /** @hideinitializer Default allocator */
-piojo_alloc_t piojo_alloc_default = {
+piojo_alloc_if piojo_alloc_default = {
         piojo_alloc_def_alloc,
         piojo_alloc_def_free,
         piojo_alloc_def_init,
@@ -42,7 +42,7 @@ piojo_alloc_t piojo_alloc_default = {
 };
 
 /** @hideinitializer Default key-value allocator */
-piojo_alloc_kv_t piojo_alloc_kv_default = {
+piojo_alloc_kv_if piojo_alloc_kv_default = {
         piojo_alloc_def_alloc,
         piojo_alloc_def_free,
         piojo_alloc_def_init,

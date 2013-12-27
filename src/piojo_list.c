@@ -40,7 +40,7 @@ struct piojo_list_node {
 struct piojo_list {
         piojo_list_node_t *head, *tail;
         size_t esize, ecount;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of list in bytes */
 const size_t piojo_list_sizeof = sizeof(piojo_list_t);
@@ -93,7 +93,7 @@ piojo_list_alloc_s(size_t esize)
  * @return New list.
  */
 piojo_list_t*
-piojo_list_alloc_cb(size_t esize, piojo_alloc_t allocator)
+piojo_list_alloc_cb(size_t esize, piojo_alloc_if allocator)
 {
         piojo_list_t * list;
         list = (piojo_list_t *) allocator.alloc_cb(sizeof(piojo_list_t));
@@ -143,7 +143,7 @@ piojo_list_copy(const piojo_list_t *list)
 void
 piojo_list_free(const piojo_list_t *list)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(list);
 
         allocator = list->allocator;
@@ -430,7 +430,7 @@ alloc_node(const piojo_list_t *list)
 {
         piojo_list_node_t *node;
         void *ndata;
-        piojo_alloc_t ator = list->allocator;
+        piojo_alloc_if ator = list->allocator;
 
         ndata = ator.alloc_cb(list->esize);
         PIOJO_ASSERT(ndata);

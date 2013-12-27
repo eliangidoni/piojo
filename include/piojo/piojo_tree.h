@@ -68,35 +68,35 @@ piojo_tree_alloc_sizk(size_t evsize);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_uintk(uint8_t maxchildren, size_t evsize,
-                          piojo_alloc_kv_t allocator);
+                          piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_i32k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_u32k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_i64k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_strk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_kv_t allocator);
+                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize);
@@ -104,7 +104,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize);
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
                         piojo_cmp_cb_t keycmp, size_t eksize,
-                        piojo_alloc_kv_t allocator);
+                        piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
 piojo_tree_copy(const piojo_tree_t *tree);

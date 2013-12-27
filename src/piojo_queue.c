@@ -36,7 +36,7 @@ struct piojo_queue {
         uint8_t *data;
         piojo_queue_dyn_t dyn;
         size_t esize, ecount, widx, ridx, wcnt, rcnt;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of queue in bytes */
 const size_t piojo_queue_sizeof = sizeof(piojo_queue_t);
@@ -99,7 +99,7 @@ piojo_queue_alloc_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount)
  */
 piojo_queue_t*
 piojo_queue_alloc_cb(piojo_queue_dyn_t dyn, size_t esize,
-                     piojo_alloc_t allocator)
+                     piojo_alloc_if allocator)
 {
         return piojo_queue_alloc_cb_n(dyn, esize, DEFAULT_ADT_ECOUNT,
                                       allocator);
@@ -115,7 +115,7 @@ piojo_queue_alloc_cb(piojo_queue_dyn_t dyn, size_t esize,
  */
 piojo_queue_t*
 piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
-                       piojo_alloc_t allocator)
+                       piojo_alloc_if allocator)
 {
         piojo_queue_t * q;
         q = (piojo_queue_t *) allocator.alloc_cb(sizeof(piojo_queue_t));
@@ -144,7 +144,7 @@ piojo_queue_copy(const piojo_queue_t *queue)
 {
         piojo_queue_t *newq;
         size_t esize, ridx, rcnt;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(queue);
 
         allocator = queue->allocator;
@@ -176,7 +176,7 @@ piojo_queue_copy(const piojo_queue_t *queue)
 void
 piojo_queue_free(const piojo_queue_t *queue)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(queue);
 
         allocator = queue->allocator;

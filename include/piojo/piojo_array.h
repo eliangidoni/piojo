@@ -49,11 +49,11 @@ piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount);
 
 piojo_array_t*
 piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize,
-                     piojo_alloc_t allocator);
+                     piojo_alloc_if allocator);
 
 piojo_array_t*
 piojo_array_alloc_cb_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount,
-                       piojo_alloc_t allocator);
+                       piojo_alloc_if allocator);
 
 piojo_array_t*
 piojo_array_copy(const piojo_array_t *array);

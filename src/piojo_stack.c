@@ -35,7 +35,7 @@
 
 struct piojo_stack {
         piojo_array_t *data;
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of stack in bytes */
 const size_t piojo_stack_sizeof = sizeof(piojo_stack_t);
@@ -83,7 +83,7 @@ piojo_stack_alloc_n(size_t esize, size_t ecount)
  * @return New stack.
  */
 piojo_stack_t*
-piojo_stack_alloc_cb(size_t esize, piojo_alloc_t allocator)
+piojo_stack_alloc_cb(size_t esize, piojo_alloc_if allocator)
 {
         return piojo_stack_alloc_cb_n(esize, DEFAULT_ADT_ECOUNT, allocator);
 }
@@ -96,7 +96,7 @@ piojo_stack_alloc_cb(size_t esize, piojo_alloc_t allocator)
  * @return New stack.
  */
 piojo_stack_t*
-piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator)
+piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_if allocator)
 {
         piojo_stack_t * st;
         st = (piojo_stack_t *) allocator.alloc_cb(sizeof(piojo_stack_t));
@@ -119,7 +119,7 @@ piojo_stack_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_t allocator)
 piojo_stack_t*
 piojo_stack_copy(const piojo_stack_t *stack)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         piojo_stack_t * newstack;
         PIOJO_ASSERT(stack);
 
@@ -141,7 +141,7 @@ piojo_stack_copy(const piojo_stack_t *stack)
 void
 piojo_stack_free(const piojo_stack_t *stack)
 {
-        piojo_alloc_t allocator;
+        piojo_alloc_if allocator;
         PIOJO_ASSERT(stack);
 
         allocator = stack->allocator;

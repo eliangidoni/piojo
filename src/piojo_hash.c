@@ -49,7 +49,7 @@ struct piojo_hash {
         piojo_hash_entry_t **buckets;
         size_t eksize, evsize, ecount, bucketcnt;
         piojo_eq_cb_t eq_cb;
-        piojo_alloc_kv_t allocator;
+        piojo_alloc_kv_if allocator;
 };
 /** @hideinitializer Size of hash table in bytes */
 const size_t piojo_hash_sizeof = sizeof(piojo_hash_t);
@@ -62,7 +62,7 @@ calc_hash(const unsigned char *str, size_t len);
 
 static piojo_hash_t*
 alloc_hash(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
-           piojo_alloc_kv_t allocator, size_t bucketcnt);
+           piojo_alloc_kv_if allocator, size_t bucketcnt);
 
 static piojo_hash_entry_t*
 insert_entry(piojo_hash_entry_t *newkv, insert_t op, piojo_hash_t *hash);
@@ -174,7 +174,7 @@ piojo_hash_alloc_sizk(size_t evsize)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_intk(size_t evsize, piojo_alloc_kv_t allocator)
+piojo_hash_alloc_cb_intk(size_t evsize, piojo_alloc_kv_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, int_eq, sizeof(int),
                                       allocator);
@@ -188,7 +188,7 @@ piojo_hash_alloc_cb_intk(size_t evsize, piojo_alloc_kv_t allocator)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_i32k(size_t evsize, piojo_alloc_kv_t allocator)
+piojo_hash_alloc_cb_i32k(size_t evsize, piojo_alloc_kv_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, i32_eq, sizeof(int32_t),
                                       allocator);
@@ -202,7 +202,7 @@ piojo_hash_alloc_cb_i32k(size_t evsize, piojo_alloc_kv_t allocator)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_kv_t allocator)
+piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_kv_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, i64_eq, sizeof(int64_t),
                                       allocator);
@@ -216,7 +216,7 @@ piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_kv_t allocator)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_strk(size_t evsize, piojo_alloc_kv_t allocator)
+piojo_hash_alloc_cb_strk(size_t evsize, piojo_alloc_kv_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, str_eq, 0, allocator);
 }
@@ -229,7 +229,7 @@ piojo_hash_alloc_cb_strk(size_t evsize, piojo_alloc_kv_t allocator)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_kv_t allocator)
+piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_kv_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, siz_eq, sizeof(size_t),
                                       allocator);
@@ -260,7 +260,7 @@ piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize)
  */
 piojo_hash_t*
 piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
-                       piojo_alloc_kv_t allocator)
+                       piojo_alloc_kv_if allocator)
 {
         return alloc_hash(evsize, keyeq, eksize, allocator,
                           DEFAULT_BUCKET_COUNT);
@@ -576,7 +576,7 @@ init_entry(const void *key, const void *data, const piojo_hash_t *hash)
 {
         bool null_p = TRUE;
         piojo_hash_entry_t *kv;
-        piojo_alloc_kv_t ator = hash->allocator;
+        piojo_alloc_kv_if ator = hash->allocator;
         size_t ksize = hash->eksize;
 
         if (ksize == 0){
@@ -605,7 +605,7 @@ static piojo_hash_entry_t*
 copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
 {
         piojo_hash_entry_t *kv;
-        piojo_alloc_kv_t ator = hash->allocator;
+        piojo_alloc_kv_if ator = hash->allocator;
         size_t ksize = hash->eksize;
 
         if (ksize == 0){
@@ -630,7 +630,7 @@ copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
 static void
 finish_entry(const piojo_hash_t *hash, piojo_hash_entry_t *kv)
 {
-        piojo_alloc_kv_t ator = hash->allocator;
+        piojo_alloc_kv_if ator = hash->allocator;
 
         ator.finishk_cb(kv->key);
         ator.finish_cb(kv->data);
@@ -659,7 +659,7 @@ expand_table(piojo_hash_t *hash)
         piojo_hash_entry_t *kv, *nextkv;
         piojo_hash_entry_t **olddata = hash->buckets;
         size_t oldcnt = hash->bucketcnt;
-        piojo_alloc_kv_t ator = hash->allocator;
+        piojo_alloc_kv_if ator = hash->allocator;
 
         hash->bucketcnt *= DEFAULT_ADT_GROWTH_RATIO;
         hash->buckets = ((piojo_hash_entry_t**)
@@ -791,7 +791,7 @@ delete_entry(piojo_hash_iter_t iter, piojo_hash_t *hash)
 
 static piojo_hash_t*
 alloc_hash(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
-           piojo_alloc_kv_t allocator, size_t bucketcnt)
+           piojo_alloc_kv_if allocator, size_t bucketcnt)
 {
 
         piojo_hash_t * hash;
