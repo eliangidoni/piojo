@@ -101,8 +101,8 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#gaa3372643bb58f0e6130cdb109823a595">piojo_queue_alloc</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#gaa26c8d0df1178772748ce089c30d8f8c">piojo_queue_alloc_s</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#gaaac71c923e40018d56bde485acc0b8c3">piojo_queue_alloc_n</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize, size_t ecount)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga07188bbc826ba74e548ca1a95ad98379">piojo_queue_alloc_cb</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga5bd6b9830c5fd71419223526d84094f8">piojo_queue_alloc_cb_n</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga1289ef3770e47ceb0aeb3a6892c36eb5">piojo_queue_alloc_cb</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga95066a391b74bc16806cc78e5a0ec8da">piojo_queue_alloc_cb_n</a> (<a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a> dyn, size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_queue_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga2d472f45397f0bc32b67d5cd3f76550e">piojo_queue_copy</a> (const piojo_queue_t *queue)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga6ec5bb0da6accd60822d51df51d87887">piojo_queue_free</a> (const piojo_queue_t *queue)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoqueue.html#ga2b3e9d575439cb4cf674d3a19327876c">piojo_queue_clear</a> (piojo_queue_t *queue)</td></tr>
@@ -168,12 +168,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga07188bbc826ba74e548ca1a95ad98379"></a><!-- doxytag: member="piojo_queue.c::piojo_queue_alloc_cb" ref="ga07188bbc826ba74e548ca1a95ad98379" args="(piojo_queue_dyn_t dyn, size_t esize, piojo_alloc_t allocator)" -->
+<a class="anchor" id="ga1289ef3770e47ceb0aeb3a6892c36eb5"></a><!-- doxytag: member="piojo_queue.c::piojo_queue_alloc_cb" ref="ga1289ef3770e47ceb0aeb3a6892c36eb5" args="(piojo_queue_dyn_t dyn, size_t esize, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_queue_t* <a class="el" href="group__piojoqueue.html#ga07188bbc826ba74e548ca1a95ad98379">piojo_queue_alloc_cb</a> </td>
+          <td class="memname">piojo_queue_t* <a class="el" href="group__piojoqueue.html#ga1289ef3770e47ceb0aeb3a6892c36eb5">piojo_queue_alloc_cb</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a>&#160;</td>
           <td class="paramname"><em>dyn</em>, </td>
@@ -187,7 +187,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -211,12 +211,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga5bd6b9830c5fd71419223526d84094f8"></a><!-- doxytag: member="piojo_queue.c::piojo_queue_alloc_cb_n" ref="ga5bd6b9830c5fd71419223526d84094f8" args="(piojo_queue_dyn_t dyn, size_t esize, size_t ecount, piojo_alloc_t allocator)" -->
+<a class="anchor" id="ga95066a391b74bc16806cc78e5a0ec8da"></a><!-- doxytag: member="piojo_queue.c::piojo_queue_alloc_cb_n" ref="ga95066a391b74bc16806cc78e5a0ec8da" args="(piojo_queue_dyn_t dyn, size_t esize, size_t ecount, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_queue_t* <a class="el" href="group__piojoqueue.html#ga5bd6b9830c5fd71419223526d84094f8">piojo_queue_alloc_cb_n</a> </td>
+          <td class="memname">piojo_queue_t* <a class="el" href="group__piojoqueue.html#ga95066a391b74bc16806cc78e5a0ec8da">piojo_queue_alloc_cb_n</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__piojoqueue.html#ga2c646bb2b8afe5a19f9fe80074b988b6">piojo_queue_dyn_t</a>&#160;</td>
           <td class="paramname"><em>dyn</em>, </td>
@@ -236,7 +236,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -582,7 +582,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Dec 19 2013 10:21:41 for piojo-0.1 by
+    <li class="footer">Generated on Fri Dec 27 2013 10:54:55 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['copy_5fcb',['copy_cb',['../structpiojo__alloc__t.html#a9e908b7d6e4d79da143e89b7d3e22d53',1,'piojo_alloc_t::copy_cb()'],['../structpiojo__alloc__kv__t.html#a7fbbda450ca62f7e53c87b3054766a45',1,'piojo_alloc_kv_t::copy_cb()']]],
-  ['copyk_5fcb',['copyk_cb',['../structpiojo__alloc__kv__t.html#ae4299e45dd2e3340344a25721f08890e',1,'piojo_alloc_kv_t']]]
+  ['copy_5fcb',['copy_cb',['../structpiojo__alloc__if.html#ab6d42d146b6bcd98264386601147a19a',1,'piojo_alloc_if::copy_cb()'],['../structpiojo__alloc__kv__if.html#a3dd3014e771e0a23af7fee476a77e6e7',1,'piojo_alloc_kv_if::copy_cb()']]],
+  ['copyk_5fcb',['copyk_cb',['../structpiojo__alloc__kv__if.html#a25dbe2dc337d4fbaae426450ee747eb9',1,'piojo_alloc_kv_if']]]
 ];

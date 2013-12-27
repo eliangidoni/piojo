@@ -95,8 +95,8 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#gad13b0daac33b2b526ab92ddf7593ec6a">piojo_stack_alloc</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#gad24a5c0b5cd28d379f25a13c1faf6818">piojo_stack_alloc_s</a> (size_t esize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#gab23767c966cedb965956867bb313fb66">piojo_stack_alloc_n</a> (size_t esize, size_t ecount)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#ga6127d5b44ec87915e1aeec9f736eab1a">piojo_stack_alloc_cb</a> (size_t esize, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#gaba8624913c066e0b9836b7d12d7ff4ba">piojo_stack_alloc_cb_n</a> (size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#gaa1fa65669d728f35f65acae57c8a56df">piojo_stack_alloc_cb</a> (size_t esize, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#ga538bc5b9f7c7780d646442f413e9ef27">piojo_stack_alloc_cb_n</a> (size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stack_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#ga73f7d66775f2e9283cd4c54b02c2b103">piojo_stack_copy</a> (const piojo_stack_t *stack)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#ga7989d14555a1c62fba94e296c3a7c1b3">piojo_stack_free</a> (const piojo_stack_t *stack)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostack.html#ga336fce4a08826952d4747c79c4f97254">piojo_stack_clear</a> (piojo_stack_t *stack)</td></tr>
@@ -130,12 +130,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga6127d5b44ec87915e1aeec9f736eab1a"></a><!-- doxytag: member="piojo_stack.c::piojo_stack_alloc_cb" ref="ga6127d5b44ec87915e1aeec9f736eab1a" args="(size_t esize, piojo_alloc_t allocator)" -->
+<a class="anchor" id="gaa1fa65669d728f35f65acae57c8a56df"></a><!-- doxytag: member="piojo_stack.c::piojo_stack_alloc_cb" ref="gaa1fa65669d728f35f65acae57c8a56df" args="(size_t esize, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_stack_t* <a class="el" href="group__piojostack.html#ga6127d5b44ec87915e1aeec9f736eab1a">piojo_stack_alloc_cb</a> </td>
+          <td class="memname">piojo_stack_t* <a class="el" href="group__piojostack.html#gaa1fa65669d728f35f65acae57c8a56df">piojo_stack_alloc_cb</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
@@ -143,7 +143,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -166,12 +166,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaba8624913c066e0b9836b7d12d7ff4ba"></a><!-- doxytag: member="piojo_stack.c::piojo_stack_alloc_cb_n" ref="gaba8624913c066e0b9836b7d12d7ff4ba" args="(size_t esize, size_t ecount, piojo_alloc_t allocator)" -->
+<a class="anchor" id="ga538bc5b9f7c7780d646442f413e9ef27"></a><!-- doxytag: member="piojo_stack.c::piojo_stack_alloc_cb_n" ref="ga538bc5b9f7c7780d646442f413e9ef27" args="(size_t esize, size_t ecount, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_stack_t* <a class="el" href="group__piojostack.html#gaba8624913c066e0b9836b7d12d7ff4ba">piojo_stack_alloc_cb_n</a> </td>
+          <td class="memname">piojo_stack_t* <a class="el" href="group__piojostack.html#ga538bc5b9f7c7780d646442f413e9ef27">piojo_stack_alloc_cb_n</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
@@ -185,7 +185,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -486,7 +486,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Dec 19 2013 10:21:41 for piojo-0.1 by
+    <li class="footer">Generated on Fri Dec 27 2013 10:54:56 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

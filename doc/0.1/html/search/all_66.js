@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['finish_5fcb',['finish_cb',['../structpiojo__alloc__t.html#a001afe3bd4b6eb11be4763c04cf41c91',1,'piojo_alloc_t::finish_cb()'],['../structpiojo__alloc__kv__t.html#afee5d6dd055c3b2aed0c5cb2186be707',1,'piojo_alloc_kv_t::finish_cb()']]],
-  ['finishk_5fcb',['finishk_cb',['../structpiojo__alloc__kv__t.html#afe86f355d7debf731ebc9002d1397e4d',1,'piojo_alloc_kv_t']]],
-  ['free_5fcb',['free_cb',['../structpiojo__alloc__t.html#aa936450bac9c44cd049dd1118c04bb9f',1,'piojo_alloc_t::free_cb()'],['../structpiojo__alloc__kv__t.html#a9ef1a00a8d7287f648b69b89948df90b',1,'piojo_alloc_kv_t::free_cb()']]]
+  ['finish_5fcb',['finish_cb',['../structpiojo__alloc__if.html#adc85259696380ac369f548050d192e10',1,'piojo_alloc_if::finish_cb()'],['../structpiojo__alloc__kv__if.html#a6597e7169834eb5dd1834842b0cd915e',1,'piojo_alloc_kv_if::finish_cb()']]],
+  ['finishk_5fcb',['finishk_cb',['../structpiojo__alloc__kv__if.html#ab2f0921cbac0a1a78018272dbe726fc8',1,'piojo_alloc_kv_if']]],
+  ['free_5fcb',['free_cb',['../structpiojo__alloc__if.html#ac23b131c0efc749167de6af6582de03b',1,'piojo_alloc_if::free_cb()'],['../structpiojo__alloc__kv__if.html#a2293d18913b8aa25b3e19d79ed318b0f',1,'piojo_alloc_kv_if::free_cb()']]]
 ];

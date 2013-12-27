@@ -13,8 +13,8 @@ var NAVTREEINDEX =
 "group__piojotree.html":[0,8],
 "group__piojocommon.html":[0,9],
 "annotated.html":[1,0],
-"structpiojo__alloc__kv__t.html":[1,0,0],
-"structpiojo__alloc__t.html":[1,0,1],
+"structpiojo__alloc__if.html":[1,0,0],
+"structpiojo__alloc__kv__if.html":[1,0,1],
 "classes.html":[1,1],
 "functions.html":[1,2,0],
 "functions_vars.html":[1,2,1]

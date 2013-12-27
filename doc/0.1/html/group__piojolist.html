@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_list_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga3ad20e31ea8ae5548f47f340f1e7e892">piojo_list_alloc</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_list_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga8a39a7adcc8000bd357e62094b08e47d">piojo_list_alloc_s</a> (size_t esize)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_list_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga6e4eda91fc234e4b5afdeaca6a979872">piojo_list_alloc_cb</a> (size_t esize, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_list_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga91fa8c3d33d6b8f90be7a0f52830e85d">piojo_list_alloc_cb</a> (size_t esize, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_list_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga9eb5949e18937dc4c7c4124cf2905a86">piojo_list_copy</a> (const piojo_list_t *list)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga828e1b56b9b513366f223b205dcec622">piojo_list_free</a> (const piojo_list_t *list)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojolist.html#ga29f5af6a98ff29cb6baa4f94cca5f603">piojo_list_clear</a> (piojo_list_t *list)</td></tr>
@@ -135,12 +135,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga6e4eda91fc234e4b5afdeaca6a979872"></a><!-- doxytag: member="piojo_list.c::piojo_list_alloc_cb" ref="ga6e4eda91fc234e4b5afdeaca6a979872" args="(size_t esize, piojo_alloc_t allocator)" -->
+<a class="anchor" id="ga91fa8c3d33d6b8f90be7a0f52830e85d"></a><!-- doxytag: member="piojo_list.c::piojo_list_alloc_cb" ref="ga91fa8c3d33d6b8f90be7a0f52830e85d" args="(size_t esize, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_list_t* <a class="el" href="group__piojolist.html#ga6e4eda91fc234e4b5afdeaca6a979872">piojo_list_alloc_cb</a> </td>
+          <td class="memname">piojo_list_t* <a class="el" href="group__piojolist.html#ga91fa8c3d33d6b8f90be7a0f52830e85d">piojo_list_alloc_cb</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
@@ -148,7 +148,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -647,7 +647,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Dec 19 2013 10:21:41 for piojo-0.1 by
+    <li class="footer">Generated on Fri Dec 27 2013 10:54:55 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

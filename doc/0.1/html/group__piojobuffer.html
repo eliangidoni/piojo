@@ -94,8 +94,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#ga8e023688d541815652575733ee1a4bb6">piojo_buffer_alloc</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#ga55a9bd3a7de7d0859df93988f6125d6d">piojo_buffer_alloc_n</a> (size_t count)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gac1fd86547d4dc922afa1cab71d60170c">piojo_buffer_alloc_cb</a> (<a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gad785b482ad03ceaf9b08f5e29aebb7ed">piojo_buffer_alloc_cb_n</a> (size_t count, <a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gad55b7e05280372f34dc574eef4b42800">piojo_buffer_alloc_cb</a> (<a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#ga9b9ed595cf810f855d1c4364cf2f4658">piojo_buffer_alloc_cb_n</a> (size_t count, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_buffer_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#ga775829a95959e25d79e41b7947d7ee9a">piojo_buffer_copy</a> (const piojo_buffer_t *buffer)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gad592cb565e0df54fff72519747fe7253">piojo_buffer_free</a> (const piojo_buffer_t *buffer)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobuffer.html#gac251ce3028f2d6ef3f1224dcbe28c61a">piojo_buffer_clear</a> (piojo_buffer_t *buffer)</td></tr>
@@ -149,14 +149,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gac1fd86547d4dc922afa1cab71d60170c"></a><!-- doxytag: member="piojo_buffer.c::piojo_buffer_alloc_cb" ref="gac1fd86547d4dc922afa1cab71d60170c" args="(piojo_alloc_t allocator)" -->
+<a class="anchor" id="gad55b7e05280372f34dc574eef4b42800"></a><!-- doxytag: member="piojo_buffer.c::piojo_buffer_alloc_cb" ref="gad55b7e05280372f34dc574eef4b42800" args="(piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_buffer_t* <a class="el" href="group__piojobuffer.html#gac1fd86547d4dc922afa1cab71d60170c">piojo_buffer_alloc_cb</a> </td>
+          <td class="memname">piojo_buffer_t* <a class="el" href="group__piojobuffer.html#gad55b7e05280372f34dc574eef4b42800">piojo_buffer_alloc_cb</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em></td><td>)</td>
           <td></td>
         </tr>
@@ -174,12 +174,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gad785b482ad03ceaf9b08f5e29aebb7ed"></a><!-- doxytag: member="piojo_buffer.c::piojo_buffer_alloc_cb_n" ref="gad785b482ad03ceaf9b08f5e29aebb7ed" args="(size_t count, piojo_alloc_t allocator)" -->
+<a class="anchor" id="ga9b9ed595cf810f855d1c4364cf2f4658"></a><!-- doxytag: member="piojo_buffer.c::piojo_buffer_alloc_cb_n" ref="ga9b9ed595cf810f855d1c4364cf2f4658" args="(size_t count, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_buffer_t* <a class="el" href="group__piojobuffer.html#gad785b482ad03ceaf9b08f5e29aebb7ed">piojo_buffer_alloc_cb_n</a> </td>
+          <td class="memname">piojo_buffer_t* <a class="el" href="group__piojobuffer.html#ga9b9ed595cf810f855d1c4364cf2f4658">piojo_buffer_alloc_cb_n</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>count</em>, </td>
@@ -187,7 +187,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__t.html">piojo_alloc_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
           <td class="paramname"><em>allocator</em>&#160;</td>
         </tr>
         <tr>
@@ -1045,7 +1045,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Dec 19 2013 10:21:41 for piojo-0.1 by
+    <li class="footer">Generated on Fri Dec 27 2013 10:54:55 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
