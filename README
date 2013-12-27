@@ -37,3 +37,13 @@ $ cd build
 $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Testing ..
 $ make
 $ CTEST_OUTPUT_ON_FAILURE=1 make test
+
+3) Code Style
+
+- Avoid lines with more than 80 characters.
+- Avoid more than 3 levels of indentation.
+- Avoid functions longer than 50 lines.
+- Boolean functions end with '_p' (i.e. predicate).
+- Interface type names end with '_if'.
+- Function/Callback type names end with '_cb'.
+- Any other type names end with '_t'.
