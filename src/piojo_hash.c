@@ -48,7 +48,7 @@ typedef struct {
 struct piojo_hash {
         piojo_hash_entry_t **buckets;
         size_t eksize, evsize, ecount, bucketcnt;
-        piojo_eq_cb_t eq_cb;
+        piojo_eq_cb eq_cb;
         piojo_alloc_kv_if allocator;
 };
 /** @hideinitializer Size of hash table in bytes */
@@ -61,7 +61,7 @@ static unsigned long
 calc_hash(const unsigned char *str, size_t len);
 
 static piojo_hash_t*
-alloc_hash(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
+alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
            piojo_alloc_kv_if allocator, size_t bucketcnt);
 
 static piojo_hash_entry_t*
@@ -244,7 +244,7 @@ piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_kv_if allocator)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize)
+piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize)
 {
         return piojo_hash_alloc_cb_eq(evsize, keyeq, eksize,
                                       piojo_alloc_kv_default);
@@ -259,7 +259,7 @@ piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize)
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
+piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
                        piojo_alloc_kv_if allocator)
 {
         return alloc_hash(evsize, keyeq, eksize, allocator,
@@ -790,7 +790,7 @@ delete_entry(piojo_hash_iter_t iter, piojo_hash_t *hash)
 }
 
 static piojo_hash_t*
-alloc_hash(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
+alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
            piojo_alloc_kv_if allocator, size_t bucketcnt)
 {
 

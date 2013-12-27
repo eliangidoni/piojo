@@ -55,7 +55,7 @@ typedef struct {
 struct piojo_tree {
         piojo_tree_bnode_t *root;
         size_t eksize, evsize, ecount, cmin, cmax;
-        piojo_cmp_cb_t cmp_cb;
+        piojo_cmp_cb cmp_cb;
         piojo_alloc_kv_if allocator;
 };
 /** @hideinitializer Size of tree in bytes */
@@ -400,7 +400,7 @@ piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
  * @return New tree.
  */
 piojo_tree_t*
-piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize)
+piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize)
 {
         return piojo_tree_alloc_cb_cmp(TREE_CHILDREN_MAX, evsize,
                                        keycmp, eksize, piojo_alloc_kv_default);
@@ -418,7 +418,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize)
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
-                        piojo_cmp_cb_t keycmp, size_t eksize,
+                        piojo_cmp_cb keycmp, size_t eksize,
                         piojo_alloc_kv_if allocator)
 {
         piojo_tree_t * tree;

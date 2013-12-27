@@ -36,7 +36,7 @@ struct piojo_array {
         uint8_t *data;
         size_t esize, usedcnt, ecount;
         piojo_alloc_if allocator;
-        piojo_cmp_cb_t cmp_cb;
+        piojo_cmp_cb cmp_cb;
 };
 /** @hideinitializer Size of array in bytes */
 const size_t piojo_array_sizeof = sizeof(piojo_array_t);
@@ -60,7 +60,7 @@ finish_all(const piojo_array_t *array);
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc(piojo_cmp_cb_t cmp)
+piojo_array_alloc(piojo_cmp_cb cmp)
 {
         return piojo_array_alloc_s(cmp, sizeof(int));
 }
@@ -73,7 +73,7 @@ piojo_array_alloc(piojo_cmp_cb_t cmp)
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_s(piojo_cmp_cb_t cmp, size_t esize)
+piojo_array_alloc_s(piojo_cmp_cb cmp, size_t esize)
 {
         return piojo_array_alloc_n(cmp, esize, DEFAULT_ADT_ECOUNT);
 }
@@ -87,7 +87,7 @@ piojo_array_alloc_s(piojo_cmp_cb_t cmp, size_t esize)
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount)
+piojo_array_alloc_n(piojo_cmp_cb cmp, size_t esize, size_t ecount)
 {
         return piojo_array_alloc_cb_n(cmp, esize, ecount, piojo_alloc_default);
 }
@@ -100,7 +100,7 @@ piojo_array_alloc_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount)
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_if allocator)
+piojo_array_alloc_cb(piojo_cmp_cb cmp, size_t esize, piojo_alloc_if allocator)
 {
         return piojo_array_alloc_cb_n(cmp, esize, DEFAULT_ADT_ECOUNT,
                                       allocator);
@@ -115,7 +115,7 @@ piojo_array_alloc_cb(piojo_cmp_cb_t cmp, size_t esize, piojo_alloc_if allocator)
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_cb_n(piojo_cmp_cb_t cmp, size_t esize, size_t ecount,
+piojo_array_alloc_cb_n(piojo_cmp_cb cmp, size_t esize, size_t ecount,
                        piojo_alloc_if allocator)
 {
         piojo_array_t * arr;

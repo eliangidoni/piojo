@@ -99,11 +99,11 @@ piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
-piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb_t keycmp, size_t eksize);
+piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
-                        piojo_cmp_cb_t keycmp, size_t eksize,
+                        piojo_cmp_cb keycmp, size_t eksize,
                         piojo_alloc_kv_if allocator);
 
 piojo_tree_t*

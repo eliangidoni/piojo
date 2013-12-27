@@ -73,10 +73,10 @@ piojo_hash_t*
 piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_kv_if allocator);
 
 piojo_hash_t*
-piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize);
+piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize);
 
 piojo_hash_t*
-piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb_t keyeq, size_t eksize,
+piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
                        piojo_alloc_kv_if allocator);
 
 piojo_hash_t*

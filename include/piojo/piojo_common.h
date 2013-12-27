@@ -53,20 +53,20 @@ extern "C" {
  * Returns @b -1, @b 0, @b 1 when @a e1 is less than, equal to,
  * or greater than @a e2.
  */
-typedef int (*piojo_cmp_cb_t) (const void *e1, const void *e2);
+typedef int (*piojo_cmp_cb) (const void *e1, const void *e2);
 /** Returns @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise. */
-typedef bool (*piojo_eq_cb_t) (const void *e1, const void *e2);
+typedef bool (*piojo_eq_cb) (const void *e1, const void *e2);
 
 /** Allocates @a size bytes of memory. */
-typedef void* (*piojo_alloc_cb_t) (size_t size);
+typedef void* (*piojo_alloc_cb) (size_t size);
 /** Frees memory pointed by @a ptr. */
-typedef void (*piojo_free_cb_t) (const void *ptr);
+typedef void (*piojo_free_cb) (const void *ptr);
 /** Initializes @a esize bytes of memory pointed by @a ptr with @a data. */
-typedef void (*piojo_init_cb_t) (const void *data, size_t esize, void *ptr);
+typedef void (*piojo_init_cb) (const void *data, size_t esize, void *ptr);
 /** Copies @a esize bytes of memory pointed by @a ptr to @a newptr. */
-typedef void (*piojo_copy_cb_t) (const void *ptr, size_t esize, void *newptr);
+typedef void (*piojo_copy_cb) (const void *ptr, size_t esize, void *newptr);
 /** Finishes memory pointed by @a ptr. */
-typedef void (*piojo_finish_cb_t) (void *ptr);
+typedef void (*piojo_finish_cb) (void *ptr);
 
 /** @} */
 

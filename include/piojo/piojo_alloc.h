@@ -43,35 +43,35 @@ extern "C" {
 /** Allocator interface. */
 typedef struct {
         /** Allocation callback. */
-        piojo_alloc_cb_t alloc_cb;
+        piojo_alloc_cb alloc_cb;
         /** Free callback. */
-        piojo_free_cb_t free_cb;
+        piojo_free_cb free_cb;
         /** Init callback. */
-        piojo_init_cb_t init_cb;
+        piojo_init_cb init_cb;
         /** Copy callback. */
-        piojo_copy_cb_t copy_cb;
+        piojo_copy_cb copy_cb;
         /** Finish callback. */
-        piojo_finish_cb_t finish_cb;
+        piojo_finish_cb finish_cb;
 } piojo_alloc_if;
 
 /** Key-value allocator interface. */
 typedef struct {
         /** Allocation callback. */
-        piojo_alloc_cb_t alloc_cb;
+        piojo_alloc_cb alloc_cb;
         /** Free callback. */
-        piojo_free_cb_t free_cb;
+        piojo_free_cb free_cb;
         /** Value init callback. */
-        piojo_init_cb_t init_cb;
+        piojo_init_cb init_cb;
         /** Value copy callback. */
-        piojo_copy_cb_t copy_cb;
+        piojo_copy_cb copy_cb;
         /** Value finish callback. */
-        piojo_finish_cb_t finish_cb;
+        piojo_finish_cb finish_cb;
         /** Key init callback. */
-        piojo_init_cb_t initk_cb;
+        piojo_init_cb initk_cb;
         /** Key copy callback. */
-        piojo_copy_cb_t copyk_cb;
+        piojo_copy_cb copyk_cb;
         /** Key finish callback. */
-        piojo_finish_cb_t finishk_cb;
+        piojo_finish_cb finishk_cb;
 } piojo_alloc_kv_if;
 
 extern piojo_alloc_if piojo_alloc_default;
