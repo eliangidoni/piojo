@@ -1,8 +1,8 @@
 var structpiojo__alloc__if =
 [
-    [ "alloc_cb", "structpiojo__alloc__if.html#a317cd5f43687bdd93e6796f943b4940f", null ],
-    [ "copy_cb", "structpiojo__alloc__if.html#ab6d42d146b6bcd98264386601147a19a", null ],
-    [ "finish_cb", "structpiojo__alloc__if.html#adc85259696380ac369f548050d192e10", null ],
-    [ "free_cb", "structpiojo__alloc__if.html#ac23b131c0efc749167de6af6582de03b", null ],
-    [ "init_cb", "structpiojo__alloc__if.html#a4b241d13ba1c2e09c4d3f6e661076617", null ]
+    [ "alloc_cb", "structpiojo__alloc__if.html#ad5df4bf3e757fe5d58f36ccf947c285f", null ],
+    [ "copy_cb", "structpiojo__alloc__if.html#a55e111b708d0352d397813ddd37f0bb9", null ],
+    [ "finish_cb", "structpiojo__alloc__if.html#a718d26f96721f3a28cd42d64477979bd", null ],
+    [ "free_cb", "structpiojo__alloc__if.html#affdbe06897bf9e82024a014f80ff3c6a", null ],
+    [ "init_cb", "structpiojo__alloc__if.html#a15b17f43c9b916f51218535b03792a28", null ]
 ];

@@ -96,13 +96,13 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gaa93f0eb578d23995850d61f7d61c55c1">FALSE</a></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga7489604ba9f458714f74f2d6a0a93808">piojo_cmp_cb_t</a> )(const void *e1, const void *e2)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga45431ee3b4e51fd2e859accf7dff2f49">piojo_eq_cb_t</a> )(const void *e1, const void *e2)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga19ea86bd446b4c6bbdbdca58c979fc7e">piojo_alloc_cb_t</a> )(size_t size)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga73da726ed1e37e49253918b3d3acf2ad">piojo_free_cb_t</a> )(const void *ptr)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gaa557068cbfc3c2b0ea355258a06b04f3">piojo_init_cb_t</a> )(const void *data, size_t esize, void *ptr)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gafe03f9f8965f22a2c879c4b8dbe32bce">piojo_copy_cb_t</a> )(const void *ptr, size_t esize, void *newptr)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gad7091ae4c759547e74b510f1a4418ede">piojo_finish_cb_t</a> )(void *ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> )(const void *e1, const void *e2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a> )(const void *e1, const void *e2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gafa3b4c64e55bbaf7ddfc55c48245899d">piojo_alloc_cb</a> )(size_t size)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#gaaae809d742bbf9ee6b00731e94d1ca55">piojo_free_cb</a> )(const void *ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga791861540d311c18718c2f8d9054112c">piojo_init_cb</a> )(const void *data, size_t esize, void *ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga2c8bebfafb4b839224eb2116042731bb">piojo_copy_cb</a> )(const void *ptr, size_t esize, void *newptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojocommon.html#ga3607086098e0a147f73cc337f289d4cf">piojo_finish_cb</a> )(void *ptr)</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="gaa93f0eb578d23995850d61f7d61c55c1"></a><!-- doxytag: member="piojo_common.h::FALSE" ref="gaa93f0eb578d23995850d61f7d61c55c1" args="" -->
@@ -134,12 +134,12 @@ Typedefs</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Typedef Documentation</h2>
-<a class="anchor" id="ga19ea86bd446b4c6bbdbdca58c979fc7e"></a><!-- doxytag: member="piojo_common.h::piojo_alloc_cb_t" ref="ga19ea86bd446b4c6bbdbdca58c979fc7e" args=")(size_t size)" -->
+<a class="anchor" id="gafa3b4c64e55bbaf7ddfc55c48245899d"></a><!-- doxytag: member="piojo_common.h::piojo_alloc_cb" ref="gafa3b4c64e55bbaf7ddfc55c48245899d" args=")(size_t size)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void*(* <a class="el" href="group__piojocommon.html#ga19ea86bd446b4c6bbdbdca58c979fc7e">piojo_alloc_cb_t</a>)(size_t size)</td>
+          <td class="memname">typedef void*(* <a class="el" href="group__piojocommon.html#gafa3b4c64e55bbaf7ddfc55c48245899d">piojo_alloc_cb</a>)(size_t size)</td>
         </tr>
       </table>
 </div>
@@ -148,12 +148,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga7489604ba9f458714f74f2d6a0a93808"></a><!-- doxytag: member="piojo_common.h::piojo_cmp_cb_t" ref="ga7489604ba9f458714f74f2d6a0a93808" args=")(const void *e1, const void *e2)" -->
+<a class="anchor" id="ga22dcd86dbc0f648ac2f2f5059a05aee8"></a><!-- doxytag: member="piojo_common.h::piojo_cmp_cb" ref="ga22dcd86dbc0f648ac2f2f5059a05aee8" args=")(const void *e1, const void *e2)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef int(* <a class="el" href="group__piojocommon.html#ga7489604ba9f458714f74f2d6a0a93808">piojo_cmp_cb_t</a>)(const void *e1, const void *e2)</td>
+          <td class="memname">typedef int(* <a class="el" href="group__piojocommon.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>)(const void *e1, const void *e2)</td>
         </tr>
       </table>
 </div>
@@ -162,12 +162,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gafe03f9f8965f22a2c879c4b8dbe32bce"></a><!-- doxytag: member="piojo_common.h::piojo_copy_cb_t" ref="gafe03f9f8965f22a2c879c4b8dbe32bce" args=")(const void *ptr, size_t esize, void *newptr)" -->
+<a class="anchor" id="ga2c8bebfafb4b839224eb2116042731bb"></a><!-- doxytag: member="piojo_common.h::piojo_copy_cb" ref="ga2c8bebfafb4b839224eb2116042731bb" args=")(const void *ptr, size_t esize, void *newptr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#gafe03f9f8965f22a2c879c4b8dbe32bce">piojo_copy_cb_t</a>)(const void *ptr, size_t esize, void *newptr)</td>
+          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#ga2c8bebfafb4b839224eb2116042731bb">piojo_copy_cb</a>)(const void *ptr, size_t esize, void *newptr)</td>
         </tr>
       </table>
 </div>
@@ -176,12 +176,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga45431ee3b4e51fd2e859accf7dff2f49"></a><!-- doxytag: member="piojo_common.h::piojo_eq_cb_t" ref="ga45431ee3b4e51fd2e859accf7dff2f49" args=")(const void *e1, const void *e2)" -->
+<a class="anchor" id="gaa506923c84391f8208499498705522e6"></a><!-- doxytag: member="piojo_common.h::piojo_eq_cb" ref="gaa506923c84391f8208499498705522e6" args=")(const void *e1, const void *e2)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef bool(* <a class="el" href="group__piojocommon.html#ga45431ee3b4e51fd2e859accf7dff2f49">piojo_eq_cb_t</a>)(const void *e1, const void *e2)</td>
+          <td class="memname">typedef bool(* <a class="el" href="group__piojocommon.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a>)(const void *e1, const void *e2)</td>
         </tr>
       </table>
 </div>
@@ -190,12 +190,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gad7091ae4c759547e74b510f1a4418ede"></a><!-- doxytag: member="piojo_common.h::piojo_finish_cb_t" ref="gad7091ae4c759547e74b510f1a4418ede" args=")(void *ptr)" -->
+<a class="anchor" id="ga3607086098e0a147f73cc337f289d4cf"></a><!-- doxytag: member="piojo_common.h::piojo_finish_cb" ref="ga3607086098e0a147f73cc337f289d4cf" args=")(void *ptr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#gad7091ae4c759547e74b510f1a4418ede">piojo_finish_cb_t</a>)(void *ptr)</td>
+          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#ga3607086098e0a147f73cc337f289d4cf">piojo_finish_cb</a>)(void *ptr)</td>
         </tr>
       </table>
 </div>
@@ -204,12 +204,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga73da726ed1e37e49253918b3d3acf2ad"></a><!-- doxytag: member="piojo_common.h::piojo_free_cb_t" ref="ga73da726ed1e37e49253918b3d3acf2ad" args=")(const void *ptr)" -->
+<a class="anchor" id="gaaae809d742bbf9ee6b00731e94d1ca55"></a><!-- doxytag: member="piojo_common.h::piojo_free_cb" ref="gaaae809d742bbf9ee6b00731e94d1ca55" args=")(const void *ptr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#ga73da726ed1e37e49253918b3d3acf2ad">piojo_free_cb_t</a>)(const void *ptr)</td>
+          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#gaaae809d742bbf9ee6b00731e94d1ca55">piojo_free_cb</a>)(const void *ptr)</td>
         </tr>
       </table>
 </div>
@@ -218,12 +218,12 @@ Typedefs</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa557068cbfc3c2b0ea355258a06b04f3"></a><!-- doxytag: member="piojo_common.h::piojo_init_cb_t" ref="gaa557068cbfc3c2b0ea355258a06b04f3" args=")(const void *data, size_t esize, void *ptr)" -->
+<a class="anchor" id="ga791861540d311c18718c2f8d9054112c"></a><!-- doxytag: member="piojo_common.h::piojo_init_cb" ref="ga791861540d311c18718c2f8d9054112c" args=")(const void *data, size_t esize, void *ptr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#gaa557068cbfc3c2b0ea355258a06b04f3">piojo_init_cb_t</a>)(const void *data, size_t esize, void *ptr)</td>
+          <td class="memname">typedef void(* <a class="el" href="group__piojocommon.html#ga791861540d311c18718c2f8d9054112c">piojo_init_cb</a>)(const void *data, size_t esize, void *ptr)</td>
         </tr>
       </table>
 </div>
@@ -251,7 +251,7 @@ Typedefs</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Fri Dec 27 2013 10:54:56 for piojo-0.1 by
+    <li class="footer">Generated on Fri Dec 27 2013 11:21:17 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
