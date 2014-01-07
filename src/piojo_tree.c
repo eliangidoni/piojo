@@ -126,6 +126,10 @@ static bool
 delete_node_2(const void *key, piojo_tree_entry_t todelete,
               piojo_tree_bnode_t *bnode, piojo_tree_t *tree);
 
+static size_t
+bin_search(const void *key, piojo_cmp_cb cmp_cb, piojo_tree_bnode_t *bnode,
+           bool *found_p);
+
 static int
 u32_cmp(const void *e1, const void *e2);
 
@@ -1035,36 +1039,22 @@ finish_all(const piojo_tree_t *tree)
 static piojo_tree_iter_t
 search_node(const void *key, const piojo_tree_t *tree)
 {
-        int cmpval=1;
-        size_t imin, imax, mid;
+        bool found_p;
+        size_t idx;
         piojo_tree_iter_t iter;
-        piojo_tree_entry_t *e;
         piojo_tree_bnode_t *bnode = tree->root;
 
         iter.bnode = NULL;
-        while (cmpval != 0 && bnode->ecnt > 0){
-                imin = 0;
-                imax = bnode->ecnt - 1;
-                while (imin <= imax){
-                        mid = imin + ((imax - imin) / 2);
-                        e = &bnode->entries[mid];
-                        cmpval = tree->cmp_cb(key, e->key);
-                        if (cmpval == 0){
-                                iter.eidx = mid;
-                                iter.bnode = bnode;
-                                break;
-                        }else if (cmpval > 0){
-                                imin = mid + 1;
-                        }else if (imin != mid){
-                                imax = mid - 1;
-                        }else{
-                                break;
-                        }
-                }
-                if (bnode->leaf_p){
+        while (bnode->ecnt > 0){
+                idx = bin_search(key, tree->cmp_cb, bnode, &found_p);
+                if (found_p){
+                        iter.bnode = bnode;
+                        iter.eidx = idx;
+                        break;
+                }else if (bnode->leaf_p){
                         break;
                 }
-                bnode = bnode->children[imin];
+                bnode = bnode->children[idx];
         }
         return iter;
 }
@@ -1074,7 +1064,8 @@ static piojo_tree_entry_t*
 insert_node(piojo_tree_entry_t kv, insert_t op, piojo_tree_t *tree)
 {
         int cmpval;
-        size_t imin, imax, mid, j;
+        bool found_p;
+        size_t idx=0, j;
         piojo_tree_entry_t *e;
         piojo_tree_bnode_t *bnode;
 
@@ -1082,39 +1073,25 @@ insert_node(piojo_tree_entry_t kv, insert_t op, piojo_tree_t *tree)
                 split_root(tree);
         }
         bnode = tree->root;
-        for (;;){
-                imin = 0;
-                imax = bnode->ecnt - 1;
-                while (bnode->ecnt > 0 && imin <= imax){
-                        mid = imin + ((imax - imin) / 2);
-                        e = &bnode->entries[mid];
-                        cmpval = tree->cmp_cb(kv.key, e->key);
-                        if (cmpval == 0){
-                                return e;
-                        }else if (cmpval > 0){
-                                imin = mid + 1;
-                        }else if (imin != mid){
-                                imax = mid - 1;
-                        }else{
-                                break;
-                        }
-                }
-                if (bnode->leaf_p){
+        while (bnode->ecnt > 0){
+                idx = bin_search(kv.key, tree->cmp_cb, bnode, &found_p);
+                if (found_p){
+                        return &bnode->entries[idx];
+                }else if (bnode->leaf_p){
                         break;
                 }
-                if (bnode->children[imin]->ecnt == tree->cmax - 1){
-                        split_bnode(tree, imin, bnode->children[imin], bnode);
-                        e = &bnode->entries[imin];
+                if (bnode->children[idx]->ecnt == tree->cmax - 1){
+                        split_bnode(tree, idx, bnode->children[idx], bnode);
+                        e = &bnode->entries[idx];
                         cmpval = tree->cmp_cb(kv.key, e->key);
                         if (cmpval == 0){
                                 return e;
                         }else if (cmpval > 0){
-                                ++imin;
+                                ++idx;
                         }
                 }
-                bnode = bnode->children[imin];
+                bnode = bnode->children[idx];
         }
-
         switch (op){
         case INSERT_NEW:
                 kv = init_entry(kv.key, kv.data, tree);
@@ -1128,10 +1105,10 @@ insert_node(piojo_tree_entry_t kv, insert_t op, piojo_tree_t *tree)
         }
 
         PIOJO_ASSERT(bnode->ecnt < tree->cmax - 1);
-        for (j = bnode->ecnt; j > imin; --j){
+        for (j = bnode->ecnt; j > idx; --j){
                 bnode->entries[j] = bnode->entries[j - 1];
         }
-        bnode->entries[imin] = kv;
+        bnode->entries[idx] = kv;
         ++bnode->ecnt;
 
         return NULL;
@@ -1153,30 +1130,13 @@ static bool
 delete_node_2(const void *key, piojo_tree_entry_t todelete,
               piojo_tree_bnode_t *bnode, piojo_tree_t *tree)
 {
-        int cmpval=1;
-        size_t i, imax, mid;
-        piojo_tree_entry_t *e;
+        bool found_p;
+        size_t i;
         piojo_tree_bnode_t *next;
         piojo_tree_iter_t iter;
 
-        i = 0;
-        imax = bnode->ecnt - 1;
-        while (bnode->ecnt > 0 && i <= imax){
-                mid = i + ((imax - i) / 2);
-                e = &bnode->entries[mid];
-                cmpval = tree->cmp_cb(key, e->key);
-                if (cmpval == 0){
-                        i = mid;
-                        break;
-                }else if (cmpval > 0){
-                        i = mid + 1;
-                }else if (i != mid){
-                        imax = mid - 1;
-                }else{
-                        break;
-                }
-        }
-        if (cmpval == 0){
+        i = bin_search(key, tree->cmp_cb, bnode, &found_p);
+        if (found_p){
                 if (todelete.key == NULL){
                         todelete = bnode->entries[i];
                 }
@@ -1290,6 +1250,36 @@ search_max(piojo_tree_iter_t *from)
                 kv = &bnode->entries[from->eidx];
         }
         return kv;
+}
+
+static size_t
+bin_search(const void *key, piojo_cmp_cb cmp_cb, piojo_tree_bnode_t *bnode,
+           bool *found_p)
+{
+        int cmpval;
+        size_t mid, imin = 0, imax = bnode->ecnt - 1;
+        piojo_tree_entry_t *e;
+
+        *found_p = FALSE;
+        if (bnode->ecnt > 0){
+                while (imin <= imax){
+                        mid = imin + ((imax - imin) / 2);
+                        e = &bnode->entries[mid];
+                        cmpval = cmp_cb(key, e->key);
+                        if (cmpval == 0){
+                                *found_p = TRUE;
+                                imin = mid;
+                                break;
+                        }else if (cmpval > 0){
+                                imin = mid + 1;
+                        }else if (imin != mid){
+                                imax = mid - 1;
+                        }else{
+                                break;
+                        }
+                }
+        }
+        return imin;
 }
 
 #ifdef PIOJO_DEBUG

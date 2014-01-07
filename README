@@ -47,3 +47,4 @@ $ CTEST_OUTPUT_ON_FAILURE=1 make test
 - Interface type names end with '_if'.
 - Function/Callback type names end with '_cb'.
 - Any other type names end with '_t'.
+- Don't use typedef to hide pointer types. (exception: functions/callbacks)
