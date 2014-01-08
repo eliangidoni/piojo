@@ -31,6 +31,7 @@
 #include <piojo/piojo_array.h>
 #include <piojo/piojo_bitmap.h>
 #include <piojo/piojo_buffer.h>
+#include <piojo/piojo_graph.h>
 #include <piojo/piojo_hash.h>
 #include <piojo/piojo_list.h>
 #include <piojo/piojo_queue.h>

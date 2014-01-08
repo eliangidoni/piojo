@@ -273,7 +273,8 @@ piojo_array_append(const void *data, piojo_array_t *array)
 }
 
 /**
- * Searches an entry, only if @a cmp is not @b NULL.
+ * Searches an entry using @a cmp comparison function.
+ * @warning If @a cmp is @b NULL returns @b FALSE.
  * @param[in] data Entry value.
  * @param[in] array Array.
  * @param[out] idx Index where @a data is/should be found
