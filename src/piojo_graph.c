@@ -45,7 +45,7 @@ typedef struct {
 
 typedef struct {
         int weight;
-        piojo_graph_alist_t *end_vertex;
+        size_t end_vid;
 } piojo_graph_edge_t;
 
 struct piojo_graph {
@@ -70,6 +70,15 @@ edge_cmp(const void *e1, const void *e2);
 
 static void
 free_edges(const piojo_graph_t *graph);
+
+static piojo_graph_vertex_t
+vid_to_vertex(size_t vid);
+
+static piojo_graph_alist_t*
+vid_to_alist(size_t vid, const piojo_graph_t *graph);
+
+static size_t
+vertex_to_vid(piojo_graph_vertex_t vertex);
 
 static piojo_graph_alist_t*
 vertex_to_alist(piojo_graph_vertex_t vertex, const piojo_graph_t *graph);
@@ -125,10 +134,9 @@ piojo_graph_t*
 piojo_graph_copy(const piojo_graph_t *graph)
 {
         piojo_alloc_if allocator;
-        size_t i, j, alist_cnt, edge_cnt, vid;
+        size_t i, alist_cnt;
         piojo_graph_t *newgraph;
-        piojo_graph_edge_t *edge;
-        piojo_graph_alist_t *alist, *vertex;
+        piojo_graph_alist_t *alist;
         PIOJO_ASSERT(graph);
 
         allocator = graph->allocator;
@@ -140,22 +148,12 @@ piojo_graph_copy(const piojo_graph_t *graph)
         newgraph->alists_by_vid = piojo_array_copy(graph->alists_by_vid);
         newgraph->deleted_vids = piojo_stack_copy(graph->deleted_vids);
 
-        /* Copy and update edges. */
+        /* Copy all edges. */
         alist_cnt = piojo_array_size(newgraph->alists_by_vid);
         for (i = 0; i < alist_cnt; ++i){
                 alist = ((piojo_graph_alist_t *)
                         piojo_array_at(i, newgraph->alists_by_vid));
                 alist->edges_by_vid = piojo_array_copy(alist->edges_by_vid);
-
-                edge_cnt = piojo_array_size(alist->edges_by_vid);
-                for (j = 0; j < edge_cnt; ++j){
-                        edge = ((piojo_graph_edge_t *)
-                                piojo_array_at(j, alist->edges_by_vid));
-                        vid = edge->end_vertex->vid;
-                        vertex = ((piojo_graph_alist_t*)
-                                  piojo_array_at(vid, newgraph->alists_by_vid));
-                        edge->end_vertex = vertex;
-                }
         }
 
         return newgraph;
@@ -217,11 +215,10 @@ piojo_graph_insert(piojo_graph_t *graph)
                                                graph->allocator);
                 piojo_array_append(&tmp, graph->alists_by_vid);
         }
-        alist = ((piojo_graph_alist_t *)
-                 piojo_array_at(idx, graph->alists_by_vid));
+        alist = vid_to_alist(idx, graph);
         alist->deleted_p = FALSE;
 
-        return alist_to_vertex(alist);
+        return vid_to_vertex(idx);
 }
 
 /**
@@ -311,7 +308,7 @@ piojo_graph_link_p(piojo_graph_vertex_t from, piojo_graph_vertex_t to,
         piojo_graph_edge_t edge;
         PIOJO_ASSERT(graph);
 
-        edge.end_vertex = vertex_to_alist(to, graph);
+        edge.end_vid = vertex_to_vid(to);
         return piojo_array_has_p(&edge,
                                  vertex_to_alist(from, graph)->edges_by_vid,
                                  NULL);
@@ -346,15 +343,15 @@ void
 piojo_graph_unlink_all(piojo_graph_vertex_t vertex, piojo_graph_t *graph)
 {
         piojo_graph_edge_t *edge;
-        size_t cnt, i;
         piojo_graph_alist_t *v;
+        size_t cnt, i;
         PIOJO_ASSERT(graph);
 
         v = vertex_to_alist(vertex, graph);
         cnt = piojo_array_size(v->edges_by_vid);
         for (i = 0; i < cnt; ++i){
                 edge = (piojo_graph_edge_t *)piojo_array_at(i, v->edges_by_vid);
-                unlink_vertices(edge->end_vertex, v);
+                unlink_vertices(vid_to_alist(edge->end_vid, graph), v);
         }
         piojo_array_clear(v->edges_by_vid);
 }
@@ -391,7 +388,7 @@ piojo_graph_neighbor_at(size_t idx, piojo_graph_vertex_t vertex,
 
         v = vertex_to_alist(vertex, graph);
         edge = (piojo_graph_edge_t *)piojo_array_at(idx, v->edges_by_vid);
-        return alist_to_vertex(edge->end_vertex);
+        return vid_to_vertex(edge->end_vid);
 }
 
 /**
@@ -423,9 +420,9 @@ edge_cmp(const void *e1, const void *e2)
 {
         piojo_graph_edge_t *v1 = (piojo_graph_edge_t *) e1;
         piojo_graph_edge_t *v2 = (piojo_graph_edge_t *) e2;
-        if (v1->end_vertex->vid > v2->end_vertex->vid){
+        if (v1->end_vid > v2->end_vid){
                 return 1;
-        }else if (v1->end_vertex->vid < v2->end_vertex->vid){
+        }else if (v1->end_vid < v2->end_vid){
                 return -1;
         }
         return 0;
@@ -439,7 +436,7 @@ link_vertices(int weight, piojo_graph_alist_t *from, piojo_graph_alist_t *to)
         piojo_graph_edge_t edge, *e;
 
         edge.weight = weight;
-        edge.end_vertex = to;
+        edge.end_vid = to->vid;
         linked_p = piojo_array_has_p(&edge, from->edges_by_vid, &idx);
         if (linked_p){
                 e = (piojo_graph_edge_t *)piojo_array_at(idx,
@@ -457,7 +454,7 @@ unlink_vertices(piojo_graph_alist_t *from, piojo_graph_alist_t *to)
         size_t idx;
         piojo_graph_edge_t edge;
 
-        edge.end_vertex = to;
+        edge.end_vid = to->vid;
         linked_p = piojo_array_has_p(&edge, from->edges_by_vid, &idx);
         if (linked_p){
                 piojo_array_delete(idx, from->edges_by_vid);
@@ -479,17 +476,33 @@ free_edges(const piojo_graph_t *graph)
 }
 
 static piojo_graph_alist_t*
+vid_to_alist(size_t vid, const piojo_graph_t *graph)
+{
+        return (piojo_graph_alist_t *)piojo_array_at(vid, graph->alists_by_vid);
+}
+
+static piojo_graph_vertex_t
+vid_to_vertex(size_t vid)
+{
+        piojo_graph_vertex_t v;
+        *(size_t *)v.opaque = vid;
+        return v;
+}
+
+static size_t
+vertex_to_vid(piojo_graph_vertex_t vertex)
+{
+        return *(size_t *)vertex.opaque;
+}
+
+static piojo_graph_alist_t*
 vertex_to_alist(piojo_graph_vertex_t vertex, const piojo_graph_t *graph)
 {
-        size_t idx = *(size_t *)vertex.opaque;
-        return (piojo_graph_alist_t *)piojo_array_at(idx, graph->alists_by_vid);
+        return vid_to_alist(vertex_to_vid(vertex), graph);
 }
 
 static piojo_graph_vertex_t
 alist_to_vertex(piojo_graph_alist_t *alist)
 {
-        piojo_graph_vertex_t v;
-        size_t *idx = (size_t *)v.opaque;
-        *idx = alist->vid;
-        return v;
+        return vid_to_vertex(alist->vid);
 }
