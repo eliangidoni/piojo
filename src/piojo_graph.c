@@ -420,27 +420,27 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vid_t vcur, vneighbor;
+
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
                                  sizeof(piojo_graph_vid_t),
                                  graph->allocator);
-
         visiteds = alloc_visiteds(graph);
+
         piojo_queue_push(&root, q);
+        set_visited(TRUE, root, visiteds);
         while(piojo_queue_size(q) > 0){
                 vcur = *(piojo_graph_vid_t*) piojo_queue_peek(q);
                 piojo_queue_pop(q);
-                if (is_visited_p(vcur, visiteds)){
-                        continue;
-                }
-                set_visited(TRUE, vcur, visiteds);
-
                 if (cb(vcur, graph, (void *)data)){
                         break;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur, graph);
                 for (i = 0; i < cnt; ++i){
                         vneighbor = piojo_graph_neighbor_at(i, vcur, graph);
-                        piojo_queue_push(&vneighbor, q);
+                        if (! is_visited_p(vneighbor, visiteds)){
+                                piojo_queue_push(&vneighbor, q);
+                                set_visited(TRUE, vneighbor, visiteds);
+                        }
                 }
         }
         piojo_queue_free(q);
@@ -462,26 +462,25 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vid_t vcur, vneighbor;
-        st = piojo_stack_alloc_cb(sizeof(piojo_graph_vid_t),
-                                 graph->allocator);
 
+        st = piojo_stack_alloc_cb(sizeof(piojo_graph_vid_t), graph->allocator);
         visiteds = alloc_visiteds(graph);
+
         piojo_stack_push(&root, st);
+        set_visited(TRUE, root, visiteds);
         while(piojo_stack_size(st) > 0){
                 vcur = *(piojo_graph_vid_t*) piojo_stack_peek(st);
                 piojo_stack_pop(st);
-                if (is_visited_p(vcur, visiteds)){
-                        continue;
-                }
-                set_visited(TRUE, vcur, visiteds);
-
                 if (cb(vcur, graph, (void *)data)){
                         break;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur, graph);
                 for (i = 0; i < cnt; ++i){
                         vneighbor = piojo_graph_neighbor_at(i, vcur, graph);
-                        piojo_stack_push(&vneighbor, st);
+                        if (! is_visited_p(vneighbor, visiteds)){
+                                piojo_stack_push(&vneighbor, st);
+                                set_visited(TRUE, vneighbor, visiteds);
+                        }
                 }
         }
         piojo_stack_free(st);
