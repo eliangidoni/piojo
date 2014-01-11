@@ -39,10 +39,6 @@
 extern "C" {
 #endif
 
-typedef struct {
-        uint8_t opaque[8];
-} piojo_graph_vertex_t;
-
 struct piojo_graph;
 typedef struct piojo_graph piojo_graph_t;
 extern const size_t piojo_graph_sizeof;
@@ -55,6 +51,14 @@ typedef enum {
         /** Undirected graph. */
         PIOJO_GRAPH_DIR_FALSE
 } piojo_graph_dir_t;
+
+/** Vertex id. */
+typedef uintptr_t piojo_graph_vid_t;
+
+/** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
+typedef bool (*piojo_graph_visit_cb) (piojo_graph_vid_t v,
+                                      const piojo_graph_t *graph,
+                                      void *data);
 /** @} */
 
 piojo_graph_t*
@@ -72,45 +76,53 @@ piojo_graph_free(const piojo_graph_t *graph);
 void
 piojo_graph_clear(piojo_graph_t *graph);
 
-piojo_graph_vertex_t
-piojo_graph_insert(piojo_graph_t *graph);
+bool
+piojo_graph_insert(piojo_graph_vid_t vertex_id, piojo_graph_t *graph);
+
+bool
+piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph);
 
 void
-piojo_graph_delete(piojo_graph_vertex_t vertex, piojo_graph_t *graph);
-
-void
-piojo_graph_set_vvalue(const void *value, piojo_graph_vertex_t vertex,
+piojo_graph_set_vvalue(const void *value, piojo_graph_vid_t vertex,
                        piojo_graph_t *graph);
 
 void*
-piojo_graph_vvalue(piojo_graph_vertex_t vertex, const piojo_graph_t *graph);
+piojo_graph_vvalue(piojo_graph_vid_t vertex, const piojo_graph_t *graph);
 
 void
-piojo_graph_link(int weight, piojo_graph_vertex_t from,
-                 piojo_graph_vertex_t to, piojo_graph_t *graph);
+piojo_graph_link(int weight, piojo_graph_vid_t from,
+                 piojo_graph_vid_t to, piojo_graph_t *graph);
 
 bool
-piojo_graph_link_p(piojo_graph_vertex_t from, piojo_graph_vertex_t to,
+piojo_graph_link_p(piojo_graph_vid_t from, piojo_graph_vid_t to,
                    const piojo_graph_t *graph);
 
 void
-piojo_graph_unlink(piojo_graph_vertex_t from, piojo_graph_vertex_t to,
+piojo_graph_unlink(piojo_graph_vid_t from, piojo_graph_vid_t to,
                    piojo_graph_t *graph);
 
 void
-piojo_graph_unlink_all(piojo_graph_vertex_t vertex, piojo_graph_t *graph);
+piojo_graph_unlink_all(piojo_graph_vid_t vertex, piojo_graph_t *graph);
 
 size_t
-piojo_graph_neighbor_cnt(piojo_graph_vertex_t vertex,
+piojo_graph_neighbor_cnt(piojo_graph_vid_t vertex,
                          const piojo_graph_t *graph);
 
-piojo_graph_vertex_t
-piojo_graph_neighbor_at(size_t idx, piojo_graph_vertex_t vertex,
+piojo_graph_vid_t
+piojo_graph_neighbor_at(size_t idx, piojo_graph_vid_t vertex,
                         const piojo_graph_t *graph);
 
 int
-piojo_graph_edge_weight(size_t idx, piojo_graph_vertex_t vertex,
+piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
                         const piojo_graph_t *graph);
+
+void
+piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
+                          const void *data, const piojo_graph_t *graph);
+
+void
+piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
+                        const void *data, const piojo_graph_t *graph);
 
 #ifdef __cplusplus
 }

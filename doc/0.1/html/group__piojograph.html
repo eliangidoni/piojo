@@ -83,6 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -91,6 +92,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> )(<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> v, const piojo_graph_t *graph, void *data)</td></tr>
 <tr><td colspan="2"><h2><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gad02d61c2733dd25a338630cc84e19b14">piojo_graph_dir_t</a> { <a class="el" href="group__piojograph.html#ggad02d61c2733dd25a338630cc84e19b14afd85f4bfee075b038dfb250b6992cc26">PIOJO_GRAPH_DIR_TRUE</a>, 
@@ -103,23 +108,54 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_graph_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaaf21fc38c676817ff2a667e43b741f64">piojo_graph_copy</a> (const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gac0ff4f5ff951d3f92136e50d4064ca27">piojo_graph_free</a> (const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga9bde165b142e6fc41dbdb3161e5c551b">piojo_graph_clear</a> (piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_graph_vertex_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaa50c59bd3541ee299945b18b59105c49">piojo_graph_insert</a> (piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga8f67c5e636da95c18c826fa793de2424">piojo_graph_delete</a> (piojo_graph_vertex_t vertex, piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaa18d049118492397d88af79540e62692">piojo_graph_set_vvalue</a> (const void *value, piojo_graph_vertex_t vertex, piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga0ceff5a45912768350c5264fd5fe7c80">piojo_graph_vvalue</a> (piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaea4b6a574bc3fbb52881ea6f9708e38d">piojo_graph_link</a> (int weight, piojo_graph_vertex_t from, piojo_graph_vertex_t to, piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga50b74b2bc3f8ca8cd38236ca9b092ae5">piojo_graph_link_p</a> (piojo_graph_vertex_t from, piojo_graph_vertex_t to, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gacbddcea9edc562e0a7af810833d0c14e">piojo_graph_unlink</a> (piojo_graph_vertex_t from, piojo_graph_vertex_t to, piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga7015d4dd1b7762addc4be08b50ea8bef">piojo_graph_unlink_all</a> (piojo_graph_vertex_t vertex, piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga6479ca9ed394b8ca3c82ce1ea3562349">piojo_graph_neighbor_cnt</a> (piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_graph_vertex_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gac7e1efba89aeeaf4033e443ed320a724">piojo_graph_neighbor_at</a> (size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga3aeb4c86d94bbd091417622647e95849">piojo_graph_edge_weight</a> (size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gac4a0f53181110219e193335511fad75b">piojo_graph_insert</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex_id, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga69fca8c801d3f4768b823886674389f0">piojo_graph_delete</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaccb8d9ce9a64c5ef99766df33dc62b02">piojo_graph_set_vvalue</a> (const void *value, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga5c120f69e42094fc41d1385ad4f22954">piojo_graph_vvalue</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4f98d2f50d16b65d5254c54387868cb5">piojo_graph_link</a> (int weight, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> from, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> to, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga572b0fb5bac3bba3601ca652ad92767f">piojo_graph_link_p</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> from, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> to, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga753b0ffcdb70eb6c11c85363a7f4d3bd">piojo_graph_unlink</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> from, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> to, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga8bfe3e327e69521259bfd16589281784">piojo_graph_unlink_all</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaf4c5beb44b67b47bc843e47afded49e1">piojo_graph_neighbor_cnt</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga2addd9be5cd57f02e0102234d420fc8e">piojo_graph_neighbor_at</a> (size_t idx, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga77f387fbef28ba9fed0565fd97a1105f">piojo_graph_edge_weight</a> (size_t idx, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga2f63add2b5bb65e66f2679c48ff16cfd">piojo_graph_breadth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaf1f9a730b36205d329b92e15628ddbd0">piojo_graph_depth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, const piojo_graph_t *graph)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4fc22a5af64279726672421301d40b75">piojo_graph_sizeof</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Piojo Graph implementation. </p>
+<hr/><h2>Typedef Documentation</h2>
+<a class="anchor" id="ga09cfd0818bbbbffaa496b633d28862e3"></a><!-- doxytag: member="piojo_graph.h::piojo_graph_vid_t" ref="ga09cfd0818bbbbffaa496b633d28862e3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uintptr_t <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Vertex id. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga9461a90a69c4707aa2a96bc73e01026e"></a><!-- doxytag: member="piojo_graph.h::piojo_graph_visit_cb" ref="ga9461a90a69c4707aa2a96bc73e01026e" args=")(piojo_graph_vid_t v, const piojo_graph_t *graph, void *data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef bool(* <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a>)(<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> v, const piojo_graph_t *graph, void *data)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Vertex visitor, returns <b>TRUE</b> to stop traversal, <b>FALSE</b> otherwise. </p>
+
+</div>
+</div>
 <hr/><h2>Enumeration Type Documentation</h2>
 <a class="anchor" id="gad02d61c2733dd25a338630cc84e19b14"></a><!-- doxytag: member="piojo_graph.h::piojo_graph_dir_t" ref="gad02d61c2733dd25a338630cc84e19b14" args="" -->
 <div class="memitem">
@@ -207,6 +243,55 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga2f63add2b5bb65e66f2679c48ff16cfd"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_breadth_first" ref="ga2f63add2b5bb65e66f2679c48ff16cfd" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, const void *data, const piojo_graph_t *graph)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojograph.html#ga2f63add2b5bb65e66f2679c48ff16cfd">piojo_graph_breadth_first</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_graph_t *&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Traverses <em>graph</em> following a breadth first search. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>Vertex visit function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Argument passed to <em>cb</em> function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ga9bde165b142e6fc41dbdb3161e5c551b"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_clear" ref="ga9bde165b142e6fc41dbdb3161e5c551b" args="(piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
@@ -256,14 +341,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga8f67c5e636da95c18c826fa793de2424"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_delete" ref="ga8f67c5e636da95c18c826fa793de2424" args="(piojo_graph_vertex_t vertex, piojo_graph_t *graph)" -->
+<a class="anchor" id="ga69fca8c801d3f4768b823886674389f0"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_delete" ref="ga69fca8c801d3f4768b823886674389f0" args="(piojo_graph_vid_t vertex, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#ga8f67c5e636da95c18c826fa793de2424">piojo_graph_delete</a> </td>
+          <td class="memname">bool <a class="el" href="group__piojograph.html#ga69fca8c801d3f4768b823886674389f0">piojo_graph_delete</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -288,15 +373,65 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if deleted, <b>FALSE</b> if it's not present. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga3aeb4c86d94bbd091417622647e95849"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_edge_weight" ref="ga3aeb4c86d94bbd091417622647e95849" args="(size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
+<a class="anchor" id="gaf1f9a730b36205d329b92e15628ddbd0"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_depth_first" ref="gaf1f9a730b36205d329b92e15628ddbd0" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, const void *data, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="group__piojograph.html#ga3aeb4c86d94bbd091417622647e95849">piojo_graph_edge_weight</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#gaf1f9a730b36205d329b92e15628ddbd0">piojo_graph_depth_first</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_graph_t *&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Traverses <em>graph</em> following a depth first search. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>Vertex visit function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Argument passed to <em>cb</em> function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ga77f387fbef28ba9fed0565fd97a1105f"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_edge_weight" ref="ga77f387fbef28ba9fed0565fd97a1105f" args="(size_t idx, piojo_graph_vid_t vertex, const piojo_graph_t *graph)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="group__piojograph.html#ga77f387fbef28ba9fed0565fd97a1105f">piojo_graph_edge_weight</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>idx</em>, </td>
@@ -304,7 +439,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -358,37 +493,48 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa50c59bd3541ee299945b18b59105c49"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_insert" ref="gaa50c59bd3541ee299945b18b59105c49" args="(piojo_graph_t *graph)" -->
+<a class="anchor" id="gac4a0f53181110219e193335511fad75b"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_insert" ref="gac4a0f53181110219e193335511fad75b" args="(piojo_graph_vid_t vertex_id, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_graph_vertex_t <a class="el" href="group__piojograph.html#gaa50c59bd3541ee299945b18b59105c49">piojo_graph_insert</a> </td>
+          <td class="memname">bool <a class="el" href="group__piojograph.html#gac4a0f53181110219e193335511fad75b">piojo_graph_insert</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_t *&#160;</td>
-          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
+          <td class="paramname"><em>vertex_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">piojo_graph_t *&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Inserts vertex. </p>
+<p>Inserts new vertex. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertex_id</td><td></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">graph</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New vertex in <em>graph</em>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if inserted, <b>FALSE</b> if it's duplicated. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gaea4b6a574bc3fbb52881ea6f9708e38d"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_link" ref="gaea4b6a574bc3fbb52881ea6f9708e38d" args="(int weight, piojo_graph_vertex_t from, piojo_graph_vertex_t to, piojo_graph_t *graph)" -->
+<a class="anchor" id="ga4f98d2f50d16b65d5254c54387868cb5"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_link" ref="ga4f98d2f50d16b65d5254c54387868cb5" args="(int weight, piojo_graph_vid_t from, piojo_graph_vid_t to, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#gaea4b6a574bc3fbb52881ea6f9708e38d">piojo_graph_link</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#ga4f98d2f50d16b65d5254c54387868cb5">piojo_graph_link</a> </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>weight</em>, </td>
@@ -396,13 +542,13 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>to</em>, </td>
         </tr>
         <tr>
@@ -432,20 +578,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga50b74b2bc3f8ca8cd38236ca9b092ae5"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_link_p" ref="ga50b74b2bc3f8ca8cd38236ca9b092ae5" args="(piojo_graph_vertex_t from, piojo_graph_vertex_t to, const piojo_graph_t *graph)" -->
+<a class="anchor" id="ga572b0fb5bac3bba3601ca652ad92767f"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_link_p" ref="ga572b0fb5bac3bba3601ca652ad92767f" args="(piojo_graph_vid_t from, piojo_graph_vid_t to, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="group__piojograph.html#ga50b74b2bc3f8ca8cd38236ca9b092ae5">piojo_graph_link_p</a> </td>
+          <td class="memname">bool <a class="el" href="group__piojograph.html#ga572b0fb5bac3bba3601ca652ad92767f">piojo_graph_link_p</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>to</em>, </td>
         </tr>
         <tr>
@@ -475,12 +621,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gac7e1efba89aeeaf4033e443ed320a724"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_at" ref="gac7e1efba89aeeaf4033e443ed320a724" args="(size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
+<a class="anchor" id="ga2addd9be5cd57f02e0102234d420fc8e"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_at" ref="ga2addd9be5cd57f02e0102234d420fc8e" args="(size_t idx, piojo_graph_vid_t vertex, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_graph_vertex_t <a class="el" href="group__piojograph.html#gac7e1efba89aeeaf4033e443ed320a724">piojo_graph_neighbor_at</a> </td>
+          <td class="memname"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> <a class="el" href="group__piojograph.html#ga2addd9be5cd57f02e0102234d420fc8e">piojo_graph_neighbor_at</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>idx</em>, </td>
@@ -488,7 +634,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -518,14 +664,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga6479ca9ed394b8ca3c82ce1ea3562349"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_cnt" ref="ga6479ca9ed394b8ca3c82ce1ea3562349" args="(piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
+<a class="anchor" id="gaf4c5beb44b67b47bc843e47afded49e1"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_cnt" ref="gaf4c5beb44b67b47bc843e47afded49e1" args="(piojo_graph_vid_t vertex, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="group__piojograph.html#ga6479ca9ed394b8ca3c82ce1ea3562349">piojo_graph_neighbor_cnt</a> </td>
+          <td class="memname">size_t <a class="el" href="group__piojograph.html#gaf4c5beb44b67b47bc843e47afded49e1">piojo_graph_neighbor_cnt</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -554,12 +700,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaa18d049118492397d88af79540e62692"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_set_vvalue" ref="gaa18d049118492397d88af79540e62692" args="(const void *value, piojo_graph_vertex_t vertex, piojo_graph_t *graph)" -->
+<a class="anchor" id="gaccb8d9ce9a64c5ef99766df33dc62b02"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_set_vvalue" ref="gaccb8d9ce9a64c5ef99766df33dc62b02" args="(const void *value, piojo_graph_vid_t vertex, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#gaa18d049118492397d88af79540e62692">piojo_graph_set_vvalue</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#gaccb8d9ce9a64c5ef99766df33dc62b02">piojo_graph_set_vvalue</a> </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -567,7 +713,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -596,20 +742,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gacbddcea9edc562e0a7af810833d0c14e"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_unlink" ref="gacbddcea9edc562e0a7af810833d0c14e" args="(piojo_graph_vertex_t from, piojo_graph_vertex_t to, piojo_graph_t *graph)" -->
+<a class="anchor" id="ga753b0ffcdb70eb6c11c85363a7f4d3bd"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_unlink" ref="ga753b0ffcdb70eb6c11c85363a7f4d3bd" args="(piojo_graph_vid_t from, piojo_graph_vid_t to, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#gacbddcea9edc562e0a7af810833d0c14e">piojo_graph_unlink</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#ga753b0ffcdb70eb6c11c85363a7f4d3bd">piojo_graph_unlink</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>to</em>, </td>
         </tr>
         <tr>
@@ -638,14 +784,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga7015d4dd1b7762addc4be08b50ea8bef"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_unlink_all" ref="ga7015d4dd1b7762addc4be08b50ea8bef" args="(piojo_graph_vertex_t vertex, piojo_graph_t *graph)" -->
+<a class="anchor" id="ga8bfe3e327e69521259bfd16589281784"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_unlink_all" ref="ga8bfe3e327e69521259bfd16589281784" args="(piojo_graph_vid_t vertex, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#ga7015d4dd1b7762addc4be08b50ea8bef">piojo_graph_unlink_all</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#ga8bfe3e327e69521259bfd16589281784">piojo_graph_unlink_all</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -673,14 +819,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga0ceff5a45912768350c5264fd5fe7c80"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_vvalue" ref="ga0ceff5a45912768350c5264fd5fe7c80" args="(piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
+<a class="anchor" id="ga5c120f69e42094fc41d1385ad4f22954"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_vvalue" ref="ga5c120f69e42094fc41d1385ad4f22954" args="(piojo_graph_vid_t vertex, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void* <a class="el" href="group__piojograph.html#ga0ceff5a45912768350c5264fd5fe7c80">piojo_graph_vvalue</a> </td>
+          <td class="memname">void* <a class="el" href="group__piojograph.html#ga5c120f69e42094fc41d1385ad4f22954">piojo_graph_vvalue</a> </td>
           <td>(</td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>vertex</em>, </td>
         </tr>
         <tr>
@@ -743,7 +889,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sat Jan 11 2014 12:19:44 for piojo-0.1 by
+    <li class="footer">Generated on Sat Jan 11 2014 17:56:25 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
