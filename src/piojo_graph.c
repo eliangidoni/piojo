@@ -83,9 +83,6 @@ vertex_to_vid(piojo_graph_vertex_t vertex);
 static piojo_graph_alist_t*
 vertex_to_alist(piojo_graph_vertex_t vertex, const piojo_graph_t *graph);
 
-static piojo_graph_vertex_t
-alist_to_vertex(piojo_graph_alist_t *alist);
-
 /**
  * Allocates a new graph.
  * Uses default allocator.
@@ -392,15 +389,15 @@ piojo_graph_neighbor_at(size_t idx, piojo_graph_vertex_t vertex,
 }
 
 /**
- * Returns weight from @a vertex to neighbor.
+ * Returns edge weight from @a vertex to neighbor @a idx.
  * @param[in] idx Neighbor index.
  * @param[in] vertex Vertex.
  * @param[in] graph
  * @return Neighbor edge weight.
  */
 int
-piojo_graph_neighbor_w(size_t idx, piojo_graph_vertex_t vertex,
-                       const piojo_graph_t *graph)
+piojo_graph_edge_weight(size_t idx, piojo_graph_vertex_t vertex,
+                        const piojo_graph_t *graph)
 {
         piojo_graph_edge_t *edge;
         piojo_graph_alist_t * v;
@@ -499,10 +496,4 @@ static piojo_graph_alist_t*
 vertex_to_alist(piojo_graph_vertex_t vertex, const piojo_graph_t *graph)
 {
         return vid_to_alist(vertex_to_vid(vertex), graph);
-}
-
-static piojo_graph_vertex_t
-alist_to_vertex(piojo_graph_alist_t *alist)
-{
-        return vid_to_vertex(alist->vid);
 }

@@ -113,7 +113,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga7015d4dd1b7762addc4be08b50ea8bef">piojo_graph_unlink_all</a> (piojo_graph_vertex_t vertex, piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga6479ca9ed394b8ca3c82ce1ea3562349">piojo_graph_neighbor_cnt</a> (piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_graph_vertex_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gac7e1efba89aeeaf4033e443ed320a724">piojo_graph_neighbor_at</a> (size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gacf9912cb0724e8fa64cdefce2a2fdd5a">piojo_graph_neighbor_w</a> (size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga3aeb4c86d94bbd091417622647e95849">piojo_graph_edge_weight</a> (size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4fc22a5af64279726672421301d40b75">piojo_graph_sizeof</a></td></tr>
@@ -288,6 +288,49 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ga3aeb4c86d94bbd091417622647e95849"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_edge_weight" ref="ga3aeb4c86d94bbd091417622647e95849" args="(size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="group__piojograph.html#ga3aeb4c86d94bbd091417622647e95849">piojo_graph_edge_weight</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
+          <td class="paramname"><em>vertex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_graph_t *&#160;</td>
+          <td class="paramname"><em>graph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns edge weight from <em>vertex</em> to neighbor <em>idx</em>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>Neighbor index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertex</td><td>Vertex. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Neighbor edge weight. </dd></dl>
 
 </div>
 </div>
@@ -511,49 +554,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gacf9912cb0724e8fa64cdefce2a2fdd5a"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_w" ref="gacf9912cb0724e8fa64cdefce2a2fdd5a" args="(size_t idx, piojo_graph_vertex_t vertex, const piojo_graph_t *graph)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="group__piojograph.html#gacf9912cb0724e8fa64cdefce2a2fdd5a">piojo_graph_neighbor_w</a> </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">piojo_graph_vertex_t&#160;</td>
-          <td class="paramname"><em>vertex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const piojo_graph_t *&#160;</td>
-          <td class="paramname"><em>graph</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns weight from <em>vertex</em> to neighbor. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>Neighbor index. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">vertex</td><td>Vertex. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Neighbor edge weight. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="gaa18d049118492397d88af79540e62692"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_set_vvalue" ref="gaa18d049118492397d88af79540e62692" args="(const void *value, piojo_graph_vertex_t vertex, piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
@@ -743,7 +743,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Jan 9 2014 19:41:35 for piojo-0.1 by
+    <li class="footer">Generated on Sat Jan 11 2014 12:19:44 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

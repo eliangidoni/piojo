@@ -109,8 +109,8 @@ piojo_graph_neighbor_at(size_t idx, piojo_graph_vertex_t vertex,
                         const piojo_graph_t *graph);
 
 int
-piojo_graph_neighbor_w(size_t idx, piojo_graph_vertex_t vertex,
-                       const piojo_graph_t *graph);
+piojo_graph_edge_weight(size_t idx, piojo_graph_vertex_t vertex,
+                        const piojo_graph_t *graph);
 
 #ifdef __cplusplus
 }

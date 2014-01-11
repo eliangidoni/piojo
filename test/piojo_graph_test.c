@@ -64,23 +64,23 @@ void test_copy()
         PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph), v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, graph) == 0);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
 
         PIOJO_ASSERT(piojo_graph_link_p(v,v2,copy));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,copy) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, copy), v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, copy) == 0);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, copy) == 0);
 
         piojo_graph_link(1, v, v2, copy);
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, copy) == 1);
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, graph) == 0);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, copy) == 1);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
 
         piojo_graph_unlink_all(v, copy);
         PIOJO_ASSERT(! piojo_graph_link_p(v,v2,copy));
         PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph), v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, graph) == 0);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
 
         piojo_graph_free(copy);
         piojo_graph_free(graph);
@@ -225,17 +225,17 @@ void test_neighbors_undir()
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v,graph), v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v,graph) == 1);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v,graph) == 1);
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v2,graph) == 2);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v2,graph),v));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v2,graph) == 1);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v2,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(1, v2,graph),v3));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(1, v2,graph) == 2);
+        PIOJO_ASSERT(piojo_graph_edge_weight(1, v2,graph) == 2);
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v3,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v3,graph),v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v3,graph) == 2);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v3,graph) == 2);
 
         piojo_graph_free(graph);
         assert_allocator_alloc(0);
@@ -262,11 +262,11 @@ void test_neighbors_dir()
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v, graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph),v2));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v, graph) == 1);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 1);
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v2, graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v2, graph),v3));
-        PIOJO_ASSERT(piojo_graph_neighbor_w(0, v2, graph) == 2);
+        PIOJO_ASSERT(piojo_graph_edge_weight(0, v2, graph) == 2);
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v3, graph) == 0);
 
