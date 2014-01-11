@@ -118,11 +118,13 @@ piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
 
 void
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          const void *data, const piojo_graph_t *graph);
+                          size_t limit, const void *data,
+                          const piojo_graph_t *graph);
 
 void
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        const void *data, const piojo_graph_t *graph);
+                        size_t limit, const void *data,
+                        const piojo_graph_t *graph);
 
 #ifdef __cplusplus
 }

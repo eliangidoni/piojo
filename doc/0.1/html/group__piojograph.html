@@ -119,8 +119,8 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaf4c5beb44b67b47bc843e47afded49e1">piojo_graph_neighbor_cnt</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga2addd9be5cd57f02e0102234d420fc8e">piojo_graph_neighbor_at</a> (size_t idx, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga77f387fbef28ba9fed0565fd97a1105f">piojo_graph_edge_weight</a> (size_t idx, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> vertex, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga2f63add2b5bb65e66f2679c48ff16cfd">piojo_graph_breadth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, const piojo_graph_t *graph)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaf1f9a730b36205d329b92e15628ddbd0">piojo_graph_depth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga58f4ba13ff86bdf9f56c295aa159044c">piojo_graph_breadth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, size_t limit, const void *data, const piojo_graph_t *graph)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaed4dc9d8d2aca56bdf72c7b23d647c1e">piojo_graph_depth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, size_t limit, const void *data, const piojo_graph_t *graph)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4fc22a5af64279726672421301d40b75">piojo_graph_sizeof</a></td></tr>
@@ -243,12 +243,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga2f63add2b5bb65e66f2679c48ff16cfd"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_breadth_first" ref="ga2f63add2b5bb65e66f2679c48ff16cfd" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, const void *data, const piojo_graph_t *graph)" -->
+<a class="anchor" id="ga58f4ba13ff86bdf9f56c295aa159044c"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_breadth_first" ref="ga58f4ba13ff86bdf9f56c295aa159044c" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, size_t limit, const void *data, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#ga2f63add2b5bb65e66f2679c48ff16cfd">piojo_graph_breadth_first</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#ga58f4ba13ff86bdf9f56c295aa159044c">piojo_graph_breadth_first</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>root</em>, </td>
@@ -258,6 +258,12 @@ Variables</h2></td></tr>
           <td></td>
           <td class="paramtype"><a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a>&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>limit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -284,6 +290,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>Vertex visit function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">limit</td><td>Depth limit or <b>0</b> for no limit. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Argument passed to <em>cb</em> function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
   </table>
@@ -377,12 +384,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaf1f9a730b36205d329b92e15628ddbd0"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_depth_first" ref="gaf1f9a730b36205d329b92e15628ddbd0" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, const void *data, const piojo_graph_t *graph)" -->
+<a class="anchor" id="gaed4dc9d8d2aca56bdf72c7b23d647c1e"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_depth_first" ref="gaed4dc9d8d2aca56bdf72c7b23d647c1e" args="(piojo_graph_vid_t root, piojo_graph_visit_cb cb, size_t limit, const void *data, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#gaf1f9a730b36205d329b92e15628ddbd0">piojo_graph_depth_first</a> </td>
+          <td class="memname">void <a class="el" href="group__piojograph.html#gaed4dc9d8d2aca56bdf72c7b23d647c1e">piojo_graph_depth_first</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>root</em>, </td>
@@ -392,6 +399,12 @@ Variables</h2></td></tr>
           <td></td>
           <td class="paramtype"><a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a>&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>limit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -418,6 +431,7 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>Vertex visit function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">limit</td><td>Depth limit or <b>0</b> for no limit. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Argument passed to <em>cb</em> function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
   </table>
@@ -889,7 +903,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sat Jan 11 2014 17:56:25 for piojo-0.1 by
+    <li class="footer">Generated on Sat Jan 11 2014 20:39:59 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
