@@ -425,7 +425,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
 {
         piojo_queue_t *q;
         piojo_hash_t *visiteds;
-        size_t i, cnt, depth;
+        size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
 
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
@@ -443,14 +443,13 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 if (cb(vcur.vid, graph, (void *)data)){
                         break;
                 }
-                depth = vcur.depth + 1;
-                if (depth == limit){
+                nbor.depth = vcur.depth + 1;
+                if (nbor.depth == limit){
                         continue;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
                 for (i = 0; i < cnt; ++i){
                         nbor.vid = piojo_graph_neighbor_at(i, vcur.vid, graph);
-                        nbor.depth = depth;
                         if (! is_visited_p(nbor.vid, visiteds)){
                                 piojo_queue_push(&nbor, q);
                                 mark_visited(nbor.vid, visiteds);
@@ -476,7 +475,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
 {
         piojo_stack_t *st;
         piojo_hash_t *visiteds;
-        size_t i, cnt, depth;
+        size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
 
         st = piojo_stack_alloc_cb(sizeof(piojo_graph_vtx_t), graph->allocator);
@@ -492,14 +491,13 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 if (cb(vcur.vid, graph, (void *)data)){
                         break;
                 }
-                depth = vcur.depth + 1;
-                if (depth == limit){
+                nbor.depth = vcur.depth + 1;
+                if (nbor.depth == limit){
                         continue;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
                 for (i = 0; i < cnt; ++i){
                         nbor.vid = piojo_graph_neighbor_at(i, vcur.vid, graph);
-                        nbor.depth = depth;
                         if (! is_visited_p(nbor.vid, visiteds)){
                                 piojo_stack_push(&nbor, st);
                                 mark_visited(nbor.vid, visiteds);
