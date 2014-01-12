@@ -427,6 +427,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
+        bool limited_p = (limit != 0);
 
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
                                  sizeof(piojo_graph_vtx_t),
@@ -444,7 +445,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         break;
                 }
                 nbor.depth = vcur.depth + 1;
-                if (nbor.depth == limit){
+                if (limited_p && nbor.depth > limit){
                         continue;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
@@ -477,6 +478,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
+        bool limited_p = (limit != 0);
 
         st = piojo_stack_alloc_cb(sizeof(piojo_graph_vtx_t), graph->allocator);
         visiteds = alloc_visiteds(graph);
@@ -492,7 +494,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         break;
                 }
                 nbor.depth = vcur.depth + 1;
-                if (nbor.depth == limit){
+                if (limited_p && nbor.depth > limit){
                         continue;
                 }
                 cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
