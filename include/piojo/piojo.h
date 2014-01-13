@@ -21,21 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Piojo complete public API.
+ * Piojo basic definitions.
+ */
+
+/**
+ * @file
+ * @addtogroup piojo Piojo
  */
 
 #ifndef PIOJO_H_
 #define PIOJO_H_
 
-#include <piojo/piojo_alloc.h>
-#include <piojo/piojo_array.h>
-#include <piojo/piojo_bitmap.h>
-#include <piojo/piojo_buffer.h>
-#include <piojo/piojo_graph.h>
-#include <piojo/piojo_hash.h>
-#include <piojo/piojo_list.h>
-#include <piojo/piojo_queue.h>
-#include <piojo/piojo_stack.h>
-#include <piojo/piojo_tree.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+#include <piojo/piojo_config.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** @{ */
+
+/** @hideinitializer Equivalent to @b true. */
+#define TRUE true
+/** @hideinitializer Equivalent to @b false. */
+#define FALSE false
+
+/**
+ * Returns @b -1, @b 0, @b 1 when @a e1 is less than, equal to,
+ * or greater than @a e2.
+ */
+typedef int (*piojo_cmp_cb) (const void *e1, const void *e2);
+/** Returns @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise. */
+typedef bool (*piojo_eq_cb) (const void *e1, const void *e2);
+
+/** Allocates @a size bytes of memory. */
+typedef void* (*piojo_alloc_cb) (size_t size);
+/** Frees memory pointed by @a ptr. */
+typedef void (*piojo_free_cb) (const void *ptr);
+/** Initializes @a esize bytes of memory pointed by @a ptr with @a data. */
+typedef void (*piojo_init_cb) (const void *data, size_t esize, void *ptr);
+/** Copies @a esize bytes of memory pointed by @a ptr to @a newptr. */
+typedef void (*piojo_copy_cb) (const void *ptr, size_t esize, void *newptr);
+/** Finishes memory pointed by @a ptr. */
+typedef void (*piojo_finish_cb) (void *ptr);
+
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

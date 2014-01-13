@@ -27,7 +27,7 @@
 #ifndef PIOJO_STACK_H_
 #define PIOJO_STACK_H_
 
-#include <piojo/piojo_common.h>
+#include <piojo/piojo.h>
 #include <piojo/piojo_alloc.h>
 
 #ifdef __cplusplus

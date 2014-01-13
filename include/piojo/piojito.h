@@ -27,8 +27,6 @@
 #ifndef PIOJO_PIOJITO_H_
 #define PIOJO_PIOJITO_H_
 
-#include <piojo/piojo.h>
-
 /* Alloc */
 #define alloc_def_alloc piojo_alloc_def_alloc
 #define alloc_def_free piojo_alloc_def_free

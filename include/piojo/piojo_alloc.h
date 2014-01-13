@@ -32,7 +32,7 @@
 #ifndef PIOJO_ALLOC_H_
 #define PIOJO_ALLOC_H_
 
-#include <piojo/piojo_common.h>
+#include <piojo/piojo.h>
 
 #ifdef __cplusplus
 extern "C" {

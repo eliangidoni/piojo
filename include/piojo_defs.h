@@ -34,7 +34,7 @@
 #include <math.h>
 #include <assert.h>
 
-#include <piojo/piojo_common.h>
+#include <piojo/piojo.h>
 
 #ifdef __cplusplus
 extern "C" {
