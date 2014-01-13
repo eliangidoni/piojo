@@ -301,7 +301,7 @@ void test_bfs()
                         piojo_graph_link(1, v, v2, graph);
                 }
         }
-        piojo_graph_breadth_first(0, vvisit, 0, &cnt, graph);
+        piojo_graph_breadth_first(0, vvisit, &cnt, 0, graph);
         PIOJO_ASSERT(cnt == 0);
 
         piojo_graph_free(graph);
@@ -329,7 +329,7 @@ void test_dfs()
                         piojo_graph_link(1, v, v2, graph);
                 }
         }
-        piojo_graph_depth_first(0, vvisit, 0, &cnt, graph);
+        piojo_graph_depth_first(0, vvisit, &cnt, 0, graph);
         PIOJO_ASSERT(cnt == 0);
 
         piojo_graph_free(graph);

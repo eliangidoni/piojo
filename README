@@ -43,7 +43,8 @@ $ CTEST_OUTPUT_ON_FAILURE=1 make test
 - Avoid lines with more than 80 characters.
 - Avoid more than 3 levels of indentation.
 - Avoid functions longer than 50 lines.
-- Boolean functions end with '_p' (i.e. predicate).
+- Avoid functions with more than 5 arguments.
+- Predicate (boolean) functions end with '_p'.
 - Interface type names end with '_if'.
 - Function/Callback type names end with '_cb'.
 - Any other type names end with '_t'.

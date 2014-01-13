@@ -414,20 +414,21 @@ piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
  * Traverses @a graph following a breadth first search.
  * @param[in] root Starting vertex.
  * @param[in] cb Vertex visit function.
- * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] data Argument passed to @a cb function.
+ * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] graph
+ * @return Value returned by @a cb.
  */
-void
+bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          size_t limit, const void *data,
+                          const void *data, size_t limit,
                           const piojo_graph_t *graph)
 {
         piojo_queue_t *q;
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
-        bool limited_p = (limit != 0);
+        bool ret = FALSE, limited_p = (limit != 0);
 
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
                                  sizeof(piojo_graph_vtx_t),
@@ -442,6 +443,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 vcur = *(piojo_graph_vtx_t*) piojo_queue_peek(q);
                 piojo_queue_pop(q);
                 if (cb(vcur.vid, graph, (void *)data)){
+                        ret = TRUE;
                         break;
                 }
                 nbor.depth = vcur.depth + 1;
@@ -459,26 +461,28 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         }
         piojo_queue_free(q);
         free_visiteds(visiteds);
+        return ret;
 }
 
 /**
  * Traverses @a graph following a depth first search.
  * @param[in] root Starting vertex.
  * @param[in] cb Vertex visit function.
- * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] data Argument passed to @a cb function.
+ * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] graph
+ * @return Value returned by @a cb.
  */
-void
+bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        size_t limit, const void *data,
+                        const void *data, size_t limit,
                         const piojo_graph_t *graph)
 {
         piojo_stack_t *st;
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
-        bool limited_p = (limit != 0);
+        bool ret = FALSE, limited_p = (limit != 0);
 
         st = piojo_stack_alloc_cb(sizeof(piojo_graph_vtx_t), graph->allocator);
         visiteds = alloc_visiteds(graph);
@@ -491,6 +495,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 vcur = *(piojo_graph_vtx_t*) piojo_stack_peek(st);
                 piojo_stack_pop(st);
                 if (cb(vcur.vid, graph, (void *)data)){
+                        ret = TRUE;
                         break;
                 }
                 nbor.depth = vcur.depth + 1;
@@ -508,6 +513,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         }
         piojo_stack_free(st);
         free_visiteds(visiteds);
+        return ret;
 }
 
 /** @}
