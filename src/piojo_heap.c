@@ -202,9 +202,7 @@ piojo_heap_size(const piojo_heap_t *heap)
 }
 
 /**
- * Inserts a new entry after the last entry.
- * If @a heap is dynamic then expand it.
- * @warning If @a heap isn't dynamic you should check it's not full.
+ * Inserts a new entry.
  * @param[in] data Entry value.
  * @param[out] heap Heap being modified.
  */
