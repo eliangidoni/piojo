@@ -167,6 +167,40 @@
 #define hash_entryk piojo_hash_entryk
 #define hash_entryv piojo_hash_entryv
 
+/* Heap */
+#define heap_alloc piojo_heap_alloc
+#define heap_alloc_s piojo_heap_alloc_s
+#define heap_alloc_n piojo_heap_alloc_n
+#define heap_alloc_cb piojo_heap_alloc_cb
+#define heap_alloc_cb_n piojo_heap_alloc_cb_n
+#define heap_copy piojo_heap_copy
+#define heap_free piojo_heap_free
+#define heap_clear piojo_heap_clear
+#define heap_size piojo_heap_size
+#define heap_push piojo_heap_push
+#define heap_pop piojo_heap_pop
+#define heap_peek piojo_heap_peek
+
+/* Graph */
+#define graph_alloc piojo_graph_alloc
+#define graph_alloc_cb piojo_graph_alloc_cb
+#define graph_copy piojo_graph_copy
+#define graph_free piojo_graph_free
+#define graph_clear piojo_graph_clear
+#define graph_insert piojo_graph_insert
+#define graph_delete piojo_graph_delete
+#define graph_set_vvalue piojo_graph_set_vvalue
+#define graph_vvalue piojo_graph_vvalue
+#define graph_link piojo_graph_link
+#define graph_link_p piojo_graph_link_p
+#define graph_unlink piojo_graph_unlink
+#define graph_unlink_all piojo_graph_unlink_all
+#define graph_neighbor_cnt piojo_graph_neighbor_cnt
+#define graph_neighbor_at piojo_graph_neighbor_at
+#define graph_edge_weight piojo_graph_edge_weight
+#define graph_breadth_first piojo_graph_breadth_first
+#define graph_depth_first piojo_graph_depth_first
+
 /* Tree */
 #define tree_alloc_intk piojo_tree_alloc_intk
 #define tree_alloc_uintk piojo_tree_alloc_uintk

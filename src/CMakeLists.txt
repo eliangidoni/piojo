@@ -12,6 +12,7 @@ set(piojo_SOURCES
     piojo_buffer.c
     piojo_graph.c
     piojo_hash.c
+    piojo_heap.c
     piojo_list.c
     piojo_queue.c
     piojo_stack.c

@@ -54,6 +54,8 @@ extern "C" {
  * or greater than @a e2.
  */
 typedef int (*piojo_cmp_cb) (const void *e1, const void *e2);
+/** Returns @b TRUE if @a e1 is less or equal to @a e2, @b FALSE otherwise. */
+typedef bool (*piojo_leq_cb) (const void *e1, const void *e2);
 /** Returns @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise. */
 typedef bool (*piojo_eq_cb) (const void *e1, const void *e2);
 

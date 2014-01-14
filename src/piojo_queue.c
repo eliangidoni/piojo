@@ -193,6 +193,7 @@ piojo_queue_free(const piojo_queue_t *queue)
 void
 piojo_queue_clear(piojo_queue_t *queue)
 {
+        PIOJO_ASSERT(queue);
         finish_all(queue);
         queue->widx = queue->ridx = queue->wcnt = queue->rcnt = 0;
 }
