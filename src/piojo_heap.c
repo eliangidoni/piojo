@@ -223,7 +223,7 @@ piojo_heap_push(const void *data, piojo_heap_t *heap)
 }
 
 /**
- * Deletes the root (min or max) entry.
+ * Deletes the maximum entry according to @a cmp.
  * @param[out] heap Non-empty heap.
  */
 void
@@ -238,9 +238,11 @@ piojo_heap_pop(piojo_heap_t *heap)
         PIOJO_ASSERT(tmp);
 
         lastidx = piojo_array_size(heap->data) - 1;
-        swap(piojo_array_at(0, heap->data),
-             piojo_array_at(lastidx, heap->data),
-             tmp, heap->esize);
+        if (lastidx > 0){
+                swap(piojo_array_at(0, heap->data),
+                     piojo_array_at(lastidx, heap->data),
+                     tmp, heap->esize);
+        }
 
         piojo_array_delete(lastidx, heap->data);
         sort_down(0, lastidx, tmp, heap);
@@ -249,7 +251,7 @@ piojo_heap_pop(piojo_heap_t *heap)
 }
 
 /**
- * Reads the root (min or max) entry.
+ * Reads the maximum entry according to @a cmp.
  * @param[in] heap Non-empty heap.
  * @return Entry value.
  */
