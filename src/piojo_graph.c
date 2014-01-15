@@ -439,7 +439,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         vcur.depth = 0;
         piojo_queue_push(&vcur, q);
         mark_visited(vcur.vid, visiteds);
-        while(piojo_queue_size(q) > 0){
+        while (piojo_queue_size(q) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_queue_peek(q);
                 piojo_queue_pop(q);
                 if (cb(vcur.vid, graph, (void *)data)){
@@ -491,7 +491,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         vcur.depth = 0;
         piojo_stack_push(&vcur, st);
         mark_visited(vcur.vid, visiteds);
-        while(piojo_stack_size(st) > 0){
+        while (piojo_stack_size(st) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_stack_peek(st);
                 piojo_stack_pop(st);
                 if (cb(vcur.vid, graph, (void *)data)){

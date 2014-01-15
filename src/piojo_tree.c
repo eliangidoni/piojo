@@ -1018,15 +1018,15 @@ finish_all(const piojo_tree_t *tree)
                                  sizeof(piojo_tree_bnode_t*), qator);
         bnode = tree->root;
         piojo_queue_push(&bnode, q);
-        while(piojo_queue_size(q) > 0){
+        while (piojo_queue_size(q) > 0){
                 bnode = *(piojo_tree_bnode_t**) piojo_queue_peek(q);
                 piojo_queue_pop(q);
 
-                for(i = 0; i < bnode->ecnt; ++i){
+                for (i = 0; i < bnode->ecnt; ++i){
                         finish_entry(tree, &bnode->entries[i]);
                 }
 
-                for(i = 0; ! bnode->leaf_p && i <= bnode->ecnt; ++i){
+                for (i = 0; ! bnode->leaf_p && i <= bnode->ecnt; ++i){
                         piojo_queue_push(&bnode->children[i], q);
                 }
 
@@ -1200,7 +1200,7 @@ rebalance_bnode(piojo_tree_t *tree, size_t pidx, piojo_tree_bnode_t *bnode,
                 PIOJO_ASSERT(bnode->ecnt > 0 && bnode->ecnt < tree->cmax - 1);
                 PIOJO_ASSERT(lsibling->ecnt > 1);
                 rotate_right(pidx - 1, lsibling, bnode, parent);
-        }else if(rsibling != NULL && rsibling->ecnt >= tree->cmin){
+        }else if (rsibling != NULL && rsibling->ecnt >= tree->cmin){
                 PIOJO_ASSERT(bnode->ecnt > 0 && bnode->ecnt < tree->cmax - 1);
                 PIOJO_ASSERT(rsibling->ecnt > 1);
                 rotate_left(pidx, bnode, rsibling, parent);
@@ -1293,19 +1293,19 @@ print_tree(piojo_tree_t*tree)
         piojo_tree_node_t iter;
         size_t idx;
         piojo_queue_push(&tree->root, q);
-        while(piojo_queue_size(q) > 0){
+        while (piojo_queue_size(q) > 0){
                 bnode = *(piojo_tree_bnode_t**)piojo_queue_peek(q);
                 piojo_queue_pop(q);
                 printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", bnode, bnode->ecnt,
                        bnode->parent,bnode->pidx,bnode->leaf_p);
                 if (bnode->leaf_p){
-                        for(idx=0; idx<bnode->ecnt;++idx){
+                        for (idx=0; idx<bnode->ecnt;++idx){
                                 node = &bnode->entries[idx];
                                 printf("%d=%d , ", *(int*)node->key,
                                        *(int*)node->data);
                         }
                 }else{
-                        for(idx=0; idx<bnode->ecnt;++idx){
+                        for (idx=0; idx<bnode->ecnt;++idx){
                                 b2 = bnode->children[idx];
                                 printf("[ %p ] ", b2);
                                 piojo_queue_push(&b2,q);
