@@ -109,7 +109,7 @@ Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga385a62a045c6be9b15b8c7fb660af281">piojo_heap_sizeof</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>Piojo Heap implementation. </p>
+<p>Piojo Heap (min-heap) implementation. </p>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="ga0e44929f394a09bf7f1d01ba170d08ff"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_alloc" ref="ga0e44929f394a09bf7f1d01ba170d08ff" args="()" -->
 <div class="memitem">
@@ -124,7 +124,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Allocates a new heap (max-heap). Uses default allocator and entry size of <b>int</b>. </p>
+<p>Allocates a new heap. Uses default allocator and entry size of <b>int</b>. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>New heap. </dd></dl>
 
 </div>
@@ -388,7 +388,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Reads the maximum entry according to <em>cmp</em>. </p>
+<p>Reads the minimum entry according to <em>cmp</em>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">heap</td><td>Non-empty heap. </td></tr>
@@ -413,7 +413,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Deletes the maximum entry according to <em>cmp</em>. </p>
+<p>Deletes the minimum entry according to <em>cmp</em>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">heap</td><td>Non-empty heap. </td></tr>
@@ -517,7 +517,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Jan 15 2014 03:00:30 for piojo-0.1 by
+    <li class="footer">Generated on Sun Jan 19 2014 15:30:38 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -176,12 +176,12 @@ void test_push()
         j = *(int*) piojo_heap_peek(heap);
         PIOJO_ASSERT(i == j);
 
-        --i;
+        ++i;
         piojo_heap_push(&i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 2);
 
         j = *(int*) piojo_heap_peek(heap);
-        PIOJO_ASSERT(i+1 == j);
+        PIOJO_ASSERT(i-1 == j);
 
         piojo_heap_free(heap);
 }
@@ -197,12 +197,12 @@ void test_pop()
         piojo_heap_push(&i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 1);
 
-        --i;
+        ++i;
         piojo_heap_push(&i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 2);
 
         j = *(int*) piojo_heap_peek(heap);
-        PIOJO_ASSERT(i + 1 == j);
+        PIOJO_ASSERT(i - 1 == j);
 
         piojo_heap_pop(heap);
         j = *(int*) piojo_heap_peek(heap);
@@ -223,12 +223,12 @@ void test_peek()
         j = *(int*) piojo_heap_peek(heap);
         PIOJO_ASSERT(i == j);
 
-        --i;
+        ++i;
         piojo_heap_push(&i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 2);
 
         j = *(int*) piojo_heap_peek(heap);
-        PIOJO_ASSERT(i + 1 == j);
+        PIOJO_ASSERT(i - 1 == j);
         piojo_heap_free(heap);
 }
 
@@ -244,7 +244,7 @@ void test_heap_expand()
 
         PIOJO_ASSERT(piojo_heap_size(heap) == 5);
 
-        for (i = 4; i >= 0; --i){
+        for (i = 0; i <= 4; ++i){
                 j = *(int*) piojo_heap_peek(heap);
                 PIOJO_ASSERT(i == j);
                 piojo_heap_pop(heap);
@@ -272,7 +272,7 @@ void test_stress()
                 if (i == 0){
                         prev = j;
                 }
-                PIOJO_ASSERT(j <= prev);
+                PIOJO_ASSERT(j >= prev);
                 prev = j;
                 piojo_heap_pop(heap);
         }

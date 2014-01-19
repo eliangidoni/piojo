@@ -26,7 +26,7 @@
  * @file
  * @addtogroup piojoheap Piojo Heap
  * @{
- * Piojo Heap implementation.
+ * Piojo Heap (min-heap) implementation.
  */
 
 #include <piojo/piojo_heap.h>
@@ -55,7 +55,7 @@ static void
 swap(void *e1, void *e2, void *tmp, size_t esize);
 
 /**
- * Allocates a new heap (max-heap).
+ * Allocates a new heap.
  * Uses default allocator and entry size of @b int.
  * @return New heap.
  */
@@ -223,7 +223,7 @@ piojo_heap_push(const void *data, piojo_heap_t *heap)
 }
 
 /**
- * Deletes the maximum entry according to @a cmp.
+ * Deletes the minimum entry according to @a cmp.
  * @param[out] heap Non-empty heap.
  */
 void
@@ -251,7 +251,7 @@ piojo_heap_pop(piojo_heap_t *heap)
 }
 
 /**
- * Reads the maximum entry according to @a cmp.
+ * Reads the minimum entry according to @a cmp.
  * @param[in] heap Non-empty heap.
  * @return Entry value.
  */
@@ -289,7 +289,7 @@ sort_up(size_t idx, void *tmp, piojo_heap_t *heap)
                 pidx = (idx - 1) / 2;
                 parent = piojo_array_at(pidx, heap->data);
                 elem = piojo_array_at(idx, heap->data);
-                if (heap->cmp(parent, elem)){
+                if (heap->cmp(elem, parent)){
                         swap(parent, elem, tmp, heap->esize);
                         sort_up(pidx, tmp, heap);
                 }
@@ -308,8 +308,8 @@ sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap)
                 ridx = lidx + 1;
                 if (ridx < hsize){
                         swapidx = &lidx;
-                        if (heap->cmp(piojo_array_at(lidx, heap->data),
-                                      piojo_array_at(ridx, heap->data))){
+                        if (heap->cmp(piojo_array_at(ridx, heap->data),
+                                      piojo_array_at(lidx, heap->data))){
                                 swapidx = &ridx;
                         }
                 }else if (lidx < hsize){
@@ -319,7 +319,7 @@ sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap)
                 if (swapidx){
                         swape = piojo_array_at(*swapidx, heap->data);
                 }
-                if (swape && heap->cmp(elem, swape)){
+                if (swape && heap->cmp(swape, elem)){
                         swap(swape, elem, tmp, heap->esize);
                         sort_down(*swapidx, hsize, tmp, heap);
                 }
