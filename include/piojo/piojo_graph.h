@@ -34,6 +34,7 @@
 
 #include <piojo/piojo.h>
 #include <piojo/piojo_alloc.h>
+#include <piojo/piojo_hash.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,6 +55,9 @@ typedef enum {
 
 /** Vertex id. */
 typedef uintptr_t piojo_graph_vid_t;
+
+/** Edge weight. */
+typedef int piojo_graph_weight_t;
 
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
 typedef bool (*piojo_graph_visit_cb) (piojo_graph_vid_t v,
@@ -90,7 +94,7 @@ void*
 piojo_graph_vvalue(piojo_graph_vid_t vertex, const piojo_graph_t *graph);
 
 void
-piojo_graph_link(int weight, piojo_graph_vid_t from,
+piojo_graph_link(piojo_graph_weight_t weight, piojo_graph_vid_t from,
                  piojo_graph_vid_t to, piojo_graph_t *graph);
 
 bool
@@ -112,7 +116,7 @@ piojo_graph_vid_t
 piojo_graph_neighbor_at(size_t idx, piojo_graph_vid_t vertex,
                         const piojo_graph_t *graph);
 
-int
+piojo_graph_weight_t
 piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
                         const piojo_graph_t *graph);
 
@@ -125,6 +129,15 @@ bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         const void *data, size_t limit,
                         const piojo_graph_t *graph);
+
+void
+piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
+                        piojo_hash_t *dists, piojo_hash_t *paths);
+
+void
+piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
+                      const piojo_graph_t *graph, piojo_hash_t *dists,
+                      piojo_hash_t *prevs);
 
 #ifdef __cplusplus
 }
