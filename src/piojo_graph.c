@@ -770,11 +770,13 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 piojo_hash_t *prevs)
 {
         piojo_graph_dist_t bestv;
+        piojo_hash_t *visiteds;
         piojo_graph_weight_t dist=0;
         piojo_heap_t *prioq;
 
         piojo_hash_set(&root, &dist, dists);
 
+        visiteds = alloc_visiteds(graph);
         prioq = alloc_prioq(graph);
         insert_prioq(root, dist, prioq);
         while (! empty_prioq_p(prioq)){
@@ -782,9 +784,13 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 if (dst != NULL && bestv.vid == *dst){
                         break;
                 }
-                dijkstra_visit(bestv, graph, prioq, dists, prevs);
+                if (! is_visited_p(bestv.vid, visiteds)){
+                        dijkstra_visit(bestv, graph, prioq, dists, prevs);
+                        mark_visited(bestv.vid, visiteds);
+                }
         }
         free_prioq(prioq);
+        free_visiteds(visiteds);
 }
 
 static void
