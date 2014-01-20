@@ -90,9 +90,6 @@ free_edges(const piojo_graph_t *graph);
 static piojo_graph_alist_t*
 vid_to_alist(piojo_graph_vid_t vertex, const piojo_graph_t *graph);
 
-static bool
-vid_eq(const void *e1, const void *e2);
-
 static piojo_hash_t*
 alloc_visiteds(const piojo_graph_t *graph);
 
@@ -168,7 +165,7 @@ piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
         graph->allocator = allocator;
         graph->dir = directed;
         graph->alists_by_vid = piojo_hash_alloc_cb_eq(esize,
-                                                      vid_eq,
+                                                      piojo_graph_vid_eq,
                                                       sizeof(piojo_graph_vid_t),
                                                       ator);
         PIOJO_ASSERT(graph->alists_by_vid);
@@ -450,6 +447,23 @@ piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
 }
 
 /**
+ * Vertex equality function.
+ * @param[in] e1 Vertex pointer.
+ * @param[in] e2 Vertex pointer.
+ * @return @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise.
+ */
+bool
+piojo_graph_vid_eq(const void *e1, const void *e2)
+{
+        piojo_graph_vid_t v1 = *(piojo_graph_vid_t*) e1;
+        piojo_graph_vid_t v2 = *(piojo_graph_vid_t*) e2;
+        if (v1 == v2){
+                return TRUE;
+        }
+        return FALSE;
+}
+
+/**
  * Traverses @a graph following a breadth first search.
  * @param[in] root Starting vertex.
  * @param[in] cb Vertex visit function.
@@ -669,17 +683,6 @@ vid_to_alist(piojo_graph_vid_t vertex, const piojo_graph_t *graph)
                 piojo_hash_search(&vertex, graph->alists_by_vid));
 }
 
-static bool
-vid_eq(const void *e1, const void *e2)
-{
-        piojo_graph_vid_t v1 = *(piojo_graph_vid_t*) e1;
-        piojo_graph_vid_t v2 = *(piojo_graph_vid_t*) e2;
-        if (v1 == v2){
-                return TRUE;
-        }
-        return FALSE;
-}
-
 static piojo_hash_t*
 alloc_visiteds(const piojo_graph_t *graph)
 {
@@ -687,7 +690,7 @@ alloc_visiteds(const piojo_graph_t *graph)
 
         ator.alloc_cb = graph->allocator.alloc_cb;
         ator.free_cb = graph->allocator.free_cb;
-        return piojo_hash_alloc_cb_eq(sizeof(bool), vid_eq,
+        return piojo_hash_alloc_cb_eq(sizeof(bool), piojo_graph_vid_eq,
                                       sizeof(piojo_graph_vid_t), ator);
 }
 
@@ -767,8 +770,8 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 piojo_hash_t *prevs)
 {
         piojo_graph_dist_t bestv;
+        piojo_graph_weight_t dist=0;
         piojo_heap_t *prioq;
-        piojo_graph_uweight_t dist=0, *vdist;
 
         piojo_hash_set(&root, &dist, dists);
 
@@ -779,11 +782,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 if (dst != NULL && bestv.vid == *dst){
                         break;
                 }
-                vdist = (piojo_graph_uweight_t *)piojo_hash_search(&bestv.vid,
-                                                                   dists);
-                if (vdist == NULL || bestv.dist < *vdist){
-                        dijkstra_visit(bestv, graph, prioq, dists, prevs);
-                }
+                dijkstra_visit(bestv, graph, prioq, dists, prevs);
         }
         free_prioq(prioq);
 }
@@ -795,8 +794,6 @@ dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
         size_t i, cnt;
         piojo_graph_uweight_t ndist, *vdist;
         piojo_graph_vid_t nvid;
-
-        piojo_hash_set(&bestv.vid, &bestv.dist, dists);
 
         cnt = piojo_graph_neighbor_cnt(bestv.vid, graph);
         for (i = 0; i < cnt; ++i){

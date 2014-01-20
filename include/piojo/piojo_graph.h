@@ -121,6 +121,9 @@ piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
                         const piojo_graph_t *graph);
 
 bool
+piojo_graph_vid_eq(const void *e1, const void *e2);
+
+bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                           const void *data, size_t limit,
                           const piojo_graph_t *graph);
