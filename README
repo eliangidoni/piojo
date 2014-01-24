@@ -1,4 +1,5 @@
-    Piojo is a small C library of common containers and other useful structures.
+    Piojo is a small C (C99) library of common containers and other useful
+    structures.
 
 
                                   Dependencies
