@@ -44,6 +44,15 @@ extern "C" {
 /* Note that this enforces a read when 'x' is volatile. */
 #define PIOJO_UNUSED(x) (void)(x)
 
+#define PIOJO_CHECK(cond, msg)                                          \
+        do{                                                             \
+                if (! (cond)){                                          \
+                        fprintf(stderr, "Aborting %s:%u: " msg "\n",    \
+                                __FILE__,__LINE__);                     \
+                        abort();                                        \
+                }                                                       \
+        } while(0)
+
 #ifndef PIOJO_DEBUG
 #define PIOJO_ASSERT(cond) do{} while(0)
 #define PIOJO_FAIL_IF(cond) do{} while(0)

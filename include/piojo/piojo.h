@@ -72,6 +72,48 @@ typedef void (*piojo_finish_cb) (void *ptr);
 
 /** @} */
 
+unsigned int
+piojo_adduint(unsigned int v1, unsigned int v2);
+
+size_t
+piojo_addsiz(size_t v1, size_t v2);
+
+int
+piojo_addint(int v1, int v2);
+
+unsigned int
+piojo_subuint(unsigned int v1, unsigned int v2);
+
+size_t
+piojo_subsiz(size_t v1, size_t v2);
+
+int
+piojo_subint(int v1, int v2);
+
+unsigned int
+piojo_muluint(unsigned int v1, unsigned int v2);
+
+size_t
+piojo_mulsiz(size_t v1, size_t v2);
+
+size_t
+piojo_maxsiz(size_t v1, size_t v2);
+
+unsigned int
+piojo_maxuint(unsigned int v1, unsigned int v2);
+
+int
+piojo_maxint(int v1, int v2);
+
+size_t
+piojo_minsiz(size_t v1, size_t v2);
+
+unsigned int
+piojo_minuint(unsigned int v1, unsigned int v2);
+
+int
+piojo_minint(int v1, int v2);
+
 #ifdef __cplusplus
 }
 #endif

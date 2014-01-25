@@ -1,5 +1,6 @@
 var modules =
 [
+    [ "Piojo", "group__piojo.html", null ],
     [ "Piojo Alloc", "group__piojoalloc.html", null ],
     [ "Piojo Array", "group__piojoarray.html", null ],
     [ "Piojo Bitmap", "group__piojobitmap.html", null ],
@@ -10,6 +11,5 @@ var modules =
     [ "Piojo List", "group__piojolist.html", null ],
     [ "Piojo Queue", "group__piojoqueue.html", null ],
     [ "Piojo Stack", "group__piojostack.html", null ],
-    [ "Piojo B-tree", "group__piojotree.html", null ],
-    [ "Piojo", "group__piojo.html", null ]
+    [ "Piojo B-tree", "group__piojotree.html", null ]
 ];

@@ -6,6 +6,7 @@ configure_file ("${PROJECT_SOURCE_DIR}/include/piojo_config.h.in"
                 "${PROJECT_BINARY_DIR}/include/piojo/piojo_config.h")
 
 set(piojo_SOURCES
+    piojo.c
     piojo_alloc.c
     piojo_array.c
     piojo_bitmap.c
