@@ -72,29 +72,29 @@ typedef void (*piojo_finish_cb) (void *ptr);
 
 /** @} */
 
-unsigned int
-piojo_adduint(unsigned int v1, unsigned int v2);
+bool
+piojo_safe_adduint_p(unsigned int v1, unsigned int v2);
 
-size_t
-piojo_addsiz(size_t v1, size_t v2);
+bool
+piojo_safe_addsiz_p(size_t v1, size_t v2);
 
-int
-piojo_addint(int v1, int v2);
+bool
+piojo_safe_addint_p(int v1, int v2);
 
-unsigned int
-piojo_subuint(unsigned int v1, unsigned int v2);
+bool
+piojo_safe_subuint_p(unsigned int v1, unsigned int v2);
 
-size_t
-piojo_subsiz(size_t v1, size_t v2);
+bool
+piojo_safe_subsiz_p(size_t v1, size_t v2);
 
-int
-piojo_subint(int v1, int v2);
+bool
+piojo_safe_subint_p(int v1, int v2);
 
-unsigned int
-piojo_muluint(unsigned int v1, unsigned int v2);
+bool
+piojo_safe_muluint_p(unsigned int v1, unsigned int v2);
 
-size_t
-piojo_mulsiz(size_t v1, size_t v2);
+bool
+piojo_safe_mulsiz_p(size_t v1, size_t v2);
 
 size_t
 piojo_maxsiz(size_t v1, size_t v2);

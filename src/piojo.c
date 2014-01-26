@@ -33,109 +33,101 @@
 #include <piojo_defs.h>
 
 /**
- * Safe addition, checks integer overflow/wrap.
+ * Checks addition overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-unsigned int
-piojo_adduint(unsigned int v1, unsigned int v2)
+bool
+piojo_safe_adduint_p(unsigned int v1, unsigned int v2)
 {
-        PIOJO_ASSERT(! (UINT_MAX - v1 < v2));
-        return (v1 + v2);
+        return (! (UINT_MAX - v1 < v2));
 }
 
 /**
- * Safe addition, checks integer overflow/wrap.
+ * Checks addition overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-size_t
-piojo_addsiz(size_t v1, size_t v2)
+bool
+piojo_safe_addsiz_p(size_t v1, size_t v2)
 {
-        PIOJO_ASSERT(! (SIZE_MAX - v1 < v2));
-        return (v1 + v2);
+        return (! (SIZE_MAX - v1 < v2));
 }
 
 /**
- * Safe addition, checks integer overflow/wrap.
+ * Checks addition overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-int
-piojo_addint(int v1, int v2)
+bool
+piojo_safe_addint_p(int v1, int v2)
 {
-        PIOJO_ASSERT(! ((v2 > 0 && v1 > INT_MAX - v2) ||
-                        (v2 < 0 && v1 < INT_MIN - v2)));
-        return (v1 + v2);
+        return (! ((v2 > 0 && v1 > INT_MAX - v2) ||
+                   (v2 < 0 && v1 < INT_MIN - v2)));
 }
 
 /**
- * Safe subtraction, checks integer overflow/wrap.
+ * Checks subtraction overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-unsigned int
-piojo_subuint(unsigned int v1, unsigned int v2)
+bool
+piojo_safe_subuint_p(unsigned int v1, unsigned int v2)
 {
-        PIOJO_ASSERT(! (v1 < v2));
-        return (v1 - v2);
+        return (! (v1 < v2));
 }
 
 /**
- * Safe subtraction, checks integer overflow/wrap.
+ * Checks subtraction overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-size_t
-piojo_subsiz(size_t v1, size_t v2)
+bool
+piojo_safe_subsiz_p(size_t v1, size_t v2)
 {
-        PIOJO_ASSERT(! (v1 < v2));
-        return (v1 - v2);
+        return (! (v1 < v2));
 }
 
 /**
- * Safe subtraction, checks integer overflow/wrap.
+ * Checks subtraction overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-int
-piojo_subint(int v1, int v2)
+bool
+piojo_safe_subint_p(int v1, int v2)
 {
-        PIOJO_ASSERT(! ((v2 > 0 && v1 < INT_MIN + v2) ||
-                        (v2 < 0 && v1 > INT_MAX + v2)));
-        return (v1 - v2);
+        return (! ((v2 > 0 && v1 < INT_MIN + v2) ||
+                   (v2 < 0 && v1 > INT_MAX + v2)));
 }
 
 /**
- * Safe multiplication, checks integer overflow/wrap.
+ * Checks multiplication overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-unsigned int
-piojo_muluint(unsigned int v1, unsigned int v2)
+bool
+piojo_safe_muluint_p(unsigned int v1, unsigned int v2)
 {
-        PIOJO_ASSERT(! (v2 > 0 && v1 > UINT_MAX / v2));
-        return (v1 * v2);
+        return (! (v2 > 0 && v1 > UINT_MAX / v2));
 }
 
 /**
- * Safe multiplication, checks integer overflow/wrap.
+ * Checks multiplication overflow/wrap.
  * @param[in] v1
  * @param[in] v2
- * @return Result.
+ * @return @b FALSE if overflows/wraps, @b TRUE otherwise.
  */
-size_t
-piojo_mulsiz(size_t v1, size_t v2)
+bool
+piojo_safe_mulsiz_p(size_t v1, size_t v2)
 {
-        PIOJO_ASSERT(! (v2 > 0 && v1 > SIZE_MAX / v2));
-        return (v1 * v2);
+        return (! (v2 > 0 && v1 > SIZE_MAX / v2));
 }
 
 /**
