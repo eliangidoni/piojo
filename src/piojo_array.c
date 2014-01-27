@@ -123,6 +123,7 @@ piojo_array_alloc_cb_n(piojo_cmp_cb cmp, size_t esize, size_t ecount,
         PIOJO_ASSERT(arr);
         PIOJO_ASSERT(esize > 0);
         PIOJO_ASSERT(ecount > 0);
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(esize, ecount));
 
         arr->allocator = allocator;
         arr->esize = esize;
@@ -381,9 +382,18 @@ move_right_until(size_t idx, piojo_array_t *array)
 static void
 expand_array(piojo_array_t *array)
 {
-        size_t newcnt = array->ecount * DEFAULT_ADT_GROWTH_RATIO;
-        size_t size = newcnt * array->esize;
-        uint8_t *expanded = (uint8_t *) array->allocator.alloc_cb(size);
+        size_t newcnt, size;
+        uint8_t *expanded;
+        PIOJO_ASSERT(array->ecount < SIZE_MAX);
+
+        newcnt = array->ecount / ADT_GROWTH_DENOMINATOR;
+        PIOJO_ASSERT(piojo_safe_addsiz_p(array->ecount, newcnt));
+        newcnt += array->ecount;
+
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(newcnt, array->esize));
+        size = newcnt * array->esize;
+
+        expanded = (uint8_t *) array->allocator.alloc_cb(size);
         PIOJO_ASSERT(expanded);
 
         memcpy(expanded, array->data, array->ecount * array->esize);

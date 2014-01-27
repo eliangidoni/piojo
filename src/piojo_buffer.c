@@ -211,6 +211,8 @@ piojo_buffer_readu64(piojo_buffer_t *buffer)
 {
         uint64_t val;
         PIOJO_ASSERT(buffer);
+        PIOJO_ASSERT(sizeof(uint64_t) <=
+                     piojo_buffer_size(buffer) - buffer->ridx);
 
         val = be64decode(piojo_array_at(buffer->ridx, buffer->data));
         buffer->ridx += sizeof(uint64_t);
@@ -268,6 +270,8 @@ piojo_buffer_readu32(piojo_buffer_t *buffer)
 {
         uint32_t val;
         PIOJO_ASSERT(buffer);
+        PIOJO_ASSERT(sizeof(uint32_t) <=
+                     piojo_buffer_size(buffer) - buffer->ridx);
 
         val = be32decode(piojo_array_at(buffer->ridx, buffer->data));
         buffer->ridx += sizeof(uint32_t);
@@ -325,6 +329,8 @@ piojo_buffer_readu16(piojo_buffer_t *buffer)
 {
         uint16_t val;
         PIOJO_ASSERT(buffer);
+        PIOJO_ASSERT(sizeof(uint16_t) <=
+                     piojo_buffer_size(buffer) - buffer->ridx);
 
         val = be16decode(piojo_array_at(buffer->ridx, buffer->data));
         buffer->ridx += sizeof(uint16_t);

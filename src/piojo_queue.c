@@ -122,6 +122,7 @@ piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
         PIOJO_ASSERT(q);
         PIOJO_ASSERT(esize > 0);
         PIOJO_ASSERT(ecount > 0);
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(esize, ecount));
 
         q->allocator = allocator;
         q->widx = q->ridx = q->wcnt = q->rcnt = 0;
@@ -160,7 +161,7 @@ piojo_queue_copy(const piojo_queue_t *queue)
 
         ridx = queue->ridx;
         rcnt = queue->rcnt;
-        while ((size_t)labs(queue->wcnt - rcnt) > 0){
+        while (queue->wcnt - rcnt != 0){
                 allocator.copy_cb(&queue->data[ridx * esize],
                                   esize, &newq->data[ridx * esize]);
                 incr_and_wrap(&ridx, &rcnt, queue->ecount);
@@ -207,7 +208,7 @@ size_t
 piojo_queue_size(const piojo_queue_t *queue)
 {
         PIOJO_ASSERT(queue);
-        return labs(queue->wcnt - queue->rcnt);
+        return (queue->wcnt - queue->rcnt);
 }
 
 /**
@@ -281,12 +282,23 @@ piojo_queue_peek(const piojo_queue_t *queue)
 static void
 expand_queue(piojo_queue_t *queue)
 {
-        size_t bycnt = queue->ecount * DEFAULT_ADT_GROWTH_RATIO;
-        size_t idx = queue->ridx * queue->esize;
-        void *atidx_data = &queue->data[idx];
-        size_t atidx_size = (queue->ecount - queue->ridx) * queue->esize;
-        size_t size = (queue->ecount + bycnt) * queue->esize;
-        uint8_t *expanded = (uint8_t *) queue->allocator.alloc_cb(size);
+        size_t bycnt, idx, atidx_size, size;
+        void *atidx_data;
+        uint8_t *expanded;
+        PIOJO_ASSERT(queue->ecount < SIZE_MAX);
+
+        bycnt = queue->ecount / ADT_GROWTH_DENOMINATOR;
+        PIOJO_ASSERT(piojo_safe_addsiz_p(bycnt, queue->ecount));
+        bycnt += queue->ecount;
+
+        idx = queue->ridx * queue->esize;
+        atidx_data = &queue->data[idx];
+        atidx_size = (queue->ecount - queue->ridx) * queue->esize;
+
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(bycnt, queue->esize));
+        size = bycnt * queue->esize;
+
+        expanded = (uint8_t *) queue->allocator.alloc_cb(size);
         PIOJO_ASSERT(expanded);
         PIOJO_ASSERT(queue->ridx == queue->widx);
 
@@ -296,7 +308,7 @@ expand_queue(piojo_queue_t *queue)
 
         queue->ridx = 0;
         queue->widx = queue->ecount;
-        queue->ecount += bycnt;
+        queue->ecount = bycnt;
         queue->data = expanded;
 }
 
@@ -315,7 +327,7 @@ finish_all(const piojo_queue_t *queue)
         size_t ridx, rcnt;
         ridx = queue->ridx;
         rcnt = queue->rcnt;
-        while ((size_t)labs(queue->wcnt - rcnt) > 0){
+        while (queue->wcnt - rcnt != 0){
                 queue->allocator.finish_cb(&queue->data[ridx * queue->esize]);
                 incr_and_wrap(&ridx, &rcnt, queue->ecount);
         }

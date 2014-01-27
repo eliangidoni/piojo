@@ -300,12 +300,17 @@ static void
 sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap)
 {
         void *swape=NULL, *elem;
-        size_t lidx, ridx, *swapidx=NULL;
+        size_t lidx=hsize, ridx=hsize, *swapidx=NULL;
 
         if (idx < hsize){
                 elem = piojo_array_at(idx, heap->data);
-                lidx = (idx * 2) + 1;
-                ridx = lidx + 1;
+                if (piojo_safe_mulsiz_p(idx, 2) &&
+                    piojo_safe_addsiz_p(idx * 2, 1)){
+                        lidx = (idx * 2) + 1;
+                        if (piojo_safe_addsiz_p(lidx, 1)){
+                                ridx = lidx + 1;
+                        }
+                }
                 if (ridx < hsize){
                         swapidx = &lidx;
                         if (heap->cmp(piojo_array_at(ridx, heap->data),

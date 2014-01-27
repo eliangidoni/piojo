@@ -193,6 +193,7 @@ piojo_list_insert(const void *data, piojo_list_node_t *next,
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(next);
         PIOJO_ASSERT(data);
+        PIOJO_ASSERT(list->ecount < SIZE_MAX);
 
         node = init_node(data, list);
         node->next = next;
@@ -242,6 +243,7 @@ piojo_list_prepend(const void *data, piojo_list_t *list)
         piojo_list_node_t * node;
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(data);
+        PIOJO_ASSERT(list->ecount < SIZE_MAX);
 
         if (list->head != NULL){
                 return piojo_list_insert(data, list->head, list);
@@ -266,6 +268,7 @@ piojo_list_append(const void *data, piojo_list_t *list)
         piojo_list_node_t *node;
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(data);
+        PIOJO_ASSERT(list->ecount < SIZE_MAX);
 
         node = init_node(data, list);
         link_tail(node, list);

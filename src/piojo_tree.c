@@ -533,6 +533,7 @@ piojo_tree_insert(const void *key, const void *data, piojo_tree_t *tree)
         piojo_tree_entry_t kv;
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
+        PIOJO_ASSERT(tree->ecount < SIZE_MAX);
         PIOJO_ASSERT(data || tree->evsize == sizeof(bool));
 
         kv.key = (void*) key;
@@ -564,6 +565,7 @@ piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
         kv.data = (void*) data;
         oldkv = insert_node(kv, INSERT_NEW, tree);
         if (oldkv == NULL){
+                PIOJO_ASSERT(tree->ecount < SIZE_MAX);
                 ++tree->ecount;
                 return TRUE;
         }
@@ -949,15 +951,18 @@ init_entry(const void *key, const void *data, const piojo_tree_t *tree)
         bool null_p = TRUE;
         piojo_tree_entry_t kv;
         piojo_alloc_kv_if ator = tree->allocator;
-        size_t ksize = tree->eksize;
+        size_t len, ksize = tree->eksize;
 
         if (ksize == 0){
-                ksize = strlen((char*) key) + 1;
+                len = strlen((char*) key);
+                PIOJO_ASSERT(piojo_safe_addsiz_p(len, 1));
+                ksize = len + 1;
         }
         if (data == NULL){
                 data = &null_p;
         }
 
+        PIOJO_ASSERT(piojo_safe_addsiz_p(ksize, tree->evsize));
         kv.key = ator.alloc_cb(ksize + tree->evsize);
         PIOJO_ASSERT(kv.key);
         ator.initk_cb(key, ksize, kv.key);

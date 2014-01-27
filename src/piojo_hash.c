@@ -55,7 +55,7 @@ struct piojo_hash {
 const size_t piojo_hash_sizeof = sizeof(piojo_hash_t);
 
 static const size_t DEFAULT_BUCKET_COUNT = 32;
-static const float LOAD_RATIO_MAX = 1.0f;
+static const float LOAD_RATIO_MAX = 0.8f;
 
 static unsigned long
 calc_hash(const unsigned char *str, size_t len);
@@ -577,17 +577,23 @@ init_entry(const void *key, const void *data, const piojo_hash_t *hash)
         bool null_p = TRUE;
         piojo_hash_entry_t *kv;
         piojo_alloc_kv_if ator = hash->allocator;
-        size_t ksize = hash->eksize;
+        size_t len, kvsize, ksize = hash->eksize;
 
         if (ksize == 0){
-                ksize = strlen((char*) key) + 1;
+                len = strlen((char*) key);
+                PIOJO_ASSERT(piojo_safe_addsiz_p(len, 1));
+                ksize = len + 1;
         }
         if (data == NULL){
                 data = &null_p;
         }
 
-        kv = ((piojo_hash_entry_t*) ator.alloc_cb(sizeof(piojo_hash_entry_t) +
-                                                  ksize + hash->evsize));
+        PIOJO_ASSERT(piojo_safe_addsiz_p(sizeof(piojo_hash_entry_t), ksize));
+        kvsize = sizeof(piojo_hash_entry_t) + ksize;
+        PIOJO_ASSERT(piojo_safe_addsiz_p(kvsize, hash->evsize));
+        kvsize += hash->evsize;
+
+        kv = (piojo_hash_entry_t*) ator.alloc_cb(kvsize);
         PIOJO_ASSERT(kv);
 
         kv->key = (uint8_t*)kv + sizeof(piojo_hash_entry_t);
@@ -658,15 +664,21 @@ expand_table(piojo_hash_t *hash)
         size_t bidx;
         piojo_hash_entry_t *kv, *nextkv;
         piojo_hash_entry_t **olddata = hash->buckets;
-        size_t oldcnt = hash->bucketcnt;
+        size_t newcnt, newsiz, oldcnt = hash->bucketcnt;
         piojo_alloc_kv_if ator = hash->allocator;
+        PIOJO_ASSERT(hash->bucketcnt < SIZE_MAX);
 
-        hash->bucketcnt *= DEFAULT_ADT_GROWTH_RATIO;
-        hash->buckets = ((piojo_hash_entry_t**)
-                         ator.alloc_cb(hash->bucketcnt *
-                                       sizeof(piojo_hash_entry_t*)));
+        newcnt = hash->bucketcnt / ADT_GROWTH_DENOMINATOR;
+        PIOJO_ASSERT(piojo_safe_addsiz_p(hash->bucketcnt, newcnt));
+        hash->bucketcnt += newcnt;
+
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(hash->bucketcnt,
+                                         sizeof(piojo_hash_entry_t*)));
+        newsiz = hash->bucketcnt * sizeof(piojo_hash_entry_t*);
+
+        hash->buckets = (piojo_hash_entry_t**) ator.alloc_cb(newsiz);
         PIOJO_ASSERT(hash->buckets);
-        memset(hash->buckets, 0, hash->bucketcnt * sizeof(piojo_hash_entry_t*));
+        memset(hash->buckets, 0, newsiz);
 
         for (bidx = 0; bidx < oldcnt; ++bidx){
                 kv = olddata[bidx];
@@ -795,10 +807,16 @@ alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
 {
 
         piojo_hash_t * hash;
-        hash = (piojo_hash_t *) allocator.alloc_cb(sizeof(piojo_hash_t));
+        size_t size;
         PIOJO_ASSERT(sizeof(piojo_hash_node_t) >= sizeof(piojo_hash_iter_t));
-        PIOJO_ASSERT(hash);
         PIOJO_ASSERT(evsize > 0);
+        PIOJO_ASSERT(bucketcnt > 0);
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(bucketcnt,
+                                         sizeof(piojo_hash_entry_t*)));
+        size = bucketcnt * sizeof(piojo_hash_entry_t*);
+
+        hash = (piojo_hash_t *) allocator.alloc_cb(sizeof(piojo_hash_t));
+        PIOJO_ASSERT(hash);
 
         hash->allocator = allocator;
         hash->eksize = eksize;
@@ -806,11 +824,9 @@ alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
         hash->ecount = 0;
         hash->eq_cb = keyeq;
         hash->bucketcnt = bucketcnt;
-        hash->buckets = ((piojo_hash_entry_t**)
-                         allocator.alloc_cb(hash->bucketcnt *
-                                            sizeof(piojo_hash_entry_t*)));
+        hash->buckets = (piojo_hash_entry_t**) allocator.alloc_cb(size);
         PIOJO_ASSERT(hash->buckets);
-        memset(hash->buckets, 0, hash->bucketcnt * sizeof(piojo_hash_entry_t*));
+        memset(hash->buckets, 0, size);
 
         return hash;
 }

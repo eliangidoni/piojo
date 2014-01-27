@@ -44,25 +44,14 @@ extern "C" {
 /* Note that this enforces a read when 'x' is volatile. */
 #define PIOJO_UNUSED(x) (void)(x)
 
-#define PIOJO_CHECK(cond, msg)                                          \
-        do{                                                             \
-                if (! (cond)){                                          \
-                        fprintf(stderr, "Aborting %s:%u: " msg "\n",    \
-                                __FILE__,__LINE__);                     \
-                        abort();                                        \
-                }                                                       \
-        } while(0)
-
 #ifndef PIOJO_DEBUG
 #define PIOJO_ASSERT(cond) do{} while(0)
-#define PIOJO_FAIL_IF(cond) do{} while(0)
 #else
 #define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
-#define PIOJO_FAIL_IF(cond) do{ assert(! (cond)); } while(0)
 #endif
 
-static const uint32_t DEFAULT_ADT_ECOUNT = 128;
-static const float DEFAULT_ADT_GROWTH_RATIO = 1.5f;
+static const size_t DEFAULT_ADT_ECOUNT = 128;
+static const size_t ADT_GROWTH_DENOMINATOR = 2;
 
 typedef enum {
         INSERT_NEW,
