@@ -45,7 +45,14 @@ extern "C" {
 #define PIOJO_UNUSED(x) (void)(x)
 
 #ifndef PIOJO_DEBUG
-#define PIOJO_ASSERT(cond) do{} while(0)
+#define PIOJO_ASSERT(cond)                                              \
+        do{                                                             \
+                if (! (cond)){                                          \
+                        fprintf(stderr, "Exiting at %s:%u.\n",          \
+                                __FILE__,__LINE__);                     \
+                        exit(EXIT_FAILURE);                             \
+                }                                                       \
+        } while(0)
 #else
 #define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
 #endif
