@@ -114,6 +114,15 @@ piojo_minuint(unsigned int v1, unsigned int v2);
 int
 piojo_minint(int v1, int v2);
 
+size_t
+piojo_clampsiz(size_t val, size_t start, size_t end);
+
+unsigned int
+piojo_clampuint(unsigned int val, unsigned int start, unsigned int end);
+
+int
+piojo_clampint(int val, int start, int end);
+
 #ifdef __cplusplus
 }
 #endif

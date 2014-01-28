@@ -202,4 +202,43 @@ piojo_minint(int v1, int v2)
         return (v1 < v2 ? v1 : v2);
 }
 
+/**
+ * Returns value clamped to interval.
+ * @param[in] val
+ * @param[in] start Interval start.
+ * @param[in] end Interval end.
+ * @return Clamped value.
+ */
+size_t
+piojo_clampsiz(size_t val, size_t start, size_t end)
+{
+        return piojo_minsiz(piojo_maxsiz(start, val), end);
+}
+
+/**
+ * Returns value clamped to interval.
+ * @param[in] val
+ * @param[in] start Interval start.
+ * @param[in] end Interval end.
+ * @return Clamped value.
+ */
+unsigned int
+piojo_clampuint(unsigned int val, unsigned int start, unsigned int end)
+{
+        return piojo_minuint(piojo_maxuint(start, val), end);
+}
+
+/**
+ * Returns value clamped to interval.
+ * @param[in] val
+ * @param[in] start Interval start.
+ * @param[in] end Interval end.
+ * @return Clamped value.
+ */
+int
+piojo_clampint(int val, int start, int end)
+{
+        return piojo_minint(piojo_maxint(start, val), end);
+}
+
 /** @} */

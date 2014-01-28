@@ -121,6 +121,9 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gaa9758cfe834705db25bc01c361bd6cae">piojo_minsiz</a> (size_t v1, size_t v2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga71eaea100db1fdaa38380879e1510b58">piojo_minuint</a> (unsigned int v1, unsigned int v2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga85f34be35077234ac039bd9ba8afaedf">piojo_minint</a> (int v1, int v2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga9e58d414d6f3c0c6cdb2341517201d5e">piojo_clampsiz</a> (size_t val, size_t start, size_t end)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga61136c90dbd7c2b078488fda1840e07c">piojo_clampuint</a> (unsigned int val, unsigned int start, unsigned int end)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga63757f1185cdaec6dbc00cd7814cd02e">piojo_clampint</a> (int val, int start, int end)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Piojo useful types/functions. </p>
@@ -267,6 +270,135 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ga63757f1185cdaec6dbc00cd7814cd02e"></a><!-- doxytag: member="piojo.c::piojo_clampint" ref="ga63757f1185cdaec6dbc00cd7814cd02e" args="(int val, int start, int end)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="group__piojo.html#ga63757f1185cdaec6dbc00cd7814cd02e">piojo_clampint</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns value clamped to interval. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start</td><td>Interval start. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>Interval end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Clamped value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga9e58d414d6f3c0c6cdb2341517201d5e"></a><!-- doxytag: member="piojo.c::piojo_clampsiz" ref="ga9e58d414d6f3c0c6cdb2341517201d5e" args="(size_t val, size_t start, size_t end)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="group__piojo.html#ga9e58d414d6f3c0c6cdb2341517201d5e">piojo_clampsiz</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns value clamped to interval. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start</td><td>Interval start. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>Interval end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Clamped value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga61136c90dbd7c2b078488fda1840e07c"></a><!-- doxytag: member="piojo.c::piojo_clampuint" ref="ga61136c90dbd7c2b078488fda1840e07c" args="(unsigned int val, unsigned int start, unsigned int end)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="group__piojo.html#ga61136c90dbd7c2b078488fda1840e07c">piojo_clampuint</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns value clamped to interval. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start</td><td>Interval start. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">end</td><td>Interval end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Clamped value. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga51a0a8437a9bee5cb943b688182b611d"></a><!-- doxytag: member="piojo.c::piojo_maxint" ref="ga51a0a8437a9bee5cb943b688182b611d" args="(int v1, int v2)" -->
 <div class="memitem">
 <div class="memproto">
@@ -790,7 +922,7 @@ Functions</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sun Jan 26 2014 16:48:45 for piojo-0.1 by
+    <li class="footer">Generated on Tue Jan 28 2014 02:42:27 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
