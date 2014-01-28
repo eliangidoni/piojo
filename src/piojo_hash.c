@@ -55,7 +55,7 @@ struct piojo_hash {
 const size_t piojo_hash_sizeof = sizeof(piojo_hash_t);
 
 static const size_t DEFAULT_BUCKET_COUNT = 32;
-static const float LOAD_RATIO_MAX = 0.8f;
+static const double LOAD_RATIO_MAX = 0.8f;
 
 static unsigned long
 calc_hash(const unsigned char *str, size_t len);
@@ -349,12 +349,12 @@ bool
 piojo_hash_insert(const void *key, const void *data, piojo_hash_t *hash)
 {
         piojo_hash_entry_t kv;
-        float lratio;
+        double lratio;
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(key);
         PIOJO_ASSERT(data || hash->evsize == sizeof(bool));
 
-        lratio = (float) hash->ecount / hash->bucketcnt;
+        lratio = (double) hash->ecount / hash->bucketcnt;
         if (lratio > LOAD_RATIO_MAX){
                 expand_table(hash);
         }
