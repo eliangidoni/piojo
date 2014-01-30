@@ -142,6 +142,10 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                       const piojo_graph_t *graph, piojo_hash_t *dists,
                       piojo_hash_t *prevs);
 
+bool
+piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
+                            piojo_hash_t *dists, piojo_hash_t *paths);
+
 #ifdef __cplusplus
 }
 #endif

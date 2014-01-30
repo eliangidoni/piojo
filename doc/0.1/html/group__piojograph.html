@@ -125,6 +125,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gabfb7d185b72d7cd87a5f78df9fd2f6cf">piojo_graph_depth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, size_t limit, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga8fbd8257dd1a54a91b7fa19f1ac42920">piojo_graph_source_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gafa8afc17a7dade55cd22361841c09312">piojo_graph_pair_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> dst, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga851ab56c923d0c0c7c8d24dc69cbf180">piojo_graph_neg_source_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4fc22a5af64279726672421301d40b75">piojo_graph_sizeof</a></td></tr>
@@ -655,6 +656,57 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga851ab56c923d0c0c7c8d24dc69cbf180"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neg_source_path" ref="ga851ab56c923d0c0c7c8d24dc69cbf180" args="(piojo_graph_vid_t root, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="group__piojograph.html#ga851ab56c923d0c0c7c8d24dc69cbf180">piojo_graph_neg_source_path</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
+          <td class="paramname"><em>root</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_graph_t *&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_hash_t *&#160;</td>
+          <td class="paramname"><em>dists</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_hash_t *&#160;</td>
+          <td class="paramname"><em>prevs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Shortest path from <em>root</em> to all vertices (Bellman-Ford algorithm). </p>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>If the graph have negative cycles reachable from <em>root</em>, the shortest paths won't be found. </dd></dl>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dists</td><td>Distance (weight sum) for each vertex (if a path exists). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">prevs</td><td>Previous vertex in path for each vertex (if a path exists), can be <b>NULL</b>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if <em>root</em> reaches a negative cycle, <b>FALSE</b> otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga2addd9be5cd57f02e0102234d420fc8e"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_neighbor_at" ref="ga2addd9be5cd57f02e0102234d420fc8e" args="(size_t idx, piojo_graph_vid_t vertex, const piojo_graph_t *graph)" -->
 <div class="memitem">
 <div class="memproto">
@@ -777,6 +829,7 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Shortest path from <em>root</em> to <em>dst</em> vertex (Dijkstra's algorithm). </p>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>The graph can't have negative edge weights. </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
@@ -869,6 +922,7 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Shortest path from <em>root</em> to all vertices (Dijkstra's algorithm). </p>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>The graph can't have negative edge weights. </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
@@ -1064,7 +1118,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Tue Jan 28 2014 02:42:27 for piojo-0.1 by
+    <li class="footer">Generated on Thu Jan 30 2014 05:15:40 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -46,7 +46,7 @@ typedef struct {
 
 typedef struct {
         piojo_graph_weight_t weight;
-        piojo_graph_vid_t end_vid;
+        piojo_graph_vid_t beg_vid, end_vid;
 } piojo_graph_edge_t;
 
 struct piojo_graph {
@@ -129,6 +129,10 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
 static void
 dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs);
+
+static bool
+bellman_ford_relax(piojo_array_t *edges, bool find_cycle_p, piojo_hash_t *dists,
+                   piojo_hash_t *prevs, bool *relaxed_p);
 
 /**
  * Allocates a new graph.
@@ -571,6 +575,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
 
 /**
  * Shortest path from @a root to all vertices (Dijkstra's algorithm).
+ * @warning The graph can't have negative edge weights.
  * @param[in] root Starting vertex.
  * @param[in] graph
  * @param[out] dists Distance (weight sum) for each vertex (if a path exists).
@@ -591,6 +596,7 @@ piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
 
 /**
  * Shortest path from @a root to @a dst vertex (Dijkstra's algorithm).
+ * @warning The graph can't have negative edge weights.
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
  * @param[in] graph
@@ -609,6 +615,59 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                      sizeof(piojo_graph_weight_t));
 
         dijkstra_search(root, &dst, graph, dists, prevs);
+}
+
+/**
+ * Shortest path from @a root to all vertices (Bellman-Ford algorithm).
+ * @warning If the graph have negative cycles reachable from @a root,
+ *          the shortest paths won't be found.
+ * @param[in] root Starting vertex.
+ * @param[in] graph
+ * @param[out] dists Distance (weight sum) for each vertex (if a path exists).
+ * @param[out] prevs Previous vertex in path for each vertex (if a path exists),
+ *                   can be @b NULL.
+ * @return @b TRUE if @a root reaches a negative cycle, @b FALSE otherwise.
+ */
+bool
+piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
+                            piojo_hash_t *dists, piojo_hash_t *prevs)
+{
+        piojo_graph_weight_t dist=0;
+        piojo_graph_edge_t *e;
+        piojo_graph_alist_t *v;
+        piojo_array_t *edges;
+        piojo_hash_node_t *next, node;
+        size_t i, ecnt, vcnt;
+        bool found_cycle_p = FALSE, relaxed_p = TRUE;
+        PIOJO_ASSERT(graph);
+        PIOJO_ASSERT(dists);
+
+        /* Insert every graph edge to an array. */
+        edges = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_edge_t*),
+                                     graph->allocator);
+        next = piojo_hash_first(graph->alists_by_vid, &node);
+        while (next){
+                v = (piojo_graph_alist_t *) piojo_hash_entryv(next);
+                ecnt = piojo_array_size(v->edges_by_vid);
+                for (i = 0; i < ecnt; ++i){
+                        e = ((piojo_graph_edge_t *)
+                             piojo_array_at(i, v->edges_by_vid));
+                        piojo_array_append(&e, edges);
+                }
+                next = piojo_hash_next(next);
+        }
+
+        piojo_hash_set(&root, &dist, dists);
+        vcnt = piojo_hash_size(graph->alists_by_vid);
+        while (vcnt-- > 1 && relaxed_p){
+                bellman_ford_relax(edges, FALSE, dists, prevs, &relaxed_p);
+        }
+        if (relaxed_p){
+                found_cycle_p = bellman_ford_relax(edges, TRUE, dists,
+                                                   prevs, &relaxed_p);
+        }
+        piojo_array_free(edges);
+        return found_cycle_p;
 }
 
 /** @}
@@ -637,6 +696,7 @@ link_vertices(piojo_graph_weight_t weight, piojo_graph_alist_t *from,
         piojo_graph_edge_t edge, *e;
 
         edge.weight = weight;
+        edge.beg_vid = from->vid;
         edge.end_vid = to->vid;
         linked_p = piojo_array_has_p(&edge, from->edges_by_vid, &idx);
         if (linked_p){
@@ -822,4 +882,40 @@ dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
                         insert_prioq(nvid, ndist, prioq);
                 }
         }
+}
+
+static bool
+bellman_ford_relax(piojo_array_t *edges, bool find_cycle_p, piojo_hash_t *dists,
+                   piojo_hash_t *prevs, bool *relaxed_p)
+{
+        piojo_graph_edge_t *edge;
+        piojo_graph_weight_t *end_dist, *beg_dist, new_dist;
+        size_t i, ecnt;
+
+        *relaxed_p = FALSE;
+        ecnt = piojo_array_size(edges);
+        for (i = 0; i < ecnt; ++i){
+                edge = *(piojo_graph_edge_t **)piojo_array_at(i, edges);
+                beg_dist = ((piojo_graph_weight_t *)
+                            piojo_hash_search(&edge->beg_vid, dists));
+                end_dist = ((piojo_graph_weight_t *)
+                            piojo_hash_search(&edge->end_vid, dists));
+
+                if (beg_dist != NULL &&
+                    (end_dist == NULL || *beg_dist + edge->weight < *end_dist)){
+                        if (find_cycle_p){
+                                return TRUE;
+                        }
+                        *relaxed_p = TRUE;
+
+                        new_dist = *beg_dist + edge->weight;
+                        piojo_hash_set(&edge->end_vid, &new_dist, dists);
+
+                        if (prevs != NULL){
+                                piojo_hash_set(&edge->end_vid, &edge->beg_vid,
+                                               prevs);
+                        }
+                }
+        }
+        return FALSE;
 }
