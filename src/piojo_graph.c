@@ -620,7 +620,9 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
 /**
  * Shortest path from @a root to all vertices (Bellman-Ford algorithm).
  * @warning If the graph have negative cycles reachable from @a root,
- *          the shortest paths won't be found.
+ *          shortest paths won't be found.
+ * @warning If the graph is undirected then any edge with negative weight forms
+ *          a negative cycle.
  * @param[in] root Starting vertex.
  * @param[in] graph
  * @param[out] dists Distance (weight sum) for each vertex (if a path exists).

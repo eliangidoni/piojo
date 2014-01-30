@@ -693,7 +693,9 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Shortest path from <em>root</em> to all vertices (Bellman-Ford algorithm). </p>
-<dl class="warning"><dt><b>Warning:</b></dt><dd>If the graph have negative cycles reachable from <em>root</em>, the shortest paths won't be found. </dd></dl>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>If the graph have negative cycles reachable from <em>root</em>, shortest paths won't be found. </dd>
+<dd>
+If the graph is undirected then any edge with negative weight forms a negative cycle. </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
@@ -1118,7 +1120,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Jan 30 2014 05:15:40 for piojo-0.1 by
+    <li class="footer">Generated on Thu Jan 30 2014 13:33:19 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
