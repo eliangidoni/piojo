@@ -66,6 +66,7 @@ typedef struct {
 } piojo_graph_vtx_t;
 
 static const size_t DEFAULT_EDGE_COUNT = 8;
+static const piojo_graph_uweight_t WEIGHT_MAX = INT_MAX;
 
 static void
 link_vertices(piojo_graph_weight_t weight, piojo_graph_alist_t *from,
@@ -939,8 +940,8 @@ dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
 
                 ndist = ((piojo_graph_uweight_t) tmpw +
                          (piojo_graph_uweight_t) bestv.weight);
-                if (ndist > INT_MAX){
-                        ndist = INT_MAX;
+                if (ndist > WEIGHT_MAX){
+                        ndist = WEIGHT_MAX;
                 }
 
                 vdist = ((piojo_graph_uweight_t *)
