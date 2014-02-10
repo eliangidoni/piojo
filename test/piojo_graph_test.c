@@ -69,12 +69,12 @@ void test_copy()
         copy = piojo_graph_copy(graph);
         PIOJO_ASSERT(copy);
 
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph), v2));
         PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
 
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,copy));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,copy));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,copy) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, copy), v2));
         PIOJO_ASSERT(piojo_graph_edge_weight(0, v, copy) == 0);
@@ -84,8 +84,8 @@ void test_copy()
         PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
 
         piojo_graph_unlink_all(v, copy);
-        PIOJO_ASSERT(! piojo_graph_link_p(v,v2,copy));
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v,v2,copy));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph), v2));
         PIOJO_ASSERT(piojo_graph_edge_weight(0, v, graph) == 0);
@@ -164,7 +164,7 @@ void test_link()
         piojo_graph_insert(v,graph);
         piojo_graph_insert(v2,graph);
         piojo_graph_link(0, v, v2, graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
 
         piojo_graph_free(graph);
         assert_allocator_alloc(0);
@@ -181,9 +181,9 @@ void test_unlink()
         piojo_graph_insert(v2,graph);
 
         piojo_graph_link(0, v, v2, graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
         piojo_graph_unlink(v, v2,graph);
-        PIOJO_ASSERT(! piojo_graph_link_p(v,v2,graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v,v2,graph));
 
         piojo_graph_free(graph);
         assert_allocator_alloc(0);
@@ -200,12 +200,12 @@ void test_unlink_all()
         piojo_graph_insert(v2,graph);
 
         piojo_graph_link(0, v, v2,graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
-        PIOJO_ASSERT(piojo_graph_link_p(v2,v,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v2,v,graph));
 
         piojo_graph_unlink_all(v, graph);
-        PIOJO_ASSERT(! piojo_graph_link_p(v,v2,graph));
-        PIOJO_ASSERT(! piojo_graph_link_p(v2,v,graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v,v2,graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v2,v,graph));
 
         piojo_graph_free(graph);
         assert_allocator_alloc(0);
@@ -223,12 +223,12 @@ void test_neighbors_undir()
         piojo_graph_insert(v3,graph);
 
         piojo_graph_link(1, v, v2,graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2,graph));
-        PIOJO_ASSERT(piojo_graph_link_p(v2,v,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v2,v,graph));
 
         piojo_graph_link(2, v2, v3,graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v2,v3,graph));
-        PIOJO_ASSERT(piojo_graph_link_p(v3,v2,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v2,v3,graph));
+        PIOJO_ASSERT(piojo_graph_linked(v3,v2,graph));
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v,graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v,graph), v2));
@@ -259,12 +259,12 @@ void test_neighbors_dir()
         piojo_graph_insert(v3,graph);
 
         piojo_graph_link(1, v, v2, graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v,v2, graph));
-        PIOJO_ASSERT(! piojo_graph_link_p(v2,v, graph));
+        PIOJO_ASSERT(piojo_graph_linked(v,v2, graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v2,v, graph));
 
         piojo_graph_link(2, v2, v3, graph);
-        PIOJO_ASSERT(piojo_graph_link_p(v2,v3, graph));
-        PIOJO_ASSERT(! piojo_graph_link_p(v3,v2, graph));
+        PIOJO_ASSERT(piojo_graph_linked(v2,v3, graph));
+        PIOJO_ASSERT(! piojo_graph_linked(v3,v2, graph));
 
         PIOJO_ASSERT(piojo_graph_neighbor_cnt(v, graph) == 1);
         PIOJO_ASSERT(veq(piojo_graph_neighbor_at(0, v, graph),v2));
@@ -677,6 +677,56 @@ void test_neg_source_path_4()
         assert_allocator_init(0);
 }
 
+void test_min_tree()
+{
+        piojo_graph_t *graph, *tree;
+        piojo_graph_weight_t w=0;
+        piojo_graph_vid_t v=1;
+
+        graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_FALSE, my_allocator);
+        while (v < 8){
+                piojo_graph_insert(v,graph);
+                ++v;
+        }
+
+        piojo_graph_link(5, 4, 1, graph);
+        piojo_graph_link(9, 4, 2, graph);
+        piojo_graph_link(15, 4, 5, graph);
+        piojo_graph_link(6, 4, 6, graph);
+
+        piojo_graph_link(7, 2, 1, graph);
+        piojo_graph_link(8, 2, 3, graph);
+        piojo_graph_link(7, 2, 5, graph);
+
+        piojo_graph_link(5, 5, 3, graph);
+        piojo_graph_link(8, 5, 6, graph);
+        piojo_graph_link(9, 5, 7, graph);
+
+        piojo_graph_link(11, 6, 7, graph);
+
+        tree = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_FALSE, my_allocator);
+        piojo_graph_min_tree(graph, tree, &w);
+
+        PIOJO_ASSERT(w == 39);
+        PIOJO_ASSERT(*piojo_graph_linked(1, 2, tree) == 7);
+        PIOJO_ASSERT(*piojo_graph_linked(1, 4, tree) == 5);
+        PIOJO_ASSERT(*piojo_graph_linked(2, 5, tree) == 7);
+        PIOJO_ASSERT(*piojo_graph_linked(5, 3, tree) == 5);
+        PIOJO_ASSERT(*piojo_graph_linked(5, 7, tree) == 9);
+        PIOJO_ASSERT(*piojo_graph_linked(4, 6, tree) == 6);
+
+        PIOJO_ASSERT(piojo_graph_linked(2, 3, tree) == NULL);
+        PIOJO_ASSERT(piojo_graph_linked(4, 2, tree) == NULL);
+        PIOJO_ASSERT(piojo_graph_linked(4, 5, tree) == NULL);
+        PIOJO_ASSERT(piojo_graph_linked(6, 5, tree) == NULL);
+        PIOJO_ASSERT(piojo_graph_linked(6, 7, tree) == NULL);
+
+        piojo_graph_free(graph);
+        piojo_graph_free(tree);
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
+
 int main()
 {
         test_alloc();
@@ -698,6 +748,7 @@ int main()
         test_neg_source_path_2();
         test_neg_source_path_3();
         test_neg_source_path_4();
+        test_min_tree();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);

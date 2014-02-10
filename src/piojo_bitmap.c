@@ -36,6 +36,8 @@ typedef struct {
         uint64_t flags, mask;
         uint8_t maxbits;
 } piojo_bitmap_priv_t;
+/** @hideinitializer Size of bitmap in bytes */
+const size_t piojo_bitmap_sizeof = sizeof(piojo_bitmap_t);
 
 static const uint8_t BITMAP_MAXBITS = 64;
 

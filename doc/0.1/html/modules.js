@@ -5,6 +5,7 @@ var modules =
     [ "Piojo Array", "group__piojoarray.html", null ],
     [ "Piojo Bitmap", "group__piojobitmap.html", null ],
     [ "Piojo Buffer", "group__piojobuffer.html", null ],
+    [ "Piojo Disjoint-set", "group__piojodiset.html", null ],
     [ "Piojo Graph", "group__piojograph.html", null ],
     [ "Piojo Hash Table", "group__piojohash.html", null ],
     [ "Piojo Heap", "group__piojoheap.html", null ],

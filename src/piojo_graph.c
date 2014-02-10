@@ -31,6 +31,7 @@
 
 #include <piojo/piojo_graph.h>
 #include <piojo/piojo_array.h>
+#include <piojo/piojo_diset.h>
 #include <piojo/piojo_stack.h>
 #include <piojo/piojo_queue.h>
 #include <piojo/piojo_heap.h>
@@ -38,10 +39,8 @@
 
 typedef struct {
         piojo_array_t *edges_by_vid;
-        /* Vertex identifier. */
-        piojo_graph_vid_t vid;
-        /* Optional user data. */
-        void *data;
+        piojo_graph_vid_t vid;          /* Vertex identifier. */
+        void *data;                     /* Optional user data. */
 } piojo_graph_alist_t;
 
 typedef struct {
@@ -65,12 +64,6 @@ typedef struct {
         piojo_graph_vid_t vid;
         size_t depth;
 } piojo_graph_vtx_t;
-
-/* Used by shortest path functions. */
-typedef struct {
-        piojo_graph_vid_t vid;
-        piojo_graph_uweight_t dist;
-} piojo_graph_dist_t;
 
 static const size_t DEFAULT_EDGE_COUNT = 8;
 
@@ -103,7 +96,7 @@ static void
 mark_visited(piojo_graph_vid_t vid, piojo_hash_t *visiteds);
 
 static bool
-dist_leq(const void *e1, const void *e2);
+edge_leq(const void *e1, const void *e2);
 
 static piojo_heap_t*
 alloc_prioq(const piojo_graph_t *graph);
@@ -112,10 +105,10 @@ static void
 free_prioq(piojo_heap_t *prioq);
 
 static void
-insert_prioq(piojo_graph_vid_t vid, piojo_graph_weight_t dist,
-             piojo_heap_t *prioq);
+insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
+             piojo_graph_weight_t dist, piojo_heap_t *prioq);
 
-static piojo_graph_dist_t
+static piojo_graph_edge_t
 del_min_prioq(piojo_heap_t *prioq);
 
 static bool
@@ -127,7 +120,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 piojo_hash_t *prevs);
 
 static void
-dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
+dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs);
 
 static bool
@@ -334,23 +327,30 @@ piojo_graph_link(piojo_graph_weight_t weight, piojo_graph_vid_t from,
 }
 
 /**
- * Tests if an edge exists between two vertices.
+ * Returns edge weight if an edge exists between two vertices.
  * @param[in] from Source vertex.
  * @param[in] to Destination vertex.
  * @param[in] graph
- * @return @b TRUE if an edge exists, @b FALSE otherwise.
+ * @return @b Pointer to edge weight if an edge exists, @b NULL otherwise.
  */
-bool
-piojo_graph_link_p(piojo_graph_vid_t from, piojo_graph_vid_t to,
+piojo_graph_weight_t*
+piojo_graph_linked(piojo_graph_vid_t from, piojo_graph_vid_t to,
                    const piojo_graph_t *graph)
 {
         piojo_graph_edge_t edge;
+        piojo_graph_alist_t *v;
+        piojo_graph_edge_t *e;
+        size_t idx;
         PIOJO_ASSERT(graph);
 
+        v = vid_to_alist(from, graph);
         edge.end_vid = to;
-        return piojo_array_has_p(&edge,
-                                 vid_to_alist(from, graph)->edges_by_vid,
-                                 NULL);
+        if (piojo_array_has_p(&edge, v->edges_by_vid, &idx)){
+                e = (piojo_graph_edge_t *)piojo_array_at(idx,
+                                                         v->edges_by_vid);
+                return &e->weight;
+        }
+        return NULL;
 }
 
 /**
@@ -574,7 +574,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
 }
 
 /**
- * Shortest path from @a root to all vertices (Dijkstra's algorithm).
+ * Finds shortest path from @a root to all vertices (Dijkstra's algorithm).
  * @warning The graph can't have negative edge weights.
  * @param[in] root Starting vertex.
  * @param[in] graph
@@ -595,7 +595,7 @@ piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
 }
 
 /**
- * Shortest path from @a root to @a dst vertex (Dijkstra's algorithm).
+ * Finds shortest path from @a root to @a dst vertex (Dijkstra's algorithm).
  * @warning The graph can't have negative edge weights.
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
@@ -618,7 +618,7 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
 }
 
 /**
- * Shortest path from @a root to all vertices (Bellman-Ford algorithm).
+ * Finds shortest path from @a root to all vertices (Bellman-Ford algorithm).
  * @warning If the graph have negative cycles reachable from @a root,
  *          shortest paths won't be found.
  * @warning If the graph is undirected then any edge with negative weight forms
@@ -670,6 +670,67 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         }
         piojo_array_free(edges);
         return found_cycle_p;
+}
+
+/**
+ * Finds minimum spanning tree when @a graph is connected. Otherwise,
+ * finds the minimum spanning forest (Kruskal's algorithm).
+ * @warning The graph must be undirected.
+ * @param[in] graph
+ * @param[out] tree Minimum spanning tree/forest of @a graph.
+ * @param[out] weight Tree weight, can be @b NULL.
+ */
+void
+piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
+                     piojo_graph_weight_t *weight)
+{
+        piojo_heap_t *prioq;
+        piojo_diset_t *diset;
+        piojo_graph_alist_t *v;
+        piojo_graph_edge_t e;
+        piojo_hash_node_t *next, node;
+        size_t ecnt, i;
+        PIOJO_ASSERT(graph);
+        PIOJO_ASSERT(tree);
+        PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
+                     sizeof(piojo_graph_weight_t));
+
+        if (piojo_hash_size(graph->alists_by_vid) == 0){
+                return;
+        }
+
+        prioq = alloc_prioq(graph);
+        diset = piojo_diset_alloc_cb(graph->allocator);
+
+        next = piojo_hash_first(graph->alists_by_vid, &node);
+        while (next){
+                v = (piojo_graph_alist_t *) piojo_hash_entryv(next);
+                piojo_graph_insert(v->vid, tree);
+                piojo_diset_insert(v->vid, diset);
+
+                ecnt = piojo_array_size(v->edges_by_vid);
+                for (i = 0; i < ecnt; ++i){
+                        e = *((piojo_graph_edge_t *)
+                              piojo_array_at(i, v->edges_by_vid));
+                        insert_prioq(e.beg_vid, e.end_vid, e.weight, prioq);
+                }
+                next = piojo_hash_next(next);
+        }
+
+        while (! empty_prioq_p(prioq)){
+                e = del_min_prioq(prioq);
+                if (piojo_diset_find(e.beg_vid, diset) !=
+                    piojo_diset_find(e.end_vid, diset)){
+                        piojo_diset_union(e.beg_vid, e.end_vid, diset);
+                        piojo_graph_link(e.weight, e.beg_vid, e.end_vid, tree);
+                        if (weight != NULL){
+                                *weight += e.weight;
+                        }
+                }
+        }
+
+        piojo_diset_free(diset);
+        free_prioq(prioq);
 }
 
 /** @}
@@ -775,11 +836,11 @@ mark_visited(piojo_graph_vid_t vid, piojo_hash_t *visiteds)
 }
 
 static bool
-dist_leq(const void *e1, const void *e2)
+edge_leq(const void *e1, const void *e2)
 {
-        piojo_graph_dist_t *v1 = (piojo_graph_dist_t*) e1;
-        piojo_graph_dist_t *v2 = (piojo_graph_dist_t*) e2;
-        if (v1->dist <= v2->dist){
+        piojo_graph_edge_t *v1 = (piojo_graph_edge_t*) e1;
+        piojo_graph_edge_t *v2 = (piojo_graph_edge_t*) e2;
+        if (v1->weight <= v2->weight){
                 return TRUE;
         }
         return FALSE;
@@ -792,7 +853,7 @@ alloc_prioq(const piojo_graph_t *graph)
 
         ator.alloc_cb = graph->allocator.alloc_cb;
         ator.free_cb = graph->allocator.free_cb;
-        return piojo_heap_alloc_cb(dist_leq, sizeof(piojo_graph_dist_t), ator);
+        return piojo_heap_alloc_cb(edge_leq, sizeof(piojo_graph_edge_t), ator);
 }
 
 static void
@@ -802,22 +863,23 @@ free_prioq(piojo_heap_t *prioq)
 }
 
 static void
-insert_prioq(piojo_graph_vid_t vid, piojo_graph_weight_t dist,
-             piojo_heap_t *prioq)
+insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
+             piojo_graph_weight_t dist, piojo_heap_t *prioq)
 {
-        piojo_graph_dist_t d;
-        d.vid = vid;
-        d.dist = dist;
-        piojo_heap_push(&d, prioq);
+        piojo_graph_edge_t e;
+        e.beg_vid = from;
+        e.end_vid = to;
+        e.weight = dist;
+        piojo_heap_push(&e, prioq);
 }
 
-static piojo_graph_dist_t
+static piojo_graph_edge_t
 del_min_prioq(piojo_heap_t *prioq)
 {
-        piojo_graph_dist_t d;
-        d = *(piojo_graph_dist_t *)piojo_heap_peek(prioq);
+        piojo_graph_edge_t e;
+        e = *(piojo_graph_edge_t *)piojo_heap_peek(prioq);
         piojo_heap_pop(prioq);
-        return d;
+        return e;
 }
 
 static bool
@@ -831,7 +893,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 const piojo_graph_t *graph, piojo_hash_t *dists,
                 piojo_hash_t *prevs)
 {
-        piojo_graph_dist_t bestv;
+        piojo_graph_edge_t bestv;
         piojo_hash_t *visiteds;
         piojo_graph_weight_t dist=0;
         piojo_heap_t *prioq;
@@ -840,15 +902,15 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
 
         visiteds = alloc_visiteds(graph);
         prioq = alloc_prioq(graph);
-        insert_prioq(root, dist, prioq);
+        insert_prioq(root, root, dist, prioq);
         while (! empty_prioq_p(prioq)){
                 bestv = del_min_prioq(prioq);
-                if (dst != NULL && bestv.vid == *dst){
+                if (dst != NULL && bestv.end_vid == *dst){
                         break;
                 }
-                if (! is_visited_p(bestv.vid, visiteds)){
+                if (! is_visited_p(bestv.end_vid, visiteds)){
                         dijkstra_visit(bestv, graph, prioq, dists, prevs);
-                        mark_visited(bestv.vid, visiteds);
+                        mark_visited(bestv.end_vid, visiteds);
                 }
         }
         free_prioq(prioq);
@@ -856,20 +918,20 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
 }
 
 static void
-dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
+dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs)
 {
         size_t i, cnt;
         piojo_graph_uweight_t ndist, *vdist;
         piojo_graph_vid_t nvid;
 
-        cnt = piojo_graph_neighbor_cnt(bestv.vid, graph);
+        cnt = piojo_graph_neighbor_cnt(bestv.end_vid, graph);
         for (i = 0; i < cnt; ++i){
-                nvid = piojo_graph_neighbor_at(i, bestv.vid,
+                nvid = piojo_graph_neighbor_at(i, bestv.end_vid,
                                                graph);
                 ndist = ((piojo_graph_uweight_t)
-                         piojo_graph_edge_weight(i, bestv.vid,
-                                                 graph)) + bestv.dist;
+                         piojo_graph_edge_weight(i, bestv.end_vid, graph));
+                ndist += (piojo_graph_uweight_t) bestv.weight;
                 if (ndist > INT_MAX){
                         ndist = INT_MAX;
                 }
@@ -879,9 +941,9 @@ dijkstra_visit(piojo_graph_dist_t bestv, const piojo_graph_t *graph,
                 if (vdist == NULL || ndist < *vdist){
                         piojo_hash_set(&nvid, &ndist, dists);
                         if (prevs != NULL){
-                                piojo_hash_set(&nvid, &bestv.vid, prevs);
+                                piojo_hash_set(&nvid, &bestv.end_vid, prevs);
                         }
-                        insert_prioq(nvid, ndist, prioq);
+                        insert_prioq(bestv.end_vid, nvid, ndist, prioq);
                 }
         }
 }

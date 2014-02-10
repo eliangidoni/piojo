@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Piojo Bitmap API.
+ * Piojo Disjoint-set API.
  */
 
-#ifndef PIOJO_BITMAP_H_
-#define PIOJO_BITMAP_H_
+#ifndef PIOJO_DISET_H_
+#define PIOJO_DISET_H_
 
 #include <piojo/piojo.h>
 #include <piojo/piojo_alloc.h>
@@ -34,35 +34,33 @@
 extern "C" {
 #endif
 
-typedef struct {
-        uint8_t opaque[32]; /* Should be enough */
-} piojo_bitmap_t;
+struct piojo_diset;
+typedef struct piojo_diset piojo_diset_t;
+extern const size_t piojo_diset_sizeof;
 
-extern const size_t piojo_bitmap_sizeof;
+piojo_diset_t*
+piojo_diset_alloc(void);
 
-void
-piojo_bitmap_init(piojo_bitmap_t *bitmap);
+piojo_diset_t*
+piojo_diset_alloc_cb(piojo_alloc_if allocator);
 
-void
-piojo_bitmap_init_m(uint8_t maxbits, piojo_bitmap_t *bitmap);
-
-void
-piojo_bitmap_clear(piojo_bitmap_t *bitmap);
-
-bool
-piojo_bitmap_empty_p(const piojo_bitmap_t *bitmap);
-
-bool
-piojo_bitmap_full_p(const piojo_bitmap_t *bitmap);
-
-bool
-piojo_bitmap_set_p(uint32_t bit, const piojo_bitmap_t *bitmap);
+piojo_diset_t*
+piojo_diset_copy(const piojo_diset_t *diset);
 
 void
-piojo_bitmap_set(uint32_t bit, piojo_bitmap_t *bitmap);
+piojo_diset_free(const piojo_diset_t *diset);
 
 void
-piojo_bitmap_unset(uint32_t bit, piojo_bitmap_t *bitmap);
+piojo_diset_clear(piojo_diset_t *diset);
+
+void
+piojo_diset_insert(uintptr_t set, piojo_diset_t *diset);
+
+uintptr_t
+piojo_diset_find(uintptr_t set, const piojo_diset_t *diset);
+
+void
+piojo_diset_union(uintptr_t set1, uintptr_t set2, piojo_diset_t *diset);
 
 #ifdef __cplusplus
 }

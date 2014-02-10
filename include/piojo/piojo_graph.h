@@ -97,8 +97,8 @@ void
 piojo_graph_link(piojo_graph_weight_t weight, piojo_graph_vid_t from,
                  piojo_graph_vid_t to, piojo_graph_t *graph);
 
-bool
-piojo_graph_link_p(piojo_graph_vid_t from, piojo_graph_vid_t to,
+piojo_graph_weight_t*
+piojo_graph_linked(piojo_graph_vid_t from, piojo_graph_vid_t to,
                    const piojo_graph_t *graph);
 
 void
@@ -145,6 +145,10 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
 bool
 piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
                             piojo_hash_t *dists, piojo_hash_t *paths);
+
+void
+piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
+                     piojo_graph_weight_t *weight);
 
 #ifdef __cplusplus
 }
