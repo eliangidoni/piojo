@@ -691,6 +691,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
         piojo_hash_node_t *next, node;
         size_t ecnt, i;
         PIOJO_ASSERT(graph);
+        PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_FALSE);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
                      sizeof(piojo_graph_weight_t));
@@ -905,6 +906,8 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
         insert_prioq(root, root, dist, prioq);
         while (! empty_prioq_p(prioq)){
                 bestv = del_min_prioq(prioq);
+                PIOJO_ASSERT(bestv.weight >= 0);
+
                 if (dst != NULL && bestv.end_vid == *dst){
                         break;
                 }
@@ -923,15 +926,19 @@ dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
 {
         size_t i, cnt;
         piojo_graph_uweight_t ndist, *vdist;
+        piojo_graph_weight_t tmpw;
         piojo_graph_vid_t nvid;
 
         cnt = piojo_graph_neighbor_cnt(bestv.end_vid, graph);
         for (i = 0; i < cnt; ++i){
                 nvid = piojo_graph_neighbor_at(i, bestv.end_vid,
                                                graph);
-                ndist = ((piojo_graph_uweight_t)
-                         piojo_graph_edge_weight(i, bestv.end_vid, graph));
-                ndist += (piojo_graph_uweight_t) bestv.weight;
+
+                tmpw = piojo_graph_edge_weight(i, bestv.end_vid, graph);
+                PIOJO_ASSERT(tmpw >= 0);
+
+                ndist = ((piojo_graph_uweight_t) tmpw +
+                         (piojo_graph_uweight_t) bestv.weight);
                 if (ndist > INT_MAX){
                         ndist = INT_MAX;
                 }
