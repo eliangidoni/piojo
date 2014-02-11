@@ -121,7 +121,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 piojo_hash_t *prevs);
 
 static void
-dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
+dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs);
 
 static bool
@@ -517,8 +517,9 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         }
                 }
         }
-        piojo_queue_free(q);
+
         free_visiteds(visiteds);
+        piojo_queue_free(q);
         return ret;
 }
 
@@ -569,8 +570,9 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         }
                 }
         }
-        piojo_stack_free(st);
+
         free_visiteds(visiteds);
+        piojo_stack_free(st);
         return ret;
 }
 
@@ -645,9 +647,11 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(dists);
 
-        /* Insert every graph edge to an array. */
+        piojo_hash_set(&root, &dist, dists);
         edges = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_edge_t*),
                                      graph->allocator);
+
+        /* Insert every edge to edges array. */
         next = piojo_hash_first(graph->alists_by_vid, &node);
         while (next){
                 v = (piojo_graph_alist_t *) piojo_hash_entryv(next);
@@ -660,7 +664,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
                 next = piojo_hash_next(next);
         }
 
-        piojo_hash_set(&root, &dist, dists);
+        /* Relax every edge for at most |V| times. */
         vcnt = piojo_hash_size(graph->alists_by_vid);
         while (vcnt-- > 1 && relaxed_p){
                 bellman_ford_relax(edges, FALSE, dists, prevs, &relaxed_p);
@@ -669,6 +673,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
                 found_cycle_p = bellman_ford_relax(edges, TRUE, dists,
                                                    prevs, &relaxed_p);
         }
+
         piojo_array_free(edges);
         return found_cycle_p;
 }
@@ -901,9 +906,10 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
         piojo_heap_t *prioq;
 
         piojo_hash_set(&root, &dist, dists);
-
         visiteds = alloc_visiteds(graph);
         prioq = alloc_prioq(graph);
+
+        /* Relax the nearest (unvisited) vertex in each iteration. */
         insert_prioq(root, root, dist, prioq);
         while (! empty_prioq_p(prioq)){
                 bestv = del_min_prioq(prioq);
@@ -913,16 +919,17 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                         break;
                 }
                 if (! is_visited_p(bestv.end_vid, visiteds)){
-                        dijkstra_visit(bestv, graph, prioq, dists, prevs);
+                        dijkstra_relax(bestv, graph, prioq, dists, prevs);
                         mark_visited(bestv.end_vid, visiteds);
                 }
         }
+
         free_prioq(prioq);
         free_visiteds(visiteds);
 }
 
 static void
-dijkstra_visit(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
+dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs)
 {
         size_t i, cnt;
