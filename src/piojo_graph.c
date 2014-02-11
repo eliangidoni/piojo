@@ -603,21 +603,31 @@ piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
  * @param[in] graph
- * @param[out] dists Distance (weight sum) to @a dst vertex (if a path exists).
  * @param[out] prevs Previous vertex in path for each vertex (if a path exists),
  *                   can be @b NULL.
+ * @return Distance (weight sum) to @a dst or @b 0 if there isn't any path.
  */
-void
+piojo_graph_weight_t
 piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
-                      const piojo_graph_t *graph, piojo_hash_t *dists,
-                      piojo_hash_t *prevs)
+                      const piojo_graph_t *graph, piojo_hash_t *prevs)
 {
+        piojo_hash_t *dists;
+        piojo_graph_weight_t w, *wp;
         PIOJO_ASSERT(graph);
-        PIOJO_ASSERT(dists);
+        PIOJO_ASSERT(root != dst);
         PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
                      sizeof(piojo_graph_weight_t));
 
+        dists = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
+                                    piojo_graph_vid_eq,
+                                    sizeof(piojo_graph_vid_t));
+
         dijkstra_search(root, &dst, graph, dists, prevs);
+        wp = (piojo_graph_weight_t *)piojo_hash_search(&dst, dists);
+        w = (wp != NULL) ? *wp : 0;
+
+        piojo_hash_free(dists);
+        return w;
 }
 
 /**

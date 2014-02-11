@@ -419,11 +419,8 @@ void test_pair_path()
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
         piojo_graph_vid_t v=1;
-        piojo_hash_t *dists, *prevs;
+        piojo_hash_t *prevs;
 
-        dists = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
-                                    piojo_graph_vid_eq,
-                                    sizeof(piojo_graph_vid_t));
         prevs = piojo_hash_alloc_eq(sizeof(piojo_graph_vid_t),
                                     piojo_graph_vid_eq,
                                     sizeof(piojo_graph_vid_t));
@@ -445,13 +442,7 @@ void test_pair_path()
         piojo_graph_link(2,  6, 3, graph);
 
         v = 1;
-        piojo_graph_pair_path(v, 6, graph, dists, prevs);
-
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, dists);
-        PIOJO_ASSERT(*w == 0);
-        v = 6;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, dists);
-        PIOJO_ASSERT(*w == 11);
+        PIOJO_ASSERT(piojo_graph_pair_path(v, 6, graph, prevs) == 11);
 
         v = 6;
         w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
@@ -461,7 +452,6 @@ void test_pair_path()
         PIOJO_ASSERT(*w == 1);
 
         piojo_graph_free(graph);
-        piojo_hash_free(dists);
         piojo_hash_free(prevs);
         assert_allocator_alloc(0);
         assert_allocator_init(0);

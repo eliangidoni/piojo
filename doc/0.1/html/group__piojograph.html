@@ -124,7 +124,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gaa3750263b1481625118c69c4a1d8f3d0">piojo_graph_breadth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, size_t limit, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gabfb7d185b72d7cd87a5f78df9fd2f6cf">piojo_graph_depth_first</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga9461a90a69c4707aa2a96bc73e01026e">piojo_graph_visit_cb</a> cb, const void *data, size_t limit, const piojo_graph_t *graph)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga8fbd8257dd1a54a91b7fa19f1ac42920">piojo_graph_source_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gafa8afc17a7dade55cd22361841c09312">piojo_graph_pair_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> dst, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojograph.html#gaabcd34874b10f29da0bec41704fa2c6b">piojo_graph_weight_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gad4f489f8ad6626f84316082e5f96b168">piojo_graph_pair_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, <a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> dst, const piojo_graph_t *graph, piojo_hash_t *prevs)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga851ab56c923d0c0c7c8d24dc69cbf180">piojo_graph_neg_source_path</a> (<a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a> root, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#gabe66a14da503e03c98f263b40c74fe11">piojo_graph_min_tree</a> (const piojo_graph_t *graph, piojo_graph_t *tree, <a class="el" href="group__piojograph.html#gaabcd34874b10f29da0bec41704fa2c6b">piojo_graph_weight_t</a> *weight)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
@@ -832,12 +832,12 @@ If the graph is undirected then any edge with negative weight forms a negative c
 
 </div>
 </div>
-<a class="anchor" id="gafa8afc17a7dade55cd22361841c09312"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_pair_path" ref="gafa8afc17a7dade55cd22361841c09312" args="(piojo_graph_vid_t root, piojo_graph_vid_t dst, const piojo_graph_t *graph, piojo_hash_t *dists, piojo_hash_t *prevs)" -->
+<a class="anchor" id="gad4f489f8ad6626f84316082e5f96b168"></a><!-- doxytag: member="piojo_graph.c::piojo_graph_pair_path" ref="gad4f489f8ad6626f84316082e5f96b168" args="(piojo_graph_vid_t root, piojo_graph_vid_t dst, const piojo_graph_t *graph, piojo_hash_t *prevs)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojograph.html#gafa8afc17a7dade55cd22361841c09312">piojo_graph_pair_path</a> </td>
+          <td class="memname"><a class="el" href="group__piojograph.html#gaabcd34874b10f29da0bec41704fa2c6b">piojo_graph_weight_t</a> <a class="el" href="group__piojograph.html#gad4f489f8ad6626f84316082e5f96b168">piojo_graph_pair_path</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__piojograph.html#ga09cfd0818bbbbffaa496b633d28862e3">piojo_graph_vid_t</a>&#160;</td>
           <td class="paramname"><em>root</em>, </td>
@@ -853,12 +853,6 @@ If the graph is undirected then any edge with negative weight forms a negative c
           <td></td>
           <td class="paramtype">const piojo_graph_t *&#160;</td>
           <td class="paramname"><em>graph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">piojo_hash_t *&#160;</td>
-          <td class="paramname"><em>dists</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -881,11 +875,11 @@ If the graph is undirected then any edge with negative weight forms a negative c
     <tr><td class="paramdir">[in]</td><td class="paramname">root</td><td>Starting vertex. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dst</td><td>Destination vertex. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">graph</td><td></td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">dists</td><td>Distance (weight sum) to <em>dst</em> vertex (if a path exists). </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">prevs</td><td>Previous vertex in path for each vertex (if a path exists), can be <b>NULL</b>. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Distance (weight sum) to <em>dst</em> or <b>0</b> if there isn't any path. </dd></dl>
 
 </div>
 </div>
@@ -1164,7 +1158,7 @@ If the graph is undirected then any edge with negative weight forms a negative c
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sun Feb 9 2014 21:45:06 for piojo-0.1 by
+    <li class="footer">Generated on Tue Feb 11 2014 20:25:38 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
