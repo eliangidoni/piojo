@@ -51,8 +51,11 @@ sort_up(size_t idx, void *tmp, piojo_heap_t *heap);
 static void
 sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap);
 
+static bool
+entry_leq(size_t idx1, size_t idx2, piojo_heap_t *heap);
+
 static void
-swap(void *e1, void *e2, void *tmp, size_t esize);
+swap(size_t idx1, size_t idx2, void *tmp, piojo_heap_t *heap);
 
 /**
  * Allocates a new heap.
@@ -239,9 +242,7 @@ piojo_heap_pop(piojo_heap_t *heap)
 
         lastidx = piojo_array_size(heap->data) - 1;
         if (lastidx > 0){
-                swap(piojo_array_at(0, heap->data),
-                     piojo_array_at(lastidx, heap->data),
-                     tmp, heap->esize);
+                swap(0, lastidx, tmp, heap);
         }
 
         piojo_array_delete(lastidx, heap->data);
@@ -282,15 +283,11 @@ int_leq(const void *e1, const void *e2)
 static void
 sort_up(size_t idx, void *tmp, piojo_heap_t *heap)
 {
-        void *parent, *elem;
         size_t pidx;
-
         if (idx > 0){
                 pidx = (idx - 1) / 2;
-                parent = piojo_array_at(pidx, heap->data);
-                elem = piojo_array_at(idx, heap->data);
-                if (heap->cmp(elem, parent)){
-                        swap(parent, elem, tmp, heap->esize);
+                if (entry_leq(idx, pidx, heap)){
+                        swap(idx, pidx, tmp, heap);
                         sort_up(pidx, tmp, heap);
                 }
         }
@@ -299,11 +296,9 @@ sort_up(size_t idx, void *tmp, piojo_heap_t *heap)
 static void
 sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap)
 {
-        void *swape=NULL, *elem;
         size_t lidx=hsize, ridx=hsize, *swapidx=NULL;
 
         if (idx < hsize){
-                elem = piojo_array_at(idx, heap->data);
                 if (piojo_safe_mulsiz_p(idx, 2) &&
                     piojo_safe_addsiz_p(idx * 2, 1)){
                         lidx = (idx * 2) + 1;
@@ -313,28 +308,37 @@ sort_down(size_t idx, size_t hsize, void *tmp, piojo_heap_t *heap)
                 }
                 if (ridx < hsize){
                         swapidx = &lidx;
-                        if (heap->cmp(piojo_array_at(ridx, heap->data),
-                                      piojo_array_at(lidx, heap->data))){
+                        if (entry_leq(ridx, lidx, heap)){
                                 swapidx = &ridx;
                         }
                 }else if (lidx < hsize){
                         swapidx = &lidx;
                 }
-
-                if (swapidx){
-                        swape = piojo_array_at(*swapidx, heap->data);
-                }
-                if (swape && heap->cmp(swape, elem)){
-                        swap(swape, elem, tmp, heap->esize);
+                if (swapidx && entry_leq(*swapidx, idx, heap)){
+                        swap(*swapidx, idx, tmp, heap);
                         sort_down(*swapidx, hsize, tmp, heap);
                 }
         }
 }
 
-static void
-swap(void *e1, void *e2, void *tmp, size_t esize)
+static bool
+entry_leq(size_t idx1, size_t idx2, piojo_heap_t *heap)
 {
-        memcpy(tmp, e1, esize);
-        memcpy(e1, e2, esize);
-        memcpy(e2, tmp, esize);
+        void *e1, *e2;
+        e1 = piojo_array_at(idx1, heap->data);
+        e2 = piojo_array_at(idx2, heap->data);
+        return heap->cmp(e1, e2);
+}
+
+static void
+swap(size_t idx1, size_t idx2, void *tmp, piojo_heap_t *heap)
+{
+        void *e1, *e2;
+
+        e1 = piojo_array_at(idx1, heap->data);
+        e2 = piojo_array_at(idx2, heap->data);
+
+        memcpy(tmp, e1, heap->esize);
+        memcpy(e1, e2, heap->esize);
+        memcpy(e2, tmp, heap->esize);
 }
