@@ -193,7 +193,7 @@ piojo_graph_copy(const piojo_graph_t *graph)
         newgraph->dir = graph->dir;
         newgraph->alists_by_vid = piojo_hash_copy(graph->alists_by_vid);
 
-        /* Copy all edges. */
+        /* Copy all edges for each vertex. */
         next = piojo_hash_first(newgraph->alists_by_vid, &node);
         while (next){
                 alist = (piojo_graph_alist_t *) piojo_hash_entryv(next);
@@ -234,17 +234,17 @@ piojo_graph_clear(piojo_graph_t *graph)
 
 /**
  * Inserts new vertex.
- * @param[in] vertex_id
+ * @param[in] vertex
  * @param[out] graph
  * @return @b TRUE if inserted, @b FALSE if it's duplicated.
  */
 bool
-piojo_graph_insert(piojo_graph_vid_t vertex_id, piojo_graph_t *graph)
+piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph)
 {
         piojo_graph_alist_t tmp;
         PIOJO_ASSERT(graph);
 
-        tmp.vid = vertex_id;
+        tmp.vid = vertex;
         tmp.data = NULL;
         tmp.edges_by_vid =
                 piojo_array_alloc_cb_n(edge_cmp,
@@ -600,6 +600,7 @@ piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
 /**
  * Finds shortest path from @a root to @a dst vertex (Dijkstra's algorithm).
  * @warning The graph can't have negative edge weights.
+ * @warning @a root must be different from @a dst.
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
  * @param[in] graph
@@ -694,11 +695,10 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
  * @warning The graph must be undirected.
  * @param[in] graph
  * @param[out] tree Minimum spanning tree/forest of @a graph.
- * @param[out] weight Tree weight, can be @b NULL.
+ * @return Tree weight or @b 0 for an empty graph.
  */
-void
-piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
-                     piojo_graph_weight_t *weight)
+piojo_graph_weight_t
+piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
 {
         piojo_heap_t *prioq;
         piojo_diset_t *diset;
@@ -706,6 +706,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
         piojo_graph_edge_t e;
         piojo_hash_node_t *next, node;
         size_t ecnt, i;
+        piojo_graph_weight_t w=0;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_FALSE);
         PIOJO_ASSERT(tree);
@@ -713,7 +714,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
                      sizeof(piojo_graph_weight_t));
 
         if (piojo_hash_size(graph->alists_by_vid) == 0){
-                return;
+                return 0;
         }
 
         prioq = alloc_prioq(graph);
@@ -740,14 +741,33 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
                     piojo_diset_find(e.end_vid, diset)){
                         piojo_diset_union(e.beg_vid, e.end_vid, diset);
                         piojo_graph_link(e.weight, e.beg_vid, e.end_vid, tree);
-                        if (weight != NULL){
-                                *weight += e.weight;
-                        }
+                        w += e.weight;
                 }
         }
 
         piojo_diset_free(diset);
         free_prioq(prioq);
+        return w;
+}
+
+/**
+ * Finds shortest path from @a root to @a dst vertex using A* algorithm.
+ * @warning The graph can't have negative edge weights.
+ * @warning @a root must be different from @a dst.
+ * @param[in] root Starting vertex.
+ * @param[in] dst Destination vertex.
+ * @param[in] heuristic Cost estimate function.
+ * @param[in] data Argument passed to @a heuristic function.
+ * @param[in] graph
+ * @param[out] prevs Previous vertex in path for each vertex (if a path exists),
+ *                   can be @b NULL.
+ * @return Distance (weight sum) to @a dst or @b 0 if there isn't any path.
+ */
+piojo_graph_weight_t
+piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
+                   piojo_graph_cost_cb heuristic, const void *data,
+                   const piojo_graph_t *graph, piojo_hash_t *prevs)
+{
 }
 
 /** @}

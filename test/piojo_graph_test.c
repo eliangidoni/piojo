@@ -670,7 +670,6 @@ void test_neg_source_path_4()
 void test_min_tree()
 {
         piojo_graph_t *graph, *tree;
-        piojo_graph_weight_t w=0;
         piojo_graph_vid_t v=1;
 
         graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_FALSE, my_allocator);
@@ -695,9 +694,8 @@ void test_min_tree()
         piojo_graph_link(11, 6, 7, graph);
 
         tree = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_FALSE, my_allocator);
-        piojo_graph_min_tree(graph, tree, &w);
+        PIOJO_ASSERT(piojo_graph_min_tree(graph, tree) == 39);
 
-        PIOJO_ASSERT(w == 39);
         PIOJO_ASSERT(*piojo_graph_linked(1, 2, tree) == 7);
         PIOJO_ASSERT(*piojo_graph_linked(1, 4, tree) == 5);
         PIOJO_ASSERT(*piojo_graph_linked(2, 5, tree) == 7);

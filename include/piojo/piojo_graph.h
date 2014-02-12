@@ -60,9 +60,15 @@ typedef uintptr_t piojo_graph_vid_t;
 typedef int piojo_graph_weight_t;
 
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
-typedef bool (*piojo_graph_visit_cb) (piojo_graph_vid_t v,
-                                      const piojo_graph_t *graph,
-                                      void *data);
+typedef bool
+(*piojo_graph_visit_cb) (piojo_graph_vid_t v, const piojo_graph_t *graph,
+                         void *data);
+
+/** Returns cost estimate between two vertices. */
+typedef piojo_graph_weight_t
+(*piojo_graph_cost_cb) (piojo_graph_vid_t from, piojo_graph_vid_t to,
+                        const piojo_graph_t *graph, void *data);
+
 /** @} */
 
 piojo_graph_t*
@@ -81,7 +87,7 @@ void
 piojo_graph_clear(piojo_graph_t *graph);
 
 bool
-piojo_graph_insert(piojo_graph_vid_t vertex_id, piojo_graph_t *graph);
+piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph);
 
 bool
 piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph);
@@ -145,9 +151,13 @@ bool
 piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
                             piojo_hash_t *dists, piojo_hash_t *paths);
 
-void
-piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree,
-                     piojo_graph_weight_t *weight);
+piojo_graph_weight_t
+piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree);
+
+piojo_graph_weight_t
+piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
+                   piojo_graph_cost_cb heuristic, const void *data,
+                   const piojo_graph_t *graph, piojo_hash_t *prevs);
 
 #ifdef __cplusplus
 }
