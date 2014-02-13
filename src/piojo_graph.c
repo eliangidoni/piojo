@@ -487,6 +487,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
+        piojo_graph_alist_t *v;
         bool ret = FALSE, limited_p = (limit != 0);
 
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
@@ -509,9 +510,11 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 if (limited_p && nbor.depth > limit){
                         continue;
                 }
-                cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
+                v = vid_to_alist(vcur.vid, graph);
+                cnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < cnt; ++i){
-                        nbor.vid = piojo_graph_neighbor_at(i, vcur.vid, graph);
+                        nbor.vid = ((piojo_graph_edge_t *)
+                                    piojo_array_at(i,v->edges_by_vid))->end_vid;
                         if (! is_visited_p(nbor.vid, visiteds)){
                                 piojo_queue_push(&nbor, q);
                                 mark_visited(nbor.vid, visiteds);
@@ -540,6 +543,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         piojo_hash_t *visiteds;
         size_t i, cnt;
         piojo_graph_vtx_t vcur, nbor;
+        piojo_graph_alist_t *v;
         bool ret = FALSE, limited_p = (limit != 0);
 
         st = piojo_stack_alloc_cb(sizeof(piojo_graph_vtx_t), graph->allocator);
@@ -560,9 +564,11 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                 if (limited_p && nbor.depth > limit){
                         continue;
                 }
-                cnt = piojo_graph_neighbor_cnt(vcur.vid, graph);
+                v = vid_to_alist(vcur.vid, graph);
+                cnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < cnt; ++i){
-                        nbor.vid = piojo_graph_neighbor_at(i, vcur.vid, graph);
+                        nbor.vid = ((piojo_graph_edge_t *)
+                                    piojo_array_at(i,v->edges_by_vid))->end_vid;
                         if (! is_visited_p(nbor.vid, visiteds)){
                                 piojo_stack_push(&nbor, st);
                                 mark_visited(nbor.vid, visiteds);
@@ -969,31 +975,29 @@ dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
 {
         size_t i, cnt;
         piojo_graph_uweight_t ndist, *vdist;
-        piojo_graph_weight_t tmpw;
-        piojo_graph_vid_t nvid;
+        piojo_graph_edge_t *e;
+        piojo_graph_alist_t *v;
 
-        cnt = piojo_graph_neighbor_cnt(bestv.end_vid, graph);
+        v = vid_to_alist(bestv.end_vid, graph);
+        cnt = piojo_array_size(v->edges_by_vid);
         for (i = 0; i < cnt; ++i){
-                nvid = piojo_graph_neighbor_at(i, bestv.end_vid,
-                                               graph);
+                e = (piojo_graph_edge_t *) piojo_array_at(i, v->edges_by_vid);
+                PIOJO_ASSERT(e->weight >= 0);
 
-                tmpw = piojo_graph_edge_weight(i, bestv.end_vid, graph);
-                PIOJO_ASSERT(tmpw >= 0);
-
-                ndist = ((piojo_graph_uweight_t) tmpw +
+                ndist = ((piojo_graph_uweight_t) e->weight +
                          (piojo_graph_uweight_t) bestv.weight);
                 if (ndist > WEIGHT_MAX){
                         ndist = WEIGHT_MAX;
                 }
 
                 vdist = ((piojo_graph_uweight_t *)
-                         piojo_hash_search(&nvid, dists));
+                         piojo_hash_search(&e->end_vid, dists));
                 if (vdist == NULL || ndist < *vdist){
-                        piojo_hash_set(&nvid, &ndist, dists);
+                        piojo_hash_set(&e->end_vid, &ndist, dists);
                         if (prevs != NULL){
-                                piojo_hash_set(&nvid, &bestv.end_vid, prevs);
+                                piojo_hash_set(&e->end_vid, &v->vid, prevs);
                         }
-                        insert_prioq(bestv.end_vid, nvid, ndist, prioq, graph);
+                        insert_prioq(v->vid, e->end_vid, ndist, prioq, graph);
                 }
         }
 }
