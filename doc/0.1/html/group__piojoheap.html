@@ -105,6 +105,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4e927d37e077ab6f0e408b92c8a3d63c">piojo_heap_clear</a> (piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4f99d7ff5976c77e5c4c0563f9b3052d">piojo_heap_size</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga030893c3268a271807940062b274616b">piojo_heap_push</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, <a class="el" href="group__piojoheap.html#ga8062a84148c02c8ce63d53c8d691a0c1">piojo_heap_key_t</a> key, piojo_heap_t *heap)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gae575fd60435a79e9e80cf0c5e3aca019">piojo_heap_decrease</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, <a class="el" href="group__piojoheap.html#ga8062a84148c02c8ce63d53c8d691a0c1">piojo_heap_key_t</a> key, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga57dd885b096402ee639e591a17d44363">piojo_heap_pop</a> (piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga9ec7908545247c58511f105b59c38d0d">piojo_heap_peek</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
@@ -283,6 +284,48 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gae575fd60435a79e9e80cf0c5e3aca019"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_decrease" ref="gae575fd60435a79e9e80cf0c5e3aca019" args="(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojoheap.html#gae575fd60435a79e9e80cf0c5e3aca019">piojo_heap_decrease</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojoheap.html#ga8062a84148c02c8ce63d53c8d691a0c1">piojo_heap_key_t</a>&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_heap_t *&#160;</td>
+          <td class="paramname"><em>heap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Decreases existing entry key. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>Entry key. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">heap</td><td>Heap being modified. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ga4c1f3fc8208fc4500f1064ca219145d9"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_free" ref="ga4c1f3fc8208fc4500f1064ca219145d9" args="(const piojo_heap_t *heap)" -->
 <div class="memitem">
 <div class="memproto">
@@ -387,6 +430,7 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Inserts a new entry. </p>
+<dl class="warning"><dt><b>Warning:</b></dt><dd><em>data</em> can't be inserted more than once. </dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
@@ -457,7 +501,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Feb 13 2014 14:09:51 for piojo-0.1 by
+    <li class="footer">Generated on Thu Feb 13 2014 15:19:05 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -27,17 +27,6 @@
 #include <piojo_test.h>
 #include <piojo/piojo_heap.h>
 
-static bool
-int_leq(const void *e1, const void *e2)
-{
-        int v1 = *(int*) e1;
-        int v2 = *(int*) e2;
-        if (v1 <= v2){
-                return TRUE;
-        }
-        return FALSE;
-}
-
 void test_alloc()
 {
         piojo_heap_t *heap;
@@ -142,9 +131,11 @@ void test_size()
         piojo_heap_push((piojo_opaque_t)i, i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 1);
 
+        ++i;
         piojo_heap_push((piojo_opaque_t)i, i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 2);
 
+        ++i;
         piojo_heap_push((piojo_opaque_t)i, i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 3);
 

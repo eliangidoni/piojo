@@ -76,6 +76,10 @@ void
 piojo_heap_push(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap);
 
 void
+piojo_heap_decrease(piojo_opaque_t data, piojo_heap_key_t key,
+                    piojo_heap_t *heap);
+
+void
 piojo_heap_pop(piojo_heap_t *heap);
 
 piojo_opaque_t
