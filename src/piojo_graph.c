@@ -51,6 +51,7 @@ typedef struct {
 struct piojo_graph {
         piojo_hash_t *alists_by_vid;
         piojo_graph_dir_t dir;
+        piojo_opaque_t data;            /* User data. */
         piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of graph in bytes */
@@ -107,6 +108,11 @@ insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
              piojo_graph_weight_t dist, piojo_heap_t *prioq,
              const piojo_graph_t *graph);
 
+static void
+update_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
+             piojo_graph_weight_t dist, piojo_heap_t *prioq,
+             const piojo_graph_t *graph);
+
 static piojo_graph_edge_t
 del_min_prioq(piojo_heap_t *prioq, const piojo_graph_t *graph);
 
@@ -130,22 +136,25 @@ bellman_ford_relax(piojo_array_t *edges, bool find_cycle_p, piojo_hash_t *dists,
  * Allocates a new graph.
  * Uses default allocator.
  * @param[in] directed Graph direction.
+ * @param[in] data User-defined data passed to graph callbacks.
  * @return New graph.
  */
 piojo_graph_t*
-piojo_graph_alloc(piojo_graph_dir_t directed)
+piojo_graph_alloc(piojo_graph_dir_t directed, piojo_opaque_t data)
 {
-        return piojo_graph_alloc_cb(directed, piojo_alloc_default);
+        return piojo_graph_alloc_cb(directed, data, piojo_alloc_default);
 }
 
 /**
  * Allocates a new graph.
  * @param[in] directed Graph direction.
+ * @param[in] data User-defined data passed to graph callbacks.
  * @param[in] allocator Allocator to be used.
  * @return New graph.
  */
 piojo_graph_t*
-piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
+piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_opaque_t data,
+                     piojo_alloc_if allocator)
 {
         piojo_graph_t * graph;
         piojo_alloc_kv_if ator = piojo_alloc_kv_default;
@@ -160,6 +169,7 @@ piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
 
         graph->allocator = allocator;
         graph->dir = directed;
+        graph->data = data;
         graph->alists_by_vid = piojo_hash_alloc_cb_eq(esize,
                                                       piojo_graph_vid_eq,
                                                       sizeof(piojo_graph_vid_t),
@@ -274,7 +284,7 @@ piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph)
 }
 
 /**
- * Sets user-defined @a vertex value (optional).
+ * Sets user-defined @a vertex value (default is @b 0).
  * @param[in] value
  * @param[in] vertex
  * @param[out] graph
@@ -291,10 +301,10 @@ piojo_graph_set_vvalue(piojo_opaque_t value, piojo_graph_vid_t vertex,
 }
 
 /**
- * Returns user-defined @a vertex value.
+ * Returns user-defined @a vertex value (default is @b 0).
  * @param[in] vertex
  * @param[in] graph
- * @return Vertex value or @b 0 if it's not set.
+ * @return Vertex value.
  */
 piojo_opaque_t
 piojo_graph_vvalue(piojo_graph_vid_t vertex, const piojo_graph_t *graph)
@@ -465,15 +475,13 @@ piojo_graph_vid_eq(const void *e1, const void *e2)
  * Traverses @a graph following a breadth first search.
  * @param[in] root Starting vertex.
  * @param[in] cb Vertex visit function.
- * @param[in] data Argument passed to @a cb function.
  * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] graph
  * @return Value returned by @a cb.
  */
 bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          piojo_opaque_t data, size_t limit,
-                          const piojo_graph_t *graph)
+                          size_t limit, const piojo_graph_t *graph)
 {
         piojo_queue_t *q;
         piojo_hash_t *visiteds;
@@ -493,7 +501,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_queue_size(q) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_queue_peek(q);
                 piojo_queue_pop(q);
-                if (cb(vcur.vid, graph, data)){
+                if (cb(vcur.vid, graph, graph->data)){
                         ret = TRUE;
                         break;
                 }
@@ -520,15 +528,13 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
  * Traverses @a graph following a depth first search.
  * @param[in] root Starting vertex.
  * @param[in] cb Vertex visit function.
- * @param[in] data Argument passed to @a cb function.
  * @param[in] limit Depth limit or @b 0 for no limit.
  * @param[in] graph
  * @return Value returned by @a cb.
  */
 bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        piojo_opaque_t data, size_t limit,
-                        const piojo_graph_t *graph)
+                        size_t limit, const piojo_graph_t *graph)
 {
         piojo_stack_t *st;
         piojo_hash_t *visiteds;
@@ -546,7 +552,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_stack_size(st) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_stack_peek(st);
                 piojo_stack_pop(st);
-                if (cb(vcur.vid, graph, data)){
+                if (cb(vcur.vid, graph, graph->data)){
                         ret = TRUE;
                         break;
                 }
@@ -750,7 +756,6 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
  * @param[in] heuristic Cost estimate function.
- * @param[in] data Argument passed to @a heuristic function.
  * @param[in] graph
  * @param[out] prevs Previous vertex in path for each vertex (if a path exists),
  *                   can be @b NULL.
@@ -758,8 +763,8 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
  */
 piojo_graph_weight_t
 piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
-                   piojo_graph_cost_cb heuristic, piojo_opaque_t data,
-                   const piojo_graph_t *graph, piojo_hash_t *prevs)
+                   piojo_graph_cost_cb heuristic, const piojo_graph_t *graph,
+                   piojo_hash_t *prevs)
 {
 }
 
@@ -894,6 +899,18 @@ insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
         e->end_vid = to;
         e->weight = dist;
         piojo_heap_push((piojo_opaque_t)e, dist, prioq);
+}
+
+static void
+update_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
+             piojo_graph_weight_t dist, piojo_heap_t *prioq,
+             const piojo_graph_t *graph)
+{
+        piojo_graph_edge_t *e = graph->allocator.alloc_cb(sizeof(piojo_graph_edge_t));
+        e->beg_vid = from;
+        e->end_vid = to;
+        e->weight = dist;
+        piojo_heap_decrease((piojo_opaque_t)e, dist, prioq);
 }
 
 static piojo_graph_edge_t

@@ -72,10 +72,11 @@ typedef piojo_graph_weight_t
 /** @} */
 
 piojo_graph_t*
-piojo_graph_alloc(piojo_graph_dir_t directed);
+piojo_graph_alloc(piojo_graph_dir_t directed, piojo_opaque_t data);
 
 piojo_graph_t*
-piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator);
+piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_opaque_t data,
+                     piojo_alloc_if allocator);
 
 piojo_graph_t*
 piojo_graph_copy(const piojo_graph_t *graph);
@@ -131,13 +132,11 @@ piojo_graph_vid_eq(const void *e1, const void *e2);
 
 bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          piojo_opaque_t data, size_t limit,
-                          const piojo_graph_t *graph);
+                          size_t limit, const piojo_graph_t *graph);
 
 bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        piojo_opaque_t data, size_t limit,
-                        const piojo_graph_t *graph);
+                        size_t limit, const piojo_graph_t *graph);
 
 void
 piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
@@ -156,8 +155,8 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree);
 
 piojo_graph_weight_t
 piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
-                   piojo_graph_cost_cb heuristic, piojo_opaque_t data,
-                   const piojo_graph_t *graph, piojo_hash_t *prevs);
+                   piojo_graph_cost_cb heuristic, const piojo_graph_t *graph,
+                   piojo_hash_t *prevs);
 
 #ifdef __cplusplus
 }
