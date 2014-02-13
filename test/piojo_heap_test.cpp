@@ -23,6 +23,7 @@
  *
  */
 
+#include <map>
 #include <time.h>
 #include <piojo_test.h>
 #include <piojo/piojo_heap.h>
@@ -243,11 +244,16 @@ void test_stress()
 {
         piojo_heap_t *heap;
         int i,j,prev;
+        std::map<int,bool>unique;
 
         srand(time(NULL));
         heap = piojo_heap_alloc();
         for (i = 0; i < TEST_STRESS_COUNT; ++i){
                 j = rand();
+                while (unique.count(j) > 0){
+                        j = rand();
+                }
+                unique[j]=true;
                 piojo_heap_push((piojo_opaque_t)j, j, heap);
         }
 
