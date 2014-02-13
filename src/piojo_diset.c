@@ -37,7 +37,7 @@ struct piojo_diset_set;
 typedef struct piojo_diset_tree piojo_diset_tree_t;
 struct piojo_diset_tree {
         size_t rank;            /* Height estimate. */
-        uintptr_t parent;
+        piojo_diset_sid_t parent;
 };
 
 struct piojo_diset {
@@ -48,10 +48,10 @@ struct piojo_diset {
 const size_t piojo_diset_sizeof = sizeof(piojo_diset_t);
 
 static piojo_diset_tree_t*
-find_subset(uintptr_t set, const piojo_diset_t *diset);
+find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset);
 
 static bool
-uintptr_eq(const void *e1, const void *e2);
+sid_eq(const void *e1, const void *e2);
 
 /**
  * Allocates a new diset.
@@ -84,8 +84,8 @@ piojo_diset_alloc_cb(piojo_alloc_if allocator)
         esize = sizeof(piojo_diset_tree_t);
 
         diset->allocator = allocator;
-        diset->trees = piojo_hash_alloc_cb_eq(esize, uintptr_eq,
-                                              sizeof(uintptr_t), ator);
+        diset->trees = piojo_hash_alloc_cb_eq(esize, sid_eq,
+                                              sizeof(piojo_diset_sid_t), ator);
 
         return diset;
 }
@@ -145,7 +145,7 @@ piojo_diset_clear(piojo_diset_t *diset)
  * @param[out] diset Diset.
  */
 void
-piojo_diset_insert(uintptr_t set, piojo_diset_t *diset)
+piojo_diset_insert(piojo_diset_sid_t set, piojo_diset_t *diset)
 {
         piojo_diset_tree_t dtree;
         PIOJO_ASSERT(diset);
@@ -161,8 +161,8 @@ piojo_diset_insert(uintptr_t set, piojo_diset_t *diset)
  * @param[out] diset Diset.
  * @return @a set subset.
  */
-uintptr_t
-piojo_diset_find(uintptr_t set, const piojo_diset_t *diset)
+piojo_diset_sid_t
+piojo_diset_find(piojo_diset_sid_t set, const piojo_diset_t *diset)
 {
         piojo_diset_tree_t *dtree;
         PIOJO_ASSERT(diset);
@@ -178,7 +178,8 @@ piojo_diset_find(uintptr_t set, const piojo_diset_t *diset)
  * @param[out] diset Diset.
  */
 void
-piojo_diset_union(uintptr_t set1, uintptr_t set2, piojo_diset_t *diset)
+piojo_diset_union(piojo_diset_sid_t set1, piojo_diset_sid_t set2,
+                  piojo_diset_t *diset)
 {
         piojo_diset_tree_t *dtree1, *dtree2;
         PIOJO_ASSERT(diset);
@@ -202,10 +203,10 @@ piojo_diset_union(uintptr_t set1, uintptr_t set2, piojo_diset_t *diset)
  */
 
 static bool
-uintptr_eq(const void *e1, const void *e2)
+sid_eq(const void *e1, const void *e2)
 {
-        uintptr_t v1 = *(uintptr_t*) e1;
-        uintptr_t v2 = *(uintptr_t*) e2;
+        piojo_diset_sid_t v1 = *(piojo_diset_sid_t*) e1;
+        piojo_diset_sid_t v2 = *(piojo_diset_sid_t*) e2;
         if (v1 == v2){
                 return TRUE;
         }
@@ -213,7 +214,7 @@ uintptr_eq(const void *e1, const void *e2)
 }
 
 static piojo_diset_tree_t*
-find_subset(uintptr_t set, const piojo_diset_t *diset)
+find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset)
 {
         piojo_diset_tree_t *dtree;
         dtree = (piojo_diset_tree_t*) piojo_hash_search(&set, diset->trees);

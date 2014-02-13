@@ -54,7 +54,7 @@ typedef enum {
 } piojo_graph_dir_t;
 
 /** Vertex id. */
-typedef uintptr_t piojo_graph_vid_t;
+typedef unsigned int piojo_graph_vid_t;
 
 /** Edge weight. */
 typedef int piojo_graph_weight_t;
@@ -62,12 +62,12 @@ typedef int piojo_graph_weight_t;
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
 typedef bool
 (*piojo_graph_visit_cb) (piojo_graph_vid_t v, const piojo_graph_t *graph,
-                         void *data);
+                         piojo_opaque_t data);
 
 /** Returns cost estimate between two vertices. */
 typedef piojo_graph_weight_t
 (*piojo_graph_cost_cb) (piojo_graph_vid_t from, piojo_graph_vid_t to,
-                        const piojo_graph_t *graph, void *data);
+                        const piojo_graph_t *graph, piojo_opaque_t data);
 
 /** @} */
 
@@ -93,10 +93,10 @@ bool
 piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph);
 
 void
-piojo_graph_set_vvalue(const void *value, piojo_graph_vid_t vertex,
+piojo_graph_set_vvalue(piojo_opaque_t value, piojo_graph_vid_t vertex,
                        piojo_graph_t *graph);
 
-void*
+piojo_opaque_t
 piojo_graph_vvalue(piojo_graph_vid_t vertex, const piojo_graph_t *graph);
 
 void
@@ -131,12 +131,12 @@ piojo_graph_vid_eq(const void *e1, const void *e2);
 
 bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          const void *data, size_t limit,
+                          piojo_opaque_t data, size_t limit,
                           const piojo_graph_t *graph);
 
 bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        const void *data, size_t limit,
+                        piojo_opaque_t data, size_t limit,
                         const piojo_graph_t *graph);
 
 void
@@ -156,7 +156,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree);
 
 piojo_graph_weight_t
 piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
-                   piojo_graph_cost_cb heuristic, const void *data,
+                   piojo_graph_cost_cb heuristic, piojo_opaque_t data,
                    const piojo_graph_t *graph, piojo_hash_t *prevs);
 
 #ifdef __cplusplus

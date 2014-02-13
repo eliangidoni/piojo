@@ -49,6 +49,9 @@ extern "C" {
 /** @hideinitializer Equivalent to @b false. */
 #define FALSE false
 
+/** Opaque data type. */
+typedef uintptr_t piojo_opaque_t;
+
 /**
  * Returns @b -1, @b 0, @b 1 when @a e1 is less than, equal to,
  * or greater than @a e2.

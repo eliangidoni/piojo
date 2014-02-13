@@ -31,7 +31,7 @@ bool veq(piojo_graph_vid_t v1, piojo_graph_vid_t v2)
         return (memcmp(&v1,&v2,sizeof(v1)) == 0) ? TRUE : FALSE;
 }
 
-bool vvisit (piojo_graph_vid_t v, const piojo_graph_t *graph, void *data)
+bool vvisit (piojo_graph_vid_t v, const piojo_graph_t *graph, piojo_opaque_t data)
 {
         size_t *cnt = (size_t*)data;
         PIOJO_UNUSED(graph);
@@ -301,7 +301,7 @@ void test_bfs()
                         piojo_graph_link(1, v, v2, graph);
                 }
         }
-        piojo_graph_breadth_first(0, vvisit, &cnt, 0, graph);
+        piojo_graph_breadth_first(0, vvisit, (piojo_opaque_t)&cnt, 0, graph);
         PIOJO_ASSERT(cnt == 0);
 
         piojo_graph_free(graph);
@@ -329,7 +329,7 @@ void test_dfs()
                         piojo_graph_link(1, v, v2, graph);
                 }
         }
-        piojo_graph_depth_first(0, vvisit, &cnt, 0, graph);
+        piojo_graph_depth_first(0, vvisit, (piojo_opaque_t)&cnt, 0, graph);
         PIOJO_ASSERT(cnt == 0);
 
         piojo_graph_free(graph);

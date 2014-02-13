@@ -24,6 +24,11 @@
  * Piojo Disjoint-set API.
  */
 
+/**
+ * @file
+ * @addtogroup piojodiset
+ */
+
 #ifndef PIOJO_DISET_H_
 #define PIOJO_DISET_H_
 
@@ -37,6 +42,12 @@ extern "C" {
 struct piojo_diset;
 typedef struct piojo_diset piojo_diset_t;
 extern const size_t piojo_diset_sizeof;
+
+/** @{ */
+/** Set id. */
+typedef unsigned int piojo_diset_sid_t;
+
+/** @} */
 
 piojo_diset_t*
 piojo_diset_alloc(void);
@@ -54,13 +65,14 @@ void
 piojo_diset_clear(piojo_diset_t *diset);
 
 void
-piojo_diset_insert(uintptr_t set, piojo_diset_t *diset);
+piojo_diset_insert(piojo_diset_sid_t set, piojo_diset_t *diset);
 
-uintptr_t
-piojo_diset_find(uintptr_t set, const piojo_diset_t *diset);
+piojo_diset_sid_t
+piojo_diset_find(piojo_diset_sid_t set, const piojo_diset_t *diset);
 
 void
-piojo_diset_union(uintptr_t set1, uintptr_t set2, piojo_diset_t *diset);
+piojo_diset_union(piojo_diset_sid_t set1, piojo_diset_sid_t set2,
+                  piojo_diset_t *diset);
 
 #ifdef __cplusplus
 }

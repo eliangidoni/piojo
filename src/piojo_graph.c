@@ -40,7 +40,7 @@
 typedef struct {
         piojo_array_t *edges_by_vid;
         piojo_graph_vid_t vid;          /* Vertex identifier. */
-        void *data;                     /* Optional user data. */
+        piojo_opaque_t data;            /* Optional user data. */
 } piojo_graph_alist_t;
 
 typedef struct {
@@ -245,7 +245,7 @@ piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph)
         PIOJO_ASSERT(graph);
 
         tmp.vid = vertex;
-        tmp.data = NULL;
+        tmp.data = 0;
         tmp.edges_by_vid =
                 piojo_array_alloc_cb_n(edge_cmp,
                                        sizeof(piojo_graph_edge_t),
@@ -267,7 +267,7 @@ piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph)
         PIOJO_ASSERT(graph);
 
         alist = vid_to_alist(vertex, graph);
-        alist->data = NULL;
+        alist->data = 0;
 
         piojo_graph_unlink_all(vertex, graph);
         piojo_array_free(alist->edges_by_vid);
@@ -282,23 +282,23 @@ piojo_graph_delete(piojo_graph_vid_t vertex, piojo_graph_t *graph)
  * @param[out] graph
  */
 void
-piojo_graph_set_vvalue(const void *value, piojo_graph_vid_t vertex,
+piojo_graph_set_vvalue(piojo_opaque_t value, piojo_graph_vid_t vertex,
                        piojo_graph_t *graph)
 {
         piojo_graph_alist_t *alist;
         PIOJO_ASSERT(graph);
 
         alist = vid_to_alist(vertex, graph);
-        alist->data = (void *)value;
+        alist->data = value;
 }
 
 /**
  * Returns user-defined @a vertex value.
  * @param[in] vertex
  * @param[in] graph
- * @return Vertex value or @b NULL if it's not set.
+ * @return Vertex value or @b 0 if it's not set.
  */
-void*
+piojo_opaque_t
 piojo_graph_vvalue(piojo_graph_vid_t vertex, const piojo_graph_t *graph)
 {
         PIOJO_ASSERT(graph);
@@ -479,7 +479,7 @@ piojo_graph_vid_eq(const void *e1, const void *e2)
  */
 bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                          const void *data, size_t limit,
+                          piojo_opaque_t data, size_t limit,
                           const piojo_graph_t *graph)
 {
         piojo_queue_t *q;
@@ -500,7 +500,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_queue_size(q) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_queue_peek(q);
                 piojo_queue_pop(q);
-                if (cb(vcur.vid, graph, (void *)data)){
+                if (cb(vcur.vid, graph, data)){
                         ret = TRUE;
                         break;
                 }
@@ -534,7 +534,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
  */
 bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
-                        const void *data, size_t limit,
+                        piojo_opaque_t data, size_t limit,
                         const piojo_graph_t *graph)
 {
         piojo_stack_t *st;
@@ -553,7 +553,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_stack_size(st) > 0){
                 vcur = *(piojo_graph_vtx_t*) piojo_stack_peek(st);
                 piojo_stack_pop(st);
-                if (cb(vcur.vid, graph, (void *)data)){
+                if (cb(vcur.vid, graph, data)){
                         ret = TRUE;
                         break;
                 }
@@ -765,7 +765,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
  */
 piojo_graph_weight_t
 piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
-                   piojo_graph_cost_cb heuristic, const void *data,
+                   piojo_graph_cost_cb heuristic, piojo_opaque_t data,
                    const piojo_graph_t *graph, piojo_hash_t *prevs)
 {
 }
