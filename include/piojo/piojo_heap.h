@@ -24,6 +24,11 @@
  * Piojo Heap API.
  */
 
+/**
+ * @file
+ * @addtogroup piojoheap
+ */
+
 #ifndef PIOJO_HEAP_H_
 #define PIOJO_HEAP_H_
 
@@ -38,22 +43,22 @@ struct piojo_heap;
 typedef struct piojo_heap piojo_heap_t;
 extern const size_t piojo_heap_sizeof;
 
-piojo_heap_t*
-piojo_heap_alloc();
+/** @{ */
+/** Priority key. */
+typedef int piojo_heap_key_t;
+/** @} */
 
 piojo_heap_t*
-piojo_heap_alloc_s(piojo_leq_cb cmp, size_t esize);
+piojo_heap_alloc(void);
 
 piojo_heap_t*
-piojo_heap_alloc_n(piojo_leq_cb cmp, size_t esize, size_t ecount);
+piojo_heap_alloc_n(size_t ecount);
 
 piojo_heap_t*
-piojo_heap_alloc_cb(piojo_leq_cb cmp, size_t esize,
-                    piojo_alloc_if allocator);
+piojo_heap_alloc_cb(piojo_alloc_if allocator);
 
 piojo_heap_t*
-piojo_heap_alloc_cb_n(piojo_leq_cb cmp, size_t esize, size_t ecount,
-                      piojo_alloc_if allocator);
+piojo_heap_alloc_cb_n(size_t ecount, piojo_alloc_if allocator);
 
 piojo_heap_t*
 piojo_heap_copy(const piojo_heap_t *heap);
@@ -68,12 +73,12 @@ size_t
 piojo_heap_size(const piojo_heap_t *heap);
 
 void
-piojo_heap_push(const void *data, piojo_heap_t *heap);
+piojo_heap_push(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap);
 
 void
 piojo_heap_pop(piojo_heap_t *heap);
 
-void*
+piojo_opaque_t
 piojo_heap_peek(const piojo_heap_t *heap);
 
 #ifdef __cplusplus
