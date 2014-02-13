@@ -83,6 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -90,6 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_diset_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga65a24ada38a17fb2a02fd0ceb51405e5">piojo_diset_alloc</a> (void)</td></tr>
@@ -97,15 +101,30 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_diset_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#gab1d3d3bfc1b3808dcbfdc89ad57dfd7d">piojo_diset_copy</a> (const piojo_diset_t *diset)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga870356a1244c5d78648daad9405ead86">piojo_diset_free</a> (const piojo_diset_t *diset)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga5b9d5ea647d8cb07128665ef4721fd33">piojo_diset_clear</a> (piojo_diset_t *diset)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#gabfd5181db39e169629ab5dbdf7498501">piojo_diset_insert</a> (uintptr_t set, piojo_diset_t *diset)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#gac179eebd339df88d118f474343af1fbe">piojo_diset_find</a> (uintptr_t set, const piojo_diset_t *diset)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga86277772c6d110b05285e47d17260458">piojo_diset_union</a> (uintptr_t set1, uintptr_t set2, piojo_diset_t *diset)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#gaf4ecce31ed2e51c0aabf7278e411986f">piojo_diset_insert</a> (<a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a> set, piojo_diset_t *diset)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga7c9801ac52d7d4c7852e4be99dd9857d">piojo_diset_find</a> (<a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a> set, const piojo_diset_t *diset)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#ga3de3eeedca5133826ec920ff62fbaf8a">piojo_diset_union</a> (<a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a> set1, <a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a> set2, piojo_diset_t *diset)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojodiset.html#gaf160a585f607e013333f7c5c281d24d5">piojo_diset_sizeof</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Piojo Disjoint-set implementation. </p>
+<hr/><h2>Typedef Documentation</h2>
+<a class="anchor" id="ga38c508f6be9dcf48a1a175ca6ac4086d"></a><!-- doxytag: member="piojo_diset.h::piojo_diset_sid_t" ref="ga38c508f6be9dcf48a1a175ca6ac4086d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef unsigned int <a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set id. </p>
+
+</div>
+</div>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="ga65a24ada38a17fb2a02fd0ceb51405e5"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_alloc" ref="ga65a24ada38a17fb2a02fd0ceb51405e5" args="(void)" -->
 <div class="memitem">
@@ -200,14 +219,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gac179eebd339df88d118f474343af1fbe"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_find" ref="gac179eebd339df88d118f474343af1fbe" args="(uintptr_t set, const piojo_diset_t *diset)" -->
+<a class="anchor" id="ga7c9801ac52d7d4c7852e4be99dd9857d"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_find" ref="ga7c9801ac52d7d4c7852e4be99dd9857d" args="(piojo_diset_sid_t set, const piojo_diset_t *diset)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uintptr_t <a class="el" href="group__piojodiset.html#gac179eebd339df88d118f474343af1fbe">piojo_diset_find</a> </td>
+          <td class="memname"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a> <a class="el" href="group__piojodiset.html#ga7c9801ac52d7d4c7852e4be99dd9857d">piojo_diset_find</a> </td>
           <td>(</td>
-          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a>&#160;</td>
           <td class="paramname"><em>set</em>, </td>
         </tr>
         <tr>
@@ -260,14 +279,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gabfd5181db39e169629ab5dbdf7498501"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_insert" ref="gabfd5181db39e169629ab5dbdf7498501" args="(uintptr_t set, piojo_diset_t *diset)" -->
+<a class="anchor" id="gaf4ecce31ed2e51c0aabf7278e411986f"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_insert" ref="gaf4ecce31ed2e51c0aabf7278e411986f" args="(piojo_diset_sid_t set, piojo_diset_t *diset)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojodiset.html#gabfd5181db39e169629ab5dbdf7498501">piojo_diset_insert</a> </td>
+          <td class="memname">void <a class="el" href="group__piojodiset.html#gaf4ecce31ed2e51c0aabf7278e411986f">piojo_diset_insert</a> </td>
           <td>(</td>
-          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a>&#160;</td>
           <td class="paramname"><em>set</em>, </td>
         </tr>
         <tr>
@@ -295,20 +314,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga86277772c6d110b05285e47d17260458"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_union" ref="ga86277772c6d110b05285e47d17260458" args="(uintptr_t set1, uintptr_t set2, piojo_diset_t *diset)" -->
+<a class="anchor" id="ga3de3eeedca5133826ec920ff62fbaf8a"></a><!-- doxytag: member="piojo_diset.c::piojo_diset_union" ref="ga3de3eeedca5133826ec920ff62fbaf8a" args="(piojo_diset_sid_t set1, piojo_diset_sid_t set2, piojo_diset_t *diset)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojodiset.html#ga86277772c6d110b05285e47d17260458">piojo_diset_union</a> </td>
+          <td class="memname">void <a class="el" href="group__piojodiset.html#ga3de3eeedca5133826ec920ff62fbaf8a">piojo_diset_union</a> </td>
           <td>(</td>
-          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a>&#160;</td>
           <td class="paramname"><em>set1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__piojodiset.html#ga38c508f6be9dcf48a1a175ca6ac4086d">piojo_diset_sid_t</a>&#160;</td>
           <td class="paramname"><em>set2</em>, </td>
         </tr>
         <tr>
@@ -371,7 +390,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Feb 12 2014 01:29:15 for piojo-0.1 by
+    <li class="footer">Generated on Thu Feb 13 2014 05:25:19 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
