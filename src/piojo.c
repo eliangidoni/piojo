@@ -33,6 +33,34 @@
 #include <piojo_defs.h>
 
 /**
+ * Equality function for opaque types.
+ * @param[in] e1
+ * @param[in] e2
+ * @return @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise.
+ */
+bool
+piojo_opaque_eq(const void *e1, const void *e2)
+{
+        piojo_opaque_t *v1 = (piojo_opaque_t*) e1;
+        piojo_opaque_t *v2 = (piojo_opaque_t*) e2;
+        return (*v1 == *v2);
+}
+
+/**
+ * Equality function for ID types.
+ * @param[in] e1
+ * @param[in] e2
+ * @return @b TRUE if @a e1 is equal to @a e2, @b FALSE otherwise.
+ */
+bool
+piojo_id_eq(const void *e1, const void *e2)
+{
+        piojo_id_t *v1 = (piojo_id_t*) e1;
+        piojo_id_t *v2 = (piojo_id_t*) e2;
+        return (*v1 == *v2);
+}
+
+/**
  * Checks addition overflow/wrap.
  * @param[in] v1
  * @param[in] v2

@@ -54,7 +54,7 @@ typedef enum {
 } piojo_graph_dir_t;
 
 /** Vertex id. */
-typedef unsigned int piojo_graph_vid_t;
+typedef piojo_id_t piojo_graph_vid_t;
 
 /** Edge weight. */
 typedef int piojo_graph_weight_t;

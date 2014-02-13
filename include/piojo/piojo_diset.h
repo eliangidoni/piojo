@@ -45,7 +45,7 @@ extern const size_t piojo_diset_sizeof;
 
 /** @{ */
 /** Set id. */
-typedef unsigned int piojo_diset_sid_t;
+typedef piojo_id_t piojo_diset_sid_t;
 /** @} */
 
 piojo_diset_t*

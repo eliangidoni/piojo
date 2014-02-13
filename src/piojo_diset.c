@@ -50,9 +50,6 @@ const size_t piojo_diset_sizeof = sizeof(piojo_diset_t);
 static piojo_diset_tree_t*
 find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset);
 
-static bool
-sid_eq(const void *e1, const void *e2);
-
 /**
  * Allocates a new diset.
  * Uses default allocator.
@@ -84,7 +81,7 @@ piojo_diset_alloc_cb(piojo_alloc_if allocator)
         esize = sizeof(piojo_diset_tree_t);
 
         diset->allocator = allocator;
-        diset->trees = piojo_hash_alloc_cb_eq(esize, sid_eq,
+        diset->trees = piojo_hash_alloc_cb_eq(esize, piojo_id_eq,
                                               sizeof(piojo_diset_sid_t), ator);
 
         return diset;
@@ -201,17 +198,6 @@ piojo_diset_union(piojo_diset_sid_t set1, piojo_diset_sid_t set2,
 /** @}
  * Private functions.
  */
-
-static bool
-sid_eq(const void *e1, const void *e2)
-{
-        piojo_diset_sid_t v1 = *(piojo_diset_sid_t*) e1;
-        piojo_diset_sid_t v2 = *(piojo_diset_sid_t*) e2;
-        if (v1 == v2){
-                return TRUE;
-        }
-        return FALSE;
-}
 
 static piojo_diset_tree_t*
 find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset)

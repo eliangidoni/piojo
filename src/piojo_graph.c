@@ -458,12 +458,7 @@ piojo_graph_edge_weight(size_t idx, piojo_graph_vid_t vertex,
 bool
 piojo_graph_vid_eq(const void *e1, const void *e2)
 {
-        piojo_graph_vid_t v1 = *(piojo_graph_vid_t*) e1;
-        piojo_graph_vid_t v2 = *(piojo_graph_vid_t*) e2;
-        if (v1 == v2){
-                return TRUE;
-        }
-        return FALSE;
+        return piojo_id_eq(e1, e2);
 }
 
 /**

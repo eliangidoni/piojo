@@ -52,6 +52,9 @@ extern "C" {
 /** Opaque data type. */
 typedef uintptr_t piojo_opaque_t;
 
+/** Integral ID type. */
+typedef unsigned int piojo_id_t;
+
 /**
  * Returns @b -1, @b 0, @b 1 when @a e1 is less than, equal to,
  * or greater than @a e2.
@@ -84,6 +87,12 @@ typedef void
 (*piojo_finish_cb) (void *ptr);
 
 /** @} */
+
+bool
+piojo_opaque_eq(const void *e1, const void *e2);
+
+bool
+piojo_id_eq(const void *e1, const void *e2);
 
 bool
 piojo_safe_adduint_p(unsigned int v1, unsigned int v2);
