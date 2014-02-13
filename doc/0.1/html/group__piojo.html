@@ -98,6 +98,7 @@ Defines</h2></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga790de26d83a424357d65debe8d66379a">piojo_id_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> )(const void *e1, const void *e2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a> )(const void *e1, const void *e2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gafa3b4c64e55bbaf7ddfc55c48245899d">piojo_alloc_cb</a> )(size_t size)</td></tr>
@@ -107,6 +108,8 @@ Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga3607086098e0a147f73cc337f289d4cf">piojo_finish_cb</a> )(void *ptr)</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gaa0d1bf9339e3b0d58d853752692aa02e">piojo_opaque_eq</a> (const void *e1, const void *e2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga922764b4759621a779742deb89b9f706">piojo_id_eq</a> (const void *e1, const void *e2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga3d1fb2593fd01ed7227cd83bb543fa8a">piojo_safe_adduint_p</a> (unsigned int v1, unsigned int v2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga34e8727de27066a228cb01d153b394fc">piojo_safe_addsiz_p</a> (size_t v1, size_t v2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga1b8e91f22667f6a4500e827b39b55961">piojo_safe_addint_p</a> (int v1, int v2)</td></tr>
@@ -238,6 +241,20 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Frees memory pointed by <em>ptr</em>. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga790de26d83a424357d65debe8d66379a"></a><!-- doxytag: member="piojo.h::piojo_id_t" ref="ga790de26d83a424357d65debe8d66379a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef unsigned int <a class="el" href="group__piojo.html#ga790de26d83a424357d65debe8d66379a">piojo_id_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Integral ID type. </p>
 
 </div>
 </div>
@@ -396,6 +413,42 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Clamped value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga922764b4759621a779742deb89b9f706"></a><!-- doxytag: member="piojo.c::piojo_id_eq" ref="ga922764b4759621a779742deb89b9f706" args="(const void *e1, const void *e2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="group__piojo.html#ga922764b4759621a779742deb89b9f706">piojo_id_eq</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>e1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>e2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Equality function for ID types. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e1</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">e2</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if <em>e1</em> is equal to <em>e2</em>, <b>FALSE</b> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -612,6 +665,42 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Minimum value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaa0d1bf9339e3b0d58d853752692aa02e"></a><!-- doxytag: member="piojo.c::piojo_opaque_eq" ref="gaa0d1bf9339e3b0d58d853752692aa02e" args="(const void *e1, const void *e2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="group__piojo.html#gaa0d1bf9339e3b0d58d853752692aa02e">piojo_opaque_eq</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>e1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>e2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Equality function for opaque types. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">e1</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">e2</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if <em>e1</em> is equal to <em>e2</em>, <b>FALSE</b> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -922,7 +1011,7 @@ Functions</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Feb 13 2014 06:56:55 for piojo-0.1 by
+    <li class="footer">Generated on Thu Feb 13 2014 14:09:51 for piojo-0.1 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
