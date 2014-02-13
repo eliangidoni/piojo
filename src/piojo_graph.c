@@ -101,20 +101,18 @@ static piojo_heap_t*
 alloc_prioq(const piojo_graph_t *graph);
 
 static void
-free_prioq(piojo_heap_t *prioq, const piojo_graph_t *graph);
+free_prioq(piojo_heap_t *prioq);
 
 static void
-insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
-             piojo_graph_weight_t dist, piojo_heap_t *prioq,
-             const piojo_graph_t *graph);
+insert_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
+             piojo_heap_t *prioq);
 
 static void
-update_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
-             piojo_graph_weight_t dist, piojo_heap_t *prioq,
-             const piojo_graph_t *graph);
+update_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
+             piojo_heap_t *prioq);
 
-static piojo_graph_edge_t
-del_min_prioq(piojo_heap_t *prioq, const piojo_graph_t *graph);
+static piojo_opaque_t
+del_min_prioq(piojo_heap_t *prioq);
 
 static bool
 empty_prioq_p(piojo_heap_t *prioq);
@@ -125,7 +123,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 piojo_hash_t *prevs);
 
 static void
-dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
+dijkstra_relax(piojo_graph_vid_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs);
 
 static bool
@@ -708,7 +706,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
         piojo_heap_t *prioq;
         piojo_diset_t *diset;
         piojo_graph_alist_t *v;
-        piojo_graph_edge_t e;
+        piojo_graph_edge_t *e;
         piojo_hash_node_t *next, node;
         size_t ecnt, i;
         piojo_graph_weight_t w=0;
@@ -733,25 +731,26 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
 
                 ecnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < ecnt; ++i){
-                        e = *((piojo_graph_edge_t *)
-                              piojo_array_at(i, v->edges_by_vid));
-                        insert_prioq(e.beg_vid, e.end_vid, e.weight, prioq, graph);
+                        e = ((piojo_graph_edge_t *)
+                             piojo_array_at(i, v->edges_by_vid));
+                        insert_prioq((piojo_opaque_t)e, e->weight, prioq);
                 }
                 next = piojo_hash_next(next);
         }
 
         while (! empty_prioq_p(prioq)){
-                e = del_min_prioq(prioq, graph);
-                if (piojo_diset_find(e.beg_vid, diset) !=
-                    piojo_diset_find(e.end_vid, diset)){
-                        piojo_diset_union(e.beg_vid, e.end_vid, diset);
-                        piojo_graph_link(e.weight, e.beg_vid, e.end_vid, tree);
-                        w += e.weight;
+                e = (piojo_graph_edge_t *)del_min_prioq(prioq);
+                if (piojo_diset_find(e->beg_vid, diset) !=
+                    piojo_diset_find(e->end_vid, diset)){
+                        piojo_diset_union(e->beg_vid, e->end_vid, diset);
+                        piojo_graph_link(e->weight, e->beg_vid, e->end_vid,
+                                         tree);
+                        w += e->weight;
                 }
         }
 
         piojo_diset_free(diset);
-        free_prioq(prioq, graph);
+        free_prioq(prioq);
         return w;
 }
 
@@ -887,47 +886,31 @@ alloc_prioq(const piojo_graph_t *graph)
 }
 
 static void
-free_prioq(piojo_heap_t *prioq, const piojo_graph_t *graph)
+free_prioq(piojo_heap_t *prioq)
 {
-        while (! empty_prioq_p(prioq)){
-                del_min_prioq(prioq, graph);
-        }
         piojo_heap_free(prioq);
 }
 
 static void
-insert_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
-             piojo_graph_weight_t dist, piojo_heap_t *prioq,
-             const piojo_graph_t *graph)
+insert_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
+             piojo_heap_t *prioq)
 {
-        piojo_graph_edge_t *e = graph->allocator.alloc_cb(sizeof(piojo_graph_edge_t));
-        e->beg_vid = from;
-        e->end_vid = to;
-        e->weight = dist;
-        piojo_heap_push((piojo_opaque_t)e, dist, prioq);
+        piojo_heap_push(data, dist, prioq);
 }
 
 static void
-update_prioq(piojo_graph_vid_t from, piojo_graph_vid_t to,
-             piojo_graph_weight_t dist, piojo_heap_t *prioq,
-             const piojo_graph_t *graph)
+update_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
+             piojo_heap_t *prioq)
 {
-        piojo_graph_edge_t *e = graph->allocator.alloc_cb(sizeof(piojo_graph_edge_t));
-        e->beg_vid = from;
-        e->end_vid = to;
-        e->weight = dist;
-        piojo_heap_decrease((piojo_opaque_t)e, dist, prioq);
+        piojo_heap_decrease(data, dist, prioq);
 }
 
-static piojo_graph_edge_t
-del_min_prioq(piojo_heap_t *prioq, const piojo_graph_t *graph)
+static piojo_opaque_t
+del_min_prioq(piojo_heap_t *prioq)
 {
-        piojo_graph_edge_t *e, tmp;
-        e = (piojo_graph_edge_t *)piojo_heap_peek(prioq);
+        piojo_opaque_t data = piojo_heap_peek(prioq);
         piojo_heap_pop(prioq);
-        tmp = *e;
-        graph->allocator.free_cb(e);
-        return tmp;
+        return data;
 }
 
 static bool
@@ -941,7 +924,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 const piojo_graph_t *graph, piojo_hash_t *dists,
                 piojo_hash_t *prevs)
 {
-        piojo_graph_edge_t bestv;
+        piojo_graph_vid_t bestv;
         piojo_hash_t *visiteds;
         piojo_graph_weight_t dist=0;
         piojo_heap_t *prioq;
@@ -951,41 +934,43 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
         prioq = alloc_prioq(graph);
 
         /* Relax the nearest (unvisited) vertex in each iteration. */
-        insert_prioq(root, root, dist, prioq, graph);
+        insert_prioq((piojo_opaque_t)root, dist, prioq);
         while (! empty_prioq_p(prioq)){
-                bestv = del_min_prioq(prioq, graph);
-                PIOJO_ASSERT(bestv.weight >= 0);
-
-                if (dst != NULL && bestv.end_vid == *dst){
+                bestv = (piojo_graph_vid_t)del_min_prioq(prioq);
+                if (dst != NULL && bestv == *dst){
                         break;
                 }
-                if (! is_visited_p(bestv.end_vid, visiteds)){
+                if (! is_visited_p(bestv, visiteds)){
                         dijkstra_relax(bestv, graph, prioq, dists, prevs);
-                        mark_visited(bestv.end_vid, visiteds);
+                        mark_visited(bestv, visiteds);
                 }
         }
 
-        free_prioq(prioq, graph);
+        free_prioq(prioq);
         free_visiteds(visiteds);
 }
 
 static void
-dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
+dijkstra_relax(piojo_graph_vid_t bestv, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *dists, piojo_hash_t *prevs)
 {
         size_t i, cnt;
+        piojo_graph_weight_t *bestw;
         piojo_graph_uweight_t ndist, *vdist;
         piojo_graph_edge_t *e;
         piojo_graph_alist_t *v;
 
-        v = vid_to_alist(bestv.end_vid, graph);
+        bestw = (piojo_graph_weight_t *) piojo_hash_search(&bestv, dists);
+        PIOJO_ASSERT(bestw != NULL && *bestw >= 0);
+
+        v = vid_to_alist(bestv, graph);
         cnt = piojo_array_size(v->edges_by_vid);
         for (i = 0; i < cnt; ++i){
                 e = (piojo_graph_edge_t *) piojo_array_at(i, v->edges_by_vid);
                 PIOJO_ASSERT(e->weight >= 0);
 
                 ndist = ((piojo_graph_uweight_t) e->weight +
-                         (piojo_graph_uweight_t) bestv.weight);
+                         (piojo_graph_uweight_t) *bestw);
                 if (ndist > WEIGHT_MAX){
                         ndist = WEIGHT_MAX;
                 }
@@ -997,7 +982,13 @@ dijkstra_relax(piojo_graph_edge_t bestv, const piojo_graph_t *graph,
                         if (prevs != NULL){
                                 piojo_hash_set(&e->end_vid, &v->vid, prevs);
                         }
-                        insert_prioq(v->vid, e->end_vid, ndist, prioq, graph);
+                        if (vdist == NULL){
+                                insert_prioq((piojo_opaque_t)e->end_vid, ndist,
+                                             prioq);
+                        }else{
+                                update_prioq((piojo_opaque_t)e->end_vid, ndist,
+                                             prioq);
+                        }
                 }
         }
 }
