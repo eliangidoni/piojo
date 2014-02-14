@@ -51,6 +51,9 @@ void test_alloc()
         PIOJO_ASSERT(heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 0);
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_copy_def()
@@ -70,6 +73,9 @@ void test_copy_def()
         PIOJO_ASSERT(i == j);
 
         piojo_heap_free(copy);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_copy()
@@ -147,6 +153,9 @@ void test_size()
         PIOJO_ASSERT(piojo_heap_size(heap) == 0);
 
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_push()
@@ -171,6 +180,9 @@ void test_push()
         PIOJO_ASSERT(i-1 == j);
 
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_pop()
@@ -196,6 +208,9 @@ void test_pop()
         PIOJO_ASSERT(i == j);
 
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_peek()
@@ -217,6 +232,9 @@ void test_peek()
         j = (int) piojo_heap_peek(heap);
         PIOJO_ASSERT(i - 1 == j);
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_heap_expand()
@@ -238,6 +256,9 @@ void test_heap_expand()
         }
 
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 void test_stress()
@@ -270,6 +291,76 @@ void test_stress()
         }
 
         piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
+
+void test_heap_decr()
+{
+        piojo_heap_t *heap;
+        int i=1, j=0;
+
+        heap = piojo_heap_alloc();
+        PIOJO_ASSERT(piojo_heap_size(heap) == 0);
+
+        piojo_heap_push((piojo_opaque_t)i, 10, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 1);
+
+        ++i;
+        piojo_heap_push((piojo_opaque_t)i, 30, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 2);
+
+        ++i;
+        piojo_heap_push((piojo_opaque_t)i, 8, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 3);
+
+        ++i;
+        piojo_heap_push((piojo_opaque_t)i, 20, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 4);
+
+        ++i;
+        piojo_heap_push((piojo_opaque_t)i, 80, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 5);
+
+        j = (int) piojo_heap_peek(heap);
+        PIOJO_ASSERT(3 == j);
+
+        piojo_heap_pop(heap);
+        piojo_heap_decrease((piojo_opaque_t)4, 2, heap);
+        j = (int) piojo_heap_peek(heap);
+        PIOJO_ASSERT(4 == j);
+
+        piojo_heap_decrease((piojo_opaque_t)5, 1, heap);
+        j = (int) piojo_heap_peek(heap);
+        PIOJO_ASSERT(5 == j);
+
+        piojo_heap_free(heap);
+
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
+
+void test_heap_has_p()
+{
+        piojo_heap_t *heap;
+        int i=1234;
+
+        heap = piojo_heap_alloc();
+        PIOJO_ASSERT(! piojo_heap_has_p((piojo_opaque_t)i, heap));
+        piojo_heap_push((piojo_opaque_t)i, i, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 1);
+        PIOJO_ASSERT(piojo_heap_has_p((piojo_opaque_t)i, heap));
+
+        PIOJO_ASSERT(! piojo_heap_has_p((piojo_opaque_t)i+1, heap));
+        ++i;
+        piojo_heap_push((piojo_opaque_t)i, i, heap);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 2);
+        PIOJO_ASSERT(piojo_heap_has_p((piojo_opaque_t)i, heap));
+
+        piojo_heap_free(heap);
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
 }
 
 int main()
@@ -284,6 +375,8 @@ int main()
         test_pop();
         test_peek();
         test_heap_expand();
+        test_heap_decr();
+        test_heap_has_p();
         test_stress();
 
         assert_allocator_init(0);

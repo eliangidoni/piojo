@@ -111,6 +111,9 @@ static void
 update_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
              piojo_heap_t *prioq);
 
+static bool
+in_prioq(piojo_opaque_t data, piojo_heap_t *prioq);
+
 static piojo_opaque_t
 del_min_prioq(piojo_heap_t *prioq);
 
@@ -129,6 +132,12 @@ dijkstra_relax(piojo_graph_vid_t bestv, const piojo_graph_t *graph,
 static bool
 bellman_ford_relax(piojo_array_t *edges, bool find_cycle_p, piojo_hash_t *dists,
                    piojo_hash_t *prevs, bool *relaxed_p);
+
+static void
+a_star_relax(piojo_graph_vid_t bestv, piojo_graph_vid_t dst,
+             piojo_graph_cost_cb h, const piojo_graph_t *graph,
+             piojo_hash_t *gscores, piojo_hash_t *closedset,
+             piojo_heap_t *openset, piojo_hash_t *prevs);
 
 /**
  * Allocates a new graph.
@@ -760,7 +769,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
  * @warning @a root must be different from @a dst.
  * @param[in] root Starting vertex.
  * @param[in] dst Destination vertex.
- * @param[in] heuristic Cost estimate function.
+ * @param[in] heuristic Cost estimate function (should be consistent).
  * @param[in] graph
  * @param[out] prevs Previous vertex in path for each vertex (if a path exists),
  *                   can be @b NULL.
@@ -771,6 +780,40 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                    piojo_graph_cost_cb heuristic, const piojo_graph_t *graph,
                    piojo_hash_t *prevs)
 {
+        piojo_graph_vid_t bestv;
+        piojo_graph_weight_t dist=0, *wp;
+        piojo_hash_t *closedset, *gscores;
+        piojo_heap_t *openset;
+
+        gscores = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
+                                      piojo_graph_vid_eq,
+                                      sizeof(piojo_graph_vid_t));
+        closedset = alloc_visiteds(graph);
+        openset = alloc_prioq(graph);
+
+        piojo_hash_insert(&root, &dist, gscores);
+        dist = heuristic(root, dst, graph, graph->data);
+        PIOJO_ASSERT(dist >= 0);
+
+        /* Relax the nearest vertex on each iteration. */
+        insert_prioq((piojo_opaque_t)root, dist, openset);
+        while (! empty_prioq_p(openset)){
+                bestv = (piojo_graph_vid_t)del_min_prioq(openset);
+                if (bestv == dst){
+                        break;
+                }
+                /* Add vertex to closed set, heuristic is consistent. */
+                mark_visited(bestv, closedset);
+                a_star_relax(bestv, dst, heuristic, graph, gscores,
+                             closedset, openset, prevs);
+        }
+        wp = (piojo_graph_weight_t *)piojo_hash_search(&dst, gscores);
+        dist = (wp != NULL) ? *wp : 0;
+
+        free_prioq(openset);
+        free_visiteds(closedset);
+        piojo_hash_free(gscores);
+        return dist;
 }
 
 /** @}
@@ -905,6 +948,12 @@ update_prioq(piojo_opaque_t data, piojo_graph_weight_t dist,
         piojo_heap_decrease(data, dist, prioq);
 }
 
+static bool
+in_prioq(piojo_opaque_t data, piojo_heap_t *prioq)
+{
+        return piojo_heap_has_p(data, prioq);
+}
+
 static piojo_opaque_t
 del_min_prioq(piojo_heap_t *prioq)
 {
@@ -933,7 +982,7 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
         visiteds = alloc_visiteds(graph);
         prioq = alloc_prioq(graph);
 
-        /* Relax the nearest (unvisited) vertex in each iteration. */
+        /* Relax the nearest (unvisited) vertex on each iteration. */
         insert_prioq((piojo_opaque_t)root, dist, prioq);
         while (! empty_prioq_p(prioq)){
                 bestv = (piojo_graph_vid_t)del_min_prioq(prioq);
@@ -1027,4 +1076,61 @@ bellman_ford_relax(piojo_array_t *edges, bool find_cycle_p, piojo_hash_t *dists,
                 }
         }
         return FALSE;
+}
+
+static void
+a_star_relax(piojo_graph_vid_t bestv, piojo_graph_vid_t dst,
+             piojo_graph_cost_cb h, const piojo_graph_t *graph,
+             piojo_hash_t *gscores, piojo_hash_t *closedset,
+             piojo_heap_t *openset, piojo_hash_t *prevs)
+{
+        size_t i, cnt;
+        bool open_p;
+        piojo_graph_weight_t *bestw, hw;
+        piojo_graph_uweight_t ndist, *vdist, fscore;
+        piojo_graph_edge_t *e;
+        piojo_graph_alist_t *v;
+
+        bestw = (piojo_graph_weight_t *) piojo_hash_search(&bestv, gscores);
+        PIOJO_ASSERT(bestw != NULL && *bestw >= 0);
+
+        v = vid_to_alist(bestv, graph);
+        cnt = piojo_array_size(v->edges_by_vid);
+        for (i = 0; i < cnt; ++i){
+                e = (piojo_graph_edge_t *) piojo_array_at(i, v->edges_by_vid);
+                if (is_visited_p(e->end_vid, closedset)){
+                        continue;
+                }
+                PIOJO_ASSERT(e->weight >= 0);
+
+                ndist = ((piojo_graph_uweight_t) e->weight +
+                         (piojo_graph_uweight_t) *bestw);
+                if (ndist > WEIGHT_MAX){
+                        ndist = WEIGHT_MAX;
+                }
+
+                vdist = ((piojo_graph_uweight_t *)
+                         piojo_hash_search(&e->end_vid, gscores));
+
+                open_p = in_prioq((piojo_opaque_t)e->end_vid, openset);
+                if (! open_p || (vdist == NULL || ndist < *vdist)){
+                        piojo_hash_set(&e->end_vid, &ndist, gscores);
+                        if (prevs != NULL){
+                                piojo_hash_set(&e->end_vid, &v->vid, prevs);
+                        }
+                        hw = h(e->end_vid, dst, graph, graph->data);
+                        PIOJO_ASSERT(hw >= 0);
+                        fscore = ndist + (piojo_graph_uweight_t) hw;
+                        if (fscore > WEIGHT_MAX){
+                                fscore = WEIGHT_MAX;
+                        }
+                        if (! open_p){
+                                insert_prioq((piojo_opaque_t)e->end_vid, fscore,
+                                             openset);
+                        }else{
+                                update_prioq((piojo_opaque_t)e->end_vid, fscore,
+                                             openset);
+                        }
+                }
+        }
 }

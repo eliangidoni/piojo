@@ -719,6 +719,62 @@ void test_min_tree()
         assert_allocator_init(0);
 }
 
+piojo_graph_weight_t
+heuristic (piojo_graph_vid_t from, piojo_graph_vid_t to,
+           const piojo_graph_t *graph, piojo_opaque_t data)
+{
+        PIOJO_UNUSED(to); PIOJO_UNUSED(graph); PIOJO_UNUSED(data);
+        if(from == 3 || from == 6)
+                return 100;
+        return 1;
+}
+
+void test_a_star()
+{
+        piojo_graph_t *graph;
+        piojo_graph_weight_t *w;
+        piojo_graph_vid_t v=1;
+        piojo_hash_t *prevs;
+
+        prevs = piojo_hash_alloc_eq(sizeof(piojo_graph_vid_t),
+                                    piojo_graph_vid_eq,
+                                    sizeof(piojo_graph_vid_t));
+
+        graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_FALSE, 0, my_allocator);
+        while (v < 7){
+                piojo_graph_insert(v,graph);
+                ++v;
+        }
+
+        piojo_graph_link(14, 1, 6, graph);
+        piojo_graph_link(9,  1, 3, graph);
+        piojo_graph_link(7,  1, 2, graph);
+        piojo_graph_link(10, 2, 3, graph);
+        piojo_graph_link(15, 4, 2, graph);
+        piojo_graph_link(11, 4, 3, graph);
+        piojo_graph_link(6,  4, 5, graph);
+        piojo_graph_link(9,  6, 5, graph);
+        piojo_graph_link(2,  6, 3, graph);
+
+        v = 1;
+        PIOJO_ASSERT(piojo_graph_a_star(v, 5, heuristic, graph, prevs) == 28);
+
+        v = 5;
+        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*w == 4);
+        v = 4;
+        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*w == 2);
+        v = 2;
+        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*w == 1);
+
+        piojo_graph_free(graph);
+        piojo_hash_free(prevs);
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
+
 int main()
 {
         test_alloc();
@@ -741,6 +797,7 @@ int main()
         test_neg_source_path_3();
         test_neg_source_path_4();
         test_min_tree();
+        test_a_star();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);

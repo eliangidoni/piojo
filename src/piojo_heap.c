@@ -282,6 +282,18 @@ piojo_heap_peek(const piojo_heap_t *heap)
         return entry->data;
 }
 
+/**
+ * Searches entry in heap.
+ * @param[in] data Entry value.
+ * @param[in] heap
+ * @return @b TRUE if entry is in heap, @b FALSE otherwise.
+ */
+bool
+piojo_heap_has_p(piojo_opaque_t data, const piojo_heap_t *heap)
+{
+        return (piojo_hash_search(&data, heap->indices_by_data) != NULL);
+}
+
 /** @}
  * Private functions.
  */
