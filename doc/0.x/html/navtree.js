@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "piojo-0.1", "index.html", [
+  [ "piojo-0.2", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
