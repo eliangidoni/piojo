@@ -23,32 +23,58 @@
  *
  */
 
-#ifndef PIOJO_TEST_H_
-#define PIOJO_TEST_H_
+#include <piojo_test.h>
 
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-#include <piojo/piojo_alloc.h>
+int alloc_cnt = 0;
+int init_cnt = 0;
 
-/* Note that this enforces a read when 'x' is volatile. */
-#define PIOJO_UNUSED(x) (void)(x)
-#define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
-#define PIOJO_FAIL_IF(cond) do{ assert(! (cond)); } while(0)
-#define TEST_STRESS_COUNT 10000
+void* my_alloc(size_t size)
+{
+        ++alloc_cnt;
+        return piojo_alloc_def_alloc(size);
+}
 
-#define assert_allocator_init(val) PIOJO_ASSERT(init_cnt == val)
-#define assert_allocator_alloc(val) PIOJO_ASSERT(alloc_cnt == val)
+void my_free(const void *ptr)
+{
+        PIOJO_ASSERT(alloc_cnt > 0);
+        --alloc_cnt;
+        piojo_alloc_def_free(ptr);
+}
 
-extern piojo_alloc_if my_allocator;
-extern piojo_alloc_kv_if my_kvallocator;
-extern int alloc_cnt;
-extern int init_cnt;
+void my_init(const void *data, size_t esize, void *newptr)
+{
+        ++init_cnt;
+        piojo_alloc_def_init(data, esize, newptr);
+}
 
-void* my_alloc(size_t size);
-void my_free(const void *ptr);
-void my_init(const void *data, size_t esize, void *newptr);
-void my_copy(const void *ptr, size_t esize, void *newptr);
-void my_finish(void *ptr);
+void my_copy(const void *ptr, size_t esize, void *newptr)
+{
+        ++init_cnt;
+        piojo_alloc_def_copy(ptr, esize, newptr);
+}
 
-#endif
+void my_finish(void *ptr)
+{
+        PIOJO_ASSERT(init_cnt > 0);
+        --init_cnt;
+        piojo_alloc_def_finish(ptr);
+}
+
+piojo_alloc_if my_allocator = {
+        my_alloc,
+        my_free,
+        my_init,
+        my_copy,
+        my_finish,
+};
+
+piojo_alloc_kv_if my_kvallocator = {
+        my_alloc,
+        my_free,
+        my_init,
+        my_copy,
+        my_finish,
+        my_init,
+        my_copy,
+        my_finish,
+};

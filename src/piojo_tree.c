@@ -1301,8 +1301,8 @@ print_tree(piojo_tree_t*tree)
         while (piojo_queue_size(q) > 0){
                 bnode = *(piojo_tree_bnode_t**)piojo_queue_peek(q);
                 piojo_queue_pop(q);
-                printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", bnode, bnode->ecnt,
-                       bnode->parent,bnode->pidx,bnode->leaf_p);
+                printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", (void*)bnode, bnode->ecnt,
+                       (void*)bnode->parent,bnode->pidx,bnode->leaf_p);
                 if (bnode->leaf_p){
                         for (idx=0; idx<bnode->ecnt;++idx){
                                 node = &bnode->entries[idx];
@@ -1312,14 +1312,14 @@ print_tree(piojo_tree_t*tree)
                 }else{
                         for (idx=0; idx<bnode->ecnt;++idx){
                                 b2 = bnode->children[idx];
-                                printf("[ %p ] ", b2);
+                                printf("[ %p ] ", (void*)b2);
                                 piojo_queue_push(&b2,q);
                                 node = &bnode->entries[idx];
                                 printf("%d=%d ", *(int*)node->key,
                                        *(int*)node->data);
                         }
                         b2 = bnode->children[idx];
-                        printf("[ %p ]", b2);
+                        printf("[ %p ]", (void*)b2);
                         piojo_queue_push(&b2,q);
                 }
                 if (bnode->ecnt == tree->cmax - 1){

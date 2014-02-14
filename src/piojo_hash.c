@@ -700,7 +700,7 @@ print_hash(piojo_hash_t *hash){
         piojo_hash_entry_t *kv;
         for (i = 0; i < hash->bucketcnt; ++i){
                 kv = hash->buckets[i];
-                printf ("Bucket %d: ", i);
+                printf ("Bucket %lu: ", i);
                 while (kv != NULL){
                         printf("%d=%d, ", *(int*)kv->key, *(int*)kv->data);
                         kv = kv->next;

@@ -59,7 +59,7 @@ void test_buffer()
         piojo_buffer_writebool(TRUE, buffer);
         PIOJO_ASSERT(piojo_buffer_size(buffer) == 31);
 
-        piojo_buffer_writestr("test", 5, buffer);
+        piojo_buffer_writestr((uint8_t*)"test", 5, buffer);
         PIOJO_ASSERT(piojo_buffer_size(buffer) == 40);
 
         copy = piojo_buffer_copy(buffer);
@@ -79,7 +79,7 @@ void test_buffer()
 
         PIOJO_ASSERT(piojo_buffer_readbool(copy) == TRUE);
 
-        PIOJO_ASSERT(piojo_buffer_readstr(&str, copy) == 5);
+        PIOJO_ASSERT(piojo_buffer_readstr((uint8_t**)&str, copy) == 5);
         PIOJO_ASSERT(strcmp(str, "test") == 0);
 
         piojo_buffer_clear(copy);
@@ -123,7 +123,7 @@ void test_concat()
         piojo_buffer_writebool(TRUE, buffer2);
         PIOJO_ASSERT(piojo_buffer_size(buffer2) == 7);
 
-        piojo_buffer_writestr("test", 5, buffer2);
+        piojo_buffer_writestr((uint8_t*)"test", 5, buffer2);
         PIOJO_ASSERT(piojo_buffer_size(buffer2) == 16);
 
         piojo_buffer_concat(buffer2, buffer);
@@ -145,7 +145,7 @@ void test_concat()
 
         PIOJO_ASSERT(piojo_buffer_readbool(buffer) == TRUE);
 
-        PIOJO_ASSERT(piojo_buffer_readstr(&str, buffer) == 5);
+        PIOJO_ASSERT(piojo_buffer_readstr((uint8_t**)&str, buffer) == 5);
         PIOJO_ASSERT(strcmp(str, "test") == 0);
 
         piojo_buffer_free(buffer);
