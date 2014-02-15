@@ -3,7 +3,7 @@ var modules =
     [ "Piojo", "group__piojo.html", null ],
     [ "Piojo Alloc", "group__piojoalloc.html", null ],
     [ "Piojo Array", "group__piojoarray.html", null ],
-    [ "Piojo Bitmap", "group__piojobitmap.html", null ],
+    [ "Piojo Bitset", "group__piojobitset.html", null ],
     [ "Piojo Buffer", "group__piojobuffer.html", null ],
     [ "Piojo Disjoint-set", "group__piojodiset.html", null ],
     [ "Piojo Graph", "group__piojograph.html", null ],

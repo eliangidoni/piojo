@@ -5,7 +5,7 @@ var NAVTREEINDEX =
 "group__piojo.html":[0,0],
 "group__piojoalloc.html":[0,1],
 "group__piojoarray.html":[0,2],
-"group__piojobitmap.html":[0,3],
+"group__piojobitset.html":[0,3],
 "group__piojobuffer.html":[0,4],
 "group__piojodiset.html":[0,5],
 "group__piojograph.html":[0,6],
