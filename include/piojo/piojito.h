@@ -29,6 +29,9 @@
  * @addtogroup piojopiojito Piojito
  * @{
  * Piojo abbreviated public API.
+ *
+ * Include this file if you want to avoid the 'piojo' prefix from functions.
+ * e.g: piojo_array_alloc() is also available as array_alloc()
  */
 
 #ifndef PIOJO_PIOJITO_H_
