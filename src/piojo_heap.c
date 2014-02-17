@@ -34,14 +34,10 @@
 #include <piojo/piojo_array.h>
 #include <piojo_defs.h>
 
-typedef struct {
-        piojo_opaque_t data;
-        piojo_heap_key_t key;
-} piojo_heap_entry_t;
-
 struct piojo_heap {
         piojo_array_t *data;
         piojo_hash_t *indices_by_data;
+        piojo_heap_leq_cb leq;
         piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of heap in bytes */
@@ -62,45 +58,50 @@ swap(size_t idx1, size_t idx2, piojo_heap_t *heap);
 /**
  * Allocates a new heap.
  * Uses default allocator.
+ * @param[in] leq Entry comparison function.
  * @return New heap.
  */
 piojo_heap_t*
-piojo_heap_alloc(void)
+piojo_heap_alloc(piojo_heap_leq_cb leq)
 {
-        return piojo_heap_alloc_n(DEFAULT_ADT_ECOUNT);
+        return piojo_heap_alloc_n(leq, DEFAULT_ADT_ECOUNT);
 }
 
 /**
  * Allocates a new heap.
  * Uses default allocator.
+ * @param[in] leq Entry comparison function.
  * @param[in] ecount Number of entries to reserve space for.
  * @return New heap.
  */
 piojo_heap_t*
-piojo_heap_alloc_n(size_t ecount)
+piojo_heap_alloc_n(piojo_heap_leq_cb leq, size_t ecount)
 {
-        return piojo_heap_alloc_cb_n(ecount, piojo_alloc_default);
+        return piojo_heap_alloc_cb_n(leq, ecount, piojo_alloc_default);
 }
 
 /**
  * Allocates a new heap.
+ * @param[in] leq Entry comparison function.
  * @param[in] allocator Allocator to be used.
  * @return New heap.
  */
 piojo_heap_t*
-piojo_heap_alloc_cb(piojo_alloc_if allocator)
+piojo_heap_alloc_cb(piojo_heap_leq_cb leq, piojo_alloc_if allocator)
 {
-        return piojo_heap_alloc_cb_n(DEFAULT_ADT_ECOUNT, allocator);
+        return piojo_heap_alloc_cb_n(leq, DEFAULT_ADT_ECOUNT, allocator);
 }
 
 /**
  * Allocates a new heap.
+ * @param[in] leq Entry comparison function.
  * @param[in] ecount Number of entries to reserve space for.
  * @param[in] allocator Allocator to be used.
  * @return New heap.
  */
 piojo_heap_t*
-piojo_heap_alloc_cb_n(size_t ecount, piojo_alloc_if allocator)
+piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
+                      piojo_alloc_if allocator)
 {
         piojo_alloc_kv_if ator = piojo_alloc_kv_default;
         piojo_heap_t * h;
@@ -113,7 +114,8 @@ piojo_heap_alloc_cb_n(size_t ecount, piojo_alloc_if allocator)
         PIOJO_ASSERT(h);
 
         h->allocator = allocator;
-        h->data = piojo_array_alloc_cb_n(NULL, sizeof(piojo_heap_entry_t),
+        h->leq = leq;
+        h->data = piojo_array_alloc_cb_n(NULL, sizeof(piojo_opaque_t),
                                          ecount, h->allocator);
         PIOJO_ASSERT(h->data);
         h->indices_by_data = piojo_hash_alloc_cb_eq(sizeof(size_t),
@@ -142,6 +144,7 @@ piojo_heap_copy(const piojo_heap_t *heap)
         PIOJO_ASSERT(newh);
 
         newh->allocator = allocator;
+        newh->leq = heap->leq;
         newh->data = piojo_array_copy(heap->data);
         PIOJO_ASSERT(newh->data);
         newh->indices_by_data = piojo_hash_copy(heap->indices_by_data);
@@ -196,23 +199,19 @@ piojo_heap_size(const piojo_heap_t *heap)
  * Inserts a new entry.
  * @warning @a data can't be inserted more than once.
  * @param[in] data Entry value.
- * @param[in] key Entry key.
  * @param[out] heap Heap being modified.
  */
 void
-piojo_heap_push(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap)
+piojo_heap_push(piojo_opaque_t data, piojo_heap_t *heap)
 {
-        piojo_heap_entry_t entry;
         size_t idx;
         bool inserted_p;
         PIOJO_ASSERT(heap);
 
-        entry.key = key;
-        entry.data = data;
-        piojo_array_append(&entry, heap->data);
+        piojo_array_append(&data, heap->data);
 
         idx = piojo_heap_size(heap) - 1;
-        inserted_p = piojo_hash_insert(&entry.data, &idx,
+        inserted_p = piojo_hash_insert(&data, &idx,
                                        heap->indices_by_data);
         PIOJO_ASSERT(inserted_p);
 
@@ -222,23 +221,16 @@ piojo_heap_push(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap)
 /**
  * Decreases existing entry key.
  * @param[in] data Entry value.
- * @param[in] key Entry key.
  * @param[out] heap Heap being modified.
  */
 void
-piojo_heap_decrease(piojo_opaque_t data, piojo_heap_key_t key,
-                    piojo_heap_t *heap)
+piojo_heap_decrease(piojo_opaque_t data, piojo_heap_t *heap)
 {
-        piojo_heap_entry_t *entry;
         size_t *idx;
         PIOJO_ASSERT(heap);
 
         idx = piojo_hash_search(&data, heap->indices_by_data);
         PIOJO_ASSERT(idx != NULL);
-
-        entry = (piojo_heap_entry_t *)piojo_array_at(*idx, heap->data);
-        PIOJO_ASSERT(key < entry->key);
-        entry->key = key;
 
         sort_up(*idx, heap);
 }
@@ -274,12 +266,10 @@ piojo_heap_pop(piojo_heap_t *heap)
 piojo_opaque_t
 piojo_heap_peek(const piojo_heap_t *heap)
 {
-        piojo_heap_entry_t *entry;
         PIOJO_ASSERT(heap);
         PIOJO_ASSERT(piojo_heap_size(heap) > 0);
 
-        entry = (piojo_heap_entry_t *)piojo_array_at(0, heap->data);
-        return entry->data;
+        return *(piojo_opaque_t *)piojo_array_at(0, heap->data);
 }
 
 /**
@@ -342,24 +332,22 @@ sort_down(size_t idx, size_t hsize, piojo_heap_t *heap)
 static bool
 entry_leq(size_t idx1, size_t idx2, piojo_heap_t *heap)
 {
-        piojo_heap_entry_t *e1, *e2;
-        e1 = (piojo_heap_entry_t *)piojo_array_at(idx1, heap->data);
-        e2 = (piojo_heap_entry_t *)piojo_array_at(idx2, heap->data);
-        return (e1->key <= e2->key);
+        return heap->leq(*(piojo_opaque_t *)piojo_array_at(idx1, heap->data),
+                         *(piojo_opaque_t *)piojo_array_at(idx2, heap->data));
 }
 
 static void
 swap(size_t idx1, size_t idx2, piojo_heap_t *heap)
 {
-        piojo_heap_entry_t *e1, *e2;
-        piojo_heap_entry_t tmp;
-        const size_t esize = sizeof(piojo_heap_entry_t);
+        piojo_opaque_t *e1, *e2;
+        piojo_opaque_t tmp;
+        const size_t esize = sizeof(piojo_opaque_t);
 
-        e1 = piojo_array_at(idx1, heap->data);
-        e2 = piojo_array_at(idx2, heap->data);
+        e1 = (piojo_opaque_t *)piojo_array_at(idx1, heap->data);
+        e2 = (piojo_opaque_t *)piojo_array_at(idx2, heap->data);
 
-        piojo_hash_set(&e1->data, &idx2, heap->indices_by_data);
-        piojo_hash_set(&e2->data, &idx1, heap->indices_by_data);
+        piojo_hash_set(e1, &idx2, heap->indices_by_data);
+        piojo_hash_set(e2, &idx1, heap->indices_by_data);
 
         memcpy(&tmp, e1, esize);
         memcpy(e1, e2, esize);

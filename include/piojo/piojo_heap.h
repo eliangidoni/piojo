@@ -46,19 +46,24 @@ extern const size_t piojo_heap_sizeof;
 /** @{ */
 /** Priority key. */
 typedef int piojo_heap_key_t;
+
+/** Returns @b TRUE if @a e1 is less or equal to @a e2, @b FALSE otherwise. */
+typedef bool
+(*piojo_heap_leq_cb) (piojo_opaque_t e1, piojo_opaque_t e2);
 /** @} */
 
 piojo_heap_t*
-piojo_heap_alloc(void);
+piojo_heap_alloc(piojo_heap_leq_cb leq);
 
 piojo_heap_t*
-piojo_heap_alloc_n(size_t ecount);
+piojo_heap_alloc_n(piojo_heap_leq_cb leq, size_t ecount);
 
 piojo_heap_t*
-piojo_heap_alloc_cb(piojo_alloc_if allocator);
+piojo_heap_alloc_cb(piojo_heap_leq_cb leq, piojo_alloc_if allocator);
 
 piojo_heap_t*
-piojo_heap_alloc_cb_n(size_t ecount, piojo_alloc_if allocator);
+piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
+                      piojo_alloc_if allocator);
 
 piojo_heap_t*
 piojo_heap_copy(const piojo_heap_t *heap);
@@ -73,11 +78,10 @@ size_t
 piojo_heap_size(const piojo_heap_t *heap);
 
 void
-piojo_heap_push(piojo_opaque_t data, piojo_heap_key_t key, piojo_heap_t *heap);
+piojo_heap_push(piojo_opaque_t data, piojo_heap_t *heap);
 
 void
-piojo_heap_decrease(piojo_opaque_t data, piojo_heap_key_t key,
-                    piojo_heap_t *heap);
+piojo_heap_decrease(piojo_opaque_t data, piojo_heap_t *heap);
 
 void
 piojo_heap_pop(piojo_heap_t *heap);
