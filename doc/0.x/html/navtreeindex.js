@@ -15,6 +15,7 @@ var NAVTREEINDEX =
 "group__piojoqueue.html":[0,10],
 "group__piojostack.html":[0,11],
 "group__piojotree.html":[0,12],
+"group__piojopiojito.html":[0,13],
 "annotated.html":[1,0],
 "structpiojo__alloc__if.html":[1,0,0],
 "structpiojo__alloc__kv__if.html":[1,0,1],

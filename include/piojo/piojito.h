@@ -24,6 +24,13 @@
  * Piojo abbreviated public API.
  */
 
+/**
+ * @file
+ * @addtogroup piojopiojito Piojito
+ * @{
+ * Piojo abbreviated public API.
+ */
+
 #ifndef PIOJO_PIOJITO_H_
 #define PIOJO_PIOJITO_H_
 
@@ -51,44 +58,15 @@
 #define array_delete piojo_array_delete
 #define array_at piojo_array_at
 
-/* Queue */
-#define queue_alloc piojo_queue_alloc
-#define queue_alloc_s piojo_queue_alloc_s
-#define queue_alloc_n piojo_queue_alloc_n
-#define queue_alloc_cb piojo_queue_alloc_cb
-#define queue_alloc_cb_n piojo_queue_alloc_cb_n
-#define queue_copy piojo_queue_copy
-#define queue_free piojo_queue_free
-#define queue_clear piojo_queue_clear
-#define queue_size piojo_queue_size
-#define queue_full_p piojo_queue_full_p
-#define queue_push piojo_queue_push
-#define queue_pop piojo_queue_pop
-#define queue_peek piojo_queue_peek
-
-/* Stack */
-#define stack_alloc piojo_stack_alloc
-#define stack_alloc_s piojo_stack_alloc_s
-#define stack_alloc_n piojo_stack_alloc_n
-#define stack_alloc_cb piojo_stack_alloc_cb
-#define stack_alloc_cb_n piojo_stack_alloc_cb_n
-#define stack_copy piojo_stack_copy
-#define stack_free piojo_stack_free
-#define stack_clear piojo_stack_clear
-#define stack_size piojo_stack_size
-#define stack_push piojo_stack_push
-#define stack_pop piojo_stack_pop
-#define stack_peek piojo_stack_peek
-
-/* Bitmap */
-#define bitmap_init piojo_bitmap_init
-#define bitmap_init_m piojo_bitmap_init_m
-#define bitmap_clear piojo_bitmap_clear
-#define bitmap_empty_p piojo_bitmap_empty_p
-#define bitmap_full_p piojo_bitmap_full_p
-#define bitmap_set_p piojo_bitmap_set_p
-#define bitmap_set piojo_bitmap_set
-#define bitmap_unset piojo_bitmap_unset
+/* Bitset */
+#define bitset_init piojo_bitset_init
+#define bitset_init_m piojo_bitset_init_m
+#define bitset_clear piojo_bitset_clear
+#define bitset_empty_p piojo_bitset_empty_p
+#define bitset_full_p piojo_bitset_full_p
+#define bitset_set_p piojo_bitset_set_p
+#define bitset_set piojo_bitset_set
+#define bitset_unset piojo_bitset_unset
 
 /* Buffer */
 #define buffer_alloc piojo_buffer_alloc
@@ -102,44 +80,61 @@
 #define buffer_data piojo_buffer_data
 #define buffer_concat piojo_buffer_concat
 #define buffer_readu64 piojo_buffer_readu64
-#define buffer_readi64 piojo_buffer_readi64
-#define buffer_readu32 piojo_buffer_readu32
-#define buffer_readi32 piojo_buffer_readi32
-#define buffer_readu16 piojo_buffer_readu16
-#define buffer_readi16 piojo_buffer_readi16
-#define buffer_readu8 piojo_buffer_readu8
-#define buffer_readi8 piojo_buffer_readi8
 #define buffer_writeu64 piojo_buffer_writeu64
+#define buffer_readi64 piojo_buffer_readi64
 #define buffer_writei64 piojo_buffer_writei64
+#define buffer_readu32 piojo_buffer_readu32
 #define buffer_writeu32 piojo_buffer_writeu32
+#define buffer_readi32 piojo_buffer_readi32
 #define buffer_writei32 piojo_buffer_writei32
+#define buffer_readu16 piojo_buffer_readu16
 #define buffer_writeu16 piojo_buffer_writeu16
+#define buffer_readi16 piojo_buffer_readi16
 #define buffer_writei16 piojo_buffer_writei16
+#define buffer_readu8 piojo_buffer_readu8
 #define buffer_writeu8 piojo_buffer_writeu8
+#define buffer_readi8 piojo_buffer_readi8
 #define buffer_writei8 piojo_buffer_writei8
 #define buffer_readstr piojo_buffer_readstr
 #define buffer_writestr piojo_buffer_writestr
 #define buffer_readbool piojo_buffer_readbool
 #define buffer_writebool piojo_buffer_writebool
 
-/* List */
-#define list_alloc piojo_list_alloc
-#define list_alloc_s piojo_list_alloc_s
-#define list_alloc_cb piojo_list_alloc_cb
-#define list_copy piojo_list_copy
-#define list_free piojo_list_free
-#define list_clear piojo_list_clear
-#define list_size piojo_list_size
-#define list_insert piojo_list_insert
-#define list_set piojo_list_set
-#define list_prepend piojo_list_prepend
-#define list_append piojo_list_append
-#define list_delete piojo_list_delete
-#define list_first piojo_list_first
-#define list_last piojo_list_last
-#define list_next piojo_list_next
-#define list_prev piojo_list_prev
-#define list_entry piojo_list_entry
+/* Diset */
+#define diset_alloc piojo_diset_alloc
+#define diset_alloc_cb piojo_diset_alloc_cb
+#define diset_copy piojo_diset_copy
+#define diset_free piojo_diset_free
+#define diset_clear piojo_diset_clear
+#define diset_insert piojo_diset_insert
+#define diset_find piojo_diset_find
+#define diset_union piojo_diset_union
+
+/* Graph */
+#define graph_alloc piojo_graph_alloc
+#define graph_alloc_cb piojo_graph_alloc_cb
+#define graph_copy piojo_graph_copy
+#define graph_free piojo_graph_free
+#define graph_clear piojo_graph_clear
+#define graph_insert piojo_graph_insert
+#define graph_delete piojo_graph_delete
+#define graph_set_vvalue piojo_graph_set_vvalue
+#define graph_vvalue piojo_graph_vvalue
+#define graph_link piojo_graph_link
+#define graph_linked piojo_graph_linked
+#define graph_unlink piojo_graph_unlink
+#define graph_unlink_all piojo_graph_unlink_all
+#define graph_neighbor_cnt piojo_graph_neighbor_cnt
+#define graph_neighbor_at piojo_graph_neighbor_at
+#define graph_edge_weight piojo_graph_edge_weight
+#define graph_vid_eq piojo_graph_vid_eq
+#define graph_breadth_first piojo_graph_breadth_first
+#define graph_depth_first piojo_graph_depth_first
+#define graph_source_path piojo_graph_source_path
+#define graph_pair_path piojo_graph_pair_path
+#define graph_neg_source_path piojo_graph_neg_source_path
+#define graph_min_tree piojo_graph_min_tree
+#define graph_a_star piojo_graph_a_star
 
 /* Hash */
 #define hash_alloc_intk piojo_hash_alloc_intk
@@ -169,7 +164,6 @@
 
 /* Heap */
 #define heap_alloc piojo_heap_alloc
-#define heap_alloc_s piojo_heap_alloc_s
 #define heap_alloc_n piojo_heap_alloc_n
 #define heap_alloc_cb piojo_heap_alloc_cb
 #define heap_alloc_cb_n piojo_heap_alloc_cb_n
@@ -178,28 +172,79 @@
 #define heap_clear piojo_heap_clear
 #define heap_size piojo_heap_size
 #define heap_push piojo_heap_push
+#define heap_decrease piojo_heap_decrease
 #define heap_pop piojo_heap_pop
 #define heap_peek piojo_heap_peek
+#define heap_has_p piojo_heap_has_p
 
-/* Graph */
-#define graph_alloc piojo_graph_alloc
-#define graph_alloc_cb piojo_graph_alloc_cb
-#define graph_copy piojo_graph_copy
-#define graph_free piojo_graph_free
-#define graph_clear piojo_graph_clear
-#define graph_insert piojo_graph_insert
-#define graph_delete piojo_graph_delete
-#define graph_set_vvalue piojo_graph_set_vvalue
-#define graph_vvalue piojo_graph_vvalue
-#define graph_link piojo_graph_link
-#define graph_link_p piojo_graph_link_p
-#define graph_unlink piojo_graph_unlink
-#define graph_unlink_all piojo_graph_unlink_all
-#define graph_neighbor_cnt piojo_graph_neighbor_cnt
-#define graph_neighbor_at piojo_graph_neighbor_at
-#define graph_edge_weight piojo_graph_edge_weight
-#define graph_breadth_first piojo_graph_breadth_first
-#define graph_depth_first piojo_graph_depth_first
+/* List */
+#define list_alloc piojo_list_alloc
+#define list_alloc_s piojo_list_alloc_s
+#define list_alloc_cb piojo_list_alloc_cb
+#define list_copy piojo_list_copy
+#define list_free piojo_list_free
+#define list_clear piojo_list_clear
+#define list_size piojo_list_size
+#define list_insert piojo_list_insert
+#define list_set piojo_list_set
+#define list_prepend piojo_list_prepend
+#define list_append piojo_list_append
+#define list_delete piojo_list_delete
+#define list_first piojo_list_first
+#define list_last piojo_list_last
+#define list_next piojo_list_next
+#define list_prev piojo_list_prev
+#define list_entry piojo_list_entry
+
+/* Piojo */
+#define opaque_eq piojo_opaque_eq
+#define id_eq piojo_id_eq
+#define safe_adduint_p piojo_safe_adduint_p
+#define safe_addsiz_p piojo_safe_addsiz_p
+#define safe_addint_p piojo_safe_addint_p
+#define safe_subuint_p piojo_safe_subuint_p
+#define safe_subsiz_p piojo_safe_subsiz_p
+#define safe_subint_p piojo_safe_subint_p
+#define safe_muluint_p piojo_safe_muluint_p
+#define safe_mulsiz_p piojo_safe_mulsiz_p
+#define maxsiz piojo_maxsiz
+#define maxuint piojo_maxuint
+#define maxint piojo_maxint
+#define minsiz piojo_minsiz
+#define minuint piojo_minuint
+#define minint piojo_minint
+#define clampsiz piojo_clampsiz
+#define clampuint piojo_clampuint
+#define clampint piojo_clampint
+
+/* Queue */
+#define queue_alloc piojo_queue_alloc
+#define queue_alloc_s piojo_queue_alloc_s
+#define queue_alloc_n piojo_queue_alloc_n
+#define queue_alloc_cb piojo_queue_alloc_cb
+#define queue_alloc_cb_n piojo_queue_alloc_cb_n
+#define queue_copy piojo_queue_copy
+#define queue_free piojo_queue_free
+#define queue_clear piojo_queue_clear
+#define queue_size piojo_queue_size
+#define queue_full_p piojo_queue_full_p
+#define queue_push piojo_queue_push
+#define queue_pop piojo_queue_pop
+#define queue_peek piojo_queue_peek
+
+/* Stack */
+#define stack_alloc piojo_stack_alloc
+#define stack_alloc_s piojo_stack_alloc_s
+#define stack_alloc_n piojo_stack_alloc_n
+#define stack_alloc_cb piojo_stack_alloc_cb
+#define stack_alloc_cb_n piojo_stack_alloc_cb_n
+#define stack_copy piojo_stack_copy
+#define stack_free piojo_stack_free
+#define stack_clear piojo_stack_clear
+#define stack_size piojo_stack_size
+#define stack_push piojo_stack_push
+#define stack_pop piojo_stack_pop
+#define stack_peek piojo_stack_peek
 
 /* Tree */
 #define tree_alloc_intk piojo_tree_alloc_intk
@@ -234,5 +279,7 @@
 #define tree_prev piojo_tree_prev
 #define tree_entryk piojo_tree_entryk
 #define tree_entryv piojo_tree_entryv
+
+/** @} */
 
 #endif

@@ -12,5 +12,6 @@ var modules =
     [ "Piojo List", "group__piojolist.html", null ],
     [ "Piojo Queue", "group__piojoqueue.html", null ],
     [ "Piojo Stack", "group__piojostack.html", null ],
-    [ "Piojo B-tree", "group__piojotree.html", null ]
+    [ "Piojo B-tree", "group__piojotree.html", null ],
+    [ "Piojito", "group__piojopiojito.html", null ]
 ];
