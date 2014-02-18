@@ -58,7 +58,7 @@ typedef enum {
 typedef piojo_id_t piojo_graph_vid_t;
 
 /** Edge weight. */
-typedef int piojo_graph_weight_t;
+typedef float piojo_graph_weight_t;
 
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
 typedef bool

@@ -65,12 +65,9 @@ struct piojo_graph {
 /** @hideinitializer Size of graph in bytes */
 const size_t piojo_graph_sizeof = sizeof(piojo_graph_t);
 
-/* Used to avoid weight sum overflows. */
-typedef unsigned int piojo_graph_uweight_t;
-
 static const size_t DEFAULT_EDGE_COUNT = 8;
-static const piojo_graph_weight_t WEIGHT_INF = INT_MAX;
-static const piojo_graph_weight_t WEIGHT_MAX = INT_MAX - 1;
+static const piojo_graph_weight_t WEIGHT_INF = (1 << FLT_MANT_DIG) - 1;
+static const piojo_graph_weight_t WEIGHT_MAX = (1 << FLT_MANT_DIG) - 2;
 
 static void
 link_vertices(piojo_graph_weight_t weight, piojo_graph_alist_t *from,
@@ -630,8 +627,6 @@ piojo_graph_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
 {
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(dists);
-        PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
-                     sizeof(piojo_graph_weight_t));
 
         reset_attributes(graph);
         dijkstra_search(root, NULL, graph, prevs);
@@ -656,8 +651,6 @@ piojo_graph_pair_path(piojo_graph_vid_t root, piojo_graph_vid_t dst,
         piojo_graph_alist_t *v;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(root != dst);
-        PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
-                     sizeof(piojo_graph_weight_t));
 
         reset_attributes(graph);
         dijkstra_search(root, &dst, graph, prevs);
@@ -750,8 +743,6 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_FALSE);
         PIOJO_ASSERT(tree);
-        PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
-                     sizeof(piojo_graph_weight_t));
 
         if (piojo_hash_size(graph->alists_by_vid) == 0){
                 return 0;
@@ -814,8 +805,6 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
         piojo_heap_t *openset;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(root != dst);
-        PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
-                     sizeof(piojo_graph_weight_t));
 
         openset = alloc_prioq(vscore_leq, graph);
 
@@ -1113,7 +1102,7 @@ dijkstra_relax(piojo_graph_alist_t *v, const piojo_graph_t *graph,
                piojo_heap_t *prioq, piojo_hash_t *prevs)
 {
         size_t i, cnt;
-        piojo_graph_uweight_t dist;
+        piojo_graph_weight_t dist;
         piojo_graph_edge_t *e;
         piojo_graph_alist_t * nv;
 
@@ -1124,14 +1113,13 @@ dijkstra_relax(piojo_graph_alist_t *v, const piojo_graph_t *graph,
                 e = (piojo_graph_edge_t *) piojo_array_at(i, v->edges_by_vid);
                 PIOJO_ASSERT(e->weight >= 0);
 
-                dist = ((piojo_graph_uweight_t) e->weight +
-                        (piojo_graph_uweight_t) v->weight);
-                if (dist > (piojo_graph_uweight_t)WEIGHT_MAX){
+                dist = e->weight + v->weight;
+                if (dist > WEIGHT_MAX){
                         dist = WEIGHT_MAX;
                 }
 
                 nv = vid_to_alist(e->end_vid, graph);
-                if (dist < (piojo_graph_uweight_t)nv->weight){
+                if (dist < nv->weight){
                         if (nv->weight == WEIGHT_INF){
                                 nv->weight = dist;
                                 insert_prioq((piojo_opaque_t)nv, prioq);
@@ -1184,8 +1172,7 @@ a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
         size_t i, cnt;
         bool open_p;
         piojo_graph_alist_t * nv;
-        piojo_graph_weight_t hw;
-        piojo_graph_uweight_t dist, fscore;
+        piojo_graph_weight_t hw, dist, fscore;
         piojo_graph_edge_t *e;
 
         PIOJO_ASSERT(v->weight >= 0);
@@ -1199,19 +1186,18 @@ a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
                 }
                 PIOJO_ASSERT(e->weight >= 0);
 
-                dist = ((piojo_graph_uweight_t) e->weight +
-                         (piojo_graph_uweight_t) v->weight);
-                if (dist > (piojo_graph_uweight_t)WEIGHT_MAX){
+                dist = e->weight + v->weight;
+                if (dist > WEIGHT_MAX){
                         dist = WEIGHT_MAX;
                 }
 
                 open_p = in_prioq((piojo_opaque_t)nv, openset);
-                if (! open_p || dist < (piojo_graph_uweight_t)nv->weight){
+                if (! open_p || dist < nv->weight){
                         nv->weight = dist;
                         hw = h(nv->vid, dst, graph);
                         PIOJO_ASSERT(hw >= 0);
-                        fscore = dist + (piojo_graph_uweight_t) hw;
-                        if (fscore > (piojo_graph_uweight_t)WEIGHT_MAX){
+                        fscore = dist + hw;
+                        if (fscore > WEIGHT_MAX){
                                 fscore = WEIGHT_MAX;
                         }
                         nv->score = fscore;

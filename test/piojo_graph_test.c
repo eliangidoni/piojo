@@ -344,7 +344,7 @@ void test_source_path()
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
-        piojo_graph_vid_t v=1;
+        piojo_graph_vid_t v=1,*vp;
         piojo_hash_t *dists, *prevs;
 
         dists = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
@@ -392,23 +392,23 @@ void test_source_path()
         PIOJO_ASSERT(*w == 11);
 
         v = 1;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(w == NULL);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(vp == NULL);
         v = 2;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
         v = 3;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
         v = 4;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
         v = 5;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 6);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 6);
         v = 6;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
 
         piojo_graph_free(graph);
         piojo_hash_free(dists);
@@ -420,8 +420,7 @@ void test_source_path()
 void test_pair_path()
 {
         piojo_graph_t *graph;
-        piojo_graph_weight_t *w;
-        piojo_graph_vid_t v=1;
+        piojo_graph_vid_t v=1, *vp;
         piojo_hash_t *prevs;
 
         prevs = piojo_hash_alloc_eq(sizeof(piojo_graph_vid_t),
@@ -448,11 +447,11 @@ void test_pair_path()
         PIOJO_ASSERT(piojo_graph_pair_path(v, 6, graph, prevs) == 11);
 
         v = 6;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
         v = 3;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
 
         piojo_graph_free(graph);
         piojo_hash_free(prevs);
@@ -465,7 +464,7 @@ void test_neg_source_path()
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
-        piojo_graph_vid_t v=1;
+        piojo_graph_vid_t v=1, *vp;
         piojo_hash_t *dists, *prevs;
 
         dists = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
@@ -505,20 +504,20 @@ void test_neg_source_path()
         PIOJO_ASSERT(*w == 0);
 
         v = 1;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(w == NULL);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(vp == NULL);
         v = 2;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
         v = 3;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 2);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 2);
         v = 4;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
         v = 5;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 4);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 4);
 
         piojo_graph_free(graph);
         piojo_hash_free(dists);
@@ -596,7 +595,7 @@ void test_neg_source_path_4()
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
-        piojo_graph_vid_t v=1;
+        piojo_graph_vid_t v=1, *vp;
         piojo_hash_t *dists, *prevs;
 
         dists = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
@@ -645,23 +644,23 @@ void test_neg_source_path_4()
         PIOJO_ASSERT(*w == 11);
 
         v = 1;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(w == NULL);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(vp == NULL);
         v = 2;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
         v = 3;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
         v = 4;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
         v = 5;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 6);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 6);
         v = 6;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 3);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 3);
 
         piojo_graph_free(graph);
         piojo_hash_free(dists);
@@ -731,8 +730,7 @@ heuristic (piojo_graph_vid_t from, piojo_graph_vid_t to,
 void test_a_star()
 {
         piojo_graph_t *graph;
-        piojo_graph_weight_t *w;
-        piojo_graph_vid_t v=1;
+        piojo_graph_vid_t v=1, *vp;
         piojo_hash_t *prevs;
 
         prevs = piojo_hash_alloc_eq(sizeof(piojo_graph_vid_t),
@@ -759,14 +757,14 @@ void test_a_star()
         PIOJO_ASSERT(piojo_graph_a_star(v, 5, heuristic, graph, prevs) == 28);
 
         v = 5;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 4);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 4);
         v = 4;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 2);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 2);
         v = 2;
-        w = (piojo_graph_weight_t *)piojo_hash_search(&v, prevs);
-        PIOJO_ASSERT(*w == 1);
+        vp = (piojo_graph_vid_t *)piojo_hash_search(&v, prevs);
+        PIOJO_ASSERT(*vp == 1);
 
         piojo_graph_free(graph);
         piojo_hash_free(prevs);
