@@ -138,6 +138,7 @@
 #define graph_neg_source_path piojo_graph_neg_source_path
 #define graph_min_tree piojo_graph_min_tree
 #define graph_a_star piojo_graph_a_star
+#define graph_sort piojo_graph_sort
 
 /* Hash */
 #define hash_alloc_intk piojo_hash_alloc_intk
