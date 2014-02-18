@@ -35,6 +35,7 @@
 #include <piojo/piojo.h>
 #include <piojo/piojo_alloc.h>
 #include <piojo/piojo_hash.h>
+#include <piojo/piojo_array.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,11 +73,10 @@ typedef piojo_graph_weight_t
 /** @} */
 
 piojo_graph_t*
-piojo_graph_alloc(piojo_graph_dir_t directed, piojo_opaque_t data);
+piojo_graph_alloc(piojo_graph_dir_t directed);
 
 piojo_graph_t*
-piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_opaque_t data,
-                     piojo_alloc_if allocator);
+piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator);
 
 piojo_graph_t*
 piojo_graph_copy(const piojo_graph_t *graph);
@@ -86,6 +86,12 @@ piojo_graph_free(const piojo_graph_t *graph);
 
 void
 piojo_graph_clear(piojo_graph_t *graph);
+
+void
+piojo_graph_set_gvalue(piojo_opaque_t value, piojo_graph_t *graph);
+
+piojo_opaque_t
+piojo_graph_gvalue(const piojo_graph_t *graph);
 
 bool
 piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph);
@@ -157,6 +163,9 @@ piojo_graph_weight_t
 piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                    piojo_graph_cost_cb heuristic, const piojo_graph_t *graph,
                    piojo_hash_t *prevs);
+
+bool
+piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices);
 
 #ifdef __cplusplus
 }

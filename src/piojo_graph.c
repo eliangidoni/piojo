@@ -30,18 +30,23 @@
  */
 
 #include <piojo/piojo_graph.h>
-#include <piojo/piojo_array.h>
 #include <piojo/piojo_diset.h>
 #include <piojo/piojo_stack.h>
 #include <piojo/piojo_queue.h>
 #include <piojo/piojo_heap.h>
 #include <piojo_defs.h>
 
+typedef enum {
+        MARK_UNKNOWN,
+        MARK_VISITED
+} piojo_graph_mark_t;
+
 typedef struct {
         piojo_array_t *edges_by_vid;
         piojo_graph_vid_t vid;          /* Vertex identifier. */
         piojo_graph_weight_t weight;    /* Used by Dijkstra/A* algorithms. */
         piojo_graph_weight_t score;     /* Used by A* algorithm. */
+        piojo_graph_mark_t mark;        /* Useb by several algorithms. */
         size_t depth;                   /* Used by DFS/BFS algorithms. */
         piojo_opaque_t data;            /* Optional user data. */
 } piojo_graph_alist_t;
@@ -98,18 +103,6 @@ free_edges(const piojo_graph_t *graph);
 static piojo_graph_alist_t*
 vid_to_alist(piojo_graph_vid_t vertex, const piojo_graph_t *graph);
 
-static piojo_hash_t*
-alloc_visiteds(const piojo_graph_t *graph);
-
-static void
-free_visiteds(piojo_hash_t *visiteds);
-
-static bool
-is_visited_p(piojo_graph_vid_t vid, piojo_hash_t *visiteds);
-
-static void
-mark_visited(piojo_graph_vid_t vid, piojo_hash_t *visiteds);
-
 static piojo_heap_t*
 alloc_prioq(piojo_heap_leq_cb leq, const piojo_graph_t *graph);
 
@@ -146,32 +139,28 @@ bellman_ford_relax(const piojo_graph_t *graph, piojo_array_t *edges,
 static void
 a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
              piojo_graph_cost_cb h, const piojo_graph_t *graph,
-             piojo_hash_t *closedset, piojo_heap_t *openset,
-             piojo_hash_t *prevs);
+             piojo_heap_t *openset, piojo_hash_t *prevs);
 
 /**
  * Allocates a new graph.
  * Uses default allocator.
  * @param[in] directed Graph direction.
- * @param[in] data User-defined data passed to graph callbacks.
  * @return New graph.
  */
 piojo_graph_t*
-piojo_graph_alloc(piojo_graph_dir_t directed, piojo_opaque_t data)
+piojo_graph_alloc(piojo_graph_dir_t directed)
 {
-        return piojo_graph_alloc_cb(directed, data, piojo_alloc_default);
+        return piojo_graph_alloc_cb(directed, piojo_alloc_default);
 }
 
 /**
  * Allocates a new graph.
  * @param[in] directed Graph direction.
- * @param[in] data User-defined data passed to graph callbacks.
  * @param[in] allocator Allocator to be used.
  * @return New graph.
  */
 piojo_graph_t*
-piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_opaque_t data,
-                     piojo_alloc_if allocator)
+piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
 {
         piojo_graph_t * graph;
         piojo_alloc_kv_if ator = piojo_alloc_kv_default;
@@ -186,7 +175,7 @@ piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_opaque_t data,
 
         graph->allocator = allocator;
         graph->dir = directed;
-        graph->data = data;
+        graph->data = 0;
         graph->alists_by_vid = piojo_hash_alloc_cb_eq(esize,
                                                       piojo_graph_vid_eq,
                                                       sizeof(piojo_graph_vid_t),
@@ -216,6 +205,7 @@ piojo_graph_copy(const piojo_graph_t *graph)
 
         newgraph->allocator = allocator;
         newgraph->dir = graph->dir;
+        newgraph->data = graph->data;
         newgraph->alists_by_vid = piojo_hash_copy(graph->alists_by_vid);
 
         /* Copy all edges for each vertex. */
@@ -255,6 +245,30 @@ piojo_graph_clear(piojo_graph_t *graph)
 
         free_edges(graph);
         piojo_hash_clear(graph->alists_by_vid);
+}
+
+/**
+ * Sets user-defined @a graph value (default is @b 0).
+ * @param[in] value
+ * @param[out] graph
+ */
+void
+piojo_graph_set_gvalue(piojo_opaque_t value, piojo_graph_t *graph)
+{
+        PIOJO_ASSERT(graph);
+        graph->data = value;
+}
+
+/**
+ * Returns user-defined @a graph value (default is @b 0).
+ * @param[in] graph
+ * @return Graph value.
+ */
+piojo_opaque_t
+piojo_graph_gvalue(const piojo_graph_t *graph)
+{
+        PIOJO_ASSERT(graph);
+        return graph->data;
 }
 
 /**
@@ -501,21 +515,20 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                           size_t limit, const piojo_graph_t *graph)
 {
         piojo_queue_t *q;
-        piojo_hash_t *visiteds;
         size_t i, cnt, depth;
         piojo_graph_alist_t *v, *nv;
         piojo_graph_edge_t *e;
         bool ret = FALSE, limited_p = (limit != 0);
+        PIOJO_ASSERT(graph);
 
         q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
                                  sizeof(void*),
                                  graph->allocator);
-        visiteds = alloc_visiteds(graph);
 
         reset_weights(graph);
 
-        mark_visited(root, visiteds);
         v = vid_to_alist(root, graph);
+        v->mark = MARK_VISITED;
         piojo_queue_push(&v, q);
         while (piojo_queue_size(q) > 0){
                 v = *(piojo_graph_alist_t**) piojo_queue_peek(q);
@@ -533,15 +546,14 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         e = ((piojo_graph_edge_t *)
                              piojo_array_at(i, v->edges_by_vid));
                         nv = vid_to_alist(e->end_vid, graph);
-                        if (! is_visited_p(nv->vid, visiteds)){
+                        if (nv->mark != MARK_VISITED){
                                 nv->depth = depth;
                                 piojo_queue_push(&nv, q);
-                                mark_visited(nv->vid, visiteds);
+                                nv->mark = MARK_VISITED;
                         }
                 }
         }
 
-        free_visiteds(visiteds);
         piojo_queue_free(q);
         return ret;
 }
@@ -559,19 +571,18 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         size_t limit, const piojo_graph_t *graph)
 {
         piojo_stack_t *st;
-        piojo_hash_t *visiteds;
         size_t i, cnt, depth;
         piojo_graph_alist_t *v, *nv;
         piojo_graph_edge_t *e;
         bool ret = FALSE, limited_p = (limit != 0);
+        PIOJO_ASSERT(graph);
 
         st = piojo_stack_alloc_cb(sizeof(void*), graph->allocator);
-        visiteds = alloc_visiteds(graph);
 
         reset_weights(graph);
 
-        mark_visited(root, visiteds);
         v = vid_to_alist(root, graph);
+        v->mark = MARK_VISITED;
         piojo_stack_push(&v, st);
         while (piojo_stack_size(st) > 0){
                 v = *(piojo_graph_alist_t**) piojo_stack_peek(st);
@@ -589,15 +600,14 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         e = ((piojo_graph_edge_t *)
                              piojo_array_at(i, v->edges_by_vid));
                         nv = vid_to_alist(e->end_vid, graph);
-                        if (! is_visited_p(nv->vid, visiteds)){
+                        if (nv->mark != MARK_VISITED){
                                 nv->depth = depth;
                                 piojo_stack_push(&nv, st);
-                                mark_visited(nv->vid, visiteds);
+                                nv->mark = MARK_VISITED;
                         }
                 }
         }
 
-        free_visiteds(visiteds);
         piojo_stack_free(st);
         return ret;
 }
@@ -747,6 +757,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
         prioq = alloc_prioq(edge_leq, graph);
         diset = piojo_diset_alloc_cb(graph->allocator);
 
+        /* Add every edge to priority queue (sorted by weight). */
         next = piojo_hash_first(graph->alists_by_vid, &node);
         while (next){
                 v = (piojo_graph_alist_t *) piojo_hash_entryv(next);
@@ -762,6 +773,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
                 next = piojo_hash_next(next);
         }
 
+        /* Add edge to graph if it links two different graph components. */
         while (! empty_prioq_p(prioq)){
                 e = (piojo_graph_edge_t *)del_min_prioq(prioq);
                 if (piojo_diset_find(e->beg_vid, diset) !=
@@ -796,14 +808,12 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                    piojo_hash_t *prevs)
 {
         piojo_graph_alist_t *v;
-        piojo_hash_t *closedset;
         piojo_heap_t *openset;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(root != dst);
         PIOJO_ASSERT(sizeof(piojo_graph_uweight_t) ==
                      sizeof(piojo_graph_weight_t));
 
-        closedset = alloc_visiteds(graph);
         openset = alloc_prioq(vscore_leq, graph);
 
         reset_weights(graph);
@@ -819,20 +829,39 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
                 if (v->vid == dst){
                         break;
                 }
-                /* Add vertex to closed set, heuristic is consistent. */
-                mark_visited(v->vid, closedset);
-                a_star_relax(v, dst, heuristic, graph, closedset, openset,
-                             prevs);
+                /* Add vertex to closed set, since heuristic is consistent. */
+                v->mark = MARK_VISITED;
+                a_star_relax(v, dst, heuristic, graph, openset, prevs);
         }
 
         free_prioq(openset);
-        free_visiteds(closedset);
 
         v = vid_to_alist(dst, graph);
         if (v->weight != WEIGHT_INF){
                 return v->weight;
         }
         return 0;
+}
+
+/**
+ * Finds a topological ordering (Kahn's algorithm).
+ * @warning The graph must be directed.
+ * @param[in] graph
+ * @param[out] vertices Vertices in topological order.
+ * @return @b TRUE if @a graph has a cycle, @b FALSE otherwise.
+ */
+bool
+piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
+{
+        bool found_cycle_p=FALSE;
+        PIOJO_ASSERT(graph);
+        PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_TRUE);
+
+        if (piojo_hash_size(graph->alists_by_vid) == 0){
+                return FALSE;
+        }
+
+        return found_cycle_p;
 }
 
 /** @}
@@ -923,6 +952,7 @@ reset_weights(const piojo_graph_t *graph)
                 alist->depth = 0;
                 alist->weight = WEIGHT_INF;
                 alist->score = WEIGHT_INF;
+                alist->mark = MARK_UNKNOWN;
                 next = piojo_hash_next(next);
         }
 }
@@ -961,35 +991,6 @@ vid_to_alist(piojo_graph_vid_t vertex, const piojo_graph_t *graph)
 {
         return ((piojo_graph_alist_t*)
                 piojo_hash_search(&vertex, graph->alists_by_vid));
-}
-
-static piojo_hash_t*
-alloc_visiteds(const piojo_graph_t *graph)
-{
-        piojo_alloc_kv_if ator = piojo_alloc_kv_default;
-
-        ator.alloc_cb = graph->allocator.alloc_cb;
-        ator.free_cb = graph->allocator.free_cb;
-        return piojo_hash_alloc_cb_eq(sizeof(bool), piojo_graph_vid_eq,
-                                      sizeof(piojo_graph_vid_t), ator);
-}
-
-static void
-free_visiteds(piojo_hash_t *visiteds)
-{
-        piojo_hash_free(visiteds);
-}
-
-static bool
-is_visited_p(piojo_graph_vid_t vid, piojo_hash_t *visiteds)
-{
-        return (piojo_hash_search(&vid, visiteds) != NULL);
-}
-
-static void
-mark_visited(piojo_graph_vid_t vid, piojo_hash_t *visiteds)
-{
-        piojo_hash_insert(&vid, NULL, visiteds);
 }
 
 static piojo_heap_t*
@@ -1045,10 +1046,8 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 const piojo_graph_t *graph, piojo_hash_t *prevs)
 {
         piojo_graph_alist_t *v = vid_to_alist(root, graph);
-        piojo_hash_t *visiteds;
         piojo_heap_t *prioq;
 
-        visiteds = alloc_visiteds(graph);
         prioq = alloc_prioq(vweight_leq, graph);
 
         /* Relax the nearest (unvisited) vertex on each iteration. */
@@ -1059,14 +1058,13 @@ dijkstra_search(piojo_graph_vid_t root, const piojo_graph_vid_t *dst,
                 if (dst != NULL && v->vid == *dst){
                         break;
                 }
-                if (! is_visited_p(v->vid, visiteds)){
+                if (v->mark != MARK_VISITED){
                         dijkstra_relax(v, graph, prioq, prevs);
-                        mark_visited(v->vid, visiteds);
+                        v->mark = MARK_VISITED;
                 }
         }
 
         free_prioq(prioq);
-        free_visiteds(visiteds);
 }
 
 static void
@@ -1140,8 +1138,7 @@ bellman_ford_relax(const piojo_graph_t *graph, piojo_array_t *edges,
 static void
 a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
              piojo_graph_cost_cb h, const piojo_graph_t *graph,
-             piojo_hash_t *closedset, piojo_heap_t *openset,
-             piojo_hash_t *prevs)
+             piojo_heap_t *openset, piojo_hash_t *prevs)
 {
         size_t i, cnt;
         bool open_p;
@@ -1155,7 +1152,8 @@ a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
         cnt = piojo_array_size(v->edges_by_vid);
         for (i = 0; i < cnt; ++i){
                 e = (piojo_graph_edge_t *) piojo_array_at(i, v->edges_by_vid);
-                if (is_visited_p(e->end_vid, closedset)){
+                nv = vid_to_alist(e->end_vid, graph);
+                if (nv->mark == MARK_VISITED){
                         continue;
                 }
                 PIOJO_ASSERT(e->weight >= 0);
@@ -1166,7 +1164,6 @@ a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
                         dist = WEIGHT_MAX;
                 }
 
-                nv = vid_to_alist(e->end_vid, graph);
                 open_p = in_prioq((piojo_opaque_t)nv, openset);
                 if (! open_p || dist < (piojo_graph_uweight_t)nv->weight){
                         nv->weight = dist;
