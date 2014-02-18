@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Piojo by eliangidoni</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Piojo</h1>
+        <p class="header">Small C99 library of common structures, list, tree, graph, etc</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/eliangidoni/piojo/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/eliangidoni/piojo/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/eliangidoni/piojo">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/eliangidoni">eliangidoni</a></p>
+
+
+      </header>
+      <section>
+        <h2>
+<a name="dependencies" class="anchor" href="#dependencies"><span class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<ul>
+<li>CMake 2.6 (or any later version).</li>
+<li>(optional) Doxygen for docs generation.</li>
+<li>(optional) gcov/lcov for code coverage.</li>
+</ul><h2>
+<a name="build" class="anchor" href="#build"><span class="octicon octicon-link"></span></a>Build</h2>
+
+<pre><code>$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+$ make
+</code></pre>
+
+<p>To generate docs:</p>
+
+<pre><code>$ make doc
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Read the <a href="https://github.com/eliangidoni/piojo/blob/master/doc/0.x/html/index.html">API reference</a> or navigate through <a href="https://github.com/eliangidoni/piojo/tree/master/test">test/</a> for code samples.</p>
+
+<h2>
+<a name="development" class="anchor" href="#development"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<h3>
+<a name="debug" class="anchor" href="#debug"><span class="octicon octicon-link"></span></a>Debug</h3>
+
+<pre><code>$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Debug ..
+$ make
+</code></pre>
+
+<h3>
+<a name="testing--coverage" class="anchor" href="#testing--coverage"><span class="octicon octicon-link"></span></a>Testing / Coverage</h3>
+
+<pre><code>$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Testing ..
+$ make
+$ CTEST_OUTPUT_ON_FAILURE=1 make test
+</code></pre>
+
+<h3>
+<a name="code-style" class="anchor" href="#code-style"><span class="octicon octicon-link"></span></a>Code Style</h3>
+
+<ul>
+<li>Avoid lines with more than 80 characters.</li>
+<li>Avoid more than 3 levels of indentation.</li>
+<li>Avoid functions longer than 50 lines.</li>
+<li>Avoid functions with more than 5 arguments.</li>
+<li>Predicate (boolean) functions end with '_p'.</li>
+<li>Interface type names end with '_if'.</li>
+<li>Function/Callback type names end with '_cb'.</li>
+<li>Any other type names end with '_t'.</li>
+<li>Don't use typedef to hide pointer types. (exception: functions/callbacks)</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
