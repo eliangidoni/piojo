@@ -893,7 +893,8 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
                                 continue;
                         }
                         if (--nv->counter == 0){
-                                piojo_hash_insert(&nv, NULL, noincoming);
+                                tmp = (piojo_opaque_t) nv;
+                                piojo_hash_insert(&tmp, NULL, noincoming);
                         }
                 }
         }
