@@ -777,31 +777,73 @@ void test_a_star()
 void test_sort()
 {
         piojo_graph_t *graph;
-        piojo_graph_vid_t v=1;
         piojo_array_t *vertices;
 
         vertices = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_vid_t),
                                         piojo_alloc_default);
         graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_TRUE, my_allocator);
-        while (v < 9){
-                piojo_graph_insert(v,graph);
-                ++v;
-        }
 
-        piojo_graph_link(100, 1, 4, graph);
-        piojo_graph_link(100, 1, 5, graph);
-        piojo_graph_link(100, 2, 4, graph);
-        piojo_graph_link(100, 3, 5, graph);
+        piojo_graph_insert(5,graph);
+        piojo_graph_insert(7,graph);
+        piojo_graph_insert(3,graph);
+        piojo_graph_insert(8,graph);
+        piojo_graph_insert(11,graph);
+        piojo_graph_insert(2,graph);
+        piojo_graph_insert(9,graph);
+        piojo_graph_insert(10,graph);
+        piojo_graph_insert(123,graph);
+
+        piojo_graph_link(100, 7, 11, graph);
+        piojo_graph_link(100, 7, 8, graph);
+        piojo_graph_link(100, 5, 11, graph);
         piojo_graph_link(100, 3, 8, graph);
-        piojo_graph_link(100, 4, 6, graph);
-        piojo_graph_link(100, 4, 7, graph);
-        piojo_graph_link(100, 4, 8, graph);
-        piojo_graph_link(100, 5, 7, graph);
+        piojo_graph_link(100, 3, 10, graph);
+        piojo_graph_link(100, 11, 2, graph);
+        piojo_graph_link(100, 11, 9, graph);
+        piojo_graph_link(100, 11, 10, graph);
+        piojo_graph_link(100, 8, 9, graph);
 
         PIOJO_ASSERT(piojo_graph_sort(graph, vertices) ==
                      FALSE);
 
+        piojo_graph_free(graph);
+        piojo_array_free(vertices);
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
 
+void test_sort_2()
+{
+        piojo_graph_t *graph;
+        piojo_array_t *vertices;
+
+        vertices = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_vid_t),
+                                        piojo_alloc_default);
+        graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_TRUE, my_allocator);
+
+        piojo_graph_insert(5,graph);
+        piojo_graph_insert(7,graph);
+        piojo_graph_insert(3,graph);
+        piojo_graph_insert(8,graph);
+        piojo_graph_insert(11,graph);
+        piojo_graph_insert(2,graph);
+        piojo_graph_insert(9,graph);
+        piojo_graph_insert(10,graph);
+        piojo_graph_insert(123,graph);
+
+        piojo_graph_link(100, 7, 11, graph);
+        piojo_graph_link(100, 7, 8, graph);
+        piojo_graph_link(100, 5, 11, graph);
+        piojo_graph_link(100, 3, 8, graph);
+        piojo_graph_link(100, 3, 10, graph);
+        piojo_graph_link(100, 11, 2, graph);
+        piojo_graph_link(100, 11, 9, graph);
+        piojo_graph_link(100, 11, 10, graph);
+        piojo_graph_link(100, 8, 9, graph);
+        piojo_graph_link(100, 9, 9, graph);
+
+        PIOJO_ASSERT(piojo_graph_sort(graph, vertices) ==
+                     TRUE);
 
         piojo_graph_free(graph);
         piojo_array_free(vertices);
@@ -833,6 +875,7 @@ int main()
         test_min_tree();
         test_a_star();
         test_sort();
+        test_sort_2();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);
