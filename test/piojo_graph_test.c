@@ -31,9 +31,9 @@ bool veq(piojo_graph_vid_t v1, piojo_graph_vid_t v2)
         return (memcmp(&v1,&v2,sizeof(v1)) == 0) ? TRUE : FALSE;
 }
 
-bool vvisit (piojo_graph_vid_t v, const piojo_graph_t *graph, piojo_opaque_t data)
+bool vvisit (piojo_graph_vid_t v, const piojo_graph_t *graph)
 {
-        size_t *cnt = (size_t*)data;
+        size_t *cnt = (size_t*)piojo_graph_gvalue(graph);
         PIOJO_UNUSED(graph);
         *cnt -= (int) v;
         return FALSE;
@@ -720,9 +720,9 @@ void test_min_tree()
 
 piojo_graph_weight_t
 heuristic (piojo_graph_vid_t from, piojo_graph_vid_t to,
-           const piojo_graph_t *graph, piojo_opaque_t data)
+           const piojo_graph_t *graph)
 {
-        PIOJO_UNUSED(to); PIOJO_UNUSED(graph); PIOJO_UNUSED(data);
+        PIOJO_UNUSED(to); PIOJO_UNUSED(graph);
         if(from == 3 || from == 6)
                 return 100;
         return 1;

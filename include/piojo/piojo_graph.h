@@ -62,13 +62,12 @@ typedef int piojo_graph_weight_t;
 
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
 typedef bool
-(*piojo_graph_visit_cb) (piojo_graph_vid_t v, const piojo_graph_t *graph,
-                         piojo_opaque_t data);
+(*piojo_graph_visit_cb) (piojo_graph_vid_t v, const piojo_graph_t *graph);
 
 /** Returns cost estimate between two vertices. */
 typedef piojo_graph_weight_t
 (*piojo_graph_cost_cb) (piojo_graph_vid_t from, piojo_graph_vid_t to,
-                        const piojo_graph_t *graph, piojo_opaque_t data);
+                        const piojo_graph_t *graph);
 
 /** @} */
 

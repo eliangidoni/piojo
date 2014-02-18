@@ -536,7 +536,7 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_queue_size(q) > 0){
                 v = *(piojo_graph_alist_t**) piojo_queue_peek(q);
                 piojo_queue_pop(q);
-                if (cb(v->vid, graph, graph->data)){
+                if (cb(v->vid, graph)){
                         ret = TRUE;
                         break;
                 }
@@ -590,7 +590,7 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
         while (piojo_stack_size(st) > 0){
                 v = *(piojo_graph_alist_t**) piojo_stack_peek(st);
                 piojo_stack_pop(st);
-                if (cb(v->vid, graph, graph->data)){
+                if (cb(v->vid, graph)){
                         ret = TRUE;
                         break;
                 }
@@ -822,7 +822,7 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
         reset_attributes(graph);
         v = vid_to_alist(root, graph);
         v->weight = 0;
-        v->score = heuristic(root, dst, graph, graph->data);
+        v->score = heuristic(root, dst, graph);
         PIOJO_ASSERT(v->score >= 0);
 
         /* Relax the nearest vertex on each iteration. */
@@ -1208,7 +1208,7 @@ a_star_relax(piojo_graph_alist_t *v, piojo_graph_vid_t dst,
                 open_p = in_prioq((piojo_opaque_t)nv, openset);
                 if (! open_p || dist < (piojo_graph_uweight_t)nv->weight){
                         nv->weight = dist;
-                        hw = h(nv->vid, dst, graph, graph->data);
+                        hw = h(nv->vid, dst, graph);
                         PIOJO_ASSERT(hw >= 0);
                         fscore = dist + (piojo_graph_uweight_t) hw;
                         if (fscore > (piojo_graph_uweight_t)WEIGHT_MAX){
