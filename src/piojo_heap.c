@@ -292,11 +292,13 @@ static void
 sort_up(size_t idx, piojo_heap_t *heap)
 {
         size_t pidx;
-        if (idx > 0){
+        while (idx > 0){
                 pidx = (idx - 1) / 2;
                 if (entry_leq(idx, pidx, heap)){
                         swap(idx, pidx, heap);
-                        sort_up(pidx, heap);
+                        idx = pidx;
+                }else{
+                        break;
                 }
         }
 }
@@ -304,9 +306,10 @@ sort_up(size_t idx, piojo_heap_t *heap)
 static void
 sort_down(size_t idx, size_t hsize, piojo_heap_t *heap)
 {
-        size_t lidx=hsize, ridx=hsize, *swapidx=NULL;
-
-        if (idx < hsize){
+        size_t lidx, ridx, *swapidx;
+        while (idx < hsize){
+                swapidx = NULL;
+                lidx = ridx = hsize;
                 if (piojo_safe_mulsiz_p(idx, 2) &&
                     piojo_safe_addsiz_p(idx * 2, 1)){
                         lidx = (idx * 2) + 1;
@@ -324,7 +327,9 @@ sort_down(size_t idx, size_t hsize, piojo_heap_t *heap)
                 }
                 if (swapidx && entry_leq(*swapidx, idx, heap)){
                         swap(*swapidx, idx, heap);
-                        sort_down(*swapidx, hsize, heap);
+                        idx = *swapidx;
+                }else{
+                        break;
                 }
         }
 }
