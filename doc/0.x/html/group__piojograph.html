@@ -135,6 +135,8 @@ Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga4fc22a5af64279726672421301d40b75">piojo_graph_sizeof</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__piojograph.html#gadd1545e67ffbb0d81960b6368d81c64b">piojo_graph_weight_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga0367284770210062c4a91a49312e4c60">PIOJO_GRAPH_WEIGHT_MAX</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__piojograph.html#gadd1545e67ffbb0d81960b6368d81c64b">piojo_graph_weight_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojograph.html#ga0367284770210062c4a91a49312e4c60">PIOJO_GRAPH_WEIGHT_MAX</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Piojo Graph implementation. </p>
@@ -206,7 +208,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Graph direction. </p>
+<p>Whether the graph is directed. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="ggad02d61c2733dd25a338630cc84e19b14afd85f4bfee075b038dfb250b6992cc26"></a><!-- doxytag: member="PIOJO_GRAPH_DIR_TRUE" ref="ggad02d61c2733dd25a338630cc84e19b14afd85f4bfee075b038dfb250b6992cc26" args="" -->PIOJO_GRAPH_DIR_TRUE</em>&nbsp;</td><td>
 <p>Directed graph. </p>
@@ -1297,6 +1299,34 @@ If the graph is undirected then any edge with negative weight forms a negative c
 
 </div>
 </div>
+<a class="anchor" id="ga0367284770210062c4a91a49312e4c60"></a><!-- doxytag: member="piojo_graph.h::PIOJO_GRAPH_WEIGHT_MAX" ref="ga0367284770210062c4a91a49312e4c60" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="group__piojograph.html#gadd1545e67ffbb0d81960b6368d81c64b">piojo_graph_weight_t</a> <a class="el" href="group__piojograph.html#ga0367284770210062c4a91a49312e4c60">PIOJO_GRAPH_WEIGHT_MAX</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Maximum weight, greater values will be capped to it. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga0367284770210062c4a91a49312e4c60"></a><!-- doxytag: member="piojo_graph.c::PIOJO_GRAPH_WEIGHT_MAX" ref="ga0367284770210062c4a91a49312e4c60" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="group__piojograph.html#gadd1545e67ffbb0d81960b6368d81c64b">piojo_graph_weight_t</a> <a class="el" href="group__piojograph.html#ga0367284770210062c4a91a49312e4c60">PIOJO_GRAPH_WEIGHT_MAX</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Maximum weight, greater values will be capped to it. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -1316,7 +1346,7 @@ If the graph is undirected then any edge with negative weight forms a negative c
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Tue Feb 18 2014 19:43:27 for piojo-0.2 by
+    <li class="footer">Generated on Tue Feb 18 2014 21:34:20 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
