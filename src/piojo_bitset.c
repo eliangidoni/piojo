@@ -32,42 +32,94 @@
 #include <piojo/piojo_bitset.h>
 #include <piojo_defs.h>
 
-typedef struct {
-        uint64_t flags, mask;
-        uint8_t maxbits;
-} piojo_bitset_priv_t;
+/* Keep these in sync. */
+typedef uint64_t piojo_bitset_word_t;
+static const piojo_bitset_word_t BITSET_MASK = 0xffffffffffffffff;
+static const size_t BITSET_BITS = 64;
+
+struct piojo_bitset {
+        piojo_bitset_word_t *set, lastmask;
+        size_t maxbits, wcnt;
+        piojo_alloc_if allocator;
+};
 /** @hideinitializer Size of bitset in bytes */
 const size_t piojo_bitset_sizeof = sizeof(piojo_bitset_t);
 
-static const uint8_t BITSET_MAXBITS = 64;
+static piojo_bitset_word_t
+bit_mask(size_t n);
 
 /**
- * Initializes a bitset of @b 64 bits.
- * @param[out] bitset User allocated bitset.
+ * Allocates a new bitset of @a maxbits bits.
+ * Uses default allocator.
+ * @param[in] maxbits Maximum number of bits.
+ * @return New bitset.
  */
-void
-piojo_bitset_init(piojo_bitset_t *bitset)
+piojo_bitset_t*
+piojo_bitset_alloc(size_t maxbits)
 {
-        piojo_bitset_init_m(BITSET_MAXBITS, bitset);
+        return piojo_bitset_alloc_cb(maxbits, piojo_alloc_default);
 }
 
 /**
- * Initializes a bitset of @a maxbits bits.
- * @param[in] maxbits Maximum bits (from 1 to 64).
- * @param[out] bitset User allocated bitset.
+ * Allocates a new bitset of @a maxbits bits.
+ * @param[in] maxbits Maximum number of bits.
+ * @param[in] allocator Allocator to be used.
+ * @return New bitset.
  */
-void
-piojo_bitset_init_m(uint8_t maxbits, piojo_bitset_t *bitset)
+piojo_bitset_t*
+piojo_bitset_alloc_cb(size_t maxbits, piojo_alloc_if allocator)
 {
-        piojo_bitset_priv_t *bit;
-        PIOJO_ASSERT(sizeof(piojo_bitset_t) >= sizeof(piojo_bitset_priv_t));
-        PIOJO_ASSERT(bitset);
-        PIOJO_ASSERT(maxbits > 0 && maxbits <= BITSET_MAXBITS);
+        piojo_bitset_t * b;
+        size_t i, setsize;
+        PIOJO_ASSERT(maxbits > 0);
 
-        bit = (piojo_bitset_priv_t*) bitset->opaque;
-        bit->maxbits = maxbits;
-        bit->flags = 0;
-        bit->mask = (uint64_t) pow(2, maxbits) - (uint64_t) 1;
+        b = (piojo_bitset_t *) allocator.alloc_cb(sizeof(piojo_bitset_t));
+        PIOJO_ASSERT(b);
+
+        b->allocator = allocator;
+        b->maxbits = maxbits;
+        b->wcnt = maxbits / BITSET_BITS;
+        b->lastmask = bit_mask(maxbits % BITSET_BITS);
+        if (b->lastmask != 0){
+                ++b->wcnt;
+        }
+        setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+        b->set = (piojo_bitset_word_t *)allocator.alloc_cb(setsize);
+        PIOJO_ASSERT(b->set);
+        for (i = 0; i < b->wcnt; ++i){
+                b->set[i] = 0;
+        }
+
+        return b;
+}
+
+/**
+ * Copies @a bitset.
+ * @param[in] bitset Bitset being copied.
+ * @return New bitset.
+ */
+piojo_bitset_t*
+piojo_bitset_copy(const piojo_bitset_t *bitset)
+{
+        piojo_bitset_t * b;
+        size_t i, setsize;
+        PIOJO_ASSERT(bitset);
+
+        b = (piojo_bitset_t*)bitset->allocator.alloc_cb(sizeof(piojo_bitset_t));
+        PIOJO_ASSERT(b);
+
+        b->allocator = bitset->allocator;
+        b->maxbits = bitset->maxbits;
+        b->wcnt = bitset->wcnt;
+        b->lastmask = bitset->lastmask;
+        setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+        b->set = (piojo_bitset_word_t *)b->allocator.alloc_cb(setsize);
+        PIOJO_ASSERT(b->set);
+        for (i = 0; i < b->wcnt; ++i){
+                b->set[i] = bitset->set[i];
+        }
+
+        return b;
 }
 
 /**
@@ -77,11 +129,27 @@ piojo_bitset_init_m(uint8_t maxbits, piojo_bitset_t *bitset)
 void
 piojo_bitset_clear(piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *bit;
+        size_t i;
         PIOJO_ASSERT(bitset);
 
-        bit = (piojo_bitset_priv_t*) bitset->opaque;
-        bit->flags = 0;
+        for (i = 0; i < bitset->wcnt; ++i){
+                bitset->set[i] = 0;
+        }
+}
+
+/**
+ * Frees @a bitset.
+ * @param[in] bitset Bitset being freed.
+ */
+void
+piojo_bitset_free(const piojo_bitset_t *bitset)
+{
+        piojo_alloc_if ator;
+        PIOJO_ASSERT(bitset);
+
+        ator = bitset->allocator;
+        ator.free_cb(bitset->set);
+        ator.free_cb(bitset);
 }
 
 /**
@@ -92,11 +160,15 @@ piojo_bitset_clear(piojo_bitset_t *bitset)
 bool
 piojo_bitset_empty_p(const piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *bit;
+        size_t i;
         PIOJO_ASSERT(bitset);
 
-        bit = (piojo_bitset_priv_t*) bitset->opaque;
-        return (bit->flags == (uint64_t) 0);
+        for (i = 0; i < bitset->wcnt; ++i){
+                if (bitset->set[i] != 0){
+                        return FALSE;
+                }
+        }
+        return TRUE;
 }
 
 /**
@@ -107,63 +179,76 @@ piojo_bitset_empty_p(const piojo_bitset_t *bitset)
 bool
 piojo_bitset_full_p(const piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *bit;
+        size_t i;
         PIOJO_ASSERT(bitset);
 
-        bit = (piojo_bitset_priv_t*) bitset->opaque;
-        return (bit->flags == bit->mask);
+        for (i = 0; i < bitset->wcnt - 1; ++i){
+                if (bitset->set[i] != BITSET_MASK){
+                        return FALSE;
+                }
+        }
+        return (bitset->set[i] == bitset->lastmask);
 }
 
 /**
  * Returns whether @a bit is set.
- * @param[in] bit Bit in bitset (should be between 0 and @a maxbits).
+ * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
  * @param[in] bitset
  * @return @b TRUE if set, @b FALSE otherwise.
  */
 bool
-piojo_bitset_set_p(uint32_t bit, const piojo_bitset_t *bitset)
+piojo_bitset_set_p(size_t bit, const piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *b;
+        size_t widx, bidx;
         PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bit < bitset->maxbits);
 
-        b = (piojo_bitset_priv_t*) bitset->opaque;
-        PIOJO_ASSERT(bit < b->maxbits);
-
-        return ((b->flags & ((uint64_t) 1 << bit)) > 0);
+        widx = bit / BITSET_BITS;
+        bidx = bit % BITSET_BITS;
+        return ((bitset->set[widx] & ((piojo_bitset_word_t) 1 << bidx)) > 0);
 }
 
 /**
  * Sets @a bit in bitset
- * @param[in] bit Bit in bitset (should be between 0 and @a maxbits).
+ * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
  * @param[out] bitset
  */
 void
-piojo_bitset_set(uint32_t bit, piojo_bitset_t *bitset)
+piojo_bitset_set(size_t bit, piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *b;
+        size_t widx, bidx;
         PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bit < bitset->maxbits);
 
-        b = (piojo_bitset_priv_t*) bitset->opaque;
-        PIOJO_ASSERT(bit < b->maxbits);
-
-        b->flags |= ((uint64_t) 1 << bit);
+        widx = bit / BITSET_BITS;
+        bidx = bit % BITSET_BITS;
+        bitset->set[widx] |= ((piojo_bitset_word_t) 1 << bidx);
 }
 
 /**
  * Unsets @a bit in bitset
- * @param[in] bit Bit in bitset (should be between 0 and @a maxbits).
+ * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
  * @param[out] bitset
  */
 void
-piojo_bitset_unset(uint32_t bit, piojo_bitset_t *bitset)
+piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset)
 {
-        piojo_bitset_priv_t *b;
+        size_t widx, bidx;
         PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bit < bitset->maxbits);
 
-        b = (piojo_bitset_priv_t*) bitset->opaque;
-        PIOJO_ASSERT(bit < b->maxbits);
-
-        b->flags &= (b->mask ^ ((uint64_t) 1 << bit));
+        widx = bit / BITSET_BITS;
+        bidx = bit % BITSET_BITS;
+        bitset->set[widx] &= (BITSET_MASK ^ ((piojo_bitset_word_t) 1 << bidx));
 }
 
-/** @} */
+/** @}
+ * Private functions.
+ */
+
+static piojo_bitset_word_t
+bit_mask(size_t n)
+{
+        return (((piojo_bitset_word_t) 1 << n) - (piojo_bitset_word_t) 1);
+}
+

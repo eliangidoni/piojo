@@ -34,17 +34,21 @@
 extern "C" {
 #endif
 
-typedef struct {
-        uint8_t opaque[32]; /* Should be enough */
-} piojo_bitset_t;
-
+struct piojo_bitset;
+typedef struct piojo_bitset piojo_bitset_t;
 extern const size_t piojo_bitset_sizeof;
 
-void
-piojo_bitset_init(piojo_bitset_t *bitset);
+piojo_bitset_t*
+piojo_bitset_alloc(size_t maxbits);
+
+piojo_bitset_t*
+piojo_bitset_alloc_cb(size_t maxbits, piojo_alloc_if allocator);
+
+piojo_bitset_t*
+piojo_bitset_copy(const piojo_bitset_t *bitset);
 
 void
-piojo_bitset_init_m(uint8_t maxbits, piojo_bitset_t *bitset);
+piojo_bitset_free(const piojo_bitset_t *bitset);
 
 void
 piojo_bitset_clear(piojo_bitset_t *bitset);
@@ -56,13 +60,13 @@ bool
 piojo_bitset_full_p(const piojo_bitset_t *bitset);
 
 bool
-piojo_bitset_set_p(uint32_t bit, const piojo_bitset_t *bitset);
+piojo_bitset_set_p(size_t bit, const piojo_bitset_t *bitset);
 
 void
-piojo_bitset_set(uint32_t bit, piojo_bitset_t *bitset);
+piojo_bitset_set(size_t bit, piojo_bitset_t *bitset);
 
 void
-piojo_bitset_unset(uint32_t bit, piojo_bitset_t *bitset);
+piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset);
 
 #ifdef __cplusplus
 }

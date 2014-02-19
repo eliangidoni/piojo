@@ -28,93 +28,148 @@
 
 void test_init()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
 
-        piojo_bitset_init(&bitset);
-        PIOJO_ASSERT(piojo_bitset_empty_p(&bitset));
+        bitset = piojo_bitset_alloc(1);
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
+        piojo_bitset_free(bitset);
 
-        piojo_bitset_init_m(3, &bitset);
-        PIOJO_ASSERT(piojo_bitset_empty_p(&bitset));
+        bitset = piojo_bitset_alloc_cb(3, my_allocator);
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_clear()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
 
-        piojo_bitset_init(&bitset);
-        piojo_bitset_set(2, &bitset);
-        piojo_bitset_clear(&bitset);
-        PIOJO_ASSERT(piojo_bitset_empty_p(&bitset));
+        bitset = piojo_bitset_alloc(32);
+        piojo_bitset_set(2, bitset);
+        piojo_bitset_clear(bitset);
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_empty_p()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
 
-        piojo_bitset_init(&bitset);
-        PIOJO_ASSERT(piojo_bitset_empty_p(&bitset));
+        bitset = piojo_bitset_alloc(32);
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
 
-        piojo_bitset_set(2, &bitset);
-        PIOJO_ASSERT(! piojo_bitset_empty_p(&bitset));
+        piojo_bitset_set(2, bitset);
+        PIOJO_ASSERT(! piojo_bitset_empty_p(bitset));
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_full_p()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
 
-        piojo_bitset_init_m(2, &bitset);
-        PIOJO_ASSERT(! piojo_bitset_full_p(&bitset));
+        bitset = piojo_bitset_alloc(2);
+        PIOJO_ASSERT(! piojo_bitset_full_p(bitset));
 
-        piojo_bitset_set(0, &bitset);
-        PIOJO_ASSERT(! piojo_bitset_full_p(&bitset));
+        piojo_bitset_set(0, bitset);
+        PIOJO_ASSERT(! piojo_bitset_full_p(bitset));
 
-        piojo_bitset_set(1, &bitset);
-        PIOJO_ASSERT(piojo_bitset_full_p(&bitset));
+        piojo_bitset_set(1, bitset);
+        PIOJO_ASSERT(piojo_bitset_full_p(bitset));
+
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_set_p()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
 
-        piojo_bitset_init_m(2, &bitset);
-        PIOJO_ASSERT(! piojo_bitset_set_p(0, &bitset));
-        PIOJO_ASSERT(! piojo_bitset_set_p(1, &bitset));
+        bitset = piojo_bitset_alloc(2);
+        PIOJO_ASSERT(! piojo_bitset_set_p(0, bitset));
+        PIOJO_ASSERT(! piojo_bitset_set_p(1, bitset));
 
-        piojo_bitset_set(0, &bitset);
-        PIOJO_ASSERT(piojo_bitset_set_p(0, &bitset));
-        PIOJO_ASSERT(! piojo_bitset_set_p(1, &bitset));
+        piojo_bitset_set(0, bitset);
+        PIOJO_ASSERT(piojo_bitset_set_p(0, bitset));
+        PIOJO_ASSERT(! piojo_bitset_set_p(1, bitset));
 
-        piojo_bitset_set(1, &bitset);
-        PIOJO_ASSERT(piojo_bitset_set_p(0, &bitset));
-        PIOJO_ASSERT(piojo_bitset_set_p(1, &bitset));
+        piojo_bitset_set(1, bitset);
+        PIOJO_ASSERT(piojo_bitset_set_p(0, bitset));
+        PIOJO_ASSERT(piojo_bitset_set_p(1, bitset));
+
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_set()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
         size_t i;
 
-        piojo_bitset_init_m(32, &bitset);
-        for (i = 0; i < 32; ++i){
-                piojo_bitset_set(i, &bitset);
-                PIOJO_ASSERT(piojo_bitset_set_p(i, &bitset));
+        bitset = piojo_bitset_alloc_cb(132, my_allocator);
+        for (i = 0; i < 132; ++i){
+                piojo_bitset_set(i, bitset);
+                PIOJO_ASSERT(piojo_bitset_set_p(i, bitset));
         }
+        PIOJO_ASSERT(! piojo_bitset_empty_p(bitset));
+        PIOJO_ASSERT(piojo_bitset_full_p(bitset));
+
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 void test_unset()
 {
-        piojo_bitset_t bitset;
+        piojo_bitset_t *bitset;
         size_t i;
 
-        piojo_bitset_init_m(32, &bitset);
-        for (i = 0; i < 32; ++i){
-                piojo_bitset_set(i, &bitset);
-                PIOJO_ASSERT(piojo_bitset_set_p(i, &bitset));
+        bitset = piojo_bitset_alloc_cb(132, my_allocator);
+        for (i = 0; i < 132; ++i){
+                piojo_bitset_set(i, bitset);
+                PIOJO_ASSERT(piojo_bitset_set_p(i, bitset));
 
-                piojo_bitset_unset(i, &bitset);
-                PIOJO_ASSERT(! piojo_bitset_set_p(i, &bitset));
+                piojo_bitset_unset(i, bitset);
+                PIOJO_ASSERT(! piojo_bitset_set_p(i, bitset));
         }
-        PIOJO_ASSERT(piojo_bitset_empty_p(&bitset));
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
+        PIOJO_ASSERT(! piojo_bitset_full_p(bitset));
+
+        piojo_bitset_free(bitset);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
+}
+
+void test_copy()
+{
+        piojo_bitset_t *bitset, *copy;
+        size_t i;
+
+        bitset = piojo_bitset_alloc_cb(132, my_allocator);
+        for (i = 0; i < 132; ++i){
+                piojo_bitset_set(i, bitset);
+                PIOJO_ASSERT(piojo_bitset_set_p(i, bitset));
+        }
+        PIOJO_ASSERT(! piojo_bitset_empty_p(bitset));
+        PIOJO_ASSERT(piojo_bitset_full_p(bitset));
+
+        copy = piojo_bitset_copy(bitset);
+        piojo_bitset_free(bitset);
+
+        PIOJO_ASSERT(! piojo_bitset_empty_p(copy));
+        PIOJO_ASSERT(piojo_bitset_full_p(copy));
+        piojo_bitset_clear(copy);
+        PIOJO_ASSERT(piojo_bitset_empty_p(copy));
+        piojo_bitset_free(copy);
+
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
 }
 
 int main()
@@ -126,6 +181,7 @@ int main()
         test_full_p();
         test_empty_p();
         test_unset();
+        test_copy();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);
