@@ -46,7 +46,7 @@ typedef struct piojo_graph piojo_graph_t;
 extern const size_t piojo_graph_sizeof;
 
 /** @{ */
-/** Graph direction. */
+/** Whether the graph is directed. */
 typedef enum {
         /** Directed graph. */
         PIOJO_GRAPH_DIR_TRUE,
@@ -59,6 +59,8 @@ typedef piojo_id_t piojo_graph_vid_t;
 
 /** Edge weight. */
 typedef float piojo_graph_weight_t;
+
+extern const piojo_graph_weight_t PIOJO_GRAPH_WEIGHT_MAX;
 
 /** Vertex visitor, returns @b TRUE to stop traversal, @b FALSE otherwise. */
 typedef bool

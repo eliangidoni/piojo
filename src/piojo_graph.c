@@ -68,6 +68,8 @@ const size_t piojo_graph_sizeof = sizeof(piojo_graph_t);
 static const size_t DEFAULT_EDGE_COUNT = 8;
 static const piojo_graph_weight_t WEIGHT_INF = (1 << FLT_MANT_DIG) - 1;
 static const piojo_graph_weight_t WEIGHT_MAX = (1 << FLT_MANT_DIG) - 2;
+/** @hideinitializer Maximum weight, greater values will be capped to it. */
+const piojo_graph_weight_t PIOJO_GRAPH_WEIGHT_MAX = (1 << FLT_MANT_DIG) - 2;
 
 static void
 link_vertices(piojo_graph_weight_t weight, piojo_graph_alist_t *from,
