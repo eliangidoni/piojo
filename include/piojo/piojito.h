@@ -62,8 +62,10 @@
 #define array_at piojo_array_at
 
 /* Bitset */
-#define bitset_init piojo_bitset_init
-#define bitset_init_m piojo_bitset_init_m
+#define bitset_alloc piojo_bitset_alloc
+#define bitset_alloc_cb piojo_bitset_alloc_cb
+#define bitset_copy piojo_bitset_copy
+#define bitset_free piojo_bitset_free
 #define bitset_clear piojo_bitset_clear
 #define bitset_empty_p piojo_bitset_empty_p
 #define bitset_full_p piojo_bitset_full_p
