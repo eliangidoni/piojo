@@ -78,6 +78,7 @@
 #define bitset_unset piojo_bitset_unset
 #define bitset_not piojo_bitset_not
 #define bitset_or piojo_bitset_or
+#define bitset_xor piojo_bitset_xor
 #define bitset_and piojo_bitset_and
 #define bitset_diff piojo_bitset_diff
 #define bitset_lshift piojo_bitset_lshift

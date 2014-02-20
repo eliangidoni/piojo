@@ -108,6 +108,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga16be03c0ed79235a9bdeabe3956a2223">piojo_bitset_unset</a> (size_t bit, piojo_bitset_t *bitset)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga7ad01e3b050322a0613d47553e4c67ff">piojo_bitset_not</a> (const piojo_bitset_t *bitset, piojo_bitset_t *bout)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga339bf32d42042a397b0bb88f33d7156b">piojo_bitset_or</a> (const piojo_bitset_t *b1, const piojo_bitset_t *b2, piojo_bitset_t *bout)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga7cdc1fa7dbdaadda0a87f7d214e7c048">piojo_bitset_xor</a> (const piojo_bitset_t *b1, const piojo_bitset_t *b2, piojo_bitset_t *bout)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#gae6dda88216f70ab164ab9d25ca2b893f">piojo_bitset_and</a> (const piojo_bitset_t *b1, const piojo_bitset_t *b2, piojo_bitset_t *bout)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga9bd03d2b98a9f842ee5cc85843f15095">piojo_bitset_diff</a> (const piojo_bitset_t *b1, const piojo_bitset_t *b2, piojo_bitset_t *bout)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobitset.html#ga66cc6550bc2ebb5bfb2f66d79b3d4c70">piojo_bitset_lshift</a> (size_t count, const piojo_bitset_t *bitset, piojo_bitset_t *bout)</td></tr>
@@ -775,6 +776,48 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga7cdc1fa7dbdaadda0a87f7d214e7c048"></a><!-- doxytag: member="piojo_bitset.c::piojo_bitset_xor" ref="ga7cdc1fa7dbdaadda0a87f7d214e7c048" args="(const piojo_bitset_t *b1, const piojo_bitset_t *b2, piojo_bitset_t *bout)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojobitset.html#ga7cdc1fa7dbdaadda0a87f7d214e7c048">piojo_bitset_xor</a> </td>
+          <td>(</td>
+          <td class="paramtype">const piojo_bitset_t *&#160;</td>
+          <td class="paramname"><em>b1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_bitset_t *&#160;</td>
+          <td class="paramname"><em>b2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_bitset_t *&#160;</td>
+          <td class="paramname"><em>bout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calculates the exclusive-or of two bitsets. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">b1</td><td>bitset. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b2</td><td>bitset. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bout</td><td>Result bitset. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/><h2>Variable Documentation</h2>
 <a class="anchor" id="gad83185370075fec7c104261c68828402"></a><!-- doxytag: member="piojo_bitset.c::piojo_bitset_sizeof" ref="gad83185370075fec7c104261c68828402" args="" -->
 <div class="memitem">
@@ -809,7 +852,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Thu Feb 20 2014 13:40:24 for piojo-0.2 by
+    <li class="footer">Generated on Thu Feb 20 2014 14:17:30 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

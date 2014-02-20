@@ -366,6 +366,29 @@ piojo_bitset_or(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
 }
 
 /**
+ * Calculates the exclusive-or of two bitsets.
+ * @param[in] b1 bitset.
+ * @param[in] b2 bitset.
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_xor(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                piojo_bitset_t *bout)
+{
+        size_t i;
+        PIOJO_ASSERT(b1);
+        PIOJO_ASSERT(b2);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(b1->maxbits == bout->maxbits &&
+                     b2->maxbits == bout->maxbits);
+
+        for (i = 0; i < bout->wcnt - 1; ++i){
+                bout->set[i] = b1->set[i] ^ b2->set[i];
+        }
+        bout->set[i] = (b1->set[i] ^ b2->set[i]) & bout->lastmask;
+}
+
+/**
  * Calculates the intersection of two bitsets.
  * @param[in] b1 bitset.
  * @param[in] b2 bitset.
