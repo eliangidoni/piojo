@@ -48,6 +48,9 @@ const size_t piojo_bitset_sizeof = sizeof(piojo_bitset_t);
 static piojo_bitset_word_t
 bit_mask(size_t n);
 
+static size_t
+popcount(uint64_t x);
+
 /**
  * Allocates a new bitset of @a maxbits bits.
  * Uses default allocator.
@@ -83,7 +86,10 @@ piojo_bitset_alloc_cb(size_t maxbits, piojo_alloc_if allocator)
         if (b->lastmask != 0){
                 ++b->wcnt;
         }
+
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(sizeof(piojo_bitset_word_t), b->wcnt));
         setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+
         b->set = (piojo_bitset_word_t *)allocator.alloc_cb(setsize);
         PIOJO_ASSERT(b->set);
         for (i = 0; i < b->wcnt; ++i){
@@ -112,7 +118,9 @@ piojo_bitset_copy(const piojo_bitset_t *bitset)
         b->maxbits = bitset->maxbits;
         b->wcnt = bitset->wcnt;
         b->lastmask = bitset->lastmask;
+
         setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+
         b->set = (piojo_bitset_word_t *)b->allocator.alloc_cb(setsize);
         PIOJO_ASSERT(b->set);
         for (i = 0; i < b->wcnt; ++i){
@@ -150,6 +158,36 @@ piojo_bitset_free(const piojo_bitset_t *bitset)
         ator = bitset->allocator;
         ator.free_cb(bitset->set);
         ator.free_cb(bitset);
+}
+
+/**
+ * Returns bitset size.
+ * @param[in] bitset
+ * @return @a maxbits.
+ */
+size_t
+piojo_bitset_size(const piojo_bitset_t *bitset)
+{
+        PIOJO_ASSERT(bitset);
+
+        return bitset->maxbits;
+}
+
+/**
+ * Finds number of set bits (Hamming weight).
+ * @param[in] bitset
+ * @return Number of set bits.
+ */
+size_t
+piojo_bitset_count(const piojo_bitset_t *bitset)
+{
+        size_t i, count=0;
+        PIOJO_ASSERT(bitset);
+
+        for (i = 0; i < bitset->wcnt; ++i){
+                count += popcount(bitset->set[i]);
+        }
+        return count;
 }
 
 /**
@@ -191,6 +229,32 @@ piojo_bitset_full_p(const piojo_bitset_t *bitset)
 }
 
 /**
+ * Returns whether two bitsets are equal.
+ * @param[in] b1 bitset.
+ * @param[in] b2 bitset.
+ * @return @b TRUE if equal, @b FALSE otherwise.
+ */
+bool
+piojo_bitset_equal_p(const piojo_bitset_t *b1, const piojo_bitset_t *b2)
+{
+        size_t i;
+        PIOJO_ASSERT(b1);
+        PIOJO_ASSERT(b2);
+        PIOJO_ASSERT(b1->maxbits == b2->maxbits);
+
+        if (b1 == b2){
+                return TRUE;
+        }
+
+        for (i = 0; i < b1->wcnt; ++i){
+                if (b1->set[i] != b2->set[i]){
+                        return FALSE;
+                }
+        }
+        return TRUE;
+}
+
+/**
  * Returns whether @a bit is set.
  * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
  * @param[in] bitset
@@ -205,7 +269,7 @@ piojo_bitset_set_p(size_t bit, const piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        return ((bitset->set[widx] & ((piojo_bitset_word_t) 1 << bidx)) > 0);
+        return ((bitset->set[widx] & ((piojo_bitset_word_t) 1 << bidx)) != 0);
 }
 
 /**
@@ -226,6 +290,23 @@ piojo_bitset_set(size_t bit, piojo_bitset_t *bitset)
 }
 
 /**
+ * Toggles @a bit in bitset
+ * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
+ * @param[out] bitset
+ */
+void
+piojo_bitset_toggle(size_t bit, piojo_bitset_t *bitset)
+{
+        size_t widx, bidx;
+        PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bit < bitset->maxbits);
+
+        widx = bit / BITSET_BITS;
+        bidx = bit % BITSET_BITS;
+        bitset->set[widx] ^= ((piojo_bitset_word_t) 1 << bidx);
+}
+
+/**
  * Unsets @a bit in bitset
  * @param[in] bit Bit in bitset (should be between 0 and @a maxbits-1).
  * @param[out] bitset
@@ -242,6 +323,203 @@ piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset)
         bitset->set[widx] &= (BITSET_MASK ^ ((piojo_bitset_word_t) 1 << bidx));
 }
 
+/**
+ * Calculates the complement of a bitset.
+ * @param[in] bitset
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_not(const piojo_bitset_t *bitset, piojo_bitset_t *bout)
+{
+        size_t i;
+        PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(bitset->maxbits == bout->maxbits);
+
+        for (i = 0; i < bout->wcnt - 1; ++i){
+                bout->set[i] = ~ bitset->set[i];
+        }
+        bout->set[i] = (~ bitset->set[i]) & bitset->lastmask;
+}
+
+/**
+ * Calculates the union of two bitsets.
+ * @param[in] b1 bitset.
+ * @param[in] b2 bitset.
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_or(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                piojo_bitset_t *bout)
+{
+        size_t i;
+        PIOJO_ASSERT(b1);
+        PIOJO_ASSERT(b2);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(b1->maxbits == bout->maxbits &&
+                     b2->maxbits == bout->maxbits);
+
+        for (i = 0; i < bout->wcnt - 1; ++i){
+                bout->set[i] = b1->set[i] | b2->set[i];
+        }
+        bout->set[i] = (b1->set[i] | b2->set[i]) & bout->lastmask;
+}
+
+/**
+ * Calculates the intersection of two bitsets.
+ * @param[in] b1 bitset.
+ * @param[in] b2 bitset.
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_and(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                 piojo_bitset_t *bout)
+{
+        size_t i;
+        PIOJO_ASSERT(b1);
+        PIOJO_ASSERT(b2);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(b1->maxbits == bout->maxbits &&
+                     b2->maxbits == bout->maxbits);
+
+        for (i = 0; i < bout->wcnt - 1; ++i){
+                bout->set[i] = b1->set[i] & b2->set[i];
+        }
+        bout->set[i] = (b1->set[i] & b2->set[i]) & bout->lastmask;
+}
+
+/**
+ * Calculates the difference of two bitsets.
+ * @param[in] b1 bitset.
+ * @param[in] b2 bitset.
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_diff(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                  piojo_bitset_t *bout)
+{
+        size_t i;
+        PIOJO_ASSERT(b1);
+        PIOJO_ASSERT(b2);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(b1->maxbits == bout->maxbits &&
+                     b2->maxbits == bout->maxbits);
+
+        for (i = 0; i < bout->wcnt - 1; ++i){
+                bout->set[i] = b1->set[i] & (~ b2->set[i]);
+        }
+        bout->set[i] = (b1->set[i] & (~ b2->set[i])) & bout->lastmask;
+}
+
+/**
+ * Shifts all bits to left @a count times. (unsigned shift)
+ * @param[in] count
+ * @param[in] bitset
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_lshift(size_t count, const piojo_bitset_t *bitset,
+                    piojo_bitset_t *bout)
+{
+        size_t i;
+        piojo_bitset_t *b2 = bout;
+        PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(bitset->maxbits == bout->maxbits);
+
+        if (count == 0){
+                if (bitset != bout){
+                        for (i = 0; i < bout->wcnt; ++i){
+                                bout->set[i] = bitset->set[i];
+                        }
+                }
+                return;
+        }
+
+        if (bout->wcnt == 1){
+                bout->set[0] = bitset->set[0] << count;
+                return;
+        }
+
+        if (bitset == bout){
+                b2 = piojo_bitset_alloc_cb(bout->maxbits, bout->allocator);
+        }else{
+                piojo_bitset_clear(b2);
+        }
+
+        i = bout->maxbits - 1;
+        do {
+                if (count > i){
+                        break;
+                }
+                if (piojo_bitset_set_p(i - count, bitset)){
+                        piojo_bitset_set(i, b2);
+                }
+        }while(i-- > 0);
+
+        if (bitset == bout){
+                for (i = 0; i < bout->wcnt; ++i){
+                        bout->set[i] = b2->set[i];
+                }
+                piojo_bitset_free(b2);
+        }
+}
+
+/**
+ * Shifts all bits to right @a count times. (unsigned shift)
+ * @param[in] count
+ * @param[in] bitset
+ * @param[out] bout Result bitset.
+ */
+void
+piojo_bitset_rshift(size_t count, const piojo_bitset_t *bitset,
+                    piojo_bitset_t *bout)
+{
+        size_t i, bidx;
+        piojo_bitset_t *b2 = bout;
+        PIOJO_ASSERT(bitset);
+        PIOJO_ASSERT(bout);
+        PIOJO_ASSERT(bitset->maxbits == bout->maxbits);
+
+        if (count == 0){
+                if (bitset != bout){
+                        for (i = 0; i < bout->wcnt; ++i){
+                                bout->set[i] = bitset->set[i];
+                        }
+                }
+                return;
+        }
+
+        if (bout->wcnt == 1){
+                bout->set[0] = bitset->set[0] >> count;
+                return;
+        }
+
+        if (bitset == bout){
+                b2 = piojo_bitset_alloc_cb(bout->maxbits, bout->allocator);
+        }else{
+                piojo_bitset_clear(b2);
+        }
+
+        for (i = 0; i < bout->maxbits; ++i){
+                PIOJO_ASSERT(piojo_safe_addsiz_p(i, count));
+                bidx = i + count;
+                if (bidx >= bout->maxbits){
+                        break;
+                }
+                if (piojo_bitset_set_p(bidx, bitset)){
+                        piojo_bitset_set(i, b2);
+                }
+        }
+
+        if (bitset == bout){
+                for (i = 0; i < bout->wcnt; ++i){
+                        bout->set[i] = b2->set[i];
+                }
+                piojo_bitset_free(b2);
+        }
+}
+
 /** @}
  * Private functions.
  */
@@ -252,3 +530,19 @@ bit_mask(size_t n)
         return (((piojo_bitset_word_t) 1 << n) - (piojo_bitset_word_t) 1);
 }
 
+/* Source: http://en.wikipedia.org/wiki/Hamming_weight */
+static size_t
+popcount(uint64_t x)
+{
+        /* put count of each 2 bits into those 2 bits */
+        x -= (x >> 1) & 0x5555555555555555;
+
+        /* put count of each 4 bits into those 4 bits */
+        x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333);
+
+        /* put count of each 8 bits into those 8 bits */
+        x = (x + (x >> 4)) & 0x0f0f0f0f0f0f0f0f;
+
+        /* returns left 8 bits of x + (x<<8) + (x<<16) + (x<<24) + ... */
+        return (x * 0x0101010101010101) >> 56;
+}

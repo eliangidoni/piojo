@@ -53,11 +53,20 @@ piojo_bitset_free(const piojo_bitset_t *bitset);
 void
 piojo_bitset_clear(piojo_bitset_t *bitset);
 
+size_t
+piojo_bitset_size(const piojo_bitset_t *bitset);
+
+size_t
+piojo_bitset_count(const piojo_bitset_t *bitset);
+
 bool
 piojo_bitset_empty_p(const piojo_bitset_t *bitset);
 
 bool
 piojo_bitset_full_p(const piojo_bitset_t *bitset);
+
+bool
+piojo_bitset_equal_p(const piojo_bitset_t *b1, const piojo_bitset_t *b2);
 
 bool
 piojo_bitset_set_p(size_t bit, const piojo_bitset_t *bitset);
@@ -66,7 +75,32 @@ void
 piojo_bitset_set(size_t bit, piojo_bitset_t *bitset);
 
 void
+piojo_bitset_toggle(size_t bit, piojo_bitset_t *bitset);
+
+void
 piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset);
+
+void
+piojo_bitset_not(const piojo_bitset_t *bitset, piojo_bitset_t *bout);
+
+void
+piojo_bitset_or(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                piojo_bitset_t *bout);
+
+void
+piojo_bitset_and(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                 piojo_bitset_t *bout);
+void
+piojo_bitset_diff(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                  piojo_bitset_t *bout);
+
+void
+piojo_bitset_lshift(size_t count, const piojo_bitset_t *bitset,
+                    piojo_bitset_t *bout);
+
+void
+piojo_bitset_rshift(size_t count, const piojo_bitset_t *bitset,
+                    piojo_bitset_t *bout);
 
 #ifdef __cplusplus
 }

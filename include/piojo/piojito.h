@@ -67,11 +67,21 @@
 #define bitset_copy piojo_bitset_copy
 #define bitset_free piojo_bitset_free
 #define bitset_clear piojo_bitset_clear
+#define bitset_size piojo_bitset_size
+#define bitset_count piojo_bitset_count
 #define bitset_empty_p piojo_bitset_empty_p
 #define bitset_full_p piojo_bitset_full_p
+#define bitset_equal_p piojo_bitset_equal_p
 #define bitset_set_p piojo_bitset_set_p
 #define bitset_set piojo_bitset_set
+#define bitset_toggle piojo_bitset_toggle
 #define bitset_unset piojo_bitset_unset
+#define bitset_not piojo_bitset_not
+#define bitset_or piojo_bitset_or
+#define bitset_and piojo_bitset_and
+#define bitset_diff piojo_bitset_diff
+#define bitset_lshift piojo_bitset_lshift
+#define bitset_rshift piojo_bitset_rshift
 
 /* Buffer */
 #define buffer_alloc piojo_buffer_alloc
