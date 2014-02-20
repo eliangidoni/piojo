@@ -88,6 +88,10 @@ piojo_bitset_or(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
                 piojo_bitset_t *bout);
 
 void
+piojo_bitset_xor(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
+                 piojo_bitset_t *bout);
+
+void
 piojo_bitset_and(const piojo_bitset_t *b1, const piojo_bitset_t *b2,
                  piojo_bitset_t *bout);
 void
