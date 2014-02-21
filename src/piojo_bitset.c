@@ -320,7 +320,7 @@ piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        bitset->set[widx] &= (BITSET_MASK ^ ((piojo_bitset_word_t) 1 << bidx));
+        bitset->set[widx] &= ~ ((piojo_bitset_word_t) 1 << bidx);
 }
 
 /**
