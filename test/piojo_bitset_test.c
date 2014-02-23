@@ -286,6 +286,55 @@ void test_union()
         assert_allocator_alloc(0);
 }
 
+void test_xor()
+{
+        piojo_bitset_t *bitset,*bout;
+        size_t i;
+
+        bitset = piojo_bitset_alloc_cb(132, my_allocator);
+        bout = piojo_bitset_alloc_cb(132, my_allocator);
+
+        PIOJO_ASSERT(piojo_bitset_empty_p(bitset));
+        PIOJO_ASSERT(piojo_bitset_empty_p(bout));
+        PIOJO_ASSERT(! piojo_bitset_full_p(bitset));
+        PIOJO_ASSERT(! piojo_bitset_full_p(bout));
+
+        piojo_bitset_set(120, bitset);
+        piojo_bitset_set(122, bitset);
+        piojo_bitset_set(0, bout);
+        piojo_bitset_set(120, bout);
+        piojo_bitset_set(121, bout);
+        PIOJO_ASSERT(piojo_bitset_count(bitset) == 2);
+        PIOJO_ASSERT(piojo_bitset_count(bout) == 3);
+
+        piojo_bitset_xor(bitset, bout, bout);
+        PIOJO_ASSERT(piojo_bitset_count(bitset) == 2);
+        PIOJO_ASSERT(piojo_bitset_count(bout) == 3);
+        for (i = 0; i < 132; ++i){
+                if (i == 0){
+                        PIOJO_ASSERT(piojo_bitset_set_p(i, bout));
+                        PIOJO_ASSERT(! piojo_bitset_set_p(i, bitset));
+                }else if (i == 120){
+                        PIOJO_ASSERT(! piojo_bitset_set_p(i, bout));
+                        PIOJO_ASSERT(piojo_bitset_set_p(i, bitset));
+                }else if (i == 121){
+                        PIOJO_ASSERT(piojo_bitset_set_p(i, bout));
+                        PIOJO_ASSERT(! piojo_bitset_set_p(i, bitset));
+                }else if (i == 122){
+                        PIOJO_ASSERT(piojo_bitset_set_p(i, bout));
+                        PIOJO_ASSERT(piojo_bitset_set_p(i, bitset));
+                }else{
+                        PIOJO_ASSERT(! piojo_bitset_set_p(i, bout));
+                        PIOJO_ASSERT(! piojo_bitset_set_p(i, bitset));
+                }
+        }
+
+        piojo_bitset_free(bitset);
+        piojo_bitset_free(bout);
+        assert_allocator_init(0);
+        assert_allocator_alloc(0);
+}
+
 void test_inter()
 {
         piojo_bitset_t *bitset,*bout;
@@ -638,6 +687,7 @@ int main()
         test_unset();
         test_copy();
         test_union();
+        test_xor();
         test_diff();
         test_inter();
         test_complement();
