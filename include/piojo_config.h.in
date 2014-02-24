@@ -1,5 +1,18 @@
 /* the configured options and settings. */
+/**
+ * @file
+ * @addtogroup piojo Piojo
+ * @{
+ */
+
+/** @hideinitializer Major version number. */
 #define PIOJO_VERSION_MAJOR @piojo_VERSION_MAJOR@
+
+/** @hideinitializer Minor version number. */
 #define PIOJO_VERSION_MINOR @piojo_VERSION_MINOR@
+
+/** @hideinitializer Patch version number. */
 #define PIOJO_VERSION_PATCH @piojo_VERSION_PATCH@
+
 #cmakedefine PIOJO_DEBUG
+/** @} */

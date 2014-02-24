@@ -32,10 +32,8 @@
 #include <piojo/piojo_bitset.h>
 #include <piojo_defs.h>
 
-/* Keep these in sync. */
+/* Keep this type unsigned to avoid undefined behaviors. */
 typedef uint64_t piojo_bitset_word_t;
-static const piojo_bitset_word_t BITSET_MASK = 0xffffffffffffffff;
-static const size_t BITSET_BITS = 64;
 
 struct piojo_bitset {
         piojo_bitset_word_t *set, lastmask;
@@ -44,6 +42,9 @@ struct piojo_bitset {
 };
 /** @hideinitializer Size of bitset in bytes */
 const size_t piojo_bitset_sizeof = sizeof(piojo_bitset_t);
+
+static const piojo_bitset_word_t BITSET_MASK = ~ 0;
+static const size_t BITSET_BITS = sizeof(piojo_bitset_word_t) * CHAR_BIT;
 
 static piojo_bitset_word_t
 bit_mask(size_t n);
