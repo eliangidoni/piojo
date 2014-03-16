@@ -57,7 +57,9 @@
 #define array_insert piojo_array_insert
 #define array_set piojo_array_set
 #define array_append piojo_array_append
-#define array_has_p piojo_array_has_p
+#define array_index piojo_array_index
+#define array_sorted_index piojo_array_sorted_index
+#define array_sorted_insert piojo_array_sorted_insert
 #define array_delete piojo_array_delete
 #define array_at piojo_array_at
 
@@ -192,7 +194,7 @@
 #define heap_decrease piojo_heap_decrease
 #define heap_pop piojo_heap_pop
 #define heap_peek piojo_heap_peek
-#define heap_has_p piojo_heap_has_p
+#define heap_contain_p piojo_heap_contain_p
 
 /* List */
 #define list_alloc piojo_list_alloc
