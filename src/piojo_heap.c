@@ -115,7 +115,7 @@ piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
 
         h->allocator = allocator;
         h->leq = leq;
-        h->data = piojo_array_alloc_cb_n(NULL, sizeof(piojo_opaque_t),
+        h->data = piojo_array_alloc_cb_n(sizeof(piojo_opaque_t),
                                          ecount, h->allocator);
         PIOJO_ASSERT(h->data);
         h->indices_by_data = piojo_hash_alloc_cb_eq(sizeof(size_t),
@@ -279,7 +279,7 @@ piojo_heap_peek(const piojo_heap_t *heap)
  * @return @b TRUE if entry is in heap, @b FALSE otherwise.
  */
 bool
-piojo_heap_has_p(piojo_opaque_t data, const piojo_heap_t *heap)
+piojo_heap_contain_p(piojo_opaque_t data, const piojo_heap_t *heap)
 {
         return (piojo_hash_search(&data, heap->indices_by_data) != NULL);
 }

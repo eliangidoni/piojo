@@ -90,7 +90,7 @@ piojo_opaque_t
 piojo_heap_peek(const piojo_heap_t *heap);
 
 bool
-piojo_heap_has_p(piojo_opaque_t data, const piojo_heap_t *heap);
+piojo_heap_contain_p(piojo_opaque_t data, const piojo_heap_t *heap);
 
 #ifdef __cplusplus
 }

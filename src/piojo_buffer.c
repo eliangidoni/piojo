@@ -110,7 +110,7 @@ piojo_buffer_alloc_cb_n(size_t count, piojo_alloc_if allocator)
 
         buf->allocator = allocator;
         buf->ridx = 0;
-        buf->data = piojo_array_alloc_cb_n(NULL, sizeof(uint8_t), count,
+        buf->data = piojo_array_alloc_cb_n(sizeof(uint8_t), count,
                                            buf->allocator);
         PIOJO_ASSERT(buf->data);
 

@@ -288,8 +288,7 @@ piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph)
         tmp.vid = vertex;
         tmp.data = 0;
         tmp.edges_by_vid =
-                piojo_array_alloc_cb_n(edge_cmp,
-                                       sizeof(piojo_graph_edge_t),
+                piojo_array_alloc_cb_n(sizeof(piojo_graph_edge_t),
                                        DEFAULT_EDGE_COUNT,
                                        graph->allocator);
         return piojo_hash_insert(&tmp.vid, &tmp, graph->alists_by_vid);
@@ -387,7 +386,7 @@ piojo_graph_linked(piojo_graph_vid_t from, piojo_graph_vid_t to,
 
         v = vid_to_alist(from, graph);
         edge.end_vid = to;
-        if (piojo_array_has_p(&edge, v->edges_by_vid, &idx)){
+        if (piojo_array_sorted_index(&edge, edge_cmp, v->edges_by_vid, &idx)){
                 e = (piojo_graph_edge_t *)piojo_array_at(idx,
                                                          v->edges_by_vid);
                 return &e->weight;
@@ -690,7 +689,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(dists);
 
-        edges = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_edge_t*),
+        edges = piojo_array_alloc_cb(sizeof(piojo_graph_edge_t*),
                                      graph->allocator);
         reset_attributes(graph);
         v = vid_to_alist(root, graph);
@@ -940,34 +939,29 @@ static void
 link_vertices(piojo_graph_weight_t weight, piojo_graph_alist_t *from,
               piojo_graph_alist_t *to)
 {
-        bool linked_p;
-        size_t idx;
+        size_t i;
         piojo_graph_edge_t edge, *e;
 
         edge.weight = weight;
         edge.beg_vid = from->vid;
         edge.end_vid = to->vid;
-        linked_p = piojo_array_has_p(&edge, from->edges_by_vid, &idx);
-        if (linked_p){
-                e = (piojo_graph_edge_t *)piojo_array_at(idx,
-                                                         from->edges_by_vid);
+        if (piojo_array_sorted_index(&edge, edge_cmp, from->edges_by_vid, &i)){
+                e = (piojo_graph_edge_t *)piojo_array_at(i, from->edges_by_vid);
                 e->weight = weight;
         }else{
-                piojo_array_append(&edge, from->edges_by_vid);
+                piojo_array_sorted_insert(&edge, edge_cmp, from->edges_by_vid);
         }
 }
 
 static void
 unlink_vertices(piojo_graph_alist_t *from, piojo_graph_alist_t *to)
 {
-        bool linked_p;
-        size_t idx;
+        size_t i;
         piojo_graph_edge_t edge;
 
         edge.end_vid = to->vid;
-        linked_p = piojo_array_has_p(&edge, from->edges_by_vid, &idx);
-        if (linked_p){
-                piojo_array_delete(idx, from->edges_by_vid);
+        if (piojo_array_sorted_index(&edge, edge_cmp, from->edges_by_vid, &i)){
+                piojo_array_delete(i, from->edges_by_vid);
         }
 }
 
@@ -1056,7 +1050,7 @@ update_prioq(piojo_opaque_t data, piojo_heap_t *prioq)
 static bool
 in_prioq(piojo_opaque_t data, piojo_heap_t *prioq)
 {
-        return piojo_heap_has_p(data, prioq);
+        return piojo_heap_contain_p(data, prioq);
 }
 
 static piojo_opaque_t

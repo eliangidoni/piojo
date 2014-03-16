@@ -777,7 +777,7 @@ void test_sort()
         piojo_graph_t *graph;
         piojo_array_t *vertices;
 
-        vertices = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_vid_t),
+        vertices = piojo_array_alloc_cb(sizeof(piojo_graph_vid_t),
                                         piojo_alloc_default);
         graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_TRUE, my_allocator);
 
@@ -815,7 +815,7 @@ void test_sort_2()
         piojo_graph_t *graph;
         piojo_array_t *vertices;
 
-        vertices = piojo_array_alloc_cb(NULL, sizeof(piojo_graph_vid_t),
+        vertices = piojo_array_alloc_cb(sizeof(piojo_graph_vid_t),
                                         piojo_alloc_default);
         graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_TRUE, my_allocator);
 

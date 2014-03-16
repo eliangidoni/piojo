@@ -345,22 +345,22 @@ void test_heap_decr()
         assert_allocator_init(0);
 }
 
-void test_heap_has_p()
+void test_heap_contain_p()
 {
         piojo_heap_t *heap;
         int i=1234;
 
         heap = piojo_heap_alloc(int_leq);
-        PIOJO_ASSERT(! piojo_heap_has_p((piojo_opaque_t)i, heap));
+        PIOJO_ASSERT(! piojo_heap_contain_p((piojo_opaque_t)i, heap));
         piojo_heap_push((piojo_opaque_t)i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 1);
-        PIOJO_ASSERT(piojo_heap_has_p((piojo_opaque_t)i, heap));
+        PIOJO_ASSERT(piojo_heap_contain_p((piojo_opaque_t)i, heap));
 
-        PIOJO_ASSERT(! piojo_heap_has_p((piojo_opaque_t)i+1, heap));
+        PIOJO_ASSERT(! piojo_heap_contain_p((piojo_opaque_t)i+1, heap));
         ++i;
         piojo_heap_push((piojo_opaque_t)i, heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 2);
-        PIOJO_ASSERT(piojo_heap_has_p((piojo_opaque_t)i, heap));
+        PIOJO_ASSERT(piojo_heap_contain_p((piojo_opaque_t)i, heap));
 
         piojo_heap_free(heap);
         assert_allocator_alloc(0);
@@ -380,7 +380,7 @@ int main()
         test_peek();
         test_heap_expand();
         test_heap_decr();
-        test_heap_has_p();
+        test_heap_contain_p();
         test_stress();
 
         assert_allocator_init(0);

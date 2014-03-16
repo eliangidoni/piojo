@@ -92,11 +92,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga72ff5481f40b0394a153c38a6497dd80">piojo_array_alloc</a> (<a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gaf8eb2e5342dbec2170d15b7736b9e67b">piojo_array_alloc_s</a> (<a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, size_t esize)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga5320f19de6ddc6e450789fbb46cb2ce4">piojo_array_alloc_n</a> (<a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, size_t esize, size_t ecount)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga490fbb8deb947b4b6d76d88c8eaac415">piojo_array_alloc_cb</a> (<a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, size_t esize, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gadb60f6feb96ba0d1ced3a2773cc289be">piojo_array_alloc_cb_n</a> (<a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga1e203371ce507e0339a256744634c170">piojo_array_alloc</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga4e15c2ae99cab0df49ab62b0c67908b0">piojo_array_alloc_s</a> (size_t esize)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gaec44cd15dcae1b14e864cd51231dc832">piojo_array_alloc_n</a> (size_t esize, size_t ecount)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga6ca34c70c29b769fe8e978971a47d962">piojo_array_alloc_cb</a> (size_t esize, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gae1ac5d6a9e076e3652da3ea12085f2e9">piojo_array_alloc_cb_n</a> (size_t esize, size_t ecount, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga586e13a331ffe134095061dcb111eed0">piojo_array_copy</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga1f64ffaed3da8a627bdc9c09f9cc00ad">piojo_array_free</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gafc5f6579dffd73512fca19e1e7187d35">piojo_array_clear</a> (piojo_array_t *array)</td></tr>
@@ -104,7 +104,9 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9abf47690b12c7d56f53802f156cc65e">piojo_array_insert</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga6c3d735825557881674d035dee12db5a">piojo_array_set</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga0859860af56443ebd4f137b7554502b3">piojo_array_append</a> (const void *data, piojo_array_t *array)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga361a7978a7657f10340ac108fe5e9427">piojo_array_has_p</a> (const void *data, const piojo_array_t *array, size_t *idx)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9e250192794736e9a739b7bd8236abe0">piojo_array_index</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, const piojo_array_t *array, size_t *idx)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9e717d2ecb199237b48083b5b34892cb">piojo_array_sorted_insert</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gaa8cd2c4146089f1de314d88508b00cd1">piojo_array_sorted_index</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, const piojo_array_t *array, size_t *idx)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga20c3b0aa146e844f7394e09abe8f0564">piojo_array_delete</a> (size_t idx, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga83216d18538a466960fc965f94a17f60">piojo_array_at</a> (size_t idx, const piojo_array_t *array)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
@@ -114,44 +116,31 @@ Variables</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Piojo Array implementation. </p>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="ga72ff5481f40b0394a153c38a6497dd80"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc" ref="ga72ff5481f40b0394a153c38a6497dd80" args="(piojo_cmp_cb cmp)" -->
+<a class="anchor" id="ga1e203371ce507e0339a256744634c170"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc" ref="ga1e203371ce507e0339a256744634c170" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga72ff5481f40b0394a153c38a6497dd80">piojo_array_alloc</a> </td>
+          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga1e203371ce507e0339a256744634c170">piojo_array_alloc</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
-          <td class="paramname"><em>cmp</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <p>Allocates a new array. Uses default allocator and entry size of <b>int</b>. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Comparison function, can be <b>NULL</b>. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>New array. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga490fbb8deb947b4b6d76d88c8eaac415"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_cb" ref="ga490fbb8deb947b4b6d76d88c8eaac415" args="(piojo_cmp_cb cmp, size_t esize, piojo_alloc_if allocator)" -->
+<a class="anchor" id="ga6ca34c70c29b769fe8e978971a47d962"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_cb" ref="ga6ca34c70c29b769fe8e978971a47d962" args="(size_t esize, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga490fbb8deb947b4b6d76d88c8eaac415">piojo_array_alloc_cb</a> </td>
+          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga6ca34c70c29b769fe8e978971a47d962">piojo_array_alloc_cb</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
-          <td class="paramname"><em>cmp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
         </tr>
@@ -172,7 +161,6 @@ Variables</h2></td></tr>
 <p>Allocates a new array. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Comparison function, can be <b>NULL</b>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">esize</td><td>Entry size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
   </table>
@@ -182,19 +170,13 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gadb60f6feb96ba0d1ced3a2773cc289be"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_cb_n" ref="gadb60f6feb96ba0d1ced3a2773cc289be" args="(piojo_cmp_cb cmp, size_t esize, size_t ecount, piojo_alloc_if allocator)" -->
+<a class="anchor" id="gae1ac5d6a9e076e3652da3ea12085f2e9"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_cb_n" ref="gae1ac5d6a9e076e3652da3ea12085f2e9" args="(size_t esize, size_t ecount, piojo_alloc_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#gadb60f6feb96ba0d1ced3a2773cc289be">piojo_array_alloc_cb_n</a> </td>
+          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#gae1ac5d6a9e076e3652da3ea12085f2e9">piojo_array_alloc_cb_n</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
-          <td class="paramname"><em>cmp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
         </tr>
@@ -221,7 +203,6 @@ Variables</h2></td></tr>
 <p>Allocates a new array. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Comparison function, can be <b>NULL</b>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">esize</td><td>Entry size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Number of entries to reserve space for. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
@@ -232,19 +213,13 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga5320f19de6ddc6e450789fbb46cb2ce4"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_n" ref="ga5320f19de6ddc6e450789fbb46cb2ce4" args="(piojo_cmp_cb cmp, size_t esize, size_t ecount)" -->
+<a class="anchor" id="gaec44cd15dcae1b14e864cd51231dc832"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_n" ref="gaec44cd15dcae1b14e864cd51231dc832" args="(size_t esize, size_t ecount)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga5320f19de6ddc6e450789fbb46cb2ce4">piojo_array_alloc_n</a> </td>
+          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#gaec44cd15dcae1b14e864cd51231dc832">piojo_array_alloc_n</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
-          <td class="paramname"><em>cmp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>esize</em>, </td>
         </tr>
@@ -265,7 +240,6 @@ Variables</h2></td></tr>
 <p>Allocates a new array. Uses default allocator. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Comparison function, can be <b>NULL</b>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">esize</td><td>Entry size in bytes. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Number of entries to reserve space for. </td></tr>
   </table>
@@ -275,26 +249,16 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaf8eb2e5342dbec2170d15b7736b9e67b"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_s" ref="gaf8eb2e5342dbec2170d15b7736b9e67b" args="(piojo_cmp_cb cmp, size_t esize)" -->
+<a class="anchor" id="ga4e15c2ae99cab0df49ab62b0c67908b0"></a><!-- doxytag: member="piojo_array.c::piojo_array_alloc_s" ref="ga4e15c2ae99cab0df49ab62b0c67908b0" args="(size_t esize)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#gaf8eb2e5342dbec2170d15b7736b9e67b">piojo_array_alloc_s</a> </td>
+          <td class="memname">piojo_array_t* <a class="el" href="group__piojoarray.html#ga4e15c2ae99cab0df49ab62b0c67908b0">piojo_array_alloc_s</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
-          <td class="paramname"><em>cmp</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>esize</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>esize</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -302,7 +266,6 @@ Variables</h2></td></tr>
 <p>Allocates a new array. Uses default allocator. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Comparison function, can be <b>NULL</b>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">esize</td><td>Entry size in bytes. </td></tr>
   </table>
   </dd>
@@ -335,7 +298,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Inserts a new entry after the last entry or in order given by <em>cmp</em> if it's not <b>NULL</b>. </p>
+<p>Inserts a new entry at the end of <em>array</em>. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
@@ -491,15 +454,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga361a7978a7657f10340ac108fe5e9427"></a><!-- doxytag: member="piojo_array.c::piojo_array_has_p" ref="ga361a7978a7657f10340ac108fe5e9427" args="(const void *data, const piojo_array_t *array, size_t *idx)" -->
+<a class="anchor" id="ga9e250192794736e9a739b7bd8236abe0"></a><!-- doxytag: member="piojo_array.c::piojo_array_index" ref="ga9e250192794736e9a739b7bd8236abe0" args="(const void *data, piojo_cmp_cb cmp, const piojo_array_t *array, size_t *idx)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="group__piojoarray.html#ga361a7978a7657f10340ac108fe5e9427">piojo_array_has_p</a> </td>
+          <td class="memname">size_t* <a class="el" href="group__piojoarray.html#ga9e250192794736e9a739b7bd8236abe0">piojo_array_index</a> </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
+          <td class="paramname"><em>cmp</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -521,17 +490,17 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Searches an entry using <em>cmp</em> comparison function. </p>
-<dl class="warning"><dt><b>Warning:</b></dt><dd>If <em>cmp</em> is <b>NULL</b> returns <b>FALSE</b>. </dd></dl>
+<p>Searches index of an entry (linear search). </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Entry comparison function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">array</td><td>Array. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">idx</td><td>Index where <em>data</em> is/should be found (can be <b>NULL</b>). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">idx</td><td>Index of <em>data</em> inside <em>array</em>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if <em>data</em> is present, <b>FALSE</b> otherwise. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><em>idx</em> if <em>data</em> is present, <b>NULL</b> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -644,6 +613,98 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gaa8cd2c4146089f1de314d88508b00cd1"></a><!-- doxytag: member="piojo_array.c::piojo_array_sorted_index" ref="gaa8cd2c4146089f1de314d88508b00cd1" args="(const void *data, piojo_cmp_cb cmp, const piojo_array_t *array, size_t *idx)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t* <a class="el" href="group__piojoarray.html#gaa8cd2c4146089f1de314d88508b00cd1">piojo_array_sorted_index</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
+          <td class="paramname"><em>cmp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>idx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Searches index of an entry (binary search). </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Entry comparison function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">array</td><td>Array. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">idx</td><td>Index of <em>data</em> inside <em>array</em>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><em>idx</em> if <em>data</em> is present, <b>NULL</b> otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga9e717d2ecb199237b48083b5b34892cb"></a><!-- doxytag: member="piojo_array.c::piojo_array_sorted_insert" ref="ga9e717d2ecb199237b48083b5b34892cb" args="(const void *data, piojo_cmp_cb cmp, piojo_array_t *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojoarray.html#ga9e717d2ecb199237b48083b5b34892cb">piojo_array_sorted_insert</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a>&#160;</td>
+          <td class="paramname"><em>cmp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Inserts a new entry in order given by <em>cmp</em>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cmp</td><td>Entry comparison function. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">array</td><td>Array being modified. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/><h2>Variable Documentation</h2>
 <a class="anchor" id="ga1f4293f367cff4bdd15eab9708f57781"></a><!-- doxytag: member="piojo_array.c::piojo_array_sizeof" ref="ga1f4293f367cff4bdd15eab9708f57781" args="" -->
 <div class="memitem">
@@ -678,7 +739,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Mon Feb 24 2014 01:17:35 for piojo-0.2 by
+    <li class="footer">Generated on Sun Mar 16 2014 15:26:56 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -109,7 +109,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gacbf5f1d46ace9bb7403482ee5dd5a1a0">piojo_heap_decrease</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga57dd885b096402ee639e591a17d44363">piojo_heap_pop</a> (piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga9ec7908545247c58511f105b59c38d0d">piojo_heap_peek</a> (const piojo_heap_t *heap)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gaa3a473d7c719ad382a14525a38c2d92d">piojo_heap_has_p</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, const piojo_heap_t *heap)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gad72d6c28be5f8599a11652cd30e5b269">piojo_heap_contain_p</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, const piojo_heap_t *heap)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga385a62a045c6be9b15b8c7fb660af281">piojo_heap_sizeof</a></td></tr>
@@ -310,6 +310,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gad72d6c28be5f8599a11652cd30e5b269"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_contain_p" ref="gad72d6c28be5f8599a11652cd30e5b269" args="(piojo_opaque_t data, const piojo_heap_t *heap)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="group__piojoheap.html#gad72d6c28be5f8599a11652cd30e5b269">piojo_heap_contain_p</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const piojo_heap_t *&#160;</td>
+          <td class="paramname"><em>heap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Searches entry in heap. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">heap</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if entry is in heap, <b>FALSE</b> otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga86841f37dc94c7c0be8e0889d4fe0a77"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_copy" ref="ga86841f37dc94c7c0be8e0889d4fe0a77" args="(const piojo_heap_t *heap)" -->
 <div class="memitem">
 <div class="memproto">
@@ -391,42 +427,6 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a class="anchor" id="gaa3a473d7c719ad382a14525a38c2d92d"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_has_p" ref="gaa3a473d7c719ad382a14525a38c2d92d" args="(piojo_opaque_t data, const piojo_heap_t *heap)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="group__piojoheap.html#gaa3a473d7c719ad382a14525a38c2d92d">piojo_heap_has_p</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a>&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const piojo_heap_t *&#160;</td>
-          <td class="paramname"><em>heap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Searches entry in heap. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">heap</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><b>TRUE</b> if entry is in heap, <b>FALSE</b> otherwise. </dd></dl>
 
 </div>
 </div>
@@ -574,7 +574,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Mon Feb 24 2014 01:17:35 for piojo-0.2 by
+    <li class="footer">Generated on Sun Mar 16 2014 15:26:56 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
