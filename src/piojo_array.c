@@ -439,7 +439,6 @@ static void
 expand_array(piojo_array_t *array)
 {
         size_t newcnt, size;
-        uint8_t *expanded;
         PIOJO_ASSERT(array->ecount < SIZE_MAX);
 
         newcnt = array->ecount / ADT_GROWTH_DENOMINATOR;
@@ -449,14 +448,10 @@ expand_array(piojo_array_t *array)
         PIOJO_ASSERT(piojo_safe_mulsiz_p(newcnt, array->esize));
         size = newcnt * array->esize;
 
-        expanded = (uint8_t *) array->allocator.alloc_cb(size);
-        PIOJO_ASSERT(expanded);
-
-        memcpy(expanded, array->data, array->ecount * array->esize);
-        array->allocator.free_cb(array->data);
+        array->data = (uint8_t *)array->allocator.realloc_cb(array->data, size);
+        PIOJO_ASSERT(array->data);
 
         array->ecount = newcnt;
-        array->data = expanded;
 }
 
 static void
