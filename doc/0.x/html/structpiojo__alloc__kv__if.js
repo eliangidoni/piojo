@@ -7,5 +7,6 @@ var structpiojo__alloc__kv__if =
     [ "finishk_cb", "structpiojo__alloc__kv__if.html#a9672d57a3b17d9d982398a11e73ffc85", null ],
     [ "free_cb", "structpiojo__alloc__kv__if.html#a3dca22ea076bdf08f14f653a845b771f", null ],
     [ "init_cb", "structpiojo__alloc__kv__if.html#a5bd2d866e49ea7a17b7f876164a2c986", null ],
-    [ "initk_cb", "structpiojo__alloc__kv__if.html#a2af0af501f678d5098e58fa9905f8d68", null ]
+    [ "initk_cb", "structpiojo__alloc__kv__if.html#a2af0af501f678d5098e58fa9905f8d68", null ],
+    [ "realloc_cb", "structpiojo__alloc__kv__if.html#a4d4081311dfa5ea47e3c2d134e30f5c7", null ]
 ];

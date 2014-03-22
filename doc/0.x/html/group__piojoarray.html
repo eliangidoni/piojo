@@ -103,12 +103,15 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga7dc233ecb52cb10076816b3e627849bf">piojo_array_size</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9abf47690b12c7d56f53802f156cc65e">piojo_array_insert</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga6c3d735825557881674d035dee12db5a">piojo_array_set</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga0859860af56443ebd4f137b7554502b3">piojo_array_append</a> (const void *data, piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gabd1b1e16da75a88b5abe7c91b0dde3d5">piojo_array_push</a> (const void *data, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9e250192794736e9a739b7bd8236abe0">piojo_array_index</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, const piojo_array_t *array, size_t *idx)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9e717d2ecb199237b48083b5b34892cb">piojo_array_sorted_insert</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gaa8cd2c4146089f1de314d88508b00cd1">piojo_array_sorted_index</a> (const void *data, <a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> cmp, const piojo_array_t *array, size_t *idx)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga20c3b0aa146e844f7394e09abe8f0564">piojo_array_delete</a> (size_t idx, piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga87f7010ea7e960f590ff1f36a35ef527">piojo_array_delete</a> (size_t idx, piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gaed2940b35ad152c76cfc9301e38fa023">piojo_array_pop</a> (piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga83216d18538a466960fc965f94a17f60">piojo_array_at</a> (size_t idx, const piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga32e50ba5adb9d07c610ca640268fdf1f">piojo_array_first</a> (const piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga08c617a4964589700bcf34eb17927c51">piojo_array_last</a> (const piojo_array_t *array)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga1f4293f367cff4bdd15eab9708f57781">piojo_array_sizeof</a></td></tr>
@@ -274,41 +277,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga0859860af56443ebd4f137b7554502b3"></a><!-- doxytag: member="piojo_array.c::piojo_array_append" ref="ga0859860af56443ebd4f137b7554502b3" args="(const void *data, piojo_array_t *array)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__piojoarray.html#ga0859860af56443ebd4f137b7554502b3">piojo_array_append</a> </td>
-          <td>(</td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">piojo_array_t *&#160;</td>
-          <td class="paramname"><em>array</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Inserts a new entry at the end of <em>array</em>. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">array</td><td>Array being modified. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="ga83216d18538a466960fc965f94a17f60"></a><!-- doxytag: member="piojo_array.c::piojo_array_at" ref="ga83216d18538a466960fc965f94a17f60" args="(size_t idx, const piojo_array_t *array)" -->
 <div class="memitem">
 <div class="memproto">
@@ -394,12 +362,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga20c3b0aa146e844f7394e09abe8f0564"></a><!-- doxytag: member="piojo_array.c::piojo_array_delete" ref="ga20c3b0aa146e844f7394e09abe8f0564" args="(size_t idx, piojo_array_t *array)" -->
+<a class="anchor" id="ga87f7010ea7e960f590ff1f36a35ef527"></a><!-- doxytag: member="piojo_array.c::piojo_array_delete" ref="ga87f7010ea7e960f590ff1f36a35ef527" args="(size_t idx, piojo_array_t *array)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="group__piojoarray.html#ga20c3b0aa146e844f7394e09abe8f0564">piojo_array_delete</a> </td>
+          <td class="memname">void <a class="el" href="group__piojoarray.html#ga87f7010ea7e960f590ff1f36a35ef527">piojo_array_delete</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>idx</em>, </td>
@@ -426,7 +394,31 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Next entry index. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga32e50ba5adb9d07c610ca640268fdf1f"></a><!-- doxytag: member="piojo_array.c::piojo_array_first" ref="ga32e50ba5adb9d07c610ca640268fdf1f" args="(const piojo_array_t *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* <a class="el" href="group__piojoarray.html#ga32e50ba5adb9d07c610ca640268fdf1f">piojo_array_first</a> </td>
+          <td>(</td>
+          <td class="paramtype">const piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reads first entry. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">array</td><td>Non-empty array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Entry value. </dd></dl>
 
 </div>
 </div>
@@ -538,6 +530,90 @@ Variables</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">idx</td><td>Index of entry being inserted (from 0 to array_size) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">array</td><td>Array being modified. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ga08c617a4964589700bcf34eb17927c51"></a><!-- doxytag: member="piojo_array.c::piojo_array_last" ref="ga08c617a4964589700bcf34eb17927c51" args="(const piojo_array_t *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* <a class="el" href="group__piojoarray.html#ga08c617a4964589700bcf34eb17927c51">piojo_array_last</a> </td>
+          <td>(</td>
+          <td class="paramtype">const piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reads last entry. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">array</td><td>Non-empty array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Entry value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaed2940b35ad152c76cfc9301e38fa023"></a><!-- doxytag: member="piojo_array.c::piojo_array_pop" ref="gaed2940b35ad152c76cfc9301e38fa023" args="(piojo_array_t *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojoarray.html#gaed2940b35ad152c76cfc9301e38fa023">piojo_array_pop</a> </td>
+          <td>(</td>
+          <td class="paramtype">piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Deletes the last entry. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">array</td><td>Non-empty array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gabd1b1e16da75a88b5abe7c91b0dde3d5"></a><!-- doxytag: member="piojo_array.c::piojo_array_push" ref="gabd1b1e16da75a88b5abe7c91b0dde3d5" args="(const void *data, piojo_array_t *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojoarray.html#gabd1b1e16da75a88b5abe7c91b0dde3d5">piojo_array_push</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_array_t *&#160;</td>
+          <td class="paramname"><em>array</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Inserts a new entry at the end of <em>array</em>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Entry value. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">array</td><td>Array being modified. </td></tr>
   </table>
@@ -739,7 +815,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sun Mar 16 2014 15:26:56 for piojo-0.2 by
+    <li class="footer">Generated on Sat Mar 22 2014 18:08:37 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

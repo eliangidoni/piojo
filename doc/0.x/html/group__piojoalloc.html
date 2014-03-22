@@ -98,6 +98,7 @@ Classes</h2></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoalloc.html#ga4346ef0cb5a652da4e37f09a035c39f0">piojo_alloc_def_alloc</a> (size_t size)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoalloc.html#gaf559fefdcd721646158fb9d416982a61">piojo_alloc_def_realloc</a> (const void *ptr, size_t size)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoalloc.html#ga11a18605b9422c686eaa5347f90446de">piojo_alloc_def_free</a> (const void *ptr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoalloc.html#ga8cff58ea9baf0918455b0587674af7a9">piojo_alloc_def_init</a> (const void *data, size_t esize, void *newptr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoalloc.html#ga33992adb44ddc61f3906ca8412ce9a7b">piojo_alloc_def_copy</a> (const void *ptr, size_t esize, void *newptr)</td></tr>
@@ -269,6 +270,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gaf559fefdcd721646158fb9d416982a61"></a><!-- doxytag: member="piojo_alloc.c::piojo_alloc_def_realloc" ref="gaf559fefdcd721646158fb9d416982a61" args="(const void *ptr, size_t size)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * <a class="el" href="group__piojoalloc.html#gaf559fefdcd721646158fb9d416982a61">piojo_alloc_def_realloc</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Default realloc. Calls <code>realloc()</code>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to allocated memory. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Number of bytes to reallocate. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to reallocated memory. </dd></dl>
+
+</div>
+</div>
 <hr/><h2>Variable Documentation</h2>
 <a class="anchor" id="ga3e634984d73998ef9ce74401d7e7a59e"></a><!-- doxytag: member="piojo_alloc.c::piojo_alloc_default" ref="ga3e634984d73998ef9ce74401d7e7a59e" args="" -->
 <div class="memitem">
@@ -345,7 +382,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sun Mar 16 2014 15:26:56 for piojo-0.2 by
+    <li class="footer">Generated on Sat Mar 22 2014 18:08:37 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
