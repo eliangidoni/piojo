@@ -43,32 +43,14 @@ struct piojo_queue;
 typedef struct piojo_queue piojo_queue_t;
 extern const size_t piojo_queue_sizeof;
 
-/** @{ */
-/** Queue behavior when it's full. */
-typedef enum {
-        /** Expand queue dynamically when it's full. */
-        PIOJO_QUEUE_DYN_TRUE,
-        /** Don't expand it. */
-        PIOJO_QUEUE_DYN_FALSE
-} piojo_queue_dyn_t;
-/** @} */
+piojo_queue_t*
+piojo_queue_alloc(size_t ecount);
 
 piojo_queue_t*
-piojo_queue_alloc(piojo_queue_dyn_t dyn);
+piojo_queue_alloc_s(size_t esize, size_t ecount);
 
 piojo_queue_t*
-piojo_queue_alloc_s(piojo_queue_dyn_t dyn, size_t esize);
-
-piojo_queue_t*
-piojo_queue_alloc_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount);
-
-piojo_queue_t*
-piojo_queue_alloc_cb(piojo_queue_dyn_t dyn, size_t esize,
-                     piojo_alloc_if allocator);
-
-piojo_queue_t*
-piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
-                       piojo_alloc_if allocator);
+piojo_queue_alloc_cb(size_t esize, size_t ecount, piojo_alloc_if allocator);
 
 piojo_queue_t*
 piojo_queue_copy(const piojo_queue_t *queue);

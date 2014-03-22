@@ -31,7 +31,7 @@
 
 #include <piojo/piojo_graph.h>
 #include <piojo/piojo_diset.h>
-#include <piojo/piojo_queue.h>
+#include <piojo/piojo_list.h>
 #include <piojo/piojo_heap.h>
 #include <piojo_defs.h>
 
@@ -515,25 +515,25 @@ bool
 piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                           size_t limit, const piojo_graph_t *graph)
 {
-        piojo_queue_t *q;
+        piojo_list_t *q;
+        piojo_list_node_t *qnode;
         size_t i, cnt, depth;
         piojo_graph_alist_t *v, *nv;
         piojo_graph_edge_t *e;
         bool ret = FALSE, limited_p = (limit != 0);
         PIOJO_ASSERT(graph);
 
-        q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
-                                 sizeof(void*),
-                                 graph->allocator);
+        q = piojo_list_alloc_cb(sizeof(void*), graph->allocator);
 
         reset_attributes(graph);
 
         v = vid_to_alist(root, graph);
         v->mark = MARK_VISITED;
-        piojo_queue_push(&v, q);
-        while (piojo_queue_size(q) > 0){
-                v = *(piojo_graph_alist_t**) piojo_queue_peek(q);
-                piojo_queue_pop(q);
+        piojo_list_append(&v, q);
+        while (piojo_list_size(q) > 0){
+                qnode = piojo_list_first(q);
+                v = *(piojo_graph_alist_t**) piojo_list_entry(qnode);
+                piojo_list_delete(qnode, q);
                 if (cb(v->vid, graph)){
                         ret = TRUE;
                         break;
@@ -549,13 +549,13 @@ piojo_graph_breadth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         nv = vid_to_alist(e->end_vid, graph);
                         if (nv->mark != MARK_VISITED){
                                 nv->counter = depth;
-                                piojo_queue_push(&nv, q);
+                                piojo_list_append(&nv, q);
                                 nv->mark = MARK_VISITED;
                         }
                 }
         }
 
-        piojo_queue_free(q);
+        piojo_list_free(q);
         return ret;
 }
 

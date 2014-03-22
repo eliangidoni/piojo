@@ -31,7 +31,7 @@
  */
 
 #include <piojo/piojo_tree.h>
-#include <piojo/piojo_queue.h>
+#include <piojo/piojo_list.h>
 #include <piojo_defs.h>
 
 typedef struct {
@@ -1010,7 +1010,8 @@ finish_all(const piojo_tree_t *tree)
 {
         piojo_alloc_kv_if allocator;
         piojo_alloc_if qator = piojo_alloc_default;
-        piojo_queue_t *q;
+        piojo_list_t *q;
+        piojo_list_node_t *qnode;
         piojo_tree_bnode_t *bnode;
         size_t i;
 
@@ -1020,25 +1021,25 @@ finish_all(const piojo_tree_t *tree)
         qator.free_cb = allocator.free_cb;
 
         /* Breadth-first traversal and free */
-        q = piojo_queue_alloc_cb(PIOJO_QUEUE_DYN_TRUE,
-                                 sizeof(piojo_tree_bnode_t*), qator);
+        q = piojo_list_alloc_cb(sizeof(piojo_tree_bnode_t*), qator);
         bnode = tree->root;
-        piojo_queue_push(&bnode, q);
-        while (piojo_queue_size(q) > 0){
-                bnode = *(piojo_tree_bnode_t**) piojo_queue_peek(q);
-                piojo_queue_pop(q);
+        piojo_list_append(&bnode, q);
+        while (piojo_list_size(q) > 0){
+                qnode = piojo_list_first(q);
+                bnode = *(piojo_tree_bnode_t**) piojo_list_entry(qnode);
+                piojo_list_delete(qnode, q);
 
                 for (i = 0; i < bnode->ecnt; ++i){
                         finish_entry(tree, &bnode->entries[i]);
                 }
 
                 for (i = 0; ! bnode->leaf_p && i <= bnode->ecnt; ++i){
-                        piojo_queue_push(&bnode->children[i], q);
+                        piojo_list_append(&bnode->children[i], q);
                 }
 
                 free_bnode(bnode, tree);
         }
-        piojo_queue_free(q);
+        piojo_list_free(q);
 }
 
 /* Binary search for key. */
@@ -1292,17 +1293,19 @@ bin_search(const void *key, piojo_cmp_cb cmp_cb, piojo_tree_bnode_t *bnode,
 void
 print_tree(piojo_tree_t*tree)
 {
-        piojo_queue_t*q=piojo_queue_alloc_s(PIOJO_QUEUE_DYN_TRUE,
-                                            sizeof(piojo_tree_bnode_t*));
+        piojo_list_t*q=piojo_list_alloc_s(sizeof(piojo_tree_bnode_t*));
+        piojo_list_node_t *qnode;
         piojo_tree_bnode_t*bnode,*b2;
         piojo_tree_entry_t*node;
         piojo_tree_node_t iter;
         size_t idx;
-        piojo_queue_push(&tree->root, q);
-        while (piojo_queue_size(q) > 0){
-                bnode = *(piojo_tree_bnode_t**)piojo_queue_peek(q);
-                piojo_queue_pop(q);
-                printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", (void*)bnode, bnode->ecnt,
+        piojo_list_append(&tree->root, q);
+        while (piojo_list_size(q) > 0){
+                qnode = piojo_list_first(q);
+                bnode = *(piojo_tree_bnode_t**)piojo_list_entry(qnode);
+                piojo_list_delete(qnode, q);
+                printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", (void*)bnode,
+                       bnode->ecnt,
                        (void*)bnode->parent,bnode->pidx,bnode->leaf_p);
                 if (bnode->leaf_p){
                         for (idx=0; idx<bnode->ecnt;++idx){
@@ -1314,14 +1317,14 @@ print_tree(piojo_tree_t*tree)
                         for (idx=0; idx<bnode->ecnt;++idx){
                                 b2 = bnode->children[idx];
                                 printf("[ %p ] ", (void*)b2);
-                                piojo_queue_push(&b2,q);
+                                piojo_list_append(&b2,q);
                                 node = &bnode->entries[idx];
                                 printf("%d=%d ", *(int*)node->key,
                                        *(int*)node->data);
                         }
                         b2 = bnode->children[idx];
                         printf("[ %p ]", (void*)b2);
-                        piojo_queue_push(&b2,q);
+                        piojo_list_append(&b2,q);
                 }
                 if (bnode->ecnt == tree->cmax - 1){
                         printf(" @@@ FULL");
@@ -1335,7 +1338,7 @@ print_tree(piojo_tree_t*tree)
                 printf("MAX: %d = %d\n", *(int*)piojo_tree_entryk(&iter),
                        *(int*)piojo_tree_entryv(&iter));
         }
-        piojo_queue_free(q);
+        piojo_list_free(q);
 }
 #endif /* PIOJO_DEBUG */
 

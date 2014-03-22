@@ -34,15 +34,11 @@
 
 struct piojo_queue {
         uint8_t *data;
-        piojo_queue_dyn_t dyn;
         size_t esize, ecount, widx, ridx, usedcnt;
         piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of queue in bytes */
 const size_t piojo_queue_sizeof = sizeof(piojo_queue_t);
-
-static void
-expand_queue(piojo_queue_t *queue);
 
 static void
 incr_and_wrap(size_t *idx, size_t maxcnt);
@@ -53,69 +49,38 @@ finish_all(const piojo_queue_t *queue);
 /**
  * Allocates a new queue.
  * Uses default allocator and entry size of @b int.
- * @param[in] dyn Whether the queue should be expanded when full.
+ * @param[in] ecount Number of entries to reserve space for.
  * @return New queue.
  */
 piojo_queue_t*
-piojo_queue_alloc(piojo_queue_dyn_t dyn)
+piojo_queue_alloc(size_t ecount)
 {
-        return piojo_queue_alloc_s(dyn, sizeof(int));
+        return piojo_queue_alloc_s(sizeof(int), ecount);
 }
 
 /**
  * Allocates a new queue.
  * Uses default allocator.
- * @param[in] dyn Whether the queue should be expanded when full.
- * @param[in] esize Entry size in bytes.
- * @return New queue.
- */
-piojo_queue_t*
-piojo_queue_alloc_s(piojo_queue_dyn_t dyn, size_t esize)
-{
-        return piojo_queue_alloc_n(dyn, esize, DEFAULT_ADT_ECOUNT);
-}
-
-/**
- * Allocates a new queue.
- * Uses default allocator.
- * @param[in] dyn Whether the queue should be expanded when full.
  * @param[in] esize Entry size in bytes.
  * @param[in] ecount Number of entries to reserve space for.
  * @return New queue.
  */
 piojo_queue_t*
-piojo_queue_alloc_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount)
+piojo_queue_alloc_s(size_t esize, size_t ecount)
 {
-        return piojo_queue_alloc_cb_n(dyn, esize, ecount,
-                                      piojo_alloc_default);
+        return piojo_queue_alloc_cb(esize, ecount,
+                                    piojo_alloc_default);
 }
 
 /**
  * Allocates a new queue.
- * @param[in] dyn Whether the queue should be expanded when full.
- * @param[in] esize Entry size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New queue.
- */
-piojo_queue_t*
-piojo_queue_alloc_cb(piojo_queue_dyn_t dyn, size_t esize,
-                     piojo_alloc_if allocator)
-{
-        return piojo_queue_alloc_cb_n(dyn, esize, DEFAULT_ADT_ECOUNT,
-                                      allocator);
-}
-
-/**
- * Allocates a new queue.
- * @param[in] dyn Whether the queue should be expanded when full.
  * @param[in] esize Entry size in bytes.
  * @param[in] ecount Number of entries to reserve space for.
  * @param[in] allocator Allocator to be used.
  * @return New queue.
  */
 piojo_queue_t*
-piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
-                       piojo_alloc_if allocator)
+piojo_queue_alloc_cb(size_t esize, size_t ecount, piojo_alloc_if allocator)
 {
         piojo_queue_t * q;
         q = (piojo_queue_t *) allocator.alloc_cb(sizeof(piojo_queue_t));
@@ -128,7 +93,6 @@ piojo_queue_alloc_cb_n(piojo_queue_dyn_t dyn, size_t esize, size_t ecount,
         q->widx = q->ridx = q->usedcnt = 0;
         q->esize = esize;
         q->ecount = ecount;
-        q->dyn = dyn;
         q->data = (uint8_t *) allocator.alloc_cb(q->ecount * q->esize);
         PIOJO_ASSERT(q->data);
 
@@ -151,8 +115,7 @@ piojo_queue_copy(const piojo_queue_t *queue)
         allocator = queue->allocator;
         esize = queue->esize;
 
-        newq = piojo_queue_alloc_cb_n(queue->dyn, esize, queue->ecount,
-                                      allocator);
+        newq = piojo_queue_alloc_cb(esize, queue->ecount, allocator);
         PIOJO_ASSERT(newq);
         newq->widx = queue->widx;
         newq->ridx = queue->ridx;
@@ -218,14 +181,12 @@ bool
 piojo_queue_full_p(const piojo_queue_t *queue)
 {
         PIOJO_ASSERT(queue);
-        return (piojo_queue_size(queue) == queue->ecount &&
-                queue->dyn == PIOJO_QUEUE_DYN_FALSE);
+        return (piojo_queue_size(queue) == queue->ecount);
 }
 
 /**
  * Inserts a new entry after the last entry.
- * If @a queue is dynamic then expand it.
- * @warning If @a queue isn't dynamic you should check it's not full.
+ * @warning You should check @a queue is not full.
  * @param[in] data Entry value.
  * @param[out] queue Queue being modified.
  */
@@ -236,10 +197,6 @@ piojo_queue_push(const void *data, piojo_queue_t *queue)
         PIOJO_ASSERT(queue);
         PIOJO_ASSERT(data);
         PIOJO_ASSERT(! piojo_queue_full_p(queue));
-
-        if (piojo_queue_size(queue) == queue->ecount){
-                expand_queue(queue);
-        }
 
         curidx = queue->widx * queue->esize;
         queue->allocator.init_cb(data, queue->esize, &queue->data[curidx]);
@@ -278,39 +235,6 @@ piojo_queue_peek(const piojo_queue_t *queue)
 /** @}
  * Private functions.
  */
-
-static void
-expand_queue(piojo_queue_t *queue)
-{
-        size_t bycnt, idx, atidx_size, size;
-        void *atidx_data;
-        uint8_t *expanded;
-        PIOJO_ASSERT(queue->ecount < SIZE_MAX);
-
-        bycnt = queue->ecount / ADT_GROWTH_DENOMINATOR;
-        PIOJO_ASSERT(piojo_safe_addsiz_p(bycnt, queue->ecount));
-        bycnt += queue->ecount;
-
-        idx = queue->ridx * queue->esize;
-        atidx_data = &queue->data[idx];
-        atidx_size = (queue->ecount - queue->ridx) * queue->esize;
-
-        PIOJO_ASSERT(piojo_safe_mulsiz_p(bycnt, queue->esize));
-        size = bycnt * queue->esize;
-
-        expanded = (uint8_t *) queue->allocator.alloc_cb(size);
-        PIOJO_ASSERT(expanded);
-        PIOJO_ASSERT(queue->ridx == queue->widx);
-
-        memcpy(expanded, atidx_data, atidx_size);
-        memcpy(expanded + atidx_size, queue->data, idx);
-        queue->allocator.free_cb(queue->data);
-
-        queue->ridx = 0;
-        queue->widx = queue->ecount;
-        queue->ecount = bycnt;
-        queue->data = expanded;
-}
 
 static void
 incr_and_wrap(size_t *idx, size_t maxcnt)
