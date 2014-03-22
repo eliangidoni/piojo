@@ -105,6 +105,7 @@ Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga22dcd86dbc0f648ac2f2f5059a05aee8">piojo_cmp_cb</a> )(const void *e1, const void *e2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a> )(const void *e1, const void *e2)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gafa3b4c64e55bbaf7ddfc55c48245899d">piojo_alloc_cb</a> )(size_t size)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga332d63b31121b971a230b2a6c7b0900d">piojo_realloc_cb</a> )(const void *ptr, size_t size)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#gaaae809d742bbf9ee6b00731e94d1ca55">piojo_free_cb</a> )(const void *ptr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga791861540d311c18718c2f8d9054112c">piojo_init_cb</a> )(const void *data, size_t esize, void *ptr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojo.html#ga2c8bebfafb4b839224eb2116042731bb">piojo_copy_cb</a> )(const void *ptr, size_t esize, void *newptr)</td></tr>
@@ -328,6 +329,20 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Opaque data type. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga332d63b31121b971a230b2a6c7b0900d"></a><!-- doxytag: member="piojo.h::piojo_realloc_cb" ref="ga332d63b31121b971a230b2a6c7b0900d" args=")(const void *ptr, size_t size)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void*(* <a class="el" href="group__piojo.html#ga332d63b31121b971a230b2a6c7b0900d">piojo_realloc_cb</a>)(const void *ptr, size_t size)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reallocates <em>ptr</em> to <em>size</em> bytes of memory. </p>
 
 </div>
 </div>
@@ -1056,7 +1071,7 @@ Functions</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sun Mar 16 2014 15:26:56 for piojo-0.2 by
+    <li class="footer">Generated on Sat Mar 22 2014 18:08:37 for piojo-0.2 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
