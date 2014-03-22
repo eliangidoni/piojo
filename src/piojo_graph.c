@@ -31,7 +31,6 @@
 
 #include <piojo/piojo_graph.h>
 #include <piojo/piojo_diset.h>
-#include <piojo/piojo_stack.h>
 #include <piojo/piojo_queue.h>
 #include <piojo/piojo_heap.h>
 #include <piojo_defs.h>
@@ -572,23 +571,23 @@ bool
 piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         size_t limit, const piojo_graph_t *graph)
 {
-        piojo_stack_t *st;
+        piojo_array_t *st;
         size_t i, cnt, depth;
         piojo_graph_alist_t *v, *nv;
         piojo_graph_edge_t *e;
         bool ret = FALSE, limited_p = (limit != 0);
         PIOJO_ASSERT(graph);
 
-        st = piojo_stack_alloc_cb(sizeof(void*), graph->allocator);
+        st = piojo_array_alloc_cb(sizeof(void*), graph->allocator);
 
         reset_attributes(graph);
 
         v = vid_to_alist(root, graph);
         v->mark = MARK_VISITED;
-        piojo_stack_push(&v, st);
-        while (piojo_stack_size(st) > 0){
-                v = *(piojo_graph_alist_t**) piojo_stack_peek(st);
-                piojo_stack_pop(st);
+        piojo_array_push(&v, st);
+        while (piojo_array_size(st) > 0){
+                v = *(piojo_graph_alist_t**) piojo_array_last(st);
+                piojo_array_pop(st);
                 if (cb(v->vid, graph)){
                         ret = TRUE;
                         break;
@@ -604,13 +603,13 @@ piojo_graph_depth_first(piojo_graph_vid_t root, piojo_graph_visit_cb cb,
                         nv = vid_to_alist(e->end_vid, graph);
                         if (nv->mark != MARK_VISITED){
                                 nv->counter = depth;
-                                piojo_stack_push(&nv, st);
+                                piojo_array_push(&nv, st);
                                 nv->mark = MARK_VISITED;
                         }
                 }
         }
 
-        piojo_stack_free(st);
+        piojo_array_free(st);
         return ret;
 }
 

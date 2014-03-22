@@ -251,20 +251,6 @@
 #define queue_pop piojo_queue_pop
 #define queue_peek piojo_queue_peek
 
-/* Stack */
-#define stack_alloc piojo_stack_alloc
-#define stack_alloc_s piojo_stack_alloc_s
-#define stack_alloc_n piojo_stack_alloc_n
-#define stack_alloc_cb piojo_stack_alloc_cb
-#define stack_alloc_cb_n piojo_stack_alloc_cb_n
-#define stack_copy piojo_stack_copy
-#define stack_free piojo_stack_free
-#define stack_clear piojo_stack_clear
-#define stack_size piojo_stack_size
-#define stack_push piojo_stack_push
-#define stack_pop piojo_stack_pop
-#define stack_peek piojo_stack_peek
-
 /* Tree */
 #define tree_alloc_intk piojo_tree_alloc_intk
 #define tree_alloc_uintk piojo_tree_alloc_uintk

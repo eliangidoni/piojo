@@ -17,7 +17,6 @@ set(piojo_SOURCES
     piojo_heap.c
     piojo_list.c
     piojo_queue.c
-    piojo_stack.c
     piojo_tree.c)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
