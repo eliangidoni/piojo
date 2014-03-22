@@ -78,6 +78,8 @@ typedef struct {
         piojo_finish_cb finishk_cb;
 } piojo_alloc_kv_if;
 
+/** @} */
+
 extern piojo_alloc_if piojo_alloc_default;
 extern piojo_alloc_kv_if piojo_alloc_kv_default;
 
@@ -87,8 +89,6 @@ void piojo_alloc_def_free(const void *ptr);
 void piojo_alloc_def_init(const void *data, size_t esize, void *newptr);
 void piojo_alloc_def_copy(const void *ptr, size_t esize, void *newptr);
 void piojo_alloc_def_finish(void *ptr);
-
-/** @} */
 
 #ifdef __cplusplus
 }
