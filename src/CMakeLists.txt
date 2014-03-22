@@ -10,7 +10,7 @@ set(piojo_SOURCES
     piojo_alloc.c
     piojo_array.c
     piojo_bitset.c
-    piojo_buffer.c
+    piojo_stream.c
     piojo_diset.c
     piojo_graph.c
     piojo_hash.c
