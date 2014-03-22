@@ -21,16 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Piojo Queue API.
+ * Piojo Ring API.
  */
 
 /**
  * @file
- * @addtogroup piojoqueue
+ * @addtogroup piojoring
  */
 
-#ifndef PIOJO_QUEUE_H_
-#define PIOJO_QUEUE_H_
+#ifndef PIOJO_RING_H_
+#define PIOJO_RING_H_
 
 #include <piojo/piojo.h>
 #include <piojo/piojo_alloc.h>
@@ -39,42 +39,42 @@
 extern "C" {
 #endif
 
-struct piojo_queue;
-typedef struct piojo_queue piojo_queue_t;
-extern const size_t piojo_queue_sizeof;
+struct piojo_ring;
+typedef struct piojo_ring piojo_ring_t;
+extern const size_t piojo_ring_sizeof;
 
-piojo_queue_t*
-piojo_queue_alloc(size_t ecount);
+piojo_ring_t*
+piojo_ring_alloc(size_t ecount);
 
-piojo_queue_t*
-piojo_queue_alloc_s(size_t esize, size_t ecount);
+piojo_ring_t*
+piojo_ring_alloc_s(size_t esize, size_t ecount);
 
-piojo_queue_t*
-piojo_queue_alloc_cb(size_t esize, size_t ecount, piojo_alloc_if allocator);
+piojo_ring_t*
+piojo_ring_alloc_cb(size_t esize, size_t ecount, piojo_alloc_if allocator);
 
-piojo_queue_t*
-piojo_queue_copy(const piojo_queue_t *queue);
-
-void
-piojo_queue_free(const piojo_queue_t *queue);
+piojo_ring_t*
+piojo_ring_copy(const piojo_ring_t *ring);
 
 void
-piojo_queue_clear(piojo_queue_t *queue);
+piojo_ring_free(const piojo_ring_t *ring);
+
+void
+piojo_ring_clear(piojo_ring_t *ring);
 
 size_t
-piojo_queue_size(const piojo_queue_t *queue);
+piojo_ring_size(const piojo_ring_t *ring);
 
 bool
-piojo_queue_full_p(const piojo_queue_t *queue);
+piojo_ring_full_p(const piojo_ring_t *ring);
 
 void
-piojo_queue_push(const void *data, piojo_queue_t *queue);
+piojo_ring_push(const void *data, piojo_ring_t *ring);
 
 void
-piojo_queue_pop(piojo_queue_t *queue);
+piojo_ring_pop(piojo_ring_t *ring);
 
 void*
-piojo_queue_peek(const piojo_queue_t *queue);
+piojo_ring_peek(const piojo_ring_t *ring);
 
 #ifdef __cplusplus
 }

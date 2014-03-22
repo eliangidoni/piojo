@@ -204,20 +204,20 @@
 #define clampuint piojo_clampuint
 #define clampint piojo_clampint
 
-/* Queue */
-#define queue_alloc piojo_queue_alloc
-#define queue_alloc_s piojo_queue_alloc_s
-#define queue_alloc_n piojo_queue_alloc_n
-#define queue_alloc_cb piojo_queue_alloc_cb
-#define queue_alloc_cb_n piojo_queue_alloc_cb_n
-#define queue_copy piojo_queue_copy
-#define queue_free piojo_queue_free
-#define queue_clear piojo_queue_clear
-#define queue_size piojo_queue_size
-#define queue_full_p piojo_queue_full_p
-#define queue_push piojo_queue_push
-#define queue_pop piojo_queue_pop
-#define queue_peek piojo_queue_peek
+/* Ring */
+#define ring_alloc piojo_ring_alloc
+#define ring_alloc_s piojo_ring_alloc_s
+#define ring_alloc_n piojo_ring_alloc_n
+#define ring_alloc_cb piojo_ring_alloc_cb
+#define ring_alloc_cb_n piojo_ring_alloc_cb_n
+#define ring_copy piojo_ring_copy
+#define ring_free piojo_ring_free
+#define ring_clear piojo_ring_clear
+#define ring_size piojo_ring_size
+#define ring_full_p piojo_ring_full_p
+#define ring_push piojo_ring_push
+#define ring_pop piojo_ring_pop
+#define ring_peek piojo_ring_peek
 
 /* Stream */
 #define stream_alloc piojo_stream_alloc
