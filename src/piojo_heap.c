@@ -108,6 +108,7 @@ piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
         PIOJO_ASSERT(ecount > 0);
 
         ator.alloc_cb = allocator.alloc_cb;
+        ator.realloc_cb = allocator.realloc_cb;
         ator.free_cb = allocator.free_cb;
 
         h = (piojo_heap_t *) allocator.alloc_cb(sizeof(piojo_heap_t));

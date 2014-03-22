@@ -34,6 +34,11 @@ void* my_alloc(size_t size)
         return piojo_alloc_def_alloc(size);
 }
 
+void* my_realloc(const void *ptr, size_t size)
+{
+        return piojo_alloc_def_realloc(ptr,size);
+}
+
 void my_free(const void *ptr)
 {
         PIOJO_ASSERT(alloc_cnt > 0);
@@ -62,6 +67,7 @@ void my_finish(void *ptr)
 
 piojo_alloc_if my_allocator = {
         my_alloc,
+        my_realloc,
         my_free,
         my_init,
         my_copy,
@@ -70,6 +76,7 @@ piojo_alloc_if my_allocator = {
 
 piojo_alloc_kv_if my_kvallocator = {
         my_alloc,
+        my_realloc,
         my_free,
         my_init,
         my_copy,

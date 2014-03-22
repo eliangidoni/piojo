@@ -35,6 +35,7 @@
 /** @hideinitializer Default allocator */
 piojo_alloc_if piojo_alloc_default = {
         piojo_alloc_def_alloc,
+        piojo_alloc_def_realloc,
         piojo_alloc_def_free,
         piojo_alloc_def_init,
         piojo_alloc_def_copy,
@@ -44,6 +45,7 @@ piojo_alloc_if piojo_alloc_default = {
 /** @hideinitializer Default key-value allocator */
 piojo_alloc_kv_if piojo_alloc_kv_default = {
         piojo_alloc_def_alloc,
+        piojo_alloc_def_realloc,
         piojo_alloc_def_free,
         piojo_alloc_def_init,
         piojo_alloc_def_copy,
@@ -61,6 +63,17 @@ piojo_alloc_kv_if piojo_alloc_kv_default = {
 void* piojo_alloc_def_alloc(size_t size)
 {
         return malloc(size);
+}
+
+/**
+ * Default realloc. Calls @c realloc().
+ * @param[in] ptr Pointer to allocated memory.
+ * @param[in] size Number of bytes to reallocate.
+ * @return Pointer to reallocated memory.
+ */
+void* piojo_alloc_def_realloc(const void *ptr, size_t size)
+{
+        return realloc((void *)ptr, size);
 }
 
 /**

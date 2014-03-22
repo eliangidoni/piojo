@@ -46,6 +46,7 @@ extern int alloc_cnt;
 extern int init_cnt;
 
 void* my_alloc(size_t size);
+void* my_realloc(const void *ptr, size_t size);
 void my_free(const void *ptr);
 void my_init(const void *data, size_t esize, void *newptr);
 void my_copy(const void *ptr, size_t esize, void *newptr);

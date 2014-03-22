@@ -44,6 +44,8 @@ extern "C" {
 typedef struct {
         /** Allocation callback. */
         piojo_alloc_cb alloc_cb;
+        /** Reallocation callback. */
+        piojo_realloc_cb realloc_cb;
         /** Free callback. */
         piojo_free_cb free_cb;
         /** Init callback. */
@@ -58,6 +60,8 @@ typedef struct {
 typedef struct {
         /** Allocation callback. */
         piojo_alloc_cb alloc_cb;
+        /** Reallocation callback. */
+        piojo_realloc_cb realloc_cb;
         /** Free callback. */
         piojo_free_cb free_cb;
         /** Value init callback. */
@@ -78,6 +82,7 @@ extern piojo_alloc_if piojo_alloc_default;
 extern piojo_alloc_kv_if piojo_alloc_kv_default;
 
 void* piojo_alloc_def_alloc(size_t size);
+void* piojo_alloc_def_realloc(const void *ptr, size_t size);
 void piojo_alloc_def_free(const void *ptr);
 void piojo_alloc_def_init(const void *data, size_t esize, void *newptr);
 void piojo_alloc_def_copy(const void *ptr, size_t esize, void *newptr);

@@ -1016,6 +1016,7 @@ finish_all(const piojo_tree_t *tree)
 
         allocator = tree->allocator;
         qator.alloc_cb = allocator.alloc_cb;
+        qator.realloc_cb = allocator.realloc_cb;
         qator.free_cb = allocator.free_cb;
 
         /* Breadth-first traversal and free */

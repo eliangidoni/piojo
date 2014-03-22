@@ -77,6 +77,7 @@ piojo_diset_alloc_cb(piojo_alloc_if allocator)
         PIOJO_ASSERT(diset);
 
         ator.alloc_cb = allocator.alloc_cb;
+        ator.realloc_cb = allocator.realloc_cb;
         ator.free_cb = allocator.free_cb;
         esize = sizeof(piojo_diset_tree_t);
 

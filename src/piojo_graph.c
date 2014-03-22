@@ -169,6 +169,7 @@ piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
         size_t esize;
 
         ator.alloc_cb = allocator.alloc_cb;
+        ator.realloc_cb = allocator.realloc_cb;
         ator.free_cb = allocator.free_cb;
         esize = sizeof(piojo_graph_alist_t);
 
@@ -861,6 +862,7 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
         }
 
         ator.alloc_cb = graph->allocator.alloc_cb;
+        ator.realloc_cb = graph->allocator.realloc_cb;
         ator.free_cb = graph->allocator.free_cb;
         noincoming = piojo_hash_alloc_cb_eq(sizeof(bool), piojo_opaque_eq,
                                             sizeof(piojo_opaque_t), ator);
@@ -1025,6 +1027,7 @@ alloc_prioq(piojo_heap_leq_cb leq, const piojo_graph_t *graph)
         piojo_alloc_if ator = piojo_alloc_default;
 
         ator.alloc_cb = graph->allocator.alloc_cb;
+        ator.realloc_cb = graph->allocator.realloc_cb;
         ator.free_cb = graph->allocator.free_cb;
         return piojo_heap_alloc_cb(leq, ator);
 }
