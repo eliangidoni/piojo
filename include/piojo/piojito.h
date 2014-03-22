@@ -56,12 +56,15 @@
 #define array_size piojo_array_size
 #define array_insert piojo_array_insert
 #define array_set piojo_array_set
-#define array_append piojo_array_append
+#define array_push piojo_array_push
 #define array_index piojo_array_index
 #define array_sorted_index piojo_array_sorted_index
 #define array_sorted_insert piojo_array_sorted_insert
 #define array_delete piojo_array_delete
+#define array_pop piojo_array_pop
 #define array_at piojo_array_at
+#define array_first piojo_array_first
+#define array_last piojo_array_last
 
 /* Bitset */
 #define bitset_alloc piojo_bitset_alloc
@@ -207,9 +210,7 @@
 /* Ring */
 #define ring_alloc piojo_ring_alloc
 #define ring_alloc_s piojo_ring_alloc_s
-#define ring_alloc_n piojo_ring_alloc_n
 #define ring_alloc_cb piojo_ring_alloc_cb
-#define ring_alloc_cb_n piojo_ring_alloc_cb_n
 #define ring_copy piojo_ring_copy
 #define ring_free piojo_ring_free
 #define ring_clear piojo_ring_clear
