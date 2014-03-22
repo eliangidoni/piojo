@@ -255,7 +255,7 @@ piojo_array_set(size_t idx, const void *data, piojo_array_t *array)
  * @param[out] array Array being modified.
  */
 void
-piojo_array_append(const void *data, piojo_array_t *array)
+piojo_array_push(const void *data, piojo_array_t *array)
 {
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(data);
@@ -338,17 +338,29 @@ piojo_array_sorted_index(const void *data, piojo_cmp_cb cmp,
  * Deletes an entry.
  * @param[in] idx Index of entry being deleted (from 0 to array_size - 1).
  * @param[out] array Non-empty array.
- * @return Next entry index.
  */
-size_t
+void
 piojo_array_delete(size_t idx, piojo_array_t *array)
 {
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(idx < array->usedcnt);
+
         array->allocator.finish_cb(piojo_array_at(idx, array));
         --array->usedcnt;
         move_left_from(idx, array);
-        return idx;
+}
+
+/**
+ * Deletes the last entry.
+ * @param[out] array Non-empty array.
+ */
+void
+piojo_array_pop(piojo_array_t *array)
+{
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(array->usedcnt > 0);
+
+        piojo_array_delete(array->usedcnt - 1, array);
 }
 
 /**
@@ -362,7 +374,36 @@ piojo_array_at(size_t idx, const piojo_array_t *array)
 {
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(idx < array->usedcnt);
+
         return &array->data[idx * array->esize];
+}
+
+/**
+ * Reads first entry.
+ * @param[in] array Non-empty array.
+ * @return Entry value.
+ */
+void*
+piojo_array_first(const piojo_array_t *array)
+{
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(array->usedcnt > 0);
+
+        return &array->data[0];
+}
+
+/**
+ * Reads last entry.
+ * @param[in] array Non-empty array.
+ * @return Entry value.
+ */
+void*
+piojo_array_last(const piojo_array_t *array)
+{
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(array->usedcnt > 0);
+
+        return &array->data[(array->usedcnt - 1) * array->esize];
 }
 
 /** @}

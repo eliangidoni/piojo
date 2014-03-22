@@ -182,7 +182,7 @@ piojo_stack_push(const void *data, piojo_stack_t *stack)
 {
         PIOJO_ASSERT(stack);
         PIOJO_ASSERT(data);
-        piojo_array_append(data, stack->data);
+        piojo_array_push(data, stack->data);
 }
 
 /**

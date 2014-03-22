@@ -704,7 +704,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
                 for (i = 0; i < ecnt; ++i){
                         e = ((piojo_graph_edge_t *)
                              piojo_array_at(i, v->edges_by_vid));
-                        piojo_array_append(&e, edges);
+                        piojo_array_push(&e, edges);
                 }
                 next = piojo_hash_next(next);
         }
@@ -874,7 +874,7 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
                       piojo_hash_entryk(piojo_hash_first(noincoming, &node)));
                 tmp = (piojo_opaque_t) v;
                 piojo_hash_delete(&tmp, noincoming);
-                piojo_array_append(&v->vid, vertices);
+                piojo_array_push(&v->vid, vertices);
 
                 ecnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < ecnt; ++i){

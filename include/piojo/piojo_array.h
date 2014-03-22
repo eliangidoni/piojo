@@ -72,7 +72,7 @@ void
 piojo_array_set(size_t idx, const void *data, piojo_array_t *array);
 
 void
-piojo_array_append(const void *data, piojo_array_t *array);
+piojo_array_push(const void *data, piojo_array_t *array);
 
 size_t*
 piojo_array_index(const void *data, piojo_cmp_cb cmp,
@@ -86,11 +86,20 @@ size_t*
 piojo_array_sorted_index(const void *data, piojo_cmp_cb cmp,
                          const piojo_array_t *array, size_t *idx);
 
-size_t
+void
 piojo_array_delete(size_t idx, piojo_array_t *array);
+
+void
+piojo_array_pop(piojo_array_t *array);
 
 void*
 piojo_array_at(size_t idx, const piojo_array_t *array);
+
+void*
+piojo_array_first(const piojo_array_t *array);
+
+void*
+piojo_array_last(const piojo_array_t *array);
 
 #ifdef __cplusplus
 }

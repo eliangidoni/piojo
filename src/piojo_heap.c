@@ -209,7 +209,7 @@ piojo_heap_push(piojo_opaque_t data, piojo_heap_t *heap)
         bool inserted_p;
         PIOJO_ASSERT(heap);
 
-        piojo_array_append(&data, heap->data);
+        piojo_array_push(&data, heap->data);
 
         idx = piojo_heap_size(heap) - 1;
         inserted_p = piojo_hash_insert(&data, &idx,

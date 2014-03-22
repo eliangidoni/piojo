@@ -403,7 +403,7 @@ void
 piojo_buffer_writeu8(uint8_t val, piojo_buffer_t *buffer)
 {
         PIOJO_ASSERT(buffer);
-        piojo_array_append(&val, buffer->data);
+        piojo_array_push(&val, buffer->data);
 }
 
 /**
