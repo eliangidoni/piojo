@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>piojo-0.3: Piojo Heap</title>
+<title>piojo-0.4: Piojo Heap</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -32,7 +32,7 @@
   
   
   <td style="padding-left: 0.5em;">
-   <div id="projectname">piojo-0.3
+   <div id="projectname">piojo-0.4
    
    </div>
    
@@ -98,12 +98,11 @@ Typedefs</h2></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gaf1b53effde627ea7b26e67277105bbb6">piojo_heap_alloc</a> (<a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a> leq)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gad1343239661bc5d6a9e0641b908f5df9">piojo_heap_alloc_n</a> (<a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a> leq, size_t ecount)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gab3194e7e3b74682cc0681d1d0d2c1f4c">piojo_heap_alloc_cb</a> (<a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a> leq, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga12b866e7ae09e835e5cf467cc47f6762">piojo_heap_alloc_cb_n</a> (<a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a> leq, size_t ecount, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga86841f37dc94c7c0be8e0889d4fe0a77">piojo_heap_copy</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4c1f3fc8208fc4500f1064ca219145d9">piojo_heap_free</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4e927d37e077ab6f0e408b92c8a3d63c">piojo_heap_clear</a> (piojo_heap_t *heap)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga683311b4415d60da4d6c178114c004ef">piojo_heap_reserve</a> (size_t ecount, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4f99d7ff5976c77e5c4c0563f9b3052d">piojo_heap_size</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga572b0b20a8ff8803faa6e4a2595ec1d3">piojo_heap_push</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gacbf5f1d46ace9bb7403482ee5dd5a1a0">piojo_heap_decrease</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, piojo_heap_t *heap)</td></tr>
@@ -200,85 +199,6 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">leq</td><td>Entry comparison function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New heap. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga12b866e7ae09e835e5cf467cc47f6762"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_alloc_cb_n" ref="ga12b866e7ae09e835e5cf467cc47f6762" args="(piojo_heap_leq_cb leq, size_t ecount, piojo_alloc_if allocator)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_heap_t* <a class="el" href="group__piojoheap.html#ga12b866e7ae09e835e5cf467cc47f6762">piojo_heap_alloc_cb_n</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a>&#160;</td>
-          <td class="paramname"><em>leq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>ecount</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
-          <td class="paramname"><em>allocator</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new heap. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">leq</td><td>Entry comparison function. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Number of entries to reserve space for. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New heap. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="gad1343239661bc5d6a9e0641b908f5df9"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_alloc_n" ref="gad1343239661bc5d6a9e0641b908f5df9" args="(piojo_heap_leq_cb leq, size_t ecount)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_heap_t* <a class="el" href="group__piojoheap.html#gad1343239661bc5d6a9e0641b908f5df9">piojo_heap_alloc_n</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010">piojo_heap_leq_cb</a>&#160;</td>
-          <td class="paramname"><em>leq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>ecount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new heap. Uses default allocator. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">leq</td><td>Entry comparison function. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Number of entries to reserve space for. </td></tr>
   </table>
   </dd>
 </dl>
@@ -515,6 +435,41 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga683311b4415d60da4d6c178114c004ef"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_reserve" ref="ga683311b4415d60da4d6c178114c004ef" args="(size_t ecount, piojo_heap_t *heap)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojoheap.html#ga683311b4415d60da4d6c178114c004ef">piojo_heap_reserve</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>ecount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_heap_t *&#160;</td>
+          <td class="paramname"><em>heap</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reserves memory for <em>ecount</em> entries. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Number of entries, must be equal or greater than the current size. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">heap</td><td>Heap being modified. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ga4f99d7ff5976c77e5c4c0563f9b3052d"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_size" ref="ga4f99d7ff5976c77e5c4c0563f9b3052d" args="(const piojo_heap_t *heap)" -->
 <div class="memitem">
 <div class="memproto">
@@ -574,7 +529,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sat Mar 22 2014 19:12:26 for piojo-0.3 by
+    <li class="footer">Generated on Sun Mar 23 2014 18:17:40 for piojo-0.4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
