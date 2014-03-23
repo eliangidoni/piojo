@@ -93,12 +93,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gad525dd06f113bd6458e7128166397a96">piojo_stream_alloc</a> (void)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga652e1af07be75fe0e4326c46abe8b2ff">piojo_stream_alloc_n</a> (size_t count)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga5e1cbff8b8730a5129c0423c41e791df">piojo_stream_alloc_cb</a> (<a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gaa97f65d42281b04bbc6c67e717cd3053">piojo_stream_alloc_cb_n</a> (size_t count, <a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga47389de11252828c423bd90b3c58e652">piojo_stream_copy</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gab7c560ac7249786b9ea321ee59b77eba">piojo_stream_free</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga048414d0a56376a640fff86172665092">piojo_stream_clear</a> (piojo_stream_t *stream)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga357e0c4451a8e724ac9688bb94c18ecb">piojo_stream_reserve</a> (size_t bytecnt, piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gad79256af5b5e502bc0ac9a366601208f">piojo_stream_size</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga8ef9fb239e384b50d20a81c708d99128">piojo_stream_concat</a> (const piojo_stream_t *stream, piojo_stream_t *to)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga109e33b0e4666dfb4f1b685647089c16">piojo_stream_readu64</a> (piojo_stream_t *stream)</td></tr>
@@ -167,67 +166,6 @@ Variables</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New stream. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="gaa97f65d42281b04bbc6c67e717cd3053"></a><!-- doxytag: member="piojo_stream.c::piojo_stream_alloc_cb_n" ref="gaa97f65d42281b04bbc6c67e717cd3053" args="(size_t count, piojo_alloc_if allocator)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_stream_t* <a class="el" href="group__piojostream.html#gaa97f65d42281b04bbc6c67e717cd3053">piojo_stream_alloc_cb_n</a> </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__if.html">piojo_alloc_if</a>&#160;</td>
-          <td class="paramname"><em>allocator</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new stream. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>Number of reserved bytes in allocation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New stream. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga652e1af07be75fe0e4326c46abe8b2ff"></a><!-- doxytag: member="piojo_stream.c::piojo_stream_alloc_n" ref="ga652e1af07be75fe0e4326c46abe8b2ff" args="(size_t count)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_stream_t* <a class="el" href="group__piojostream.html#ga652e1af07be75fe0e4326c46abe8b2ff">piojo_stream_alloc_n</a> </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new stream. Uses default allocator. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>Number of reserved bytes in allocation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -626,6 +564,41 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Value read. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga357e0c4451a8e724ac9688bb94c18ecb"></a><!-- doxytag: member="piojo_stream.c::piojo_stream_reserve" ref="ga357e0c4451a8e724ac9688bb94c18ecb" args="(size_t bytecnt, piojo_stream_t *stream)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="group__piojostream.html#ga357e0c4451a8e724ac9688bb94c18ecb">piojo_stream_reserve</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bytecnt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">piojo_stream_t *&#160;</td>
+          <td class="paramname"><em>stream</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Reserves memory for <em>bytecnt</em> bytes. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">bytecnt</td><td>Number of bytes, must be equal or greater than the current size. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stream</td><td>Stream being modified. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1045,7 +1018,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Sat Mar 22 2014 19:12:26 for piojo-0.3 by
+    <li class="footer">Generated on Sun Mar 23 2014 18:14:53 for piojo-0.3 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
