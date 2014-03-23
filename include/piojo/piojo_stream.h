@@ -42,13 +42,7 @@ piojo_stream_t*
 piojo_stream_alloc(void);
 
 piojo_stream_t*
-piojo_stream_alloc_n(size_t count);
-
-piojo_stream_t*
 piojo_stream_alloc_cb(piojo_alloc_if allocator);
-
-piojo_stream_t*
-piojo_stream_alloc_cb_n(size_t count, piojo_alloc_if allocator);
 
 piojo_stream_t*
 piojo_stream_copy(const piojo_stream_t *stream);
@@ -58,6 +52,9 @@ piojo_stream_free(const piojo_stream_t *stream);
 
 void
 piojo_stream_clear(piojo_stream_t *stream);
+
+void
+piojo_stream_reserve(size_t bytecnt, piojo_stream_t *stream);
 
 size_t
 piojo_stream_size(const piojo_stream_t *stream);

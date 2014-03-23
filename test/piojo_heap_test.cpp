@@ -51,17 +51,7 @@ void test_alloc()
         PIOJO_ASSERT(piojo_heap_size(heap) == 0);
         piojo_heap_free(heap);
 
-        heap = piojo_heap_alloc_n(int_leq,2);
-        PIOJO_ASSERT(heap);
-        PIOJO_ASSERT(piojo_heap_size(heap) == 0);
-        piojo_heap_free(heap);
-
         heap = piojo_heap_alloc_cb(int_leq,piojo_alloc_default);
-        PIOJO_ASSERT(heap);
-        PIOJO_ASSERT(piojo_heap_size(heap) == 0);
-        piojo_heap_free(heap);
-
-        heap = piojo_heap_alloc_cb_n(int_leq,2, piojo_alloc_default);
         PIOJO_ASSERT(heap);
         PIOJO_ASSERT(piojo_heap_size(heap) == 0);
         piojo_heap_free(heap);
@@ -256,14 +246,14 @@ void test_heap_expand()
         piojo_heap_t *heap;
         int i,j;
 
-        heap = piojo_heap_alloc_n(int_leq,2);
-        for (i = 0; i <= 4; ++i){
+        heap = piojo_heap_alloc(int_leq);
+        for (i = 0; i <= 1000; ++i){
                 piojo_heap_push((piojo_opaque_t)i, heap);
         }
 
-        PIOJO_ASSERT(piojo_heap_size(heap) == 5);
+        PIOJO_ASSERT(piojo_heap_size(heap) == 1001);
 
-        for (i = 0; i <= 4; ++i){
+        for (i = 0; i <= 1000; ++i){
                 j = (int) piojo_heap_peek(heap);
                 PIOJO_ASSERT(i == j);
                 piojo_heap_pop(heap);

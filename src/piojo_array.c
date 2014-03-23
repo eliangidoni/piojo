@@ -79,6 +79,7 @@ piojo_array_alloc_cb(size_t esize, piojo_alloc_if allocator)
 {
         piojo_array_t * arr;
         const size_t ecount = DEFAULT_ADT_ECOUNT;
+
         arr = (piojo_array_t *) allocator.alloc_cb(sizeof(piojo_array_t));
         PIOJO_ASSERT(arr);
         PIOJO_ASSERT(esize > 0);

@@ -64,20 +64,7 @@ swap(size_t idx1, size_t idx2, piojo_heap_t *heap);
 piojo_heap_t*
 piojo_heap_alloc(piojo_heap_leq_cb leq)
 {
-        return piojo_heap_alloc_n(leq, DEFAULT_ADT_ECOUNT);
-}
-
-/**
- * Allocates a new heap.
- * Uses default allocator.
- * @param[in] leq Entry comparison function.
- * @param[in] ecount Number of entries to reserve space for.
- * @return New heap.
- */
-piojo_heap_t*
-piojo_heap_alloc_n(piojo_heap_leq_cb leq, size_t ecount)
-{
-        return piojo_heap_alloc_cb_n(leq, ecount, piojo_alloc_default);
+        return piojo_heap_alloc_cb(leq, piojo_alloc_default);
 }
 
 /**
@@ -89,23 +76,8 @@ piojo_heap_alloc_n(piojo_heap_leq_cb leq, size_t ecount)
 piojo_heap_t*
 piojo_heap_alloc_cb(piojo_heap_leq_cb leq, piojo_alloc_if allocator)
 {
-        return piojo_heap_alloc_cb_n(leq, DEFAULT_ADT_ECOUNT, allocator);
-}
-
-/**
- * Allocates a new heap.
- * @param[in] leq Entry comparison function.
- * @param[in] ecount Number of entries to reserve space for.
- * @param[in] allocator Allocator to be used.
- * @return New heap.
- */
-piojo_heap_t*
-piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
-                      piojo_alloc_if allocator)
-{
         piojo_alloc_kv_if ator = piojo_alloc_kv_default;
         piojo_heap_t * h;
-        PIOJO_ASSERT(ecount > 0);
 
         ator.alloc_cb = allocator.alloc_cb;
         ator.realloc_cb = allocator.realloc_cb;
@@ -180,6 +152,21 @@ piojo_heap_clear(piojo_heap_t *heap)
 
         piojo_hash_clear(heap->indices_by_data);
         piojo_array_clear(heap->data);
+}
+
+/**
+ * Reserves memory for @a ecount entries.
+ * @param[in] ecount Number of entries, must be equal or greater than
+ *            the current size.
+ * @param[out] heap Heap being modified.
+ */
+void
+piojo_heap_reserve(size_t ecount, piojo_heap_t *heap)
+{
+        PIOJO_ASSERT(heap);
+        PIOJO_ASSERT(ecount >= piojo_array_size(heap->data));
+
+        piojo_array_reserve(ecount, heap->data);
 }
 
 /**

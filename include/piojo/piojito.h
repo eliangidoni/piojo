@@ -39,6 +39,7 @@
 
 /* Alloc */
 #define alloc_def_alloc piojo_alloc_def_alloc
+#define alloc_def_realloc piojo_alloc_def_realloc
 #define alloc_def_free piojo_alloc_def_free
 #define alloc_def_init piojo_alloc_def_init
 #define alloc_def_copy piojo_alloc_def_copy
@@ -46,13 +47,11 @@
 
 /* Array */
 #define array_alloc piojo_array_alloc
-#define array_alloc_s piojo_array_alloc_s
-#define array_alloc_n piojo_array_alloc_n
 #define array_alloc_cb piojo_array_alloc_cb
-#define array_alloc_cb_n piojo_array_alloc_cb_n
 #define array_copy piojo_array_copy
 #define array_free piojo_array_free
 #define array_clear piojo_array_clear
+#define array_reserve piojo_array_reserve
 #define array_size piojo_array_size
 #define array_insert piojo_array_insert
 #define array_set piojo_array_set
@@ -154,12 +153,11 @@
 
 /* Heap */
 #define heap_alloc piojo_heap_alloc
-#define heap_alloc_n piojo_heap_alloc_n
 #define heap_alloc_cb piojo_heap_alloc_cb
-#define heap_alloc_cb_n piojo_heap_alloc_cb_n
 #define heap_copy piojo_heap_copy
 #define heap_free piojo_heap_free
 #define heap_clear piojo_heap_clear
+#define heap_reserve piojo_heap_reserve
 #define heap_size piojo_heap_size
 #define heap_push piojo_heap_push
 #define heap_decrease piojo_heap_decrease
@@ -222,12 +220,11 @@
 
 /* Stream */
 #define stream_alloc piojo_stream_alloc
-#define stream_alloc_n piojo_stream_alloc_n
 #define stream_alloc_cb piojo_stream_alloc_cb
-#define stream_alloc_cb_n piojo_stream_alloc_cb_n
 #define stream_copy piojo_stream_copy
 #define stream_free piojo_stream_free
 #define stream_clear piojo_stream_clear
+#define stream_reserve piojo_stream_reserve
 #define stream_size piojo_stream_size
 #define stream_data piojo_stream_data
 #define stream_concat piojo_stream_concat

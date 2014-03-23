@@ -69,19 +69,7 @@ be16decode(const uint8_t *buf);
 piojo_stream_t*
 piojo_stream_alloc(void)
 {
-        return piojo_stream_alloc_n(DEFAULT_ADT_ECOUNT);
-}
-
-/**
- * Allocates a new stream.
- * Uses default allocator.
- * @param[in] count Number of reserved bytes in allocation.
- * @return New stream.
- */
-piojo_stream_t*
-piojo_stream_alloc_n(size_t count)
-{
-        return piojo_stream_alloc_cb_n(count, piojo_alloc_default);
+        return piojo_stream_alloc_cb(piojo_alloc_default);
 }
 
 /**
@@ -91,18 +79,6 @@ piojo_stream_alloc_n(size_t count)
  */
 piojo_stream_t*
 piojo_stream_alloc_cb(piojo_alloc_if allocator)
-{
-        return piojo_stream_alloc_cb_n(DEFAULT_ADT_ECOUNT, allocator);
-}
-
-/**
- * Allocates a new stream.
- * @param[in] count Number of reserved bytes in allocation.
- * @param[in] allocator Allocator to be used.
- * @return New stream.
- */
-piojo_stream_t*
-piojo_stream_alloc_cb_n(size_t count, piojo_alloc_if allocator)
 {
         piojo_stream_t * buf;
         buf = (piojo_stream_t *) allocator.alloc_cb(sizeof(piojo_stream_t));
@@ -169,6 +145,21 @@ piojo_stream_clear(piojo_stream_t *stream)
 }
 
 /**
+ * Reserves memory for @a bytecnt bytes.
+ * @param[in] bytecnt Number of bytes, must be equal or greater than
+ *            the current size.
+ * @param[out] stream Stream being modified.
+ */
+void
+piojo_stream_reserve(size_t bytecnt, piojo_stream_t *stream)
+{
+        PIOJO_ASSERT(stream);
+        PIOJO_ASSERT(bytecnt >= piojo_array_size(stream->data));
+
+        piojo_array_reserve(bytecnt, stream->data);
+}
+
+/**
  * Returns number of bytes written in @a stream.
  * @param[in] stream
  * @return Number of bytes written in @a stream.
@@ -177,6 +168,7 @@ size_t
 piojo_stream_size(const piojo_stream_t *stream)
 {
         PIOJO_ASSERT(stream);
+
         return piojo_array_size(stream->data);
 }
 

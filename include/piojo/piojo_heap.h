@@ -56,14 +56,7 @@ piojo_heap_t*
 piojo_heap_alloc(piojo_heap_leq_cb leq);
 
 piojo_heap_t*
-piojo_heap_alloc_n(piojo_heap_leq_cb leq, size_t ecount);
-
-piojo_heap_t*
 piojo_heap_alloc_cb(piojo_heap_leq_cb leq, piojo_alloc_if allocator);
-
-piojo_heap_t*
-piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
-                      piojo_alloc_if allocator);
 
 piojo_heap_t*
 piojo_heap_copy(const piojo_heap_t *heap);
@@ -73,6 +66,9 @@ piojo_heap_free(const piojo_heap_t *heap);
 
 void
 piojo_heap_clear(piojo_heap_t *heap);
+
+void
+piojo_heap_reserve(size_t ecount, piojo_heap_t *heap);
 
 size_t
 piojo_heap_size(const piojo_heap_t *heap);
