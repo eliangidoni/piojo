@@ -39,19 +39,10 @@ typedef struct piojo_array piojo_array_t;
 extern const size_t piojo_array_sizeof;
 
 piojo_array_t*
-piojo_array_alloc();
-
-piojo_array_t*
-piojo_array_alloc_s(size_t esize);
-
-piojo_array_t*
-piojo_array_alloc_n(size_t esize, size_t ecount);
+piojo_array_alloc(size_t esize);
 
 piojo_array_t*
 piojo_array_alloc_cb(size_t esize, piojo_alloc_if allocator);
-
-piojo_array_t*
-piojo_array_alloc_cb_n(size_t esize, size_t ecount, piojo_alloc_if allocator);
 
 piojo_array_t*
 piojo_array_copy(const piojo_array_t *array);
@@ -61,6 +52,9 @@ piojo_array_free(const piojo_array_t *array);
 
 void
 piojo_array_clear(piojo_array_t *array);
+
+void
+piojo_array_reserve(size_t ecount, piojo_array_t *array);
 
 size_t
 piojo_array_size(const piojo_array_t *array);

@@ -47,7 +47,7 @@ static void
 move_right_until(size_t idx, piojo_array_t *array);
 
 static void
-expand_array(piojo_array_t *array);
+expand_array(size_t incr_cnt, piojo_array_t *array);
 
 static void
 finish_all(const piojo_array_t *array);
@@ -58,38 +58,14 @@ entry_index(const void *data, piojo_cmp_cb cmp,
 
 /**
  * Allocates a new array.
- * Uses default allocator and entry size of @b int.
- * @return New array.
- */
-piojo_array_t*
-piojo_array_alloc()
-{
-        return piojo_array_alloc_s(sizeof(int));
-}
-
-/**
- * Allocates a new array.
  * Uses default allocator.
  * @param[in] esize Entry size in bytes.
  * @return New array.
  */
 piojo_array_t*
-piojo_array_alloc_s(size_t esize)
+piojo_array_alloc(size_t esize)
 {
-        return piojo_array_alloc_n(esize, DEFAULT_ADT_ECOUNT);
-}
-
-/**
- * Allocates a new array.
- * Uses default allocator.
- * @param[in] esize Entry size in bytes.
- * @param[in] ecount Number of entries to reserve space for.
- * @return New array.
- */
-piojo_array_t*
-piojo_array_alloc_n(size_t esize, size_t ecount)
-{
-        return piojo_array_alloc_cb_n(esize, ecount, piojo_alloc_default);
+        return piojo_array_alloc_cb(esize, piojo_alloc_default);
 }
 
 /**
@@ -101,26 +77,11 @@ piojo_array_alloc_n(size_t esize, size_t ecount)
 piojo_array_t*
 piojo_array_alloc_cb(size_t esize, piojo_alloc_if allocator)
 {
-        return piojo_array_alloc_cb_n(esize, DEFAULT_ADT_ECOUNT,
-                                      allocator);
-}
-
-/**
- * Allocates a new array.
- * @param[in] esize Entry size in bytes.
- * @param[in] ecount Number of entries to reserve space for.
- * @param[in] allocator Allocator to be used.
- * @return New array.
- */
-piojo_array_t*
-piojo_array_alloc_cb_n(size_t esize, size_t ecount,
-                       piojo_alloc_if allocator)
-{
         piojo_array_t * arr;
+        const size_t ecount = DEFAULT_ADT_ECOUNT;
         arr = (piojo_array_t *) allocator.alloc_cb(sizeof(piojo_array_t));
         PIOJO_ASSERT(arr);
         PIOJO_ASSERT(esize > 0);
-        PIOJO_ASSERT(ecount > 0);
         PIOJO_ASSERT(piojo_safe_mulsiz_p(esize, ecount));
 
         arr->allocator = allocator;
@@ -151,8 +112,10 @@ piojo_array_copy(const piojo_array_t *array)
         allocator = array->allocator;
         esize = array->esize;
 
-        newarray = piojo_array_alloc_cb_n(esize, array->ecount, allocator);
+        newarray = piojo_array_alloc_cb(esize, allocator);
         PIOJO_ASSERT(newarray);
+
+        piojo_array_reserve(array->ecount, newarray);
         newarray->usedcnt = array->usedcnt;
 
         for (i = 0; i < array->usedcnt; ++i){
@@ -194,6 +157,31 @@ piojo_array_clear(piojo_array_t *array)
 }
 
 /**
+ * Reserves memory for @a ecount entries.
+ * @param[in] ecount Number of entries, must be equal or greater than
+ *            the current size.
+ * @param[out] array Array being modified.
+ */
+void
+piojo_array_reserve(size_t ecount, piojo_array_t *array)
+{
+        size_t size;
+        PIOJO_ASSERT(array);
+        PIOJO_ASSERT(ecount >= array->usedcnt);
+
+        if (ecount > array->ecount){
+                expand_array(ecount - array->ecount, array);
+        }else if (ecount < array->ecount){
+                /* Shrink to new size. */
+                size = ecount * array->esize;
+                array->data = ((uint8_t *)
+                               array->allocator.realloc_cb(array->data, size));
+                PIOJO_ASSERT(array->data);
+                array->ecount = ecount;
+        }
+}
+
+/**
  * Returns number of entries.
  * @param[in] array
  * @return Number of entries in @a array.
@@ -224,7 +212,7 @@ piojo_array_insert(size_t idx, const void *data, piojo_array_t *array)
         if (idx < array->ecount){
                 move_right_until(idx, array);
         }else{
-                expand_array(array);
+                expand_array(array->ecount / ADT_GROWTH_DENOMINATOR, array);
         }
         array->allocator.init_cb(data, array->esize, &array->data[curidx]);
         ++array->usedcnt;
@@ -436,12 +424,12 @@ move_right_until(size_t idx, piojo_array_t *array)
 }
 
 static void
-expand_array(piojo_array_t *array)
+expand_array(size_t incr_cnt, piojo_array_t *array)
 {
         size_t newcnt, size;
         PIOJO_ASSERT(array->ecount < SIZE_MAX);
 
-        newcnt = array->ecount / ADT_GROWTH_DENOMINATOR;
+        newcnt = incr_cnt;
         PIOJO_ASSERT(piojo_safe_addsiz_p(array->ecount, newcnt));
         newcnt += array->ecount;
 

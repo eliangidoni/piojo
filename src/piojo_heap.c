@@ -116,8 +116,7 @@ piojo_heap_alloc_cb_n(piojo_heap_leq_cb leq, size_t ecount,
 
         h->allocator = allocator;
         h->leq = leq;
-        h->data = piojo_array_alloc_cb_n(sizeof(piojo_opaque_t),
-                                         ecount, h->allocator);
+        h->data = piojo_array_alloc_cb(sizeof(piojo_opaque_t), h->allocator);
         PIOJO_ASSERT(h->data);
         h->indices_by_data = piojo_hash_alloc_cb_eq(sizeof(size_t),
                                                     piojo_opaque_eq,

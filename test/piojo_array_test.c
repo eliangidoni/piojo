@@ -30,27 +30,12 @@ void test_alloc()
 {
         piojo_array_t *array;
 
-        array = piojo_array_alloc();
-        PIOJO_ASSERT(array);
-        PIOJO_ASSERT(piojo_array_size(array) == 0);
-        piojo_array_free(array);
-
-        array = piojo_array_alloc_s(2);
-        PIOJO_ASSERT(array);
-        PIOJO_ASSERT(piojo_array_size(array) == 0);
-        piojo_array_free(array);
-
-        array = piojo_array_alloc_n(2, 2);
+        array = piojo_array_alloc(2);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
         piojo_array_free(array);
 
         array = piojo_array_alloc_cb(2, piojo_alloc_default);
-        PIOJO_ASSERT(array);
-        PIOJO_ASSERT(piojo_array_size(array) == 0);
-        piojo_array_free(array);
-
-        array = piojo_array_alloc_cb_n(2, 2, piojo_alloc_default);
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(piojo_array_size(array) == 0);
         piojo_array_free(array);
@@ -128,7 +113,7 @@ void test_size()
         piojo_array_t *array;
         int i=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         PIOJO_ASSERT(piojo_array_size(array) == 0);
 
         piojo_array_push(&i, array);
@@ -154,7 +139,7 @@ void test_insert()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         PIOJO_ASSERT(piojo_array_size(array) == 0);
 
         piojo_array_insert(0, &i, array);
@@ -211,7 +196,7 @@ void test_push()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         PIOJO_ASSERT(piojo_array_size(array) == 0);
 
         piojo_array_push(&i, array);
@@ -248,7 +233,7 @@ void test_push_cmp()
         piojo_array_t *array;
         unsigned int i=1234, j=0, k;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         PIOJO_ASSERT(piojo_array_size(array) == 0);
 
         for (j = 0; j < 10; ++j, --i){
@@ -273,7 +258,7 @@ void test_delete()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         piojo_array_push(&i, array);
 
         ++i;
@@ -301,7 +286,7 @@ void test_pop()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         PIOJO_ASSERT(piojo_array_size(array) == 0);
 
         piojo_array_push(&i, array);
@@ -326,7 +311,7 @@ void test_last()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         piojo_array_push(&i, array);
         PIOJO_ASSERT(piojo_array_size(array) == 1);
 
@@ -347,7 +332,7 @@ void test_at()
         piojo_array_t *array;
         int i=1234, j=0;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         piojo_array_push(&i, array);
 
         ++i;
@@ -373,7 +358,7 @@ void test_array_expand()
         piojo_array_t *array;
         int i,j;
 
-        array = piojo_array_alloc_n(sizeof(i), 2);
+        array = piojo_array_alloc(sizeof(i));
         for (i = 0; i <= 4; ++i){
                 piojo_array_push(&i, array);
         }
@@ -393,7 +378,7 @@ void test_stress()
         piojo_array_t *array;
         int i,j;
 
-        array = piojo_array_alloc();
+        array = piojo_array_alloc(sizeof(i));
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 piojo_array_push(&i, array);
         }
