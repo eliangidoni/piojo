@@ -174,6 +174,7 @@ piojo_array_reserve(size_t ecount, piojo_array_t *array)
                 expand_array(ecount - array->ecount, array);
         }else if (ecount < array->ecount){
                 /* Shrink to new size. */
+                ecount = piojo_maxsiz(ecount, 1);
                 size = ecount * array->esize;
                 array->data = ((uint8_t *)
                                array->allocator.realloc_cb(array->data, size));
