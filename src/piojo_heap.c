@@ -155,9 +155,8 @@ piojo_heap_clear(piojo_heap_t *heap)
 }
 
 /**
- * Reserves memory for @a ecount entries.
- * @param[in] ecount Number of entries, must be equal or greater than
- *            the current size.
+ * Reserves or shrinks allocated memory for @a ecount entries.
+ * @param[in] ecount Must be equal or greater than the current size.
  * @param[out] heap Heap being modified.
  */
 void

@@ -145,9 +145,8 @@ piojo_stream_clear(piojo_stream_t *stream)
 }
 
 /**
- * Reserves memory for @a bytecnt bytes.
- * @param[in] bytecnt Number of bytes, must be equal or greater than
- *            the current size.
+ * Reserves or shrinks allocated memory for @a bytecnt bytes.
+ * @param[in] bytecnt Must be equal or greater than the current size.
  * @param[out] stream Stream being modified.
  */
 void

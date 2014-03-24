@@ -158,9 +158,8 @@ piojo_array_clear(piojo_array_t *array)
 }
 
 /**
- * Reserves memory for @a ecount entries.
- * @param[in] ecount Number of entries, must be equal or greater than
- *            the current size.
+ * Reserves or shrinks allocated memory for @a ecount entries.
+ * @param[in] ecount Must be equal or greater than the current size.
  * @param[out] array Array being modified.
  */
 void
