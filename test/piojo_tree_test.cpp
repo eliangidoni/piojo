@@ -68,7 +68,7 @@ void test_alloc()
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
 
-        tree = piojo_tree_alloc_strk(2);
+        tree = piojo_tree_alloc_ptrk(2);
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
         piojo_tree_free(tree);
@@ -93,13 +93,13 @@ void test_copy_def()
         piojo_tree_free(copy);
 }
 
-void test_copy_str()
+void test_copy_ptr()
 {
         piojo_tree_t *tree, *copy;
         const char * i="test";
         int j=10;
 
-        tree = piojo_tree_alloc_cb_strk(4, sizeof(int), piojo_alloc_kv_default);
+        tree = piojo_tree_alloc_cb_ptrk(4, sizeof(int), piojo_alloc_kv_default);
         piojo_tree_insert(&i, &j, tree);
 
         copy = piojo_tree_copy(tree);
@@ -471,13 +471,13 @@ void test_searchsiz()
         piojo_tree_free(tree);
 }
 
-void test_searchstr()
+void test_searchptr()
 {
         piojo_tree_t *tree;
         const char *i="tzest";
         int j=10;
 
-        tree = piojo_tree_alloc_strk(sizeof(int));
+        tree = piojo_tree_alloc_ptrk(sizeof(int));
         PIOJO_ASSERT(piojo_tree_size(tree) == 0);
 
         piojo_tree_insert(i, &j, tree);
@@ -814,7 +814,7 @@ int main()
         test_alloc();
         test_copy();
         test_copy_def();
-        test_copy_str();
+        test_copy_ptr();
         test_free();
         test_clear();
         test_size();
@@ -828,7 +828,7 @@ int main()
         test_searchu64();
         test_searchi64();
         test_searchsiz();
-        test_searchstr();
+        test_searchptr();
         test_delete();
         test_first_next();
         test_last_prev();

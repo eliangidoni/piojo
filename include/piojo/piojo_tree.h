@@ -61,7 +61,7 @@ piojo_tree_t*
 piojo_tree_alloc_u64k(size_t evsize);
 
 piojo_tree_t*
-piojo_tree_alloc_strk(size_t evsize);
+piojo_tree_alloc_ptrk(size_t evsize);
 
 piojo_tree_t*
 piojo_tree_alloc_sizk(size_t evsize);
@@ -91,7 +91,7 @@ piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_kv_if allocator);
 
 piojo_tree_t*
-piojo_tree_alloc_cb_strk(uint8_t maxchildren, size_t evsize,
+piojo_tree_alloc_cb_ptrk(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_kv_if allocator);
 
 piojo_tree_t*

@@ -149,7 +149,7 @@ static int
 uint_cmp(const void *e1, const void *e2);
 
 static int
-str_cmp(const void *e1, const void *e2);
+ptr_cmp(const void *e1, const void *e2);
 
 static int
 siz_cmp(const void *e1, const void *e2);
@@ -234,14 +234,14 @@ piojo_tree_alloc_u64k(size_t evsize)
 
 /**
  * Allocates a new tree.
- * Uses default allocator and key size returned by @c strlen() .
+ * Uses default allocator and key size of @b uintptr_t.
  * @param[in] evsize Entry value size in bytes.
  * @return New tree.
  */
 piojo_tree_t*
-piojo_tree_alloc_strk(size_t evsize)
+piojo_tree_alloc_ptrk(size_t evsize)
 {
-        return piojo_tree_alloc_cb_strk(TREE_CHILDREN_MAX, evsize,
+        return piojo_tree_alloc_cb_ptrk(TREE_CHILDREN_MAX, evsize,
                                         piojo_alloc_kv_default);
 }
 
@@ -363,7 +363,7 @@ piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
 
 /**
  * Allocates a new tree.
- * Uses key size returned by @c strlen() .
+ * Uses key size of @b uintptr_t.
  * @param[in] maxchildren Maximum children in each node (from 4 to 254,
  *            and multiple of 2).
  * @param[in] evsize Entry value size in bytes.
@@ -371,11 +371,11 @@ piojo_tree_alloc_cb_u64k(uint8_t maxchildren, size_t evsize,
  * @return New tree.
  */
 piojo_tree_t*
-piojo_tree_alloc_cb_strk(uint8_t maxchildren, size_t evsize,
+piojo_tree_alloc_cb_ptrk(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_kv_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(maxchildren, evsize,
-                                       str_cmp, 0, allocator);
+                                       ptr_cmp, sizeof(uintptr_t), allocator);
 }
 
 /**
@@ -400,7 +400,7 @@ piojo_tree_alloc_cb_sizk(uint8_t maxchildren, size_t evsize,
  * Uses default allocator.
  * @param[in] evsize Entry value size in bytes.
  * @param[in] keycmp Entry key comparison function.
- * @param[in] eksize Entry key size (0 for @b NULL terminated strings).
+ * @param[in] eksize Entry key size.
  * @return New tree.
  */
 piojo_tree_t*
@@ -416,7 +416,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize)
  *            and multiple of 2).
  * @param[in] evsize Entry value size in bytes.
  * @param[in] keycmp Entry key comparison function.
- * @param[in] eksize Entry key size (0 for @b NULL terminated strings).
+ * @param[in] eksize Entry key size.
  * @param[in] allocator Allocator to be used.
  * @return New tree.
  */
@@ -427,7 +427,7 @@ piojo_tree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
 {
         piojo_tree_t * tree;
         PIOJO_ASSERT(sizeof(piojo_tree_node_t) >= sizeof(piojo_tree_iter_t));
-        PIOJO_ASSERT(evsize > 0);
+        PIOJO_ASSERT(evsize > 0 && eksize > 0);
         PIOJO_ASSERT(maxchildren > 2 && maxchildren < 255 &&
                      maxchildren % 2 == 0);
 
@@ -951,13 +951,8 @@ init_entry(const void *key, const void *data, const piojo_tree_t *tree)
         bool null_p = TRUE;
         piojo_tree_entry_t kv;
         piojo_alloc_kv_if ator = tree->allocator;
-        size_t len, ksize = tree->eksize;
+        size_t ksize = tree->eksize;
 
-        if (ksize == 0){
-                len = strlen((char*) key);
-                PIOJO_ASSERT(piojo_safe_addsiz_p(len, 1));
-                ksize = len + 1;
-        }
         if (data == NULL){
                 data = &null_p;
         }
@@ -979,10 +974,6 @@ copy_entry(const void *key, const void *data, const piojo_tree_t *tree)
         piojo_tree_entry_t kv;
         piojo_alloc_kv_if ator = tree->allocator;
         size_t ksize = tree->eksize;
-
-        if (ksize == 0){
-                ksize = strlen((char*) key) + 1;
-        }
 
         kv.key = ator.alloc_cb(ksize + tree->evsize);
         PIOJO_ASSERT(kv.key);
@@ -1425,9 +1416,16 @@ uint_cmp(const void *e1, const void *e2)
 }
 
 static int
-str_cmp(const void *e1, const void *e2)
+ptr_cmp(const void *e1, const void *e2)
 {
-        return strcmp((const char*) e1, (const char*) e2);
+        uintptr_t v1 = *(uintptr_t*) e1;
+        uintptr_t v2 = *(uintptr_t*) e2;
+        if (v1 > v2){
+                return 1;
+        }else if (v1 < v2){
+                return -1;
+        }
+        return 0;
 }
 
 static int
