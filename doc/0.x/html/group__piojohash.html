@@ -95,12 +95,12 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga2b425a5e4b2f5c6159561790106737b5">piojo_hash_alloc_intk</a> (size_t evsize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gaa4929ab90a4fa235164e142dfaa6d309">piojo_hash_alloc_i32k</a> (size_t evsize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga15bd49a47045081a4de7b667f89f1d2e">piojo_hash_alloc_i64k</a> (size_t evsize)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga4d6d5a5feda04866f9ddadcfe736beb1">piojo_hash_alloc_strk</a> (size_t evsize)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga08602ba77c04250a1c40c29acfc980fc">piojo_hash_alloc_ptrk</a> (size_t evsize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gaf79b64b35f89aa79b601c099c6c48e3f">piojo_hash_alloc_sizk</a> (size_t evsize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gae05815fbe818eb443e4dda1373d66396">piojo_hash_alloc_cb_intk</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga1667c391a358a61e6ee82b943e651122">piojo_hash_alloc_cb_i32k</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gacc61420a57c02bd5f61f9b05f9667ec9">piojo_hash_alloc_cb_i64k</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga941175b84e053270c33c5dc0a24dd269">piojo_hash_alloc_cb_strk</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gacfa8258cc6ff76349013ce1d91d2f8ad">piojo_hash_alloc_cb_ptrk</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga12eb770646b05de61dde4ebdaa3780e4">piojo_hash_alloc_cb_sizk</a> (size_t evsize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gabc38e3e3b606895f5222399aaf3191b7">piojo_hash_alloc_eq</a> (size_t evsize, <a class="el" href="group__piojo.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a> keyeq, size_t eksize)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_hash_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga751c0ba4972ec76aa3adee1ff57f11d6">piojo_hash_alloc_cb_eq</a> (size_t evsize, <a class="el" href="group__piojo.html#gaa506923c84391f8208499498705522e6">piojo_eq_cb</a> keyeq, size_t eksize, <a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a> allocator)</td></tr>
@@ -281,6 +281,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gacfa8258cc6ff76349013ce1d91d2f8ad"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_cb_ptrk" ref="gacfa8258cc6ff76349013ce1d91d2f8ad" args="(size_t evsize, piojo_alloc_kv_if allocator)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">piojo_hash_t* <a class="el" href="group__piojohash.html#gacfa8258cc6ff76349013ce1d91d2f8ad">piojo_hash_alloc_cb_ptrk</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>evsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a>&#160;</td>
+          <td class="paramname"><em>allocator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Allocates a new hash table. Uses key size of <b>uintptr_t</b>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>New hash table. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga12eb770646b05de61dde4ebdaa3780e4"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_cb_sizk" ref="ga12eb770646b05de61dde4ebdaa3780e4" args="(size_t evsize, piojo_alloc_kv_if allocator)" -->
 <div class="memitem">
 <div class="memproto">
@@ -306,42 +342,6 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Allocates a new hash table. Uses key size of <b>size_t</b>. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>Allocator to be used. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New hash table. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga941175b84e053270c33c5dc0a24dd269"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_cb_strk" ref="ga941175b84e053270c33c5dc0a24dd269" args="(size_t evsize, piojo_alloc_kv_if allocator)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_hash_t* <a class="el" href="group__piojohash.html#ga941175b84e053270c33c5dc0a24dd269">piojo_hash_alloc_cb_strk</a> </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>evsize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structpiojo__alloc__kv__if.html">piojo_alloc_kv_if</a>&#160;</td>
-          <td class="paramname"><em>allocator</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new hash table. Uses key size returned by <code>strlen()</code> . </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
@@ -471,6 +471,31 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga08602ba77c04250a1c40c29acfc980fc"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_ptrk" ref="ga08602ba77c04250a1c40c29acfc980fc" args="(size_t evsize)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">piojo_hash_t* <a class="el" href="group__piojohash.html#ga08602ba77c04250a1c40c29acfc980fc">piojo_hash_alloc_ptrk</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>evsize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Allocates a new hash table. Uses default allocator and key size of <b>uintptr_t</b>. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>New hash table. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaf79b64b35f89aa79b601c099c6c48e3f"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_sizk" ref="gaf79b64b35f89aa79b601c099c6c48e3f" args="(size_t evsize)" -->
 <div class="memitem">
 <div class="memproto">
@@ -486,31 +511,6 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Allocates a new hash table. Uses default allocator and key size of <b>size_t</b>. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>New hash table. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga4d6d5a5feda04866f9ddadcfe736beb1"></a><!-- doxytag: member="piojo_hash.c::piojo_hash_alloc_strk" ref="ga4d6d5a5feda04866f9ddadcfe736beb1" args="(size_t evsize)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_hash_t* <a class="el" href="group__piojohash.html#ga4d6d5a5feda04866f9ddadcfe736beb1">piojo_hash_alloc_strk</a> </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>evsize</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Allocates a new hash table. Uses default allocator and key size returned by <code>strlen()</code> . </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">evsize</td><td>Entry value size in bytes. </td></tr>
@@ -922,7 +922,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Mon Mar 24 2014 06:03:08 for piojo-0.4 by
+    <li class="footer">Generated on Wed Apr 2 2014 19:57:09 for piojo-0.4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
