@@ -50,7 +50,7 @@ void test_alloc()
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
         piojo_hash_free(hash);
 
-        hash = piojo_hash_alloc_strk(2);
+        hash = piojo_hash_alloc_ptrk(2);
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
         piojo_hash_free(hash);
@@ -75,13 +75,13 @@ void test_copy_def()
         piojo_hash_free(copy);
 }
 
-void test_copystr()
+void test_copyptr()
 {
         piojo_hash_t *hash, *copy;
         const char* i="test";
         int j=10;
 
-        hash = piojo_hash_alloc_cb_strk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_ptrk(sizeof(int), my_kvallocator);
         piojo_hash_insert(i, &j, hash);
         assert_allocator_init(2);
 
@@ -353,13 +353,13 @@ void test_searchsiz()
         piojo_hash_free(hash);
 }
 
-void test_searchstr()
+void test_searchptr()
 {
         piojo_hash_t *hash;
         const char *i="test";
         int j=10;
 
-        hash = piojo_hash_alloc_strk(sizeof(int));
+        hash = piojo_hash_alloc_ptrk(sizeof(int));
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
 
         piojo_hash_insert(i, &j, hash);
@@ -489,7 +489,7 @@ int main()
         test_alloc();
         test_copy();
         test_copy_def();
-        test_copystr();
+        test_copyptr();
         test_free();
         test_clear();
         test_size();
@@ -500,7 +500,7 @@ int main()
         test_search32();
         test_search64();
         test_searchsiz();
-        test_searchstr();
+        test_searchptr();
         test_delete();
         test_first_next();
         test_hash_expand();

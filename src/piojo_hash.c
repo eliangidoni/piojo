@@ -101,7 +101,7 @@ static bool
 int_eq(const void *e1, const void *e2);
 
 static bool
-str_eq(const void *e1, const void *e2);
+ptr_eq(const void *e1, const void *e2);
 
 static bool
 siz_eq(const void *e1, const void *e2);
@@ -144,14 +144,14 @@ piojo_hash_alloc_i64k(size_t evsize)
 
 /**
  * Allocates a new hash table.
- * Uses default allocator and key size returned by @c strlen() .
+ * Uses default allocator and key size of @b uintptr_t.
  * @param[in] evsize Entry value size in bytes.
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_strk(size_t evsize)
+piojo_hash_alloc_ptrk(size_t evsize)
 {
-        return piojo_hash_alloc_cb_strk(evsize, piojo_alloc_kv_default);
+        return piojo_hash_alloc_cb_ptrk(evsize, piojo_alloc_kv_default);
 }
 
 /**
@@ -210,15 +210,16 @@ piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_kv_if allocator)
 
 /**
  * Allocates a new hash table.
- * Uses key size returned by @c strlen() .
+ * Uses key size of @b uintptr_t.
  * @param[in] evsize Entry value size in bytes.
  * @param[in] allocator Allocator to be used.
  * @return New hash table.
  */
 piojo_hash_t*
-piojo_hash_alloc_cb_strk(size_t evsize, piojo_alloc_kv_if allocator)
+piojo_hash_alloc_cb_ptrk(size_t evsize, piojo_alloc_kv_if allocator)
 {
-        return piojo_hash_alloc_cb_eq(evsize, str_eq, 0, allocator);
+        return piojo_hash_alloc_cb_eq(evsize, ptr_eq, sizeof(uintptr_t),
+                                      allocator);
 }
 
 /**
@@ -542,10 +543,6 @@ calc_hash(const unsigned char *str, size_t len)
         unsigned long hash = 5381;
         int c;
 
-        if (len == 0){
-                len = strlen((char*) str);
-        }
-
         while (len-- > 0){
                 c = *str++;
                 hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
@@ -577,13 +574,8 @@ init_entry(const void *key, const void *data, const piojo_hash_t *hash)
         bool null_p = TRUE;
         piojo_hash_entry_t *kv;
         piojo_alloc_kv_if ator = hash->allocator;
-        size_t len, kvsize, ksize = hash->eksize;
+        size_t kvsize, ksize = hash->eksize;
 
-        if (ksize == 0){
-                len = strlen((char*) key);
-                PIOJO_ASSERT(piojo_safe_addsiz_p(len, 1));
-                ksize = len + 1;
-        }
         if (data == NULL){
                 data = &null_p;
         }
@@ -613,10 +605,6 @@ copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
         piojo_hash_entry_t *kv;
         piojo_alloc_kv_if ator = hash->allocator;
         size_t ksize = hash->eksize;
-
-        if (ksize == 0){
-                ksize = strlen((char*) key) + 1;
-        }
 
         kv = ((piojo_hash_entry_t*) ator.alloc_cb(sizeof(piojo_hash_entry_t) +
                                                   ksize + hash->evsize));
@@ -869,9 +857,11 @@ int_eq(const void *e1, const void *e2)
 }
 
 static bool
-str_eq(const void *e1, const void *e2)
+ptr_eq(const void *e1, const void *e2)
 {
-        if (strcmp((const char*) e1, (const char*) e2) == 0){
+        uintptr_t v1 = *(uintptr_t*) e1;
+        uintptr_t v2 = *(uintptr_t*) e2;
+        if (v1 == v2){
                 return TRUE;
         }
         return FALSE;
