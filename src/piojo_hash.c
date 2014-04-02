@@ -35,7 +35,7 @@
 struct piojo_hash_entry;
 typedef struct piojo_hash_entry piojo_hash_entry_t;
 struct piojo_hash_entry {
-        void *key, *data;
+        void *key, *value;
         piojo_hash_entry_t *next;
 };
 
@@ -361,7 +361,7 @@ piojo_hash_insert(const void *key, const void *data, piojo_hash_t *hash)
         }
 
         kv.key = (void*) key;
-        kv.data = (void*) data;
+        kv.value = (void*) data;
         if (insert_entry(&kv, INSERT_NEW, hash) == NULL){
                 ++hash->ecount;
                 return TRUE;
@@ -386,7 +386,7 @@ piojo_hash_set(const void *key, const void *data, piojo_hash_t *hash)
         PIOJO_ASSERT(data || hash->evsize == sizeof(bool));
 
         kv.key = (void*) key;
-        kv.data = (void*) data;
+        kv.value = (void*) data;
         oldkv = insert_entry(&kv, INSERT_NEW, hash);
         if (oldkv == NULL){
                 ++hash->ecount;
@@ -394,8 +394,8 @@ piojo_hash_set(const void *key, const void *data, piojo_hash_t *hash)
         }
 
         if (data != NULL){
-                hash->allocator.finish_cb(oldkv->data);
-                hash->allocator.init_cb(data, hash->evsize, oldkv->data);
+                hash->allocator.finish_cb(oldkv->value);
+                hash->allocator.init_cb(data, hash->evsize, oldkv->value);
         }
         return FALSE;
 }
@@ -416,9 +416,9 @@ piojo_hash_search(const void *key, const piojo_hash_t *hash)
         iter = search_entry(key, hash);
         if (iter.table != NULL){
                 if (iter.prev == NULL){
-                        return hash->buckets[iter.bidx]->data;
+                        return hash->buckets[iter.bidx]->value;
                 }
-                return iter.prev->next->data;
+                return iter.prev->next->value;
         }
         return NULL;
 }
@@ -527,9 +527,9 @@ piojo_hash_entryv(const piojo_hash_node_t *node)
 
         iter = (piojo_hash_iter_t*) node->opaque;
         if (iter->prev != NULL){
-                return iter->prev->next->data;
+                return iter->prev->next->value;
         }
-        return iter->table->buckets[iter->bidx]->data;
+        return iter->table->buckets[iter->bidx]->value;
 }
 
 /** @}
@@ -591,8 +591,8 @@ init_entry(const void *key, const void *data, const piojo_hash_t *hash)
         kv->key = (uint8_t*)kv + sizeof(piojo_hash_entry_t);
         ator.initk_cb(key, ksize, kv->key);
 
-        kv->data = (uint8_t*)kv->key + ksize;
-        ator.init_cb(data, hash->evsize, kv->data);
+        kv->value = (uint8_t*)kv->key + ksize;
+        ator.init_cb(data, hash->evsize, kv->value);
 
         kv->next = NULL;
 
@@ -613,8 +613,8 @@ copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
         kv->key = (uint8_t*)kv + sizeof(piojo_hash_entry_t);
         ator.copyk_cb(key, ksize, kv->key);
 
-        kv->data = (uint8_t*)kv->key + ksize;
-        ator.copy_cb(data, hash->evsize, kv->data);
+        kv->value = (uint8_t*)kv->key + ksize;
+        ator.copy_cb(data, hash->evsize, kv->value);
 
         kv->next = NULL;
 
@@ -627,7 +627,7 @@ finish_entry(const piojo_hash_t *hash, piojo_hash_entry_t *kv)
         piojo_alloc_kv_if ator = hash->allocator;
 
         ator.finishk_cb(kv->key);
-        ator.finish_cb(kv->data);
+        ator.finish_cb(kv->value);
         ator.free_cb(kv);
 }
 
@@ -690,7 +690,7 @@ print_hash(piojo_hash_t *hash){
                 kv = hash->buckets[i];
                 printf ("Bucket %lu: ", i);
                 while (kv != NULL){
-                        printf("%d=%d, ", *(int*)kv->key, *(int*)kv->data);
+                        printf("%d=%d, ", *(int*)kv->key, *(int*)kv->value);
                         kv = kv->next;
                 }
                 printf("\n");
@@ -724,10 +724,10 @@ insert_entry(piojo_hash_entry_t *newkv, insert_t op, piojo_hash_t *hash)
 
         switch (op){
         case INSERT_NEW:
-                newkv = init_entry(newkv->key, newkv->data, hash);
+                newkv = init_entry(newkv->key, newkv->value, hash);
                 break;
         case INSERT_COPY:
-                newkv = copy_entry(newkv->key, newkv->data, hash);
+                newkv = copy_entry(newkv->key, newkv->value, hash);
                 break;
         case INSERT_PTR:
                 /* Nothing to do. */
