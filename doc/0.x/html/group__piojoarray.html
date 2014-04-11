@@ -97,7 +97,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_array_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga586e13a331ffe134095061dcb111eed0">piojo_array_copy</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga1f64ffaed3da8a627bdc9c09f9cc00ad">piojo_array_free</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gafc5f6579dffd73512fca19e1e7187d35">piojo_array_clear</a> (piojo_array_t *array)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gae3696ec8fc76d5fc7e716331abf0e4c1">piojo_array_reserve</a> (size_t ecount, piojo_array_t *array)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#gac336703610608da77ae53f2af92f4f0f">piojo_array_resize</a> (size_t ecount, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga7dc233ecb52cb10076816b3e627849bf">piojo_array_size</a> (const piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga9abf47690b12c7d56f53802f156cc65e">piojo_array_insert</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoarray.html#ga6c3d735825557881674d035dee12db5a">piojo_array_set</a> (size_t idx, const void *data, piojo_array_t *array)</td></tr>
@@ -523,12 +523,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gae3696ec8fc76d5fc7e716331abf0e4c1"></a><!-- doxytag: member="piojo_array.c::piojo_array_reserve" ref="gae3696ec8fc76d5fc7e716331abf0e4c1" args="(size_t ecount, piojo_array_t *array)" -->
+<a class="anchor" id="gac336703610608da77ae53f2af92f4f0f"></a><!-- doxytag: member="piojo_array.c::piojo_array_resize" ref="gac336703610608da77ae53f2af92f4f0f" args="(size_t ecount, piojo_array_t *array)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojoarray.html#gae3696ec8fc76d5fc7e716331abf0e4c1">piojo_array_reserve</a> </td>
+          <td class="memname">void <a class="el" href="group__piojoarray.html#gac336703610608da77ae53f2af92f4f0f">piojo_array_resize</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>ecount</em>, </td>
@@ -547,7 +547,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Reserves or shrinks allocated memory for <em>ecount</em> entries. </p>
+<p>Expands or shrinks allocated memory for <em>ecount</em> entries. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Must be equal or greater than the current size. </td></tr>
@@ -751,7 +751,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Apr 2 2014 19:57:09 for piojo-0.4 by
+    <li class="footer">Generated on Fri Apr 11 2014 12:54:10 for piojo-0.4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

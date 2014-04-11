@@ -102,7 +102,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_heap_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga86841f37dc94c7c0be8e0889d4fe0a77">piojo_heap_copy</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4c1f3fc8208fc4500f1064ca219145d9">piojo_heap_free</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4e927d37e077ab6f0e408b92c8a3d63c">piojo_heap_clear</a> (piojo_heap_t *heap)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga683311b4415d60da4d6c178114c004ef">piojo_heap_reserve</a> (size_t ecount, piojo_heap_t *heap)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga6366bc536906ffd21ed2deec2073269c">piojo_heap_resize</a> (size_t ecount, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga4f99d7ff5976c77e5c4c0563f9b3052d">piojo_heap_size</a> (const piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#ga572b0b20a8ff8803faa6e4a2595ec1d3">piojo_heap_push</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, piojo_heap_t *heap)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojoheap.html#gacbf5f1d46ace9bb7403482ee5dd5a1a0">piojo_heap_decrease</a> (<a class="el" href="group__piojo.html#ga8e50838d744cb963caa6576bee4e64a8">piojo_opaque_t</a> data, piojo_heap_t *heap)</td></tr>
@@ -435,12 +435,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga683311b4415d60da4d6c178114c004ef"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_reserve" ref="ga683311b4415d60da4d6c178114c004ef" args="(size_t ecount, piojo_heap_t *heap)" -->
+<a class="anchor" id="ga6366bc536906ffd21ed2deec2073269c"></a><!-- doxytag: member="piojo_heap.c::piojo_heap_resize" ref="ga6366bc536906ffd21ed2deec2073269c" args="(size_t ecount, piojo_heap_t *heap)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojoheap.html#ga683311b4415d60da4d6c178114c004ef">piojo_heap_reserve</a> </td>
+          <td class="memname">void <a class="el" href="group__piojoheap.html#ga6366bc536906ffd21ed2deec2073269c">piojo_heap_resize</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>ecount</em>, </td>
@@ -459,7 +459,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Reserves or shrinks allocated memory for <em>ecount</em> entries. </p>
+<p>Expands or shrinks allocated memory for <em>ecount</em> entries. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ecount</td><td>Must be equal or greater than the current size. </td></tr>
@@ -529,7 +529,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Apr 2 2014 19:57:09 for piojo-0.4 by
+    <li class="footer">Generated on Fri Apr 11 2014 12:54:10 for piojo-0.4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

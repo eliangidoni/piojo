@@ -97,7 +97,7 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">piojo_stream_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga47389de11252828c423bd90b3c58e652">piojo_stream_copy</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gab7c560ac7249786b9ea321ee59b77eba">piojo_stream_free</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga048414d0a56376a640fff86172665092">piojo_stream_clear</a> (piojo_stream_t *stream)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga357e0c4451a8e724ac9688bb94c18ecb">piojo_stream_reserve</a> (size_t bytecnt, piojo_stream_t *stream)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gaf6132edb3dfc8f3e2fa429e100207f3f">piojo_stream_resize</a> (size_t bytecnt, piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#gad79256af5b5e502bc0ac9a366601208f">piojo_stream_size</a> (const piojo_stream_t *stream)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga8ef9fb239e384b50d20a81c708d99128">piojo_stream_concat</a> (const piojo_stream_t *stream, piojo_stream_t *to)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojostream.html#ga109e33b0e4666dfb4f1b685647089c16">piojo_stream_readu64</a> (piojo_stream_t *stream)</td></tr>
@@ -567,12 +567,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga357e0c4451a8e724ac9688bb94c18ecb"></a><!-- doxytag: member="piojo_stream.c::piojo_stream_reserve" ref="ga357e0c4451a8e724ac9688bb94c18ecb" args="(size_t bytecnt, piojo_stream_t *stream)" -->
+<a class="anchor" id="gaf6132edb3dfc8f3e2fa429e100207f3f"></a><!-- doxytag: member="piojo_stream.c::piojo_stream_resize" ref="gaf6132edb3dfc8f3e2fa429e100207f3f" args="(size_t bytecnt, piojo_stream_t *stream)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__piojostream.html#ga357e0c4451a8e724ac9688bb94c18ecb">piojo_stream_reserve</a> </td>
+          <td class="memname">void <a class="el" href="group__piojostream.html#gaf6132edb3dfc8f3e2fa429e100207f3f">piojo_stream_resize</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>bytecnt</em>, </td>
@@ -591,7 +591,7 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Reserves or shrinks allocated memory for <em>bytecnt</em> bytes. </p>
+<p>Expands or shrinks allocated memory for <em>bytecnt</em> bytes. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">bytecnt</td><td>Must be equal or greater than the current size. </td></tr>
@@ -1018,7 +1018,7 @@ Variables</h2></td></tr>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Apr 2 2014 19:57:09 for piojo-0.4 by
+    <li class="footer">Generated on Fri Apr 11 2014 12:54:10 for piojo-0.4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
