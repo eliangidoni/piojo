@@ -116,7 +116,7 @@ piojo_array_copy(const piojo_array_t *array)
         newarray = piojo_array_alloc_cb(esize, allocator);
         PIOJO_ASSERT(newarray);
 
-        piojo_array_reserve(array->ecount, newarray);
+        piojo_array_resize(array->ecount, newarray);
         newarray->usedcnt = array->usedcnt;
 
         for (i = 0; i < array->usedcnt; ++i){
@@ -158,12 +158,12 @@ piojo_array_clear(piojo_array_t *array)
 }
 
 /**
- * Reserves or shrinks allocated memory for @a ecount entries.
+ * Expands or shrinks allocated memory for @a ecount entries.
  * @param[in] ecount Must be equal or greater than the current size.
  * @param[out] array Array being modified.
  */
 void
-piojo_array_reserve(size_t ecount, piojo_array_t *array)
+piojo_array_resize(size_t ecount, piojo_array_t *array)
 {
         size_t size;
         PIOJO_ASSERT(array);

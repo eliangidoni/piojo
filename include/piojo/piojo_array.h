@@ -54,7 +54,7 @@ void
 piojo_array_clear(piojo_array_t *array);
 
 void
-piojo_array_reserve(size_t ecount, piojo_array_t *array);
+piojo_array_resize(size_t ecount, piojo_array_t *array);
 
 size_t
 piojo_array_size(const piojo_array_t *array);

@@ -145,17 +145,17 @@ piojo_stream_clear(piojo_stream_t *stream)
 }
 
 /**
- * Reserves or shrinks allocated memory for @a bytecnt bytes.
+ * Expands or shrinks allocated memory for @a bytecnt bytes.
  * @param[in] bytecnt Must be equal or greater than the current size.
  * @param[out] stream Stream being modified.
  */
 void
-piojo_stream_reserve(size_t bytecnt, piojo_stream_t *stream)
+piojo_stream_resize(size_t bytecnt, piojo_stream_t *stream)
 {
         PIOJO_ASSERT(stream);
         PIOJO_ASSERT(bytecnt >= piojo_array_size(stream->data));
 
-        piojo_array_reserve(bytecnt, stream->data);
+        piojo_array_resize(bytecnt, stream->data);
 }
 
 /**

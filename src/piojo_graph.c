@@ -289,7 +289,7 @@ piojo_graph_insert(piojo_graph_vid_t vertex, piojo_graph_t *graph)
         tmp.data = 0;
         tmp.edges_by_vid = piojo_array_alloc_cb(sizeof(piojo_graph_edge_t),
                                                 graph->allocator);
-        piojo_array_reserve(DEFAULT_EDGE_COUNT, tmp.edges_by_vid);
+        piojo_array_resize(DEFAULT_EDGE_COUNT, tmp.edges_by_vid);
 
         return piojo_hash_insert(&tmp.vid, &tmp, graph->alists_by_vid);
 }

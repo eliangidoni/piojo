@@ -68,7 +68,7 @@ void
 piojo_heap_clear(piojo_heap_t *heap);
 
 void
-piojo_heap_reserve(size_t ecount, piojo_heap_t *heap);
+piojo_heap_resize(size_t ecount, piojo_heap_t *heap);
 
 size_t
 piojo_heap_size(const piojo_heap_t *heap);

@@ -155,17 +155,17 @@ piojo_heap_clear(piojo_heap_t *heap)
 }
 
 /**
- * Reserves or shrinks allocated memory for @a ecount entries.
+ * Expands or shrinks allocated memory for @a ecount entries.
  * @param[in] ecount Must be equal or greater than the current size.
  * @param[out] heap Heap being modified.
  */
 void
-piojo_heap_reserve(size_t ecount, piojo_heap_t *heap)
+piojo_heap_resize(size_t ecount, piojo_heap_t *heap)
 {
         PIOJO_ASSERT(heap);
         PIOJO_ASSERT(ecount >= piojo_array_size(heap->data));
 
-        piojo_array_reserve(ecount, heap->data);
+        piojo_array_resize(ecount, heap->data);
 }
 
 /**

@@ -54,7 +54,7 @@ void
 piojo_stream_clear(piojo_stream_t *stream);
 
 void
-piojo_stream_reserve(size_t bytecnt, piojo_stream_t *stream);
+piojo_stream_resize(size_t bytecnt, piojo_stream_t *stream);
 
 size_t
 piojo_stream_size(const piojo_stream_t *stream);
