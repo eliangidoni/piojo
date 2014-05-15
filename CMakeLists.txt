@@ -4,8 +4,8 @@ project(piojo)
 include(CTest)
 
 set(piojo_VERSION_MAJOR 0)
-set(piojo_VERSION_MINOR 4)
-set(piojo_VERSION_PATCH 3)
+set(piojo_VERSION_MINOR 5)
+set(piojo_VERSION_PATCH 0)
 
 option(PIOJO_DEBUG "Build with debugging support" OFF)
 option(BUILD_SHARED_LIBS "Build library as shared" ON)
