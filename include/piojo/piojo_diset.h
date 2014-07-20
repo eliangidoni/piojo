@@ -39,7 +39,6 @@
 extern "C" {
 #endif
 
-struct piojo_diset;
 typedef struct piojo_diset piojo_diset_t;
 extern const size_t piojo_diset_sizeof;
 

@@ -38,7 +38,6 @@ typedef struct {
         uint8_t opaque[32]; /* Should be enough */
 } piojo_tree_node_t;
 
-struct piojo_tree;
 typedef struct piojo_tree piojo_tree_t;
 extern const size_t piojo_tree_sizeof;
 

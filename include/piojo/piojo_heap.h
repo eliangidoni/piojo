@@ -39,7 +39,6 @@
 extern "C" {
 #endif
 
-struct piojo_heap;
 typedef struct piojo_heap piojo_heap_t;
 extern const size_t piojo_heap_sizeof;
 

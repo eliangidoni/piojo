@@ -34,10 +34,8 @@
 extern "C" {
 #endif
 
-struct piojo_list_node;
 typedef struct piojo_list_node piojo_list_node_t;
 
-struct piojo_list;
 typedef struct piojo_list piojo_list_t;
 extern const size_t piojo_list_sizeof;
 
