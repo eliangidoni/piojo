@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-typedef struct piojo_stream piojo_stream_t;
+typedef struct piojo_stream_t piojo_stream_t;
 extern const size_t piojo_stream_sizeof;
 
 piojo_stream_t*

@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-typedef struct piojo_array piojo_array_t;
+typedef struct piojo_array_t piojo_array_t;
 extern const size_t piojo_array_sizeof;
 
 piojo_array_t*

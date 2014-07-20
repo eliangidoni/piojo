@@ -34,7 +34,7 @@
 #include <piojo/piojo_array.h>
 #include <piojo_defs.h>
 
-struct piojo_heap {
+struct piojo_heap_t {
         piojo_array_t *data;
         piojo_hash_t *indices_by_data;
         piojo_heap_leq_cb leq;

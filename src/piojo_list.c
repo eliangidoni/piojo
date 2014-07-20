@@ -32,12 +32,12 @@
 #include <piojo/piojo_list.h>
 #include <piojo_defs.h>
 
-struct piojo_list_node {
+struct piojo_list_node_t {
         void *data;
         piojo_list_node_t *next, *prev;
 };
 
-struct piojo_list {
+struct piojo_list_t {
         piojo_list_node_t *head, *tail;
         size_t esize, ecount;
         piojo_alloc_if allocator;

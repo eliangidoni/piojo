@@ -35,7 +35,7 @@
 #include <piojo/piojo_array.h>
 #include <piojo_defs.h>
 
-struct piojo_stream {
+struct piojo_stream_t {
         piojo_array_t *data;
         size_t ridx;
         piojo_alloc_if allocator;

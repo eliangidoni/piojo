@@ -38,7 +38,7 @@ typedef struct {
         uint8_t opaque[32]; /* Should be enough */
 } piojo_hash_node_t;
 
-typedef struct piojo_hash piojo_hash_t;
+typedef struct piojo_hash_t piojo_hash_t;
 extern const size_t piojo_hash_sizeof;
 
 piojo_hash_t*

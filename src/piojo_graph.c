@@ -55,7 +55,7 @@ typedef struct {
         piojo_graph_vid_t beg_vid, end_vid;
 } piojo_graph_edge_t;
 
-struct piojo_graph {
+struct piojo_graph_t {
         piojo_hash_t *alists_by_vid;
         piojo_graph_dir_t dir;
         piojo_opaque_t data;            /* User data. */

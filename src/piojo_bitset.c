@@ -35,7 +35,7 @@
 /* Keep this type unsigned to avoid undefined behaviors. */
 typedef uint64_t piojo_bitset_word_t;
 
-struct piojo_bitset {
+struct piojo_bitset_t {
         piojo_bitset_word_t *set, lastmask;
         size_t maxbits, wcnt;
         piojo_alloc_if allocator;

@@ -32,9 +32,8 @@
 #include <piojo/piojo_hash.h>
 #include <piojo_defs.h>
 
-struct piojo_hash_entry;
-typedef struct piojo_hash_entry piojo_hash_entry_t;
-struct piojo_hash_entry {
+typedef struct piojo_hash_entry_t piojo_hash_entry_t;
+struct piojo_hash_entry_t {
         void *key, *value;
         piojo_hash_entry_t *next;
 };
@@ -45,7 +44,7 @@ typedef struct {
         const piojo_hash_t *table;
 } piojo_hash_iter_t;
 
-struct piojo_hash {
+struct piojo_hash_t {
         piojo_hash_entry_t **buckets;
         size_t eksize, evsize, ecount, bucketcnt;
         piojo_eq_cb eq_cb;

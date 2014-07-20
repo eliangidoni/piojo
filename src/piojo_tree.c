@@ -34,9 +34,8 @@
 #include <piojo/piojo_list.h>
 #include <piojo_defs.h>
 
-struct piojo_tree_bnode;
-typedef struct piojo_tree_bnode piojo_tree_bnode_t;
-struct piojo_tree_bnode {
+typedef struct piojo_tree_bnode_t piojo_tree_bnode_t;
+struct piojo_tree_bnode_t {
         bool leaf_p;
         uint8_t ecnt, pidx;
         uint8_t *keys, *values;
@@ -49,7 +48,7 @@ typedef struct {
         const piojo_tree_t *tree;
 } piojo_tree_iter_t;
 
-struct piojo_tree {
+struct piojo_tree_t {
         piojo_tree_bnode_t *root;
         size_t eksize, evsize, ecount, cmin, cmax;
         piojo_cmp_cb cmp_cb;

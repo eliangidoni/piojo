@@ -32,7 +32,7 @@
 #include <piojo/piojo_ring.h>
 #include <piojo_defs.h>
 
-struct piojo_ring {
+struct piojo_ring_t {
         uint8_t *data;
         size_t esize, ecount, widx, ridx, usedcnt;
         piojo_alloc_if allocator;

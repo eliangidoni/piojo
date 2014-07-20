@@ -32,7 +32,7 @@
 #include <piojo/piojo_array.h>
 #include <piojo_defs.h>
 
-struct piojo_array {
+struct piojo_array_t {
         uint8_t *data;
         size_t esize, usedcnt, ecount;
         piojo_alloc_if allocator;

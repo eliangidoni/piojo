@@ -41,7 +41,7 @@
 extern "C" {
 #endif
 
-typedef struct piojo_graph piojo_graph_t;
+typedef struct piojo_graph_t piojo_graph_t;
 extern const size_t piojo_graph_sizeof;
 
 /** @{ */

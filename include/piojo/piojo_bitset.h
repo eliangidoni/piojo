@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-typedef struct piojo_bitset piojo_bitset_t;
+typedef struct piojo_bitset_t piojo_bitset_t;
 extern const size_t piojo_bitset_sizeof;
 
 piojo_bitset_t*

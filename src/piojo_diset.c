@@ -33,14 +33,13 @@
 #include <piojo/piojo_hash.h>
 #include <piojo_defs.h>
 
-struct piojo_diset_set;
-typedef struct piojo_diset_tree piojo_diset_tree_t;
-struct piojo_diset_tree {
+typedef struct piojo_diset_tree_t piojo_diset_tree_t;
+struct piojo_diset_tree_t {
         size_t rank;            /* Height estimate. */
         piojo_diset_sid_t parent;
 };
 
-struct piojo_diset {
+struct piojo_diset_t {
         piojo_hash_t *trees;
         piojo_alloc_if allocator;
 };

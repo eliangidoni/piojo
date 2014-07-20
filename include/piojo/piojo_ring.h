@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-typedef struct piojo_ring piojo_ring_t;
+typedef struct piojo_ring_t piojo_ring_t;
 extern const size_t piojo_ring_sizeof;
 
 piojo_ring_t*
