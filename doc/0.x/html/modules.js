@@ -1,16 +1,16 @@
 var modules =
 [
-    [ "Piojo", "group__piojo.html", null ],
-    [ "Piojo Alloc", "group__piojoalloc.html", null ],
-    [ "Piojo Array", "group__piojoarray.html", null ],
-    [ "Piojo Bitset", "group__piojobitset.html", null ],
-    [ "Piojo Disjoint-set", "group__piojodiset.html", null ],
-    [ "Piojo Graph", "group__piojograph.html", null ],
-    [ "Piojo Hash Table", "group__piojohash.html", null ],
-    [ "Piojo Heap", "group__piojoheap.html", null ],
-    [ "Piojo List", "group__piojolist.html", null ],
-    [ "Piojo Ring", "group__piojoring.html", null ],
-    [ "Piojo Stream", "group__piojostream.html", null ],
-    [ "Piojo B-tree", "group__piojotree.html", null ],
+    [ "Piojo", "group__piojo.html", "group__piojo" ],
+    [ "Piojo Alloc", "group__piojoalloc.html", "group__piojoalloc" ],
+    [ "Piojo Array", "group__piojoarray.html", "group__piojoarray" ],
+    [ "Piojo Bitset", "group__piojobitset.html", "group__piojobitset" ],
+    [ "Piojo B-tree", "group__piojobtree.html", "group__piojobtree" ],
+    [ "Piojo Disjoint-set", "group__piojodiset.html", "group__piojodiset" ],
+    [ "Piojo Graph", "group__piojograph.html", "group__piojograph" ],
+    [ "Piojo Hash Table", "group__piojohash.html", "group__piojohash" ],
+    [ "Piojo Heap", "group__piojoheap.html", "group__piojoheap" ],
+    [ "Piojo List", "group__piojolist.html", "group__piojolist" ],
+    [ "Piojo Ring", "group__piojoring.html", "group__piojoring" ],
+    [ "Piojo Stream", "group__piojostream.html", "group__piojostream" ],
     [ "Piojito", "group__piojopiojito.html", null ]
 ];
