@@ -1,0 +1,25 @@
+var group__piojobitset =
+[
+    [ "piojo_bitset_alloc", "group__piojobitset.html#ga8965562d4452e5dc4c58693d7f777c76", null ],
+    [ "piojo_bitset_alloc_cb", "group__piojobitset.html#ga487c648d58f151efd43bb192671f3a51", null ],
+    [ "piojo_bitset_and", "group__piojobitset.html#gae6dda88216f70ab164ab9d25ca2b893f", null ],
+    [ "piojo_bitset_clear", "group__piojobitset.html#gad563f80e0da484706319f4864151d95a", null ],
+    [ "piojo_bitset_copy", "group__piojobitset.html#ga8bff4e4b46cd8f7bb908d9fb93b097e6", null ],
+    [ "piojo_bitset_count", "group__piojobitset.html#ga0c6bc6d77c8c691864606d63e570c2b9", null ],
+    [ "piojo_bitset_diff", "group__piojobitset.html#ga9bd03d2b98a9f842ee5cc85843f15095", null ],
+    [ "piojo_bitset_empty_p", "group__piojobitset.html#ga5836007fca1e3fbce98f03efdf0b65e3", null ],
+    [ "piojo_bitset_equal_p", "group__piojobitset.html#ga6ae7eb1bbe791d0ea9e595a6c75145ab", null ],
+    [ "piojo_bitset_free", "group__piojobitset.html#gaf9e74099152656c9362c1e0820686b5a", null ],
+    [ "piojo_bitset_full_p", "group__piojobitset.html#ga6885ae57cbcfc47e7fc4e36d3b82bb5c", null ],
+    [ "piojo_bitset_lshift", "group__piojobitset.html#ga66cc6550bc2ebb5bfb2f66d79b3d4c70", null ],
+    [ "piojo_bitset_not", "group__piojobitset.html#ga7ad01e3b050322a0613d47553e4c67ff", null ],
+    [ "piojo_bitset_or", "group__piojobitset.html#ga339bf32d42042a397b0bb88f33d7156b", null ],
+    [ "piojo_bitset_rshift", "group__piojobitset.html#gafb8a441eef875f6abc330a6d9f492fe2", null ],
+    [ "piojo_bitset_set", "group__piojobitset.html#gafa9a08bfbb3ab56c409f6bfb952b3971", null ],
+    [ "piojo_bitset_set_p", "group__piojobitset.html#ga31e54e176c059efe3349091892c63013", null ],
+    [ "piojo_bitset_size", "group__piojobitset.html#ga789c802f60713cd71ee0f0f9c8efd263", null ],
+    [ "piojo_bitset_toggle", "group__piojobitset.html#ga98778811284b0bd2a4e93c7d7a639dee", null ],
+    [ "piojo_bitset_unset", "group__piojobitset.html#ga16be03c0ed79235a9bdeabe3956a2223", null ],
+    [ "piojo_bitset_xor", "group__piojobitset.html#ga7cdc1fa7dbdaadda0a87f7d214e7c048", null ],
+    [ "piojo_bitset_sizeof", "group__piojobitset.html#gad83185370075fec7c104261c68828402", null ]
+];

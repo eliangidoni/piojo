@@ -7,10 +7,26 @@
 
 var indexSectionsWithContent =
 {
+  0: "acfiprt",
+  1: "p",
+  2: "p",
+  3: "acfipr",
+  4: "p",
+  5: "p",
+  6: "p",
+  7: "p"
 };
 
 var indexSectionNames =
 {
+  0: "all",
+  1: "classes",
+  2: "functions",
+  3: "variables",
+  4: "typedefs",
+  5: "enums",
+  6: "enumvalues",
+  7: "groups"
 };
 
 function convertToId(search)

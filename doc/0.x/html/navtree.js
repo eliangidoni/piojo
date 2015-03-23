@@ -1,11 +1,22 @@
 var NAVTREE =
 [
-  [ "@PROJECT_NAME@-@piojo_VERSION_MAJOR@.@piojo_VERSION_MINOR@", "index.html", ]
+  [ "piojo-0.5", "index.html", [
+    [ "Modules", "modules.html", "modules" ],
+    [ "Classes", null, [
+      [ "Class List", "annotated.html", "annotated" ],
+      [ "Class Index", "classes.html", null ],
+      [ "Class Members", "functions.html", [
+        [ "All", "functions.html", null ],
+        [ "Variables", "functions_vars.html", null ]
+      ] ]
+    ] ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"annotated.html",
+"group__piojostream.html#ga47389de11252828c423bd90b3c58e652"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
