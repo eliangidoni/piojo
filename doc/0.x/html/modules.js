@@ -12,5 +12,6 @@ var modules =
     [ "Piojo List", "group__piojolist.html", "group__piojolist" ],
     [ "Piojo Ring", "group__piojoring.html", "group__piojoring" ],
     [ "Piojo Stream", "group__piojostream.html", "group__piojostream" ],
+    [ "Piojo Red-Black Tree", "group__piojotree.html", "group__piojotree" ],
     [ "Piojito", "group__piojopiojito.html", null ]
 ];

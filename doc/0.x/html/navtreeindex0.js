@@ -228,7 +228,7 @@ var NAVTREEINDEX0 =
 "group__piojolist.html#gae2c0e9a89f0031dfe31c6fa8baa63bda":[0,9,17],
 "group__piojolist.html#gaee3e14ce72511aadcfde13a87701c7f1":[0,9,8],
 "group__piojolist.html#gaf4c87d3d6a145f8053cdd80e3a4442cb":[0,9,12],
-"group__piojopiojito.html":[0,12],
+"group__piojopiojito.html":[0,13],
 "group__piojoring.html":[0,10],
 "group__piojoring.html#ga0190565801993ff8983d8a24eadd7f66":[0,10,9],
 "group__piojoring.html#ga1d823028812aa2a64b07de9574883a70":[0,10,5],

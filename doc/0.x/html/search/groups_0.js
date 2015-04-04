@@ -12,5 +12,6 @@ var searchData=
   ['piojo_20list',['Piojo List',['../group__piojolist.html',1,'']]],
   ['piojito',['Piojito',['../group__piojopiojito.html',1,'']]],
   ['piojo_20ring',['Piojo Ring',['../group__piojoring.html',1,'']]],
-  ['piojo_20stream',['Piojo Stream',['../group__piojostream.html',1,'']]]
+  ['piojo_20stream',['Piojo Stream',['../group__piojostream.html',1,'']]],
+  ['piojo_20red_2dblack_20tree',['Piojo Red-Black Tree',['../group__piojotree.html',1,'']]]
 ];
