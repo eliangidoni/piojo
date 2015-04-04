@@ -129,12 +129,12 @@
 #define hash_alloc_intk piojo_hash_alloc_intk
 #define hash_alloc_i32k piojo_hash_alloc_i32k
 #define hash_alloc_i64k piojo_hash_alloc_i64k
-#define hash_alloc_strk piojo_hash_alloc_strk
+#define hash_alloc_ptrk piojo_hash_alloc_ptrk
 #define hash_alloc_sizk piojo_hash_alloc_sizk
 #define hash_alloc_cb_intk piojo_hash_alloc_cb_intk
 #define hash_alloc_cb_i32k piojo_hash_alloc_cb_i32k
 #define hash_alloc_cb_i64k piojo_hash_alloc_cb_i64k
-#define hash_alloc_cb_strk piojo_hash_alloc_cb_strk
+#define hash_alloc_cb_ptrk piojo_hash_alloc_cb_ptrk
 #define hash_alloc_cb_sizk piojo_hash_alloc_cb_sizk
 #define hash_alloc_eq piojo_hash_alloc_eq
 #define hash_alloc_cb_eq piojo_hash_alloc_cb_eq
@@ -251,20 +251,14 @@
 
 /* B tree */
 #define btree_alloc_intk piojo_btree_alloc_intk
-#define btree_alloc_uintk piojo_btree_alloc_uintk
 #define btree_alloc_i32k piojo_btree_alloc_i32k
-#define btree_alloc_u32k piojo_btree_alloc_u32k
 #define btree_alloc_i64k piojo_btree_alloc_i64k
-#define btree_alloc_u64k piojo_btree_alloc_u64k
-#define btree_alloc_strk piojo_btree_alloc_strk
+#define btree_alloc_ptrk piojo_btree_alloc_ptrk
 #define btree_alloc_sizk piojo_btree_alloc_sizk
 #define btree_alloc_cb_intk piojo_btree_alloc_cb_intk
-#define btree_alloc_cb_uintk piojo_btree_alloc_cb_uintk
 #define btree_alloc_cb_i32k piojo_btree_alloc_cb_i32k
-#define btree_alloc_cb_u32k piojo_btree_alloc_cb_u32k
 #define btree_alloc_cb_i64k piojo_btree_alloc_cb_i64k
-#define btree_alloc_cb_u64k piojo_btree_alloc_cb_u64k
-#define btree_alloc_cb_strk piojo_btree_alloc_cb_strk
+#define btree_alloc_cb_ptrk piojo_btree_alloc_cb_ptrk
 #define btree_alloc_cb_sizk piojo_btree_alloc_cb_sizk
 #define btree_alloc_cmp piojo_btree_alloc_cmp
 #define btree_alloc_cb_cmp piojo_btree_alloc_cb_cmp
@@ -282,6 +276,34 @@
 #define btree_prev piojo_btree_prev
 #define btree_entryk piojo_btree_entryk
 #define btree_entryv piojo_btree_entryv
+
+/* Red-Black tree */
+#define tree_alloc_intk piojo_tree_alloc_intk
+#define tree_alloc_i32k piojo_tree_alloc_i32k
+#define tree_alloc_i64k piojo_tree_alloc_i64k
+#define tree_alloc_ptrk piojo_tree_alloc_ptrk
+#define tree_alloc_sizk piojo_tree_alloc_sizk
+#define tree_alloc_cb_intk piojo_tree_alloc_cb_intk
+#define tree_alloc_cb_i32k piojo_tree_alloc_cb_i32k
+#define tree_alloc_cb_i64k piojo_tree_alloc_cb_i64k
+#define tree_alloc_cb_ptrk piojo_tree_alloc_cb_ptrk
+#define tree_alloc_cb_sizk piojo_tree_alloc_cb_sizk
+#define tree_alloc_cmp piojo_tree_alloc_cmp
+#define tree_alloc_cb_cmp piojo_tree_alloc_cb_cmp
+#define tree_copy piojo_tree_copy
+#define tree_free piojo_tree_free
+#define tree_clear piojo_tree_clear
+#define tree_size piojo_tree_size
+#define tree_insert piojo_tree_insert
+#define tree_set piojo_tree_set
+#define tree_search piojo_tree_search
+#define tree_delete piojo_tree_delete
+#define tree_first piojo_tree_first
+#define tree_last piojo_tree_last
+#define tree_next piojo_tree_next
+#define tree_prev piojo_tree_prev
+#define tree_entryk piojo_tree_entryk
+#define tree_entryv piojo_tree_entryv
 
 /** @} */
 
