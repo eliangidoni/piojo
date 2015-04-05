@@ -48,7 +48,7 @@ struct piojo_tree_t {
         piojo_tree_rbnode_t *root, *nil;
         size_t eksize, evsize, ecount;
         piojo_cmp_cb cmp_cb;
-        piojo_alloc_kv_if allocator;
+        piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of tree in bytes */
 const size_t piojo_tree_sizeof = sizeof(piojo_tree_t);
@@ -66,9 +66,6 @@ init_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
 static void
 copy_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
             const piojo_tree_t *tree);
-
-static void
-finish_rbnode(const piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
 
 static void
 rotate_left(piojo_tree_rbnode_t *node, piojo_tree_t *tree);
@@ -128,7 +125,7 @@ piojo_tree_t*
 piojo_tree_alloc_intk(size_t evsize)
 {
         return piojo_tree_alloc_cb_intk(evsize,
-                                        piojo_alloc_kv_default);
+                                        piojo_alloc_default);
 }
 
 /**
@@ -141,7 +138,7 @@ piojo_tree_t*
 piojo_tree_alloc_i32k(size_t evsize)
 {
         return piojo_tree_alloc_cb_i32k(evsize,
-                                        piojo_alloc_kv_default);
+                                        piojo_alloc_default);
 }
 
 /**
@@ -154,7 +151,7 @@ piojo_tree_t*
 piojo_tree_alloc_i64k(size_t evsize)
 {
         return piojo_tree_alloc_cb_i64k(evsize,
-                                        piojo_alloc_kv_default);
+                                        piojo_alloc_default);
 }
 
 /**
@@ -167,7 +164,7 @@ piojo_tree_t*
 piojo_tree_alloc_ptrk(size_t evsize)
 {
         return piojo_tree_alloc_cb_ptrk(evsize,
-                                        piojo_alloc_kv_default);
+                                        piojo_alloc_default);
 }
 
 /**
@@ -180,7 +177,7 @@ piojo_tree_t*
 piojo_tree_alloc_sizk(size_t evsize)
 {
         return piojo_tree_alloc_cb_sizk(evsize,
-                                        piojo_alloc_kv_default);
+                                        piojo_alloc_default);
 }
 
 /**
@@ -192,7 +189,7 @@ piojo_tree_alloc_sizk(size_t evsize)
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_intk(size_t evsize,
-                         piojo_alloc_kv_if allocator)
+                         piojo_alloc_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        int_cmp, sizeof(int), allocator);
@@ -207,7 +204,7 @@ piojo_tree_alloc_cb_intk(size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_i32k(size_t evsize,
-                         piojo_alloc_kv_if allocator)
+                         piojo_alloc_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        i32_cmp, sizeof(int32_t), allocator);
@@ -222,7 +219,7 @@ piojo_tree_alloc_cb_i32k(size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_i64k(size_t evsize,
-                         piojo_alloc_kv_if allocator)
+                         piojo_alloc_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        i64_cmp, sizeof(int64_t), allocator);
@@ -237,7 +234,7 @@ piojo_tree_alloc_cb_i64k(size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_ptrk(size_t evsize,
-                         piojo_alloc_kv_if allocator)
+                         piojo_alloc_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        ptr_cmp, sizeof(uintptr_t), allocator);
@@ -252,7 +249,7 @@ piojo_tree_alloc_cb_ptrk(size_t evsize,
  */
 piojo_tree_t*
 piojo_tree_alloc_cb_sizk(size_t evsize,
-                         piojo_alloc_kv_if allocator)
+                         piojo_alloc_if allocator)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        siz_cmp, sizeof(size_t), allocator);
@@ -270,7 +267,7 @@ piojo_tree_t*
 piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize)
 {
         return piojo_tree_alloc_cb_cmp(evsize,
-                                       keycmp, eksize, piojo_alloc_kv_default);
+                                       keycmp, eksize, piojo_alloc_default);
 }
 
 /**
@@ -284,7 +281,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize)
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(size_t evsize,
                         piojo_cmp_cb keycmp, size_t eksize,
-                        piojo_alloc_kv_if allocator)
+                        piojo_alloc_if allocator)
 {
         piojo_tree_t * tree;
         PIOJO_ASSERT(sizeof(piojo_tree_node_t) >= sizeof(piojo_tree_iter_t));
@@ -422,8 +419,7 @@ piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
         }
 
         if (data != NULL){
-                tree->allocator.finish_cb(node->value);
-                tree->allocator.init_cb(data, tree->evsize, node->value);
+                memcpy(node->value, data, tree->evsize);
         }
         return FALSE;
 }
@@ -590,7 +586,7 @@ piojo_tree_entryv(const piojo_tree_node_t *node)
 static piojo_tree_rbnode_t*
 alloc_rbnode(const piojo_tree_t *tree)
 {
-        piojo_alloc_kv_if ator = tree->allocator;
+        piojo_alloc_if ator = tree->allocator;
         piojo_tree_rbnode_t *node;
         size_t nodesiz = sizeof(piojo_tree_rbnode_t);
 
@@ -619,33 +615,24 @@ init_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
             const piojo_tree_t *tree)
 {
         bool null_p = TRUE;
-        piojo_alloc_kv_if ator = tree->allocator;
+        piojo_alloc_if ator = tree->allocator;
 
         if (data == NULL){
                 data = &null_p;
         }
 
-        ator.initk_cb(key, tree->eksize, node->key);
-        ator.init_cb(data, tree->evsize, node->value);
+        memcpy(node->key, key, tree->eksize);
+        memcpy(node->value, data, tree->evsize);
 }
 
 static void
 copy_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
             const piojo_tree_t *tree)
 {
-        piojo_alloc_kv_if ator = tree->allocator;
+        piojo_alloc_if ator = tree->allocator;
 
-        ator.copyk_cb(key, tree->eksize, node->key);
-        ator.copy_cb(data, tree->evsize, node->value);
-}
-
-static void
-finish_rbnode(const piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
-{
-        piojo_alloc_kv_if ator = tree->allocator;
-
-        ator.finishk_cb(node->key);
-        ator.finish_cb(node->value);
+        memcpy(node->key, key, tree->eksize);
+        memcpy(node->value, data, tree->evsize);
 }
 
 static void
@@ -882,7 +869,6 @@ delete_node(const void *key, piojo_tree_t *tree)
                 y->parent->right = x;
         }
 
-        finish_rbnode(node, tree);
         if (node != y){
                 memcpy(node->key, y->key, tree->eksize);
                 memcpy(node->value, y->value, tree->evsize);

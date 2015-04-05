@@ -48,47 +48,15 @@ typedef struct {
         piojo_realloc_cb realloc_cb;
         /** Free callback. */
         piojo_free_cb free_cb;
-        /** Init callback. */
-        piojo_init_cb init_cb;
-        /** Copy callback. */
-        piojo_copy_cb copy_cb;
-        /** Finish callback. */
-        piojo_finish_cb finish_cb;
 } piojo_alloc_if;
-
-/** Key-value allocator interface. */
-typedef struct {
-        /** Allocation callback. */
-        piojo_alloc_cb alloc_cb;
-        /** Reallocation callback. */
-        piojo_realloc_cb realloc_cb;
-        /** Free callback. */
-        piojo_free_cb free_cb;
-        /** Value init callback. */
-        piojo_init_cb init_cb;
-        /** Value copy callback. */
-        piojo_copy_cb copy_cb;
-        /** Value finish callback. */
-        piojo_finish_cb finish_cb;
-        /** Key init callback. */
-        piojo_init_cb initk_cb;
-        /** Key copy callback. */
-        piojo_copy_cb copyk_cb;
-        /** Key finish callback. */
-        piojo_finish_cb finishk_cb;
-} piojo_alloc_kv_if;
 
 /** @} */
 
 extern piojo_alloc_if piojo_alloc_default;
-extern piojo_alloc_kv_if piojo_alloc_kv_default;
 
 void* piojo_alloc_def_alloc(size_t size);
 void* piojo_alloc_def_realloc(const void *ptr, size_t size);
 void piojo_alloc_def_free(const void *ptr);
-void piojo_alloc_def_init(const void *data, size_t esize, void *newptr);
-void piojo_alloc_def_copy(const void *ptr, size_t esize, void *newptr);
-void piojo_alloc_def_finish(void *ptr);
 
 #ifdef __cplusplus
 }

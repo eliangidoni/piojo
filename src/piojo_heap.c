@@ -76,7 +76,7 @@ piojo_heap_alloc(piojo_heap_leq_cb leq)
 piojo_heap_t*
 piojo_heap_alloc_cb(piojo_heap_leq_cb leq, piojo_alloc_if allocator)
 {
-        piojo_alloc_kv_if ator = piojo_alloc_kv_default;
+        piojo_alloc_if ator = piojo_alloc_default;
         piojo_heap_t * h;
 
         ator.alloc_cb = allocator.alloc_cb;

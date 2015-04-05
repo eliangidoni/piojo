@@ -46,42 +46,8 @@ void my_free(const void *ptr)
         piojo_alloc_def_free(ptr);
 }
 
-void my_init(const void *data, size_t esize, void *newptr)
-{
-        ++init_cnt;
-        piojo_alloc_def_init(data, esize, newptr);
-}
-
-void my_copy(const void *ptr, size_t esize, void *newptr)
-{
-        ++init_cnt;
-        piojo_alloc_def_copy(ptr, esize, newptr);
-}
-
-void my_finish(void *ptr)
-{
-        PIOJO_ASSERT(init_cnt > 0);
-        --init_cnt;
-        piojo_alloc_def_finish(ptr);
-}
-
 piojo_alloc_if my_allocator = {
         my_alloc,
         my_realloc,
         my_free,
-        my_init,
-        my_copy,
-        my_finish,
-};
-
-piojo_alloc_kv_if my_kvallocator = {
-        my_alloc,
-        my_realloc,
-        my_free,
-        my_init,
-        my_copy,
-        my_finish,
-        my_init,
-        my_copy,
-        my_finish,
 };

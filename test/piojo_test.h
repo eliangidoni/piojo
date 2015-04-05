@@ -41,15 +41,11 @@
 #define assert_allocator_alloc(val) PIOJO_ASSERT(alloc_cnt == val)
 
 extern piojo_alloc_if my_allocator;
-extern piojo_alloc_kv_if my_kvallocator;
 extern int alloc_cnt;
 extern int init_cnt;
 
 void* my_alloc(size_t size);
 void* my_realloc(const void *ptr, size_t size);
 void my_free(const void *ptr);
-void my_init(const void *data, size_t esize, void *newptr);
-void my_copy(const void *ptr, size_t esize, void *newptr);
-void my_finish(void *ptr);
 
 #endif

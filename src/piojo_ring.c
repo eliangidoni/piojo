@@ -43,9 +43,6 @@ const size_t piojo_ring_sizeof = sizeof(piojo_ring_t);
 static void
 incr_and_wrap(size_t *idx, size_t maxcnt);
 
-static void
-finish_all(const piojo_ring_t *ring);
-
 /**
  * Allocates a new ring.
  * Uses default allocator and entry size of @b int.
@@ -123,8 +120,8 @@ piojo_ring_copy(const piojo_ring_t *ring)
 
         ridx = ring->ridx;
         for (i = 0; i < ring->usedcnt; ++i){
-                allocator.copy_cb(&ring->data[ridx * esize],
-                                  esize, &newr->data[ridx * esize]);
+                memcpy(&newr->data[ridx * esize],
+                       &ring->data[ridx * esize], esize);
                 incr_and_wrap(&ridx, ring->ecount);
         }
 
@@ -143,7 +140,6 @@ piojo_ring_free(const piojo_ring_t *ring)
 
         allocator = ring->allocator;
 
-        finish_all(ring);
         allocator.free_cb(ring->data);
         allocator.free_cb(ring);
 }
@@ -156,7 +152,6 @@ void
 piojo_ring_clear(piojo_ring_t *ring)
 {
         PIOJO_ASSERT(ring);
-        finish_all(ring);
         ring->widx = ring->ridx = ring->usedcnt = 0;
 }
 
@@ -199,7 +194,7 @@ piojo_ring_push(const void *data, piojo_ring_t *ring)
         PIOJO_ASSERT(! piojo_ring_full_p(ring));
 
         curidx = ring->widx * ring->esize;
-        ring->allocator.init_cb(data, ring->esize, &ring->data[curidx]);
+        memcpy(&ring->data[curidx], data, ring->esize);
         incr_and_wrap(&ring->widx, ring->ecount);
         ++ring->usedcnt;
 }
@@ -214,7 +209,6 @@ piojo_ring_pop(piojo_ring_t *ring)
         PIOJO_ASSERT(ring);
         PIOJO_ASSERT(piojo_ring_size(ring) > 0);
 
-        ring->allocator.finish_cb(piojo_ring_peek(ring));
         incr_and_wrap(&ring->ridx, ring->ecount);
         --ring->usedcnt;
 }
@@ -241,16 +235,5 @@ incr_and_wrap(size_t *idx, size_t maxcnt)
 {
         if (++(*idx) == maxcnt){
                 *idx = 0;
-        }
-}
-
-static void
-finish_all(const piojo_ring_t *ring)
-{
-        size_t ridx, i;
-        ridx = ring->ridx;
-        for (i = 0; i < ring->usedcnt; ++i){
-                ring->allocator.finish_cb(&ring->data[ridx * ring->esize]);
-                incr_and_wrap(&ridx, ring->ecount);
         }
 }

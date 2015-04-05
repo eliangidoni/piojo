@@ -69,7 +69,7 @@ piojo_diset_t*
 piojo_diset_alloc_cb(piojo_alloc_if allocator)
 {
         piojo_diset_t * diset;
-        piojo_alloc_kv_if ator = piojo_alloc_kv_default;
+        piojo_alloc_if ator = piojo_alloc_default;
         size_t esize;
 
         diset = (piojo_diset_t *) allocator.alloc_cb(sizeof(piojo_diset_t));

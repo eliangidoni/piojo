@@ -64,7 +64,7 @@ void test_copy_def()
         piojo_btree_t *tree, *copy;
         int i=10,j;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), piojo_alloc_kv_default);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), piojo_alloc_default);
         piojo_btree_insert(&i, &i, tree);
 
         copy = piojo_btree_copy(tree);
@@ -84,7 +84,7 @@ void test_copy_ptr()
         const char * i="test";
         int j=10;
 
-        tree = piojo_btree_alloc_cb_ptrk(4, sizeof(int), piojo_alloc_kv_default);
+        tree = piojo_btree_alloc_cb_ptrk(4, sizeof(int), piojo_alloc_default);
         piojo_btree_insert(&i, &j, tree);
 
         copy = piojo_btree_copy(tree);
@@ -103,7 +103,7 @@ void test_copy()
         piojo_btree_t *tree, *copy;
         int i=1;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         piojo_btree_insert(&i, &i, tree);
         assert_allocator_init(2);
 
@@ -124,7 +124,7 @@ void test_free()
         piojo_btree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         piojo_btree_insert(&i, &j, tree);
 
         piojo_btree_free(tree);
@@ -137,7 +137,7 @@ void test_clear()
         piojo_btree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         piojo_btree_insert(&i, &j, tree);
 
         piojo_btree_clear(tree);
@@ -181,7 +181,7 @@ void test_insert()
         piojo_btree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         PIOJO_ASSERT(piojo_btree_size(tree) == 0);
 
         piojo_btree_insert(&i, &j, tree);
@@ -200,7 +200,7 @@ void test_set()
         piojo_btree_t *tree;
         int i=1, j=10;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         PIOJO_ASSERT(piojo_btree_size(tree) == 0);
 
         PIOJO_ASSERT(piojo_btree_set(&i, &j, tree) == TRUE);
@@ -486,7 +486,7 @@ void test_stress()
         int i,j;
         bool deleted_p;
 
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 j = i * 10;
                 piojo_btree_insert(&i, &j, tree);
@@ -569,7 +569,7 @@ void test_stress_rand_uniq()
         std::map<int,bool>unique;
 
         srand(time(NULL));
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 elems[i-1] = rand();
                 while (unique.count(elems[i-1]) > 0){
@@ -654,7 +654,7 @@ void test_stress_rand()
         size_t tmp;
 
         srand(time(NULL));
-        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_kvallocator);
+        tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 elems[i-1] = rand();
                 j = elems[i-1] * 10;

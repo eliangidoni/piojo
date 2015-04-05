@@ -164,7 +164,7 @@ piojo_graph_t*
 piojo_graph_alloc_cb(piojo_graph_dir_t directed, piojo_alloc_if allocator)
 {
         piojo_graph_t * graph;
-        piojo_alloc_kv_if ator = piojo_alloc_kv_default;
+        piojo_alloc_if ator = piojo_alloc_default;
         size_t esize;
 
         ator.alloc_cb = allocator.alloc_cb;
@@ -851,7 +851,7 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
         piojo_graph_alist_t *v, *nv;
         piojo_graph_edge_t *e;
         piojo_hash_node_t node;
-        piojo_alloc_kv_if ator = piojo_alloc_kv_default;
+        piojo_alloc_if ator = piojo_alloc_default;
         size_t i, ecnt;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_TRUE);

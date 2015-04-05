@@ -58,23 +58,23 @@ piojo_tree_alloc_sizk(size_t evsize);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_intk(size_t evsize,
-                         piojo_alloc_kv_if allocator);
+                         piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_i32k(size_t evsize,
-                         piojo_alloc_kv_if allocator);
+                         piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_i64k(size_t evsize,
-                         piojo_alloc_kv_if allocator);
+                         piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_ptrk(size_t evsize,
-                         piojo_alloc_kv_if allocator);
+                         piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cb_sizk(size_t evsize,
-                         piojo_alloc_kv_if allocator);
+                         piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize);
@@ -82,7 +82,7 @@ piojo_tree_alloc_cmp(size_t evsize, piojo_cmp_cb keycmp, size_t eksize);
 piojo_tree_t*
 piojo_tree_alloc_cb_cmp(size_t evsize,
                         piojo_cmp_cb keycmp, size_t eksize,
-                        piojo_alloc_kv_if allocator);
+                        piojo_alloc_if allocator);
 
 piojo_tree_t*
 piojo_tree_copy(const piojo_tree_t *tree);

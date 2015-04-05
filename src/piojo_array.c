@@ -49,9 +49,6 @@ move_right_until(size_t idx, piojo_array_t *array);
 static void
 expand_array(size_t incr_cnt, piojo_array_t *array);
 
-static void
-finish_all(const piojo_array_t *array);
-
 static size_t*
 entry_index(const void *data, piojo_cmp_cb cmp,
             const piojo_array_t *array, size_t *idx);
@@ -120,8 +117,8 @@ piojo_array_copy(const piojo_array_t *array)
         newarray->usedcnt = array->usedcnt;
 
         for (i = 0; i < array->usedcnt; ++i){
-                allocator.copy_cb(piojo_array_at(i, array),
-                                  esize, piojo_array_at(i, newarray));
+                memcpy(piojo_array_at(i, newarray),
+                       piojo_array_at(i, array), esize);
         }
 
         return newarray;
@@ -138,8 +135,6 @@ piojo_array_free(const piojo_array_t *array)
         PIOJO_ASSERT(array);
 
         allocator = array->allocator;
-
-        finish_all(array);
         allocator.free_cb(array->data);
         allocator.free_cb(array);
 }
@@ -153,7 +148,6 @@ piojo_array_clear(piojo_array_t *array)
 {
         PIOJO_ASSERT(array);
 
-        finish_all(array);
         array->usedcnt = 0;
 }
 
@@ -215,7 +209,7 @@ piojo_array_insert(size_t idx, const void *data, piojo_array_t *array)
         }else{
                 expand_array(array->ecount / ADT_GROWTH_DENOMINATOR, array);
         }
-        array->allocator.init_cb(data, array->esize, &array->data[curidx]);
+        memcpy(&array->data[curidx], data, array->esize);
         ++array->usedcnt;
 }
 
@@ -234,8 +228,7 @@ piojo_array_set(size_t idx, const void *data, piojo_array_t *array)
         PIOJO_ASSERT(data);
 
         curidx = idx * array->esize;
-        array->allocator.finish_cb(piojo_array_at(idx, array));
-        array->allocator.init_cb(data, array->esize, &array->data[curidx]);
+        memcpy(&array->data[curidx], data, array->esize);
 }
 
 /**
@@ -334,7 +327,6 @@ piojo_array_delete(size_t idx, piojo_array_t *array)
         PIOJO_ASSERT(array);
         PIOJO_ASSERT(idx < array->usedcnt);
 
-        array->allocator.finish_cb(piojo_array_at(idx, array));
         --array->usedcnt;
         move_left_from(idx, array);
 }
@@ -441,17 +433,6 @@ expand_array(size_t incr_cnt, piojo_array_t *array)
         PIOJO_ASSERT(array->data);
 
         array->ecount = newcnt;
-}
-
-static void
-finish_all(const piojo_array_t *array)
-{
-        piojo_alloc_if allocator;
-        size_t i;
-        allocator = array->allocator;
-        for (i = 0; i < array->usedcnt; ++i){
-                allocator.finish_cb(piojo_array_at(i, array));
-        }
 }
 
 static size_t*

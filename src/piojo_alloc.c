@@ -37,22 +37,6 @@ piojo_alloc_if piojo_alloc_default = {
         piojo_alloc_def_alloc,
         piojo_alloc_def_realloc,
         piojo_alloc_def_free,
-        piojo_alloc_def_init,
-        piojo_alloc_def_copy,
-        piojo_alloc_def_finish,
-};
-
-/** @hideinitializer Default key-value allocator */
-piojo_alloc_kv_if piojo_alloc_kv_default = {
-        piojo_alloc_def_alloc,
-        piojo_alloc_def_realloc,
-        piojo_alloc_def_free,
-        piojo_alloc_def_init,
-        piojo_alloc_def_copy,
-        piojo_alloc_def_finish,
-        piojo_alloc_def_init,
-        piojo_alloc_def_copy,
-        piojo_alloc_def_finish,
 };
 
 /**
@@ -83,37 +67,6 @@ void* piojo_alloc_def_realloc(const void *ptr, size_t size)
 void piojo_alloc_def_free(const void *ptr)
 {
         free((void *)ptr);
-}
-
-/**
- * Default init. Calls @c memcpy().
- * @param data Pointer to entry value.
- * @param[in] esize Entry value size in bytes.
- * @param[out] newptr Pointer to new entry.
- */
-void piojo_alloc_def_init(const void *data, size_t esize, void *newptr)
-{
-        memcpy(newptr, data, esize);
-}
-
-/**
- * Default copy. Calls @c memcpy().
- * @param[in] ptr Pointer to entry value being copied.
- * @param[in] esize Entry value size in bytes.
- * @param[out] newptr Pointer to new entry.
- */
-void piojo_alloc_def_copy(const void *ptr, size_t esize, void *newptr)
-{
-        memcpy(newptr, ptr, esize);
-}
-
-/**
- * Default finish. Does nothing.
- * @param[out] ptr Pointer to entry value being finished/deinitialized.
- */
-void piojo_alloc_def_finish(void *ptr)
-{
-        PIOJO_UNUSED(ptr);
 }
 
 /** @} */

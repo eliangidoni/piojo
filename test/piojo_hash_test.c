@@ -61,7 +61,7 @@ void test_copy_def()
         piojo_hash_t *hash, *copy;
         int i=1, j=0;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), piojo_alloc_kv_default);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), piojo_alloc_default);
         piojo_hash_insert(&i, &i, hash);
 
         copy = piojo_hash_copy(hash);
@@ -81,7 +81,7 @@ void test_copyptr()
         const char* i="test";
         int j=10;
 
-        hash = piojo_hash_alloc_cb_ptrk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_ptrk(sizeof(int), my_allocator);
         piojo_hash_insert(i, &j, hash);
         assert_allocator_init(2);
 
@@ -105,7 +105,7 @@ void test_copy()
         piojo_hash_t *hash, *copy;
         int i=1, j=0;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_allocator);
         piojo_hash_insert(&i, &i, hash);
         assert_allocator_init(2);
 
@@ -129,7 +129,7 @@ void test_free()
         piojo_hash_t *hash;
         int i=1, j=10;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_allocator);
         piojo_hash_insert(&i, &j, hash);
 
         piojo_hash_free(hash);
@@ -142,7 +142,7 @@ void test_clear()
         piojo_hash_t *hash;
         int i=1, j=10;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_allocator);
         piojo_hash_insert(&i, &j, hash);
 
         piojo_hash_clear(hash);
@@ -186,7 +186,7 @@ void test_insert()
         piojo_hash_t *hash;
         int i=1;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_allocator);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
 
         piojo_hash_insert(&i, &i, hash);
@@ -222,7 +222,7 @@ void test_set()
         piojo_hash_t *hash;
         int i=1, j=10;
 
-        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_kvallocator);
+        hash = piojo_hash_alloc_cb_intk(sizeof(int), my_allocator);
         PIOJO_ASSERT(piojo_hash_size(hash) == 0);
 
         PIOJO_ASSERT(piojo_hash_set(&i, &j, hash) == TRUE);

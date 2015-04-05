@@ -225,8 +225,7 @@ piojo_list_set(const void *data, piojo_list_node_t *node,
         PIOJO_ASSERT(node);
         PIOJO_ASSERT(data);
 
-        list->allocator.finish_cb(node->data);
-        list->allocator.init_cb(data, list->esize, node->data);
+        memcpy(node->data, data, list->esize);
 
         return node;
 }
@@ -383,7 +382,7 @@ static piojo_list_node_t*
 init_node(const void *data, const piojo_list_t *list)
 {
         piojo_list_node_t *node = alloc_node(list);
-        list->allocator.init_cb(data, list->esize, node->data);
+        memcpy(node->data, data, list->esize);
         return node;
 }
 
@@ -391,14 +390,13 @@ static piojo_list_node_t*
 copy_node(const piojo_list_node_t *node, const piojo_list_t *newlist)
 {
         piojo_list_node_t *newnode = alloc_node(newlist);
-        newlist->allocator.copy_cb(node->data, newlist->esize, newnode->data);
+        memcpy(newnode->data, node->data, newlist->esize);
         return newnode;
 }
 
 static void
 finish_node(const piojo_list_node_t *node, const piojo_list_t *list)
 {
-        list->allocator.finish_cb(node->data);
         list->allocator.free_cb(node->data);
         list->allocator.free_cb(node);
 }
