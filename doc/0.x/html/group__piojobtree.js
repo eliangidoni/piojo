@@ -1,11 +1,11 @@
 var group__piojobtree =
 [
-    [ "piojo_btree_alloc_cb_cmp", "group__piojobtree.html#ga032d85e89d5ce8296b48329831cccaa3", null ],
-    [ "piojo_btree_alloc_cb_i32k", "group__piojobtree.html#ga5fee51068999d7a78629eae2eca24e37", null ],
-    [ "piojo_btree_alloc_cb_i64k", "group__piojobtree.html#gaba8cabfbaab07525be53a1fa38660649", null ],
-    [ "piojo_btree_alloc_cb_intk", "group__piojobtree.html#ga7bcc5af585a63a08197bfc43e0590189", null ],
-    [ "piojo_btree_alloc_cb_ptrk", "group__piojobtree.html#gacf4946f2a767e5ab48a4fe2b8ff409ac", null ],
-    [ "piojo_btree_alloc_cb_sizk", "group__piojobtree.html#ga9109e5ca43f356430b42ab4a0a76504a", null ],
+    [ "piojo_btree_alloc_cb_cmp", "group__piojobtree.html#ga3111c42f86ff4f420642df1f15f5e58a", null ],
+    [ "piojo_btree_alloc_cb_i32k", "group__piojobtree.html#ga691226d7a8f4a238194da607ce13a20c", null ],
+    [ "piojo_btree_alloc_cb_i64k", "group__piojobtree.html#gaa07363b79090d09a0c8a59dbaccb41f0", null ],
+    [ "piojo_btree_alloc_cb_intk", "group__piojobtree.html#ga516e729e529f140eefe9767163d00b13", null ],
+    [ "piojo_btree_alloc_cb_ptrk", "group__piojobtree.html#ga2946e05e81cbed7b47d6c61da9e40d71", null ],
+    [ "piojo_btree_alloc_cb_sizk", "group__piojobtree.html#ga9a05bf6fbf6a9264311a1b74ee441f9c", null ],
     [ "piojo_btree_alloc_cmp", "group__piojobtree.html#gafcab6889a25991a5127e3bab7c27b35d", null ],
     [ "piojo_btree_alloc_i32k", "group__piojobtree.html#ga2dc0a9ca1776165586ae2755cbf1af93", null ],
     [ "piojo_btree_alloc_i64k", "group__piojobtree.html#ga5b583ab8800ae8370a74943dd11bff72", null ],

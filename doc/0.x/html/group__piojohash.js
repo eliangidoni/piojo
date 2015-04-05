@@ -1,11 +1,11 @@
 var group__piojohash =
 [
-    [ "piojo_hash_alloc_cb_eq", "group__piojohash.html#ga751c0ba4972ec76aa3adee1ff57f11d6", null ],
-    [ "piojo_hash_alloc_cb_i32k", "group__piojohash.html#ga1667c391a358a61e6ee82b943e651122", null ],
-    [ "piojo_hash_alloc_cb_i64k", "group__piojohash.html#gacc61420a57c02bd5f61f9b05f9667ec9", null ],
-    [ "piojo_hash_alloc_cb_intk", "group__piojohash.html#gae05815fbe818eb443e4dda1373d66396", null ],
-    [ "piojo_hash_alloc_cb_ptrk", "group__piojohash.html#gacfa8258cc6ff76349013ce1d91d2f8ad", null ],
-    [ "piojo_hash_alloc_cb_sizk", "group__piojohash.html#ga12eb770646b05de61dde4ebdaa3780e4", null ],
+    [ "piojo_hash_alloc_cb_eq", "group__piojohash.html#gae1fa0ed44db791abe2fd85e013444855", null ],
+    [ "piojo_hash_alloc_cb_i32k", "group__piojohash.html#ga3a2deec5196940756223ef411ba7d22c", null ],
+    [ "piojo_hash_alloc_cb_i64k", "group__piojohash.html#ga6d228193ef82d6e4e25c5122630f265c", null ],
+    [ "piojo_hash_alloc_cb_intk", "group__piojohash.html#gac534bf80e64217d6374a3b3f2eb84a78", null ],
+    [ "piojo_hash_alloc_cb_ptrk", "group__piojohash.html#ga08a6d3c19216f9c9c89bf9240caebb52", null ],
+    [ "piojo_hash_alloc_cb_sizk", "group__piojohash.html#ga46e0ca4243ded3aec0b5ab967ccf2385", null ],
     [ "piojo_hash_alloc_eq", "group__piojohash.html#gabc38e3e3b606895f5222399aaf3191b7", null ],
     [ "piojo_hash_alloc_i32k", "group__piojohash.html#gaa4929ab90a4fa235164e142dfaa6d309", null ],
     [ "piojo_hash_alloc_i64k", "group__piojohash.html#ga15bd49a47045081a4de7b667f89f1d2e", null ],

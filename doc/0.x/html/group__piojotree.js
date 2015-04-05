@@ -1,11 +1,11 @@
 var group__piojotree =
 [
-    [ "piojo_tree_alloc_cb_cmp", "group__piojotree.html#gaacc79ea30bb9b33215f8a2e76eec7878", null ],
-    [ "piojo_tree_alloc_cb_i32k", "group__piojotree.html#ga90bf8b9bc7f8edb841c14ea284b5f270", null ],
-    [ "piojo_tree_alloc_cb_i64k", "group__piojotree.html#ga853713f0143576bb7847f0d71aa45c75", null ],
-    [ "piojo_tree_alloc_cb_intk", "group__piojotree.html#gac13ee2c43775d7182096bc9cf77499f8", null ],
-    [ "piojo_tree_alloc_cb_ptrk", "group__piojotree.html#gacaa46249d707707f7bf3ceccff774f0a", null ],
-    [ "piojo_tree_alloc_cb_sizk", "group__piojotree.html#gaee7a38ed5453c42685659b6d2fc531bb", null ],
+    [ "piojo_tree_alloc_cb_cmp", "group__piojotree.html#ga2a6aba5427933bbb42286040e70d655c", null ],
+    [ "piojo_tree_alloc_cb_i32k", "group__piojotree.html#ga88b4e0d230e993db3fe0417a78d35463", null ],
+    [ "piojo_tree_alloc_cb_i64k", "group__piojotree.html#gad7e9f63759dfd5b5a4c387066948efda", null ],
+    [ "piojo_tree_alloc_cb_intk", "group__piojotree.html#gaf5968b9279f7dfd67fba6f5b500df817", null ],
+    [ "piojo_tree_alloc_cb_ptrk", "group__piojotree.html#gacc38b873dc611a7ff1ee42f9937a6324", null ],
+    [ "piojo_tree_alloc_cb_sizk", "group__piojotree.html#ga146659e2adb519a62c3a1b623369b325", null ],
     [ "piojo_tree_alloc_cmp", "group__piojotree.html#ga88bbb56a2a751eed293ad1ac77225719", null ],
     [ "piojo_tree_alloc_i32k", "group__piojotree.html#ga837830621407b7dfb1da55a1d0ce345e", null ],
     [ "piojo_tree_alloc_i64k", "group__piojotree.html#gac2e028a6f3b3aaebfde48b110416a581", null ],
