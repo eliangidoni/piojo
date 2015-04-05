@@ -31,7 +31,6 @@
  */
 
 #include <piojo/piojo_btree.h>
-#include <piojo/piojo_list.h>
 #include <piojo_defs.h>
 
 typedef struct piojo_btree_bnode_t piojo_btree_bnode_t;
@@ -116,9 +115,6 @@ copy_entry(const void *key, const void *data, uint8_t eidx,
 static void
 finish_entry(uint8_t eidx, const piojo_btree_bnode_t *bnode,
              const piojo_btree_t *tree);
-
-static void
-finish_all(const piojo_btree_t *tree);
 
 static void
 search_min(piojo_btree_iter_t *from);
@@ -391,11 +387,13 @@ piojo_btree_copy(const piojo_btree_t *tree)
 void
 piojo_btree_free(const piojo_btree_t *tree)
 {
+        piojo_btree_t *t;
         PIOJO_ASSERT(tree);
 
-        finish_all(tree);
-
-        tree->allocator.free_cb(tree);
+        t = (piojo_btree_t*) tree;
+        piojo_btree_clear(t);
+        free_bnode(t->root, t);
+        tree->allocator.free_cb(t);
 }
 
 
@@ -406,13 +404,18 @@ piojo_btree_free(const piojo_btree_t *tree)
 void
 piojo_btree_clear(piojo_btree_t *tree)
 {
+        void *key;
+        piojo_btree_node_t iter, *next;
         PIOJO_ASSERT(tree);
 
-        finish_all(tree);
-
-        tree->root = alloc_bnode(tree);
-        tree->root->leaf_p = TRUE;
-        tree->ecount = 0;
+        key = tree->allocator.alloc_cb(tree->eksize);
+        PIOJO_ASSERT(key);
+        while (tree->ecount > 0){
+                memcpy(key, entry_key(0, tree->root, tree), tree->eksize);
+                delete_node(key, FALSE, tree->root, tree);
+                --tree->ecount;
+        }
+        tree->allocator.free_cb(key);
 }
 
 /**
@@ -916,43 +919,6 @@ finish_entry(uint8_t eidx, const piojo_btree_bnode_t *bnode,
 
         ator.finishk_cb(entry_key(eidx, bnode, tree));
         ator.finish_cb(entry_val(eidx, bnode, tree));
-}
-
-static void
-finish_all(const piojo_btree_t *tree)
-{
-        piojo_alloc_kv_if allocator;
-        piojo_alloc_if qator = piojo_alloc_default;
-        piojo_list_t *q;
-        piojo_list_node_t *qnode;
-        piojo_btree_bnode_t *bnode;
-        size_t i;
-
-        allocator = tree->allocator;
-        qator.alloc_cb = allocator.alloc_cb;
-        qator.realloc_cb = allocator.realloc_cb;
-        qator.free_cb = allocator.free_cb;
-
-        /* Breadth-first traversal and free */
-        q = piojo_list_alloc_cb(sizeof(piojo_btree_bnode_t*), qator);
-        bnode = tree->root;
-        piojo_list_append(&bnode, q);
-        while (piojo_list_size(q) > 0){
-                qnode = piojo_list_first(q);
-                bnode = *(piojo_btree_bnode_t**) piojo_list_entry(qnode);
-                piojo_list_delete(qnode, q);
-
-                for (i = 0; i < bnode->ecnt; ++i){
-                        finish_entry(i, bnode, tree);
-                }
-
-                for (i = 0; ! bnode->leaf_p && i <= bnode->ecnt; ++i){
-                        piojo_list_append(&bnode->children[i], q);
-                }
-
-                free_bnode(bnode, tree);
-        }
-        piojo_list_free(q);
 }
 
 /* Binary search for key. */
