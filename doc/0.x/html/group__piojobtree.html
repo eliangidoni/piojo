@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>piojo-0.7: Piojo B-tree</title>
+<title>piojo-0.8: Piojo B-tree</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">piojo-0.7
+   <div id="projectname">piojo-0.8
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -136,18 +136,14 @@ Functions</h2></td></tr>
 <tr class="separator:ga1f1b985617626174e8973d8665f4b8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae04efd806edbf01907bf3037a612748d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gae04efd806edbf01907bf3037a612748d">piojo_btree_delete</a> (const void *key, piojo_btree_t *tree)</td></tr>
 <tr class="separator:gae04efd806edbf01907bf3037a612748d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga355ddb260a9f7f78f841b116f7b2d788"><td class="memItemLeft" align="right" valign="top">piojo_btree_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#ga355ddb260a9f7f78f841b116f7b2d788">piojo_btree_first</a> (const piojo_btree_t *tree, piojo_btree_node_t *node)</td></tr>
-<tr class="separator:ga355ddb260a9f7f78f841b116f7b2d788"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6158be4107680610f443ea340d977cf1"><td class="memItemLeft" align="right" valign="top">piojo_btree_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#ga6158be4107680610f443ea340d977cf1">piojo_btree_last</a> (const piojo_btree_t *tree, piojo_btree_node_t *node)</td></tr>
-<tr class="separator:ga6158be4107680610f443ea340d977cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaec99e4dc4676ce06f49bf29c5928bb06"><td class="memItemLeft" align="right" valign="top">piojo_btree_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gaec99e4dc4676ce06f49bf29c5928bb06">piojo_btree_next</a> (piojo_btree_node_t *node)</td></tr>
-<tr class="separator:gaec99e4dc4676ce06f49bf29c5928bb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5365cdca661717ded3b3b0aeb9be2048"><td class="memItemLeft" align="right" valign="top">piojo_btree_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#ga5365cdca661717ded3b3b0aeb9be2048">piojo_btree_prev</a> (piojo_btree_node_t *node)</td></tr>
-<tr class="separator:ga5365cdca661717ded3b3b0aeb9be2048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga41e3c866c1e6b9f85d4a7fb9ece494d1"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#ga41e3c866c1e6b9f85d4a7fb9ece494d1">piojo_btree_entryk</a> (const piojo_btree_node_t *node)</td></tr>
-<tr class="separator:ga41e3c866c1e6b9f85d4a7fb9ece494d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacc6015da567ef3b4af688e5891f91012"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gacc6015da567ef3b4af688e5891f91012">piojo_btree_entryv</a> (const piojo_btree_node_t *node)</td></tr>
-<tr class="separator:gacc6015da567ef3b4af688e5891f91012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b6e570e885d83ea7a848d3f7863d478"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#ga3b6e570e885d83ea7a848d3f7863d478">piojo_btree_first</a> (const piojo_btree_t *tree, void *key)</td></tr>
+<tr class="separator:ga3b6e570e885d83ea7a848d3f7863d478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac42e1eab953bc4bfb76d77c0cd76ae9c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gac42e1eab953bc4bfb76d77c0cd76ae9c">piojo_btree_last</a> (const piojo_btree_t *tree, void *key)</td></tr>
+<tr class="separator:gac42e1eab953bc4bfb76d77c0cd76ae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc90fe13bfc2afeb9d8cf03852b4415e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gacc90fe13bfc2afeb9d8cf03852b4415e">piojo_btree_next</a> (const piojo_btree_t *tree, void *key)</td></tr>
+<tr class="separator:gacc90fe13bfc2afeb9d8cf03852b4415e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaacdc30771a3a6bd564158afde09d62e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojobtree.html#gaacdc30771a3a6bd564158afde09d62e5">piojo_btree_prev</a> (const piojo_btree_t *tree, void *key)</td></tr>
+<tr class="separator:gaacdc30771a3a6bd564158afde09d62e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -667,60 +663,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga41e3c866c1e6b9f85d4a7fb9ece494d1"></a>
+<a class="anchor" id="ga3b6e570e885d83ea7a848d3f7863d478"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const void* piojo_btree_entryk </td>
-          <td>(</td>
-          <td class="paramtype">const piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reads node entry key. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Entry key. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="gacc6015da567ef3b4af688e5891f91012"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void* piojo_btree_entryv </td>
-          <td>(</td>
-          <td class="paramtype">const piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reads node entry value. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Entry value. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga355ddb260a9f7f78f841b116f7b2d788"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_btree_node_t* piojo_btree_first </td>
+          <td class="memname">bool piojo_btree_first </td>
           <td>(</td>
           <td class="paramtype">const piojo_btree_t *&#160;</td>
           <td class="paramname"><em>tree</em>, </td>
@@ -728,8 +676,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em>&#160;</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -738,15 +686,15 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the first node in <em>tree</em> (order given by <em>keycmp</em> function). </p>
+<p>Reads the first key in <em>tree</em> (order given by <em>keycmp</em> function). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">tree</td><td></td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><em>node</em> or <b>NULL</b> if <em>tree</em> is empty. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>tree</em> is empty. </dd></dl>
 
 </div>
 </div>
@@ -815,12 +763,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga6158be4107680610f443ea340d977cf1"></a>
+<a class="anchor" id="gac42e1eab953bc4bfb76d77c0cd76ae9c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_btree_node_t* piojo_btree_last </td>
+          <td class="memname">bool piojo_btree_last </td>
           <td>(</td>
           <td class="paramtype">const piojo_btree_t *&#160;</td>
           <td class="paramname"><em>tree</em>, </td>
@@ -828,8 +776,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em>&#160;</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -838,63 +786,85 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the last node in <em>tree</em> (order given by <em>keycmp</em> function). </p>
+<p>Reads the last key in <em>tree</em> (order given by <em>keycmp</em> function). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">tree</td><td></td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><em>node</em> or <b>NULL</b> if <em>tree</em> is empty. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>tree</em> is empty. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gaec99e4dc4676ce06f49bf29c5928bb06"></a>
+<a class="anchor" id="gacc90fe13bfc2afeb9d8cf03852b4415e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_btree_node_t* piojo_btree_next </td>
+          <td class="memname">bool piojo_btree_next </td>
           <td>(</td>
-          <td class="paramtype">piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
+          <td class="paramtype">const piojo_btree_t *&#160;</td>
+          <td class="paramname"><em>tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the next node (order given by <em>keycmp</em> function). </p>
+<p>Reads the next key (order given by <em>keycmp</em> function). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tree</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Next node or <b>NULL</b> if <em>node</em> is the last one. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>key</em> is the last one. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga5365cdca661717ded3b3b0aeb9be2048"></a>
+<a class="anchor" id="gaacdc30771a3a6bd564158afde09d62e5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_btree_node_t* piojo_btree_prev </td>
+          <td class="memname">bool piojo_btree_prev </td>
           <td>(</td>
-          <td class="paramtype">piojo_btree_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
+          <td class="paramtype">const piojo_btree_t *&#160;</td>
+          <td class="paramname"><em>tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the previous node (order given by <em>keycmp</em> function). </p>
+<p>Reads the previous key (order given by <em>keycmp</em> function). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tree</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Next node or <b>NULL</b> if <em>node</em> is the first one. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>key</em> is the first one. </dd></dl>
 
 </div>
 </div>
@@ -1018,7 +988,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 5 2015 04:44:56 for piojo-0.7 by
+    <li class="footer">Generated on Mon Apr 6 2015 06:28:54 for piojo-0.8 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

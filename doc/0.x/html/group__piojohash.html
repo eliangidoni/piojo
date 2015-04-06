@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>piojo-0.7: Piojo Hash Table</title>
+<title>piojo-0.8: Piojo Hash Table</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">piojo-0.7
+   <div id="projectname">piojo-0.8
    </div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -136,14 +136,10 @@ Functions</h2></td></tr>
 <tr class="separator:gaddcc95cb2f3699170cfb2ae4165042a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac86497e5e9915ae9d9cd23ada273dfa7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gac86497e5e9915ae9d9cd23ada273dfa7">piojo_hash_delete</a> (const void *key, piojo_hash_t *hash)</td></tr>
 <tr class="separator:gac86497e5e9915ae9d9cd23ada273dfa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab910dc01d0467ad6f5c29998d58472ba"><td class="memItemLeft" align="right" valign="top">piojo_hash_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gab910dc01d0467ad6f5c29998d58472ba">piojo_hash_first</a> (const piojo_hash_t *hash, piojo_hash_node_t *node)</td></tr>
-<tr class="separator:gab910dc01d0467ad6f5c29998d58472ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga35a62e95e9c9047d58af5478e6198033"><td class="memItemLeft" align="right" valign="top">piojo_hash_node_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga35a62e95e9c9047d58af5478e6198033">piojo_hash_next</a> (piojo_hash_node_t *node)</td></tr>
-<tr class="separator:ga35a62e95e9c9047d58af5478e6198033"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeea29bae6815180d0f65ca05c0468ca1"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gaeea29bae6815180d0f65ca05c0468ca1">piojo_hash_entryk</a> (const piojo_hash_node_t *node)</td></tr>
-<tr class="separator:gaeea29bae6815180d0f65ca05c0468ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga265d3e2eda78792dc89d84caf40797e8"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga265d3e2eda78792dc89d84caf40797e8">piojo_hash_entryv</a> (const piojo_hash_node_t *node)</td></tr>
-<tr class="separator:ga265d3e2eda78792dc89d84caf40797e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga029e6ae33dc1b01c8bfadd7bf99e8786"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#ga029e6ae33dc1b01c8bfadd7bf99e8786">piojo_hash_first</a> (const piojo_hash_t *hash, void *key)</td></tr>
+<tr class="separator:ga029e6ae33dc1b01c8bfadd7bf99e8786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae4cdc84e12f1d7a4aa56327b5f39e2b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__piojohash.html#gae4cdc84e12f1d7a4aa56327b5f39e2b4">piojo_hash_next</a> (const piojo_hash_t *hash, void *key)</td></tr>
+<tr class="separator:gae4cdc84e12f1d7a4aa56327b5f39e2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -621,60 +617,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaeea29bae6815180d0f65ca05c0468ca1"></a>
+<a class="anchor" id="ga029e6ae33dc1b01c8bfadd7bf99e8786"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const void* piojo_hash_entryk </td>
-          <td>(</td>
-          <td class="paramtype">const piojo_hash_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reads node entry key. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Entry key. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga265d3e2eda78792dc89d84caf40797e8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void* piojo_hash_entryv </td>
-          <td>(</td>
-          <td class="paramtype">const piojo_hash_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reads node entry value. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Entry value. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="gab910dc01d0467ad6f5c29998d58472ba"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">piojo_hash_node_t* piojo_hash_first </td>
+          <td class="memname">bool piojo_hash_first </td>
           <td>(</td>
           <td class="paramtype">const piojo_hash_t *&#160;</td>
           <td class="paramname"><em>hash</em>, </td>
@@ -682,8 +630,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">piojo_hash_node_t *&#160;</td>
-          <td class="paramname"><em>node</em>&#160;</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -692,15 +640,15 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the first node in <em>hash</em>. </p>
+<p>Reads the first entry key in <em>hash</em>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">hash</td><td>Hash table. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><em>node</em> or <b>NULL</b> if <em>hash</em> is empty. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>hash</em> is empty. </dd></dl>
 
 </div>
 </div>
@@ -769,27 +717,38 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga35a62e95e9c9047d58af5478e6198033"></a>
+<a class="anchor" id="gae4cdc84e12f1d7a4aa56327b5f39e2b4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">piojo_hash_node_t* piojo_hash_next </td>
+          <td class="memname">bool piojo_hash_next </td>
           <td>(</td>
-          <td class="paramtype">piojo_hash_node_t *&#160;</td>
-          <td class="paramname"><em>node</em></td><td>)</td>
+          <td class="paramtype">const piojo_hash_t *&#160;</td>
+          <td class="paramname"><em>hash</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads the next node. </p>
+<p>Reads the next entry key. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hash</td><td>Hash table. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Next node or <b>NULL</b> if <em>node</em> is the last one. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><b>FALSE</b> or <b>TRUE</b> if <em>key</em> is the last one. </dd></dl>
 
 </div>
 </div>
@@ -913,7 +872,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 5 2015 04:44:56 for piojo-0.7 by
+    <li class="footer">Generated on Mon Apr 6 2015 06:28:54 for piojo-0.8 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
