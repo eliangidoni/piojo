@@ -41,9 +41,6 @@
 #define alloc_def_alloc piojo_alloc_def_alloc
 #define alloc_def_realloc piojo_alloc_def_realloc
 #define alloc_def_free piojo_alloc_def_free
-#define alloc_def_init piojo_alloc_def_init
-#define alloc_def_copy piojo_alloc_def_copy
-#define alloc_def_finish piojo_alloc_def_finish
 
 /* Array */
 #define array_alloc piojo_array_alloc
@@ -148,8 +145,6 @@
 #define hash_delete piojo_hash_delete
 #define hash_first piojo_hash_first
 #define hash_next piojo_hash_next
-#define hash_entryk piojo_hash_entryk
-#define hash_entryv piojo_hash_entryv
 
 /* Heap */
 #define heap_alloc piojo_heap_alloc
@@ -274,8 +269,6 @@
 #define btree_last piojo_btree_last
 #define btree_next piojo_btree_next
 #define btree_prev piojo_btree_prev
-#define btree_entryk piojo_btree_entryk
-#define btree_entryv piojo_btree_entryv
 
 /* Red-Black tree */
 #define tree_alloc_intk piojo_tree_alloc_intk
@@ -302,8 +295,6 @@
 #define tree_last piojo_tree_last
 #define tree_next piojo_tree_next
 #define tree_prev piojo_tree_prev
-#define tree_entryk piojo_tree_entryk
-#define tree_entryv piojo_tree_entryv
 
 /** @} */
 

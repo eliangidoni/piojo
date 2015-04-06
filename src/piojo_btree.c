@@ -328,7 +328,6 @@ piojo_btree_alloc_cb_cmp(uint8_t maxchildren, size_t evsize,
                         piojo_alloc_if allocator)
 {
         piojo_btree_t * tree;
-        PIOJO_ASSERT(sizeof(piojo_btree_node_t) >= sizeof(piojo_btree_iter_t));
         PIOJO_ASSERT(evsize > 0 && eksize > 0);
         PIOJO_ASSERT(maxchildren > 2 && maxchildren < 255 &&
                      maxchildren % 2 == 0);
@@ -358,7 +357,8 @@ piojo_btree_t*
 piojo_btree_copy(const piojo_btree_t *tree)
 {
         piojo_btree_t *newtree;
-        piojo_btree_node_t iter, *next;
+        void *key;
+        bool end_p;
         PIOJO_ASSERT(tree);
 
         newtree = piojo_btree_alloc_cb_cmp(tree->cmax, tree->evsize,
@@ -366,12 +366,17 @@ piojo_btree_copy(const piojo_btree_t *tree)
                                           tree->allocator);
         newtree->ecount = tree->ecount;
 
-        next = piojo_btree_first(tree, &iter);
-        while (next != NULL){
-                insert_node(piojo_btree_entryk(next), piojo_btree_entryv(next),
+        key = tree->allocator.alloc_cb(tree->eksize);
+        PIOJO_ASSERT(key);
+
+        end_p = piojo_btree_first(tree, key);
+        while (! end_p){
+                insert_node(key, piojo_btree_search(key, tree),
                             INSERT_COPY, newtree);
-                next = piojo_btree_next(next);
+                end_p = piojo_btree_next(tree, key);
         }
+
+        tree->allocator.free_cb(key);
 
         return newtree;
 }
@@ -401,7 +406,6 @@ void
 piojo_btree_clear(piojo_btree_t *tree)
 {
         void *key;
-        piojo_btree_node_t iter, *next;
         PIOJO_ASSERT(tree);
 
         key = tree->allocator.alloc_cb(tree->eksize);
@@ -521,146 +525,131 @@ piojo_btree_delete(const void *key, piojo_btree_t *tree)
 }
 
 /**
- * Reads the first node in @a tree (order given by @a keycmp function).
+ * Reads the first key in @a tree (order given by @a keycmp function).
  * @param[in] tree
- * @param[out] node
- * @return @a node or @b NULL if @a tree is empty.
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a tree is empty.
  */
-piojo_btree_node_t*
-piojo_btree_first(const piojo_btree_t *tree, piojo_btree_node_t *node)
+bool
+piojo_btree_first(const piojo_btree_t *tree, void *key)
 {
-        piojo_btree_iter_t iter, *nitr;
+        piojo_btree_iter_t iter;
         PIOJO_ASSERT(tree);
-        PIOJO_ASSERT(node);
+        PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                nitr = (piojo_btree_iter_t*) node->opaque;
                 iter.tree = tree;
                 iter.eidx = 0;
                 iter.bnode = tree->root;
                 search_min(&iter);
-                *nitr = iter;
-                return node;
+                memcpy(key, entry_key(iter.eidx, iter.bnode, tree), tree->eksize);
+                return FALSE;
         }
-        return NULL;
+        return TRUE;
 }
 
 /**
- * Reads the last node in @a tree (order given by @a keycmp function).
+ * Reads the last key in @a tree (order given by @a keycmp function).
  * @param[in] tree
- * @param[out] node
- * @return @a node or @b NULL if @a tree is empty.
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a tree is empty.
  */
-piojo_btree_node_t*
-piojo_btree_last(const piojo_btree_t *tree, piojo_btree_node_t *node)
+bool
+piojo_btree_last(const piojo_btree_t *tree, void *key)
 {
-        piojo_btree_iter_t iter, *nitr;
+        piojo_btree_iter_t iter;
         PIOJO_ASSERT(tree);
-        PIOJO_ASSERT(node);
+        PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                nitr = (piojo_btree_iter_t*) node->opaque;
                 iter.tree = tree;
                 iter.eidx = tree->root->ecnt;
                 iter.bnode = tree->root;
                 search_max(&iter);
-                *nitr = iter;
-                return node;
+                memcpy(key, entry_key(iter.eidx, iter.bnode, tree), tree->eksize);
+                return FALSE;
         }
-        return NULL;
+        return TRUE;
 }
 
-/**
- * Reads the next node (order given by @a keycmp function).
- * @param[out] node
- * @return Next node or @b NULL if @a node is the last one.
- */
-piojo_btree_node_t*
-piojo_btree_next(piojo_btree_node_t *node)
-{
-        piojo_btree_iter_t *iter;
-        PIOJO_ASSERT(node);
 
-        iter = (piojo_btree_iter_t*) node->opaque;
-        if (! iter->bnode->leaf_p && iter->eidx < iter->bnode->ecnt){
-                iter->bnode = iter->bnode->children[iter->eidx + 1];
-                iter->eidx = 0;
-                search_min(iter);
-        }else if (iter->eidx + 1 < iter->bnode->ecnt){
-                ++iter->eidx;
+/**
+ * Reads the next key (order given by @a keycmp function).
+ * @param[in] tree
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a key is the last one.
+ */
+bool
+piojo_btree_next(const piojo_btree_t *tree, void *key)
+{
+        piojo_btree_iter_t iter;
+        PIOJO_ASSERT(tree);
+        PIOJO_ASSERT(key);
+
+        iter = search_node(key, tree);
+        PIOJO_ASSERT(iter.bnode != NULL);
+
+        if (! iter.bnode->leaf_p && iter.eidx < iter.bnode->ecnt){
+                iter.bnode = iter.bnode->children[iter.eidx + 1];
+                iter.eidx = 0;
+                search_min(&iter);
+        }else if (iter.eidx + 1 < iter.bnode->ecnt){
+                ++iter.eidx;
         }else{
-                while (iter->bnode->parent != NULL){
-                        iter->eidx = iter->bnode->pidx;
-                        iter->bnode = iter->bnode->parent;
-                        if (iter->eidx < iter->bnode->ecnt){
-                                return node;
+                while (iter.bnode->parent != NULL){
+                        iter.eidx = iter.bnode->pidx;
+                        iter.bnode = iter.bnode->parent;
+                        if (iter.eidx < iter.bnode->ecnt){
+                                memcpy(key,
+                                       entry_key(iter.eidx, iter.bnode, tree),
+                                       tree->eksize);
+                                return FALSE;
                         }
                 }
-                return NULL;
+                return TRUE;
         }
-        return node;
+        memcpy(key, entry_key(iter.eidx, iter.bnode, tree), tree->eksize);
+        return FALSE;
 }
 
 /**
- * Reads the previous node (order given by @a keycmp function).
- * @param[out] node
- * @return Next node or @b NULL if @a node is the first one.
+ * Reads the previous key (order given by @a keycmp function).
+ * @param[in] tree
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a key is the first one.
  */
-piojo_btree_node_t*
-piojo_btree_prev(piojo_btree_node_t *node)
+bool
+piojo_btree_prev(const piojo_btree_t *tree, void *key)
 {
-        piojo_btree_iter_t *iter;
-        PIOJO_ASSERT(node);
+        piojo_btree_iter_t iter;
+        PIOJO_ASSERT(tree);
+        PIOJO_ASSERT(key);
 
-        iter = (piojo_btree_iter_t*) node->opaque;
-        if (! iter->bnode->leaf_p && iter->eidx < iter->bnode->ecnt + 1){
-                iter->bnode = iter->bnode->children[iter->eidx];
-                iter->eidx = iter->bnode->ecnt;
-                search_max(iter);
-        }else if (iter->eidx > 0){
-                --iter->eidx;
+        iter = search_node(key, tree);
+        PIOJO_ASSERT(iter.bnode != NULL);
+
+        if (! iter.bnode->leaf_p && iter.eidx < iter.bnode->ecnt + 1){
+                iter.bnode = iter.bnode->children[iter.eidx];
+                iter.eidx = iter.bnode->ecnt;
+                search_max(&iter);
+        }else if (iter.eidx > 0){
+                --iter.eidx;
         }else{
-                while (iter->bnode->parent != NULL){
-                        iter->eidx = iter->bnode->pidx;
-                        iter->bnode = iter->bnode->parent;
-                        if (iter->eidx > 0){
-                                --iter->eidx;
-                                return node;
+                while (iter.bnode->parent != NULL){
+                        iter.eidx = iter.bnode->pidx;
+                        iter.bnode = iter.bnode->parent;
+                        if (iter.eidx > 0){
+                                --iter.eidx;
+                                memcpy(key,
+                                       entry_key(iter.eidx, iter.bnode, tree),
+                                       tree->eksize);
+                                return FALSE;
                         }
                 }
-                return NULL;
+                return TRUE;
         }
-        return node;
-}
-
-/**
- * Reads node entry key.
- * @param[in] node
- * @return Entry key.
- */
-const void*
-piojo_btree_entryk(const piojo_btree_node_t *node)
-{
-        piojo_btree_iter_t *iter;
-        PIOJO_ASSERT(node);
-
-        iter = (piojo_btree_iter_t*) node->opaque;
-        return entry_key(iter->eidx, iter->bnode, iter->tree);
-}
-
-/**
- * Reads node entry value.
- * @param[in] node
- * @return Entry value.
- */
-void*
-piojo_btree_entryv(const piojo_btree_node_t *node)
-{
-        piojo_btree_iter_t *iter;
-        PIOJO_ASSERT(node);
-
-        iter = (piojo_btree_iter_t*) node->opaque;
-        return entry_val(iter->eidx, iter->bnode, iter->tree);
+        memcpy(key, entry_key(iter.eidx, iter.bnode, tree), tree->eksize);
+        return FALSE;
 }
 
 /** @}

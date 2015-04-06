@@ -34,10 +34,6 @@
 extern "C" {
 #endif
 
-typedef struct {
-        uint8_t opaque[32]; /* Should be enough */
-} piojo_hash_node_t;
-
 typedef struct piojo_hash_t piojo_hash_t;
 extern const size_t piojo_hash_sizeof;
 
@@ -102,17 +98,11 @@ piojo_hash_search(const void *key, const piojo_hash_t *hash);
 bool
 piojo_hash_delete(const void *key, piojo_hash_t *hash);
 
-piojo_hash_node_t*
-piojo_hash_first(const piojo_hash_t *hash, piojo_hash_node_t *node);
+bool
+piojo_hash_first(const piojo_hash_t *hash, void *key);
 
-piojo_hash_node_t*
-piojo_hash_next(piojo_hash_node_t *node);
-
-const void*
-piojo_hash_entryk(const piojo_hash_node_t *node);
-
-void*
-piojo_hash_entryv(const piojo_hash_node_t *node);
+bool
+piojo_hash_next(const piojo_hash_t *hash, void *key);
 
 #ifdef __cplusplus
 }

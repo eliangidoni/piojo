@@ -444,90 +444,60 @@ piojo_hash_delete(const void *key, piojo_hash_t *hash)
 }
 
 /**
- * Reads the first node in @a hash.
+ * Reads the first entry key in @a hash.
  * @param[in] hash Hash table.
- * @param[out] node
- * @return @a node or @b NULL if @a hash is empty.
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a hash is empty.
  */
-piojo_hash_node_t*
-piojo_hash_first(const piojo_hash_t *hash, piojo_hash_node_t *node)
+bool
+piojo_hash_first(const piojo_hash_t *hash, void *key)
 {
+        size_t bidx = 0;
         piojo_hash_iter_t *iter;
         PIOJO_ASSERT(hash);
-        PIOJO_ASSERT(node);
+        PIOJO_ASSERT(key);
 
         if (hash->ecount > 0){
-                iter = (piojo_hash_iter_t*) node->opaque;
-                iter->table = hash;
-                iter->bidx = 0;
-                iter->prev = NULL;
-                while (hash->buckets[iter->bidx] == NULL){
-                        ++iter->bidx;
+                while (hash->buckets[bidx] == NULL){
+                        ++bidx;
                 }
-                return node;
+                memcpy(key, hash->buckets[bidx]->key, hash->eksize);
+                return FALSE;
         }
-        return NULL;
+        return TRUE;
+
 }
-
 /**
- * Reads the next node.
- * @param[out] node
- * @return Next node or @b NULL if @a node is the last one.
+ * Reads the next entry key.
+ * @param[in] hash Hash table.
+ * @param[out] key
+ * @return @b FALSE or @b TRUE if @a key is the last one.
  */
-piojo_hash_node_t*
-piojo_hash_next(piojo_hash_node_t *node)
+bool
+piojo_hash_next(const piojo_hash_t *hash, void *key)
 {
-        piojo_hash_iter_t *iter;
-        PIOJO_ASSERT(node);
+        piojo_hash_iter_t iter;
+        PIOJO_ASSERT(hash);
+        PIOJO_ASSERT(key);
 
-        iter = (piojo_hash_iter_t*) node->opaque;
-        if (iter->prev == NULL){
-                iter->prev = iter->table->buckets[iter->bidx];
+        iter = search_entry(key, hash);
+        PIOJO_ASSERT(iter.table != NULL);
+
+        if (iter.prev == NULL){
+                iter.prev = hash->buckets[iter.bidx];
         }else{
-                iter->prev = iter->prev->next;
+                iter.prev = iter.prev->next;
+        }
+        if (next_valid_entry(&iter) != NULL){
+                if (iter.prev == NULL){
+                        memcpy(key, hash->buckets[iter.bidx]->key, hash->eksize);
+                }else{
+                        memcpy(key, iter.prev->next->key, hash->eksize);
+                }
+                return FALSE;
         }
 
-        iter = next_valid_entry(iter);
-        if (iter != NULL){
-                return node;
-        }
-        return NULL;
-}
-
-/**
- * Reads node entry key.
- * @param[in] node
- * @return Entry key.
- */
-const void*
-piojo_hash_entryk(const piojo_hash_node_t *node)
-{
-        piojo_hash_iter_t *iter;
-        PIOJO_ASSERT(node);
-
-        iter = (piojo_hash_iter_t*) node->opaque;
-        if (iter->prev != NULL){
-                return iter->prev->next->key;
-        }
-        return iter->table->buckets[iter->bidx]->key;
-}
-
-/**
- * Reads node entry value.
- * @param[in] node
- * @return Entry value.
- */
-void*
-piojo_hash_entryv(const piojo_hash_node_t *node)
-{
-        piojo_hash_iter_t *iter;
-        PIOJO_ASSERT(node);
-
-        iter = (piojo_hash_iter_t*) node->opaque;
-        if (iter->prev != NULL){
-                return iter->prev->next->value;
-        }
-        return iter->table->buckets[iter->bidx]->value;
+        return TRUE;
 }
 
 /** @}
@@ -792,7 +762,6 @@ alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
 
         piojo_hash_t * hash;
         size_t size;
-        PIOJO_ASSERT(sizeof(piojo_hash_node_t) >= sizeof(piojo_hash_iter_t));
         PIOJO_ASSERT(evsize > 0);
         PIOJO_ASSERT(bucketcnt > 0);
         PIOJO_ASSERT(piojo_safe_mulsiz_p(bucketcnt,

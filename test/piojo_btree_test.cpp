@@ -412,48 +412,42 @@ void test_delete()
 
 void test_first_next()
 {
-        piojo_btree_node_t *next, node;
         piojo_btree_t *tree;
-        int i=1, i2=i+1, j=10, j2=j+1, tmp;
+        int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
 
         tree = piojo_btree_alloc_intk(sizeof(int));
         piojo_btree_insert(&i, &j, tree);
         piojo_btree_insert(&i2, &j2, tree);
 
-        next = piojo_btree_first(tree, &node);
-        tmp = *(int*) piojo_btree_entryk(next);
-        PIOJO_ASSERT(i == tmp);
-        tmp = *(int*) piojo_btree_entryv(next);
+        piojo_btree_first(tree, &key);
+        PIOJO_ASSERT(i == key);
+        tmp = *(int*) piojo_btree_search(&key, tree);
         PIOJO_ASSERT(j == tmp);
 
-        next = piojo_btree_next(next);
-        tmp = *(int*) piojo_btree_entryk(next);
-        PIOJO_ASSERT(i2 == tmp);
-        tmp = *(int*) piojo_btree_entryv(next);
+        piojo_btree_next(tree, &key);
+        PIOJO_ASSERT(i2 == key);
+        tmp = *(int*) piojo_btree_search(&key, tree);
         PIOJO_ASSERT(j2 == tmp);
         piojo_btree_free(tree);
 }
 
 void test_last_prev()
 {
-        piojo_btree_node_t *next, node;
         piojo_btree_t *tree;
-        int i=1, i2=i+1, j=10, j2=j+1, tmp;
+        int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
 
         tree = piojo_btree_alloc_intk(sizeof(int));
         piojo_btree_insert(&i, &j, tree);
         piojo_btree_insert(&i2, &j2, tree);
 
-        next = piojo_btree_last(tree, &node);
-        tmp = *(int*) piojo_btree_entryk(next);
-        PIOJO_ASSERT(i2 == tmp);
-        tmp = *(int*) piojo_btree_entryv(next);
+        piojo_btree_last(tree, &key);
+        PIOJO_ASSERT(i2 == key);
+        tmp = *(int*) piojo_btree_search(&key, tree);
         PIOJO_ASSERT(j2 == tmp);
 
-        next = piojo_btree_prev(next);
-        tmp = *(int*) piojo_btree_entryk(next);
-        PIOJO_ASSERT(i == tmp);
-        tmp = *(int*) piojo_btree_entryv(next);
+        piojo_btree_prev(tree, &key);
+        PIOJO_ASSERT(i == key);
+        tmp = *(int*) piojo_btree_search(&key, tree);
         PIOJO_ASSERT(j == tmp);
         piojo_btree_free(tree);
 }
@@ -482,8 +476,7 @@ void test_tree_expand()
 void test_stress()
 {
         piojo_btree_t *tree, *copy;
-        piojo_btree_node_t *next,node;
-        int i,j;
+        int i,j,k;
         bool deleted_p;
 
         tree = piojo_btree_alloc_cb_intk(4, sizeof(int), my_allocator);
@@ -504,34 +497,30 @@ void test_stress()
                 PIOJO_ASSERT(j == i * 10);
         }
 
-        next = piojo_btree_first(tree, &node);
+        piojo_btree_first(tree, &j);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
-                j = *(int*) piojo_btree_entryk(next);
                 PIOJO_ASSERT(i == j);
-                j = *(int*) piojo_btree_entryv(next);
-                PIOJO_ASSERT(i * 10 == j);
-                next = piojo_btree_next(next);
+                k = *(int*) piojo_btree_search(&j, tree);
+                PIOJO_ASSERT(i * 10 == k);
+                piojo_btree_next(tree, &j);
         }
 
-        next = piojo_btree_last(tree, &node);
+        piojo_btree_last(tree, &j);
         for (i = TEST_STRESS_COUNT; i > 0; --i){
-                j = *(int*) piojo_btree_entryk(next);
                 PIOJO_ASSERT(i == j);
-                j = *(int*) piojo_btree_entryv(next);
-                PIOJO_ASSERT(i * 10 == j);
-                next = piojo_btree_prev(next);
+                k = *(int*) piojo_btree_search(&j, tree);
+                PIOJO_ASSERT(i * 10 == k);
+                piojo_btree_prev(tree, &j);
         }
 
         copy = piojo_btree_copy(tree);
         PIOJO_ASSERT(piojo_btree_size(tree) == piojo_btree_size(copy));
 
         for (i = TEST_STRESS_COUNT/2; i > 0; --i){
-                piojo_btree_last(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_last(tree, &j);
                 PIOJO_ASSERT(TEST_STRESS_COUNT == j);
 
-                piojo_btree_first(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_first(tree, &j);
                 PIOJO_ASSERT(1 == j);
 
                 deleted_p = piojo_btree_delete(&i, tree);
@@ -539,12 +528,10 @@ void test_stress()
         }
 
         for (i = TEST_STRESS_COUNT; i > TEST_STRESS_COUNT/2; --i){
-                piojo_btree_last(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_last(tree, &j);
                 PIOJO_ASSERT(i == j);
 
-                piojo_btree_first(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_first(tree, &j);
                 PIOJO_ASSERT((TEST_STRESS_COUNT/2) + 1 == j);
 
                 deleted_p = piojo_btree_delete(&i, tree);
@@ -562,7 +549,6 @@ void test_stress()
 void test_stress_rand_uniq()
 {
         piojo_btree_t *tree, *copy;
-        piojo_btree_node_t *next,node;
         int elems[TEST_STRESS_COUNT];
         int i,j;
         bool deleted_p;
@@ -592,30 +578,26 @@ void test_stress_rand_uniq()
                 PIOJO_ASSERT(j == elems[i-1] * 10);
         }
 
-        next = piojo_btree_first(tree, &node);
+        piojo_btree_first(tree, &j);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
-                j = *(int*) piojo_btree_entryk(next);
-                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_entryv(next));
-                next = piojo_btree_next(next);
+                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_search(&j, tree));
+                piojo_btree_next(tree, &j);
         }
 
-        next = piojo_btree_last(tree, &node);
+        piojo_btree_last(tree, &j);
         for (i = TEST_STRESS_COUNT; i > 0; --i){
-                j = *(int*) piojo_btree_entryk(next);
-                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_entryv(next));
-                next = piojo_btree_prev(next);
+                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_search(&j, tree));
+                piojo_btree_prev(tree, &j);
         }
 
         copy = piojo_btree_copy(tree);
         PIOJO_ASSERT(piojo_btree_size(tree) == piojo_btree_size(copy));
 
         for (i = TEST_STRESS_COUNT/2; i > 0; --i){
-                piojo_btree_last(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_last(tree, &j);
                 PIOJO_ASSERT(unique.rbegin()->first == j);
 
-                piojo_btree_first(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_first(tree, &j);
                 PIOJO_ASSERT(unique.begin()->first == j);
                 unique.erase(elems[i-1]);
                 deleted_p = piojo_btree_delete(&elems[i-1], tree);
@@ -624,12 +606,10 @@ void test_stress_rand_uniq()
         }
 
         for (i = TEST_STRESS_COUNT; i > TEST_STRESS_COUNT/2; --i){
-                piojo_btree_last(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_last(tree, &j);
                 PIOJO_ASSERT(unique.rbegin()->first == j);
 
-                piojo_btree_first(tree, &node);
-                j = *(int*) piojo_btree_entryk(&node);
+                piojo_btree_first(tree, &j);
                 PIOJO_ASSERT(unique.begin()->first == j);
 
                 unique.erase(elems[i-1]);
@@ -648,7 +628,6 @@ void test_stress_rand_uniq()
 void test_stress_rand()
 {
         piojo_btree_t *tree, *copy;
-        piojo_btree_node_t *next,node;
         int elems[TEST_STRESS_COUNT];
         int i,j;
         size_t tmp;
@@ -671,18 +650,16 @@ void test_stress_rand()
                 PIOJO_ASSERT(j == elems[i-1] * 10);
         }
 
-        next = piojo_btree_first(tree, &node);
+        piojo_btree_first(tree, &j);
         for (tmp = 0; tmp < piojo_btree_size(tree); ++tmp){
-                j = *(int*) piojo_btree_entryk(next);
-                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_entryv(next));
-                next = piojo_btree_next(next);
+                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_search(&j, tree));
+                piojo_btree_next(tree, &j);
         }
 
-        next = piojo_btree_last(tree, &node);
+        piojo_btree_last(tree, &j);
         for (tmp = 0; tmp < piojo_btree_size(tree); ++tmp){
-                j = *(int*) piojo_btree_entryk(next);
-                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_entryv(next));
-                next = piojo_btree_prev(next);
+                PIOJO_ASSERT(j * 10 == *(int*) piojo_btree_search(&j, tree));
+                piojo_btree_prev(tree, &j);
         }
 
         copy = piojo_btree_copy(tree);

@@ -401,24 +401,21 @@ void test_delete()
 
 void test_first_next()
 {
-        piojo_hash_node_t *next, node;
         piojo_hash_t *hash;
-        int i=1, i2=i+1, j=10, j2=j+1, tmp;
+        int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
 
         hash = piojo_hash_alloc_intk(sizeof(int));
         piojo_hash_insert(&i, &j, hash);
         piojo_hash_insert(&i2, &j2, hash);
 
-        next = piojo_hash_first(hash, &node);
-        tmp = *(int*) piojo_hash_entryk(next);
-        PIOJO_ASSERT(i == tmp || i2 == tmp);
-        tmp = *(int*) piojo_hash_entryv(next);
+        piojo_hash_first(hash, &key);
+        PIOJO_ASSERT(i == key || i2 == key);
+        tmp = *(int*) piojo_hash_search(&key, hash);
         PIOJO_ASSERT(j == tmp || j2 == tmp);
 
-        next = piojo_hash_next(next);
-        tmp = *(int*) piojo_hash_entryk(next);
-        PIOJO_ASSERT(i == tmp || i2 == tmp);
-        tmp = *(int*) piojo_hash_entryv(next);
+        piojo_hash_next(hash, &key);
+        PIOJO_ASSERT(i == key || i2 == key);
+        tmp = *(int*) piojo_hash_search(&key, hash);
         PIOJO_ASSERT(j == tmp || j2 == tmp);
 
         piojo_hash_free(hash);
@@ -447,7 +444,6 @@ void test_hash_expand()
 void test_stress()
 {
         piojo_hash_t *hash;
-        piojo_hash_node_t *next,node;
         int i,j;
         bool deleted_p;
 
@@ -469,11 +465,10 @@ void test_stress()
                 PIOJO_ASSERT(j == i * 10);
         }
 
-        next = piojo_hash_first(hash, &node);
+        piojo_hash_first(hash, &j);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
-                j = *(int*) piojo_hash_entryk(next);
-                PIOJO_ASSERT(*(int*) piojo_hash_entryv(next) == j * 10);
-                next = piojo_hash_next(next);
+                PIOJO_ASSERT(*(int*) piojo_hash_search(&j, hash) == j * 10);
+                piojo_hash_next(hash, &j);
         }
 
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){

@@ -34,10 +34,6 @@
 extern "C" {
 #endif
 
-typedef struct {
-        uint8_t opaque[32]; /* Should be enough */
-} piojo_tree_node_t;
-
 typedef struct piojo_tree_t piojo_tree_t;
 extern const size_t piojo_tree_sizeof;
 
@@ -108,23 +104,17 @@ piojo_tree_search(const void *key, const piojo_tree_t *tree);
 bool
 piojo_tree_delete(const void *key, piojo_tree_t *tree);
 
-piojo_tree_node_t*
-piojo_tree_first(const piojo_tree_t *tree, piojo_tree_node_t *node);
+bool
+piojo_tree_first(const piojo_tree_t *tree, void *key);
 
-piojo_tree_node_t*
-piojo_tree_last(const piojo_tree_t *tree, piojo_tree_node_t *node);
+bool
+piojo_tree_last(const piojo_tree_t *tree, void *key);
 
-piojo_tree_node_t*
-piojo_tree_next(piojo_tree_node_t *node);
+bool
+piojo_tree_next(const piojo_tree_t *tree, void *key);
 
-piojo_tree_node_t*
-piojo_tree_prev(piojo_tree_node_t *node);
-
-const void*
-piojo_tree_entryk(const piojo_tree_node_t *node);
-
-void*
-piojo_tree_entryv(const piojo_tree_node_t *node);
+bool
+piojo_tree_prev(const piojo_tree_t *tree, void *key);
 
 #ifdef __cplusplus
 }

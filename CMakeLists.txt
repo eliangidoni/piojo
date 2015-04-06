@@ -4,7 +4,7 @@ project(piojo)
 include(CTest)
 
 set(piojo_VERSION_MAJOR 0)
-set(piojo_VERSION_MINOR 7)
+set(piojo_VERSION_MINOR 8)
 set(piojo_VERSION_PATCH 0)
 
 option(PIOJO_DEBUG "Build with debugging support" OFF)
