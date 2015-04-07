@@ -33,20 +33,20 @@
 #include <piojo_defs.h>
 
 /* Keep this type unsigned to avoid undefined behaviors. */
-typedef uint64_t piojo_bitset_word_t;
+typedef uint64_t word_t;
 
 struct piojo_bitset_t {
-        piojo_bitset_word_t *set, lastmask;
+        word_t *set, lastmask;
         size_t maxbits, wcnt;
         piojo_alloc_if allocator;
 };
 /** @hideinitializer Size of bitset in bytes */
 const size_t piojo_bitset_sizeof = sizeof(piojo_bitset_t);
 
-static const piojo_bitset_word_t BITSET_MASK = ~ 0;
-static const size_t BITSET_BITS = sizeof(piojo_bitset_word_t) * CHAR_BIT;
+static const word_t BITSET_MASK = ~ 0;
+static const size_t BITSET_BITS = sizeof(word_t) * CHAR_BIT;
 
-static piojo_bitset_word_t
+static word_t
 bit_mask(size_t n);
 
 static size_t
@@ -88,10 +88,10 @@ piojo_bitset_alloc_cb(size_t maxbits, piojo_alloc_if allocator)
                 ++b->wcnt;
         }
 
-        PIOJO_ASSERT(piojo_safe_mulsiz_p(sizeof(piojo_bitset_word_t), b->wcnt));
-        setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+        PIOJO_ASSERT(piojo_safe_mulsiz_p(sizeof(word_t), b->wcnt));
+        setsize = sizeof(word_t) * b->wcnt;
 
-        b->set = (piojo_bitset_word_t *)allocator.alloc_cb(setsize);
+        b->set = (word_t *)allocator.alloc_cb(setsize);
         PIOJO_ASSERT(b->set);
         for (i = 0; i < b->wcnt; ++i){
                 b->set[i] = 0;
@@ -120,9 +120,9 @@ piojo_bitset_copy(const piojo_bitset_t *bitset)
         b->wcnt = bitset->wcnt;
         b->lastmask = bitset->lastmask;
 
-        setsize = sizeof(piojo_bitset_word_t) * b->wcnt;
+        setsize = sizeof(word_t) * b->wcnt;
 
-        b->set = (piojo_bitset_word_t *)b->allocator.alloc_cb(setsize);
+        b->set = (word_t *)b->allocator.alloc_cb(setsize);
         PIOJO_ASSERT(b->set);
         for (i = 0; i < b->wcnt; ++i){
                 b->set[i] = bitset->set[i];
@@ -270,7 +270,7 @@ piojo_bitset_set_p(size_t bit, const piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        return ((bitset->set[widx] & ((piojo_bitset_word_t) 1 << bidx)) != 0);
+        return ((bitset->set[widx] & ((word_t) 1 << bidx)) != 0);
 }
 
 /**
@@ -287,7 +287,7 @@ piojo_bitset_set(size_t bit, piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        bitset->set[widx] |= ((piojo_bitset_word_t) 1 << bidx);
+        bitset->set[widx] |= ((word_t) 1 << bidx);
 }
 
 /**
@@ -304,7 +304,7 @@ piojo_bitset_toggle(size_t bit, piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        bitset->set[widx] ^= ((piojo_bitset_word_t) 1 << bidx);
+        bitset->set[widx] ^= ((word_t) 1 << bidx);
 }
 
 /**
@@ -321,7 +321,7 @@ piojo_bitset_unset(size_t bit, piojo_bitset_t *bitset)
 
         widx = bit / BITSET_BITS;
         bidx = bit % BITSET_BITS;
-        bitset->set[widx] &= ~ ((piojo_bitset_word_t) 1 << bidx);
+        bitset->set[widx] &= ~ ((word_t) 1 << bidx);
 }
 
 /**
@@ -548,10 +548,10 @@ piojo_bitset_rshift(size_t count, const piojo_bitset_t *bitset,
  * Private functions.
  */
 
-static piojo_bitset_word_t
+static word_t
 bit_mask(size_t n)
 {
-        return (((piojo_bitset_word_t) 1 << n) - (piojo_bitset_word_t) 1);
+        return (((word_t) 1 << n) - (word_t) 1);
 }
 
 /* Source: http://en.wikipedia.org/wiki/Hamming_weight */

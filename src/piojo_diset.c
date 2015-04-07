@@ -33,8 +33,8 @@
 #include <piojo/piojo_hash.h>
 #include <piojo_defs.h>
 
-typedef struct piojo_diset_tree_t piojo_diset_tree_t;
-struct piojo_diset_tree_t {
+typedef struct tree_t tree_t;
+struct tree_t {
         size_t rank;            /* Height estimate. */
         piojo_diset_sid_t parent;
 };
@@ -46,7 +46,7 @@ struct piojo_diset_t {
 /** @hideinitializer Size of diset in bytes */
 const size_t piojo_diset_sizeof = sizeof(piojo_diset_t);
 
-static piojo_diset_tree_t*
+static tree_t*
 find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset);
 
 /**
@@ -78,7 +78,7 @@ piojo_diset_alloc_cb(piojo_alloc_if allocator)
         ator.alloc_cb = allocator.alloc_cb;
         ator.realloc_cb = allocator.realloc_cb;
         ator.free_cb = allocator.free_cb;
-        esize = sizeof(piojo_diset_tree_t);
+        esize = sizeof(tree_t);
 
         diset->allocator = allocator;
         diset->trees = piojo_hash_alloc_cb_eq(esize, piojo_id_eq,
@@ -144,7 +144,7 @@ piojo_diset_clear(piojo_diset_t *diset)
 void
 piojo_diset_insert(piojo_diset_sid_t set, piojo_diset_t *diset)
 {
-        piojo_diset_tree_t dtree;
+        tree_t dtree;
         PIOJO_ASSERT(diset);
 
         dtree.rank = 0;
@@ -161,7 +161,7 @@ piojo_diset_insert(piojo_diset_sid_t set, piojo_diset_t *diset)
 piojo_diset_sid_t
 piojo_diset_find(piojo_diset_sid_t set, const piojo_diset_t *diset)
 {
-        piojo_diset_tree_t *dtree;
+        tree_t *dtree;
         PIOJO_ASSERT(diset);
 
         dtree = find_subset(set, diset);
@@ -178,7 +178,7 @@ void
 piojo_diset_union(piojo_diset_sid_t set1, piojo_diset_sid_t set2,
                   piojo_diset_t *diset)
 {
-        piojo_diset_tree_t *dtree1, *dtree2;
+        tree_t *dtree1, *dtree2;
         PIOJO_ASSERT(diset);
 
         dtree1 = find_subset(set1, diset);
@@ -199,11 +199,11 @@ piojo_diset_union(piojo_diset_sid_t set1, piojo_diset_sid_t set2,
  * Private functions.
  */
 
-static piojo_diset_tree_t*
+static tree_t*
 find_subset(piojo_diset_sid_t set, const piojo_diset_t *diset)
 {
-        piojo_diset_tree_t *dtree;
-        dtree = (piojo_diset_tree_t*) piojo_hash_search(&set, diset->trees);
+        tree_t *dtree;
+        dtree = (tree_t*) piojo_hash_search(&set, diset->trees);
         if (dtree->parent == set){
                 return dtree;
         }

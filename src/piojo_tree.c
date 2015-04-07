@@ -33,19 +33,19 @@
 #include <piojo_defs.h>
 
 typedef enum {
-        PIOJO_TREE_COLOR_BLACK,
-        PIOJO_TREE_COLOR_RED
-} piojo_tree_color_t;
+        COLOR_BLACK,
+        COLOR_RED
+} color_t;
 
-typedef struct piojo_tree_rbnode_t piojo_tree_rbnode_t;
-struct piojo_tree_rbnode_t {
+typedef struct rbnode_t rbnode_t;
+struct rbnode_t {
         void *key, *value;
-        piojo_tree_rbnode_t *parent, *right, *left;
-        piojo_tree_color_t color;
+        rbnode_t *parent, *right, *left;
+        color_t color;
 };
 
 struct piojo_tree_t {
-        piojo_tree_rbnode_t *root, *nil;
+        rbnode_t *root, *nil;
         size_t eksize, evsize, ecount;
         piojo_cmp_cb cmp_cb;
         piojo_alloc_if allocator;
@@ -53,52 +53,52 @@ struct piojo_tree_t {
 /** @hideinitializer Size of tree in bytes */
 const size_t piojo_tree_sizeof = sizeof(piojo_tree_t);
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 alloc_rbnode(const piojo_tree_t *tree);
 
 static void
-free_rbnode(const piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
+free_rbnode(const rbnode_t *node, const piojo_tree_t *tree);
 
 static void
-init_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
+init_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree);
 
 static void
-copy_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
+copy_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree);
 
 static void
-rotate_left(piojo_tree_rbnode_t *node, piojo_tree_t *tree);
+rotate_left(rbnode_t *node, piojo_tree_t *tree);
 
 static void
-rotate_right(piojo_tree_rbnode_t *node, piojo_tree_t *tree);
+rotate_right(rbnode_t *node, piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree);
 
 static void
-fix_insert(piojo_tree_rbnode_t *node, piojo_tree_t *tree);
+fix_insert(rbnode_t *node, piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 search_node(const void *key, const piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
-search_max(piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
+static rbnode_t*
+search_max(rbnode_t *node, const piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
-search_min(piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
+static rbnode_t*
+search_min(rbnode_t *node, const piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
-next_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
+static rbnode_t*
+next_node(rbnode_t *node, const piojo_tree_t *tree);
 
-static piojo_tree_rbnode_t*
-prev_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree);
+static rbnode_t*
+prev_node(rbnode_t *node, const piojo_tree_t *tree);
 
 static bool
 delete_node(const void *key, piojo_tree_t *tree);
 
 static void
-fix_delete(piojo_tree_rbnode_t *node, piojo_tree_t *tree);
+fix_delete(rbnode_t *node, piojo_tree_t *tree);
 
 static int
 i32_cmp(const void *e1, const void *e2);
@@ -410,7 +410,7 @@ piojo_tree_insert(const void *key, const void *data, piojo_tree_t *tree)
 bool
 piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *node;
+        rbnode_t *node;
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
         PIOJO_ASSERT(data || tree->evsize == sizeof(bool));
@@ -437,7 +437,7 @@ piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
 void*
 piojo_tree_search(const void *key, const piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *node;
+        rbnode_t *node;
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
 
@@ -514,7 +514,7 @@ piojo_tree_last(const piojo_tree_t *tree, void *key)
 bool
 piojo_tree_next(const piojo_tree_t *tree, void *key)
 {
-        piojo_tree_rbnode_t *rbnode;
+        rbnode_t *rbnode;
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
 
@@ -538,7 +538,7 @@ piojo_tree_next(const piojo_tree_t *tree, void *key)
 bool
 piojo_tree_prev(const piojo_tree_t *tree, void *key)
 {
-        piojo_tree_rbnode_t *rbnode;
+        rbnode_t *rbnode;
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
 
@@ -557,14 +557,14 @@ piojo_tree_prev(const piojo_tree_t *tree, void *key)
  * Private functions.
  */
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 alloc_rbnode(const piojo_tree_t *tree)
 {
         piojo_alloc_if ator = tree->allocator;
-        piojo_tree_rbnode_t *node;
-        size_t nodesiz = sizeof(piojo_tree_rbnode_t);
+        rbnode_t *node;
+        size_t nodesiz = sizeof(rbnode_t);
 
-        node = ((piojo_tree_rbnode_t*)
+        node = ((rbnode_t*)
                  ator.alloc_cb(nodesiz + tree->eksize + tree->evsize));
         PIOJO_ASSERT(node);
 
@@ -573,19 +573,19 @@ alloc_rbnode(const piojo_tree_t *tree)
         node->left = tree->nil;
         node->right = tree->nil;
         node->parent = tree->nil;
-        node->color = PIOJO_TREE_COLOR_BLACK;
+        node->color = COLOR_BLACK;
 
         return node;
 }
 
 static void
-free_rbnode(const piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
+free_rbnode(const rbnode_t *node, const piojo_tree_t *tree)
 {
         tree->allocator.free_cb(node);
 }
 
 static void
-init_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
+init_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree)
 {
         bool null_p = TRUE;
@@ -600,7 +600,7 @@ init_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
 }
 
 static void
-copy_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
+copy_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree)
 {
         piojo_alloc_if ator = tree->allocator;
@@ -610,9 +610,9 @@ copy_rbnode(const void *key, const void *data, const piojo_tree_rbnode_t *node,
 }
 
 static void
-rotate_left(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
+rotate_left(rbnode_t *node, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *y;
+        rbnode_t *y;
         PIOJO_ASSERT(node->right != tree->nil);
 
         y = node->right;
@@ -635,9 +635,9 @@ rotate_left(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
 }
 
 static void
-rotate_right(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
+rotate_right(rbnode_t *node, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *x;
+        rbnode_t *x;
         PIOJO_ASSERT(node->left != tree->nil);
 
         x = node->left;
@@ -659,11 +659,11 @@ rotate_right(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
         node->parent = x;
 }
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
 {
         int cmpval;
-        piojo_tree_rbnode_t *newnode, *parent = tree->nil, *cur = tree->root;
+        rbnode_t *newnode, *parent = tree->nil, *cur = tree->root;
         while (cur != tree->nil){
                 parent = cur;
                 cmpval = tree->cmp_cb(key, cur->key);
@@ -705,53 +705,53 @@ insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
 }
 
 static void
-fix_insert(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
+fix_insert(rbnode_t *node, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *y;
-        node->color = PIOJO_TREE_COLOR_RED;
-        while (node != tree->root && node->parent->color == PIOJO_TREE_COLOR_RED){
+        rbnode_t *y;
+        node->color = COLOR_RED;
+        while (node != tree->root && node->parent->color == COLOR_RED){
                 if (node->parent == node->parent->parent->left){
                         y = node->parent->parent->right;
-                        if (y->color == PIOJO_TREE_COLOR_RED){
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                y->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->parent->color = PIOJO_TREE_COLOR_RED;
+                        if (y->color == COLOR_RED){
+                                node->parent->color = COLOR_BLACK;
+                                y->color = COLOR_BLACK;
+                                node->parent->parent->color = COLOR_RED;
                                 node = node->parent->parent;
                         }else{
                                 if (node == node->parent->right){
                                         node = node->parent;
                                         rotate_left(node, tree);
                                 }
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->parent->color = PIOJO_TREE_COLOR_RED;
+                                node->parent->color = COLOR_BLACK;
+                                node->parent->parent->color = COLOR_RED;
                                 rotate_right(node->parent->parent, tree);
                         }
                 }else{
                         y = node->parent->parent->left;
-                        if (y->color == PIOJO_TREE_COLOR_RED){
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                y->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->parent->color = PIOJO_TREE_COLOR_RED;
+                        if (y->color == COLOR_RED){
+                                node->parent->color = COLOR_BLACK;
+                                y->color = COLOR_BLACK;
+                                node->parent->parent->color = COLOR_RED;
                                 node = node->parent->parent;
                         }else{
                                 if (node == node->parent->left){
                                         node = node->parent;
                                         rotate_right(node, tree);
                                 }
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->parent->color = PIOJO_TREE_COLOR_RED;
+                                node->parent->color = COLOR_BLACK;
+                                node->parent->parent->color = COLOR_RED;
                                 rotate_left(node->parent->parent, tree);
                         }
                 }
         }
-        tree->root->color = PIOJO_TREE_COLOR_BLACK;
+        tree->root->color = COLOR_BLACK;
 }
 
-static piojo_tree_rbnode_t*
+static rbnode_t*
 search_node(const void *key, const piojo_tree_t *tree)
 {
         int cmpval;
-        piojo_tree_rbnode_t *cur = tree->root;
+        rbnode_t *cur = tree->root;
         while (cur != tree->nil){
                 cmpval = tree->cmp_cb(key, cur->key);
                 if (cmpval == 0){
@@ -765,8 +765,8 @@ search_node(const void *key, const piojo_tree_t *tree)
         return cur;
 }
 
-static piojo_tree_rbnode_t*
-search_max(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
+static rbnode_t*
+search_max(rbnode_t *node, const piojo_tree_t *tree)
 {
         while (node->right != tree->nil){
                 node = node->right;
@@ -774,8 +774,8 @@ search_max(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
         return node;
 }
 
-static piojo_tree_rbnode_t*
-search_min(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
+static rbnode_t*
+search_min(rbnode_t *node, const piojo_tree_t *tree)
 {
         while (node->left != tree->nil){
                 node = node->left;
@@ -783,10 +783,10 @@ search_min(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
         return node;
 }
 
-static piojo_tree_rbnode_t*
-next_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
+static rbnode_t*
+next_node(rbnode_t *node, const piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *y;
+        rbnode_t *y;
         if (node->right != tree->nil){
                 return search_min(node->right, tree);
         }
@@ -799,10 +799,10 @@ next_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
         return y;
 }
 
-static piojo_tree_rbnode_t*
-prev_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
+static rbnode_t*
+prev_node(rbnode_t *node, const piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *y;
+        rbnode_t *y;
         if (node->left != tree->nil){
                 return search_max(node->left, tree);
         }
@@ -818,7 +818,7 @@ prev_node(piojo_tree_rbnode_t *node, const piojo_tree_t *tree)
 static bool
 delete_node(const void *key, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *x, *y, *node = search_node(key, tree);
+        rbnode_t *x, *y, *node = search_node(key, tree);
         if (node == tree->nil){
                 return FALSE;
         }
@@ -847,7 +847,7 @@ delete_node(const void *key, piojo_tree_t *tree)
                 memcpy(node->key, y->key, tree->eksize);
                 memcpy(node->value, y->value, tree->evsize);
         }
-        if (y->color == PIOJO_TREE_COLOR_BLACK){
+        if (y->color == COLOR_BLACK){
                 fix_delete(x, tree);
         }
         free_rbnode(y, tree);
@@ -855,63 +855,63 @@ delete_node(const void *key, piojo_tree_t *tree)
 }
 
 static void
-fix_delete(piojo_tree_rbnode_t *node, piojo_tree_t *tree)
+fix_delete(rbnode_t *node, piojo_tree_t *tree)
 {
-        piojo_tree_rbnode_t *y;
-        while (node != tree->root && node->color == PIOJO_TREE_COLOR_BLACK){
+        rbnode_t *y;
+        while (node != tree->root && node->color == COLOR_BLACK){
                 if (node == node->parent->left){
                         y = node->parent->right;
-                        if (y->color == PIOJO_TREE_COLOR_RED){
-                                y->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->color = PIOJO_TREE_COLOR_RED;
+                        if (y->color == COLOR_RED){
+                                y->color = COLOR_BLACK;
+                                node->parent->color = COLOR_RED;
                                 rotate_left(node->parent, tree);
                                 y = node->parent->right;
                         }
-                        if (y->left->color == PIOJO_TREE_COLOR_BLACK &&
-                            y->right->color == PIOJO_TREE_COLOR_BLACK){
-                                y->color = PIOJO_TREE_COLOR_RED;
+                        if (y->left->color == COLOR_BLACK &&
+                            y->right->color == COLOR_BLACK){
+                                y->color = COLOR_RED;
                                 node = node->parent;
                         }else{
-                                if (y->right->color == PIOJO_TREE_COLOR_BLACK){
-                                        y->left->color = PIOJO_TREE_COLOR_BLACK;
-                                        y->color = PIOJO_TREE_COLOR_RED;
+                                if (y->right->color == COLOR_BLACK){
+                                        y->left->color = COLOR_BLACK;
+                                        y->color = COLOR_RED;
                                         rotate_right(y, tree);
                                         y = node->parent->right;
                                 }
                                 y->color = node->parent->color;
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                y->right->color = PIOJO_TREE_COLOR_BLACK;
+                                node->parent->color = COLOR_BLACK;
+                                y->right->color = COLOR_BLACK;
                                 rotate_left(node->parent, tree);
                                 node = tree->root;
                         }
                 }else{
                         y = node->parent->left;
-                        if (y->color == PIOJO_TREE_COLOR_RED){
-                                y->color = PIOJO_TREE_COLOR_BLACK;
-                                node->parent->color = PIOJO_TREE_COLOR_RED;
+                        if (y->color == COLOR_RED){
+                                y->color = COLOR_BLACK;
+                                node->parent->color = COLOR_RED;
                                 rotate_right(node->parent, tree);
                                 y = node->parent->left;
                         }
-                        if (y->left->color == PIOJO_TREE_COLOR_BLACK &&
-                            y->right->color == PIOJO_TREE_COLOR_BLACK){
-                                y->color = PIOJO_TREE_COLOR_RED;
+                        if (y->left->color == COLOR_BLACK &&
+                            y->right->color == COLOR_BLACK){
+                                y->color = COLOR_RED;
                                 node = node->parent;
                         }else{
-                                if (y->left->color == PIOJO_TREE_COLOR_BLACK){
-                                        y->right->color = PIOJO_TREE_COLOR_BLACK;
-                                        y->color = PIOJO_TREE_COLOR_RED;
+                                if (y->left->color == COLOR_BLACK){
+                                        y->right->color = COLOR_BLACK;
+                                        y->color = COLOR_RED;
                                         rotate_left(y, tree);
                                         y = node->parent->left;
                                 }
                                 y->color = node->parent->color;
-                                node->parent->color = PIOJO_TREE_COLOR_BLACK;
-                                y->left->color = PIOJO_TREE_COLOR_BLACK;
+                                node->parent->color = COLOR_BLACK;
+                                y->left->color = COLOR_BLACK;
                                 rotate_right(node->parent, tree);
                                 node = tree->root;
                         }
                 }
         }
-        node->color = PIOJO_TREE_COLOR_BLACK;
+        node->color = COLOR_BLACK;
 }
 
 /*
