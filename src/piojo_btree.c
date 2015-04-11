@@ -33,11 +33,15 @@
 #include <piojo/piojo_btree.h>
 #include <piojo_defs.h>
 
+typedef struct {
+        void *key, *value;
+} kv_t;
+
 typedef struct bnode_t bnode_t;
 struct bnode_t {
         bool leaf_p;
         uint8_t ecnt, pidx;
-        uint8_t *keys, *values;
+        kv_t *kvs;
         bnode_t **children, *parent;
 };
 
@@ -596,19 +600,17 @@ alloc_bnode(const piojo_btree_t *tree)
 {
         piojo_alloc_if ator = tree->allocator;
         bnode_t *bnode;
-        size_t keysiz = tree->eksize * (tree->cmax - 1);
-        size_t valsiz = tree->evsize * (tree->cmax - 1);
+        size_t kvsize = sizeof(kv_t) * (tree->cmax - 1);
         size_t childrensiz = sizeof(bnode_t*) * tree->cmax;
         size_t bnodesiz = sizeof(bnode_t);
 
         bnode = ((bnode_t*)
-                 ator.alloc_cb(bnodesiz + keysiz + valsiz + childrensiz));
+                 ator.alloc_cb(bnodesiz + kvsize + childrensiz));
         PIOJO_ASSERT(bnode);
 
-        bnode->keys = (uint8_t*) bnode + bnodesiz;
-        bnode->values = (uint8_t*) bnode->keys + keysiz;
+        bnode->kvs = (kv_t*)((uint8_t*) bnode + bnodesiz);
         bnode->children = ((bnode_t**)
-                           ((uint8_t*) bnode->values + valsiz));
+                           ((uint8_t*) bnode->kvs + kvsize));
         bnode->ecnt = bnode->pidx = 0;
         bnode->leaf_p = FALSE;
         bnode->parent = NULL;
@@ -782,25 +784,22 @@ static void
 copy_bentry(uint8_t eidx, const bnode_t *bnode, uint8_t toidx,
             const bnode_t *to, const piojo_btree_t *tree)
 {
-        memcpy(&to->keys[toidx * tree->eksize],
-               &bnode->keys[eidx * tree->eksize], tree->eksize);
-
-        memcpy(&to->values[toidx * tree->evsize],
-               &bnode->values[eidx * tree->evsize], tree->evsize);
+        to->kvs[toidx].key = bnode->kvs[eidx].key;
+        to->kvs[toidx].value = bnode->kvs[eidx].value;
 }
 
 static void*
 entry_key(uint8_t eidx, const bnode_t *bnode,
           const piojo_btree_t *tree)
 {
-        return &bnode->keys[eidx * tree->eksize];
+        return bnode->kvs[eidx].key;
 }
 
 static void*
 entry_val(uint8_t eidx, const bnode_t *bnode,
           const piojo_btree_t *tree)
 {
-        return &bnode->values[eidx * tree->evsize];
+        return bnode->kvs[eidx].value;
 }
 
 static void
@@ -814,7 +813,12 @@ init_entry(const void *key, const void *data, uint8_t eidx,
                 data = &null_p;
         }
 
+        bnode->kvs[eidx].key = ator.alloc_cb(tree->eksize);
+        PIOJO_ASSERT(bnode->kvs[eidx].key);
         memcpy(entry_key(eidx, bnode, tree), key, tree->eksize);
+
+        bnode->kvs[eidx].value = ator.alloc_cb(tree->evsize);
+        PIOJO_ASSERT(bnode->kvs[eidx].value);
         memcpy(entry_val(eidx, bnode, tree), data, tree->evsize);
 }
 
@@ -824,7 +828,12 @@ copy_entry(const void *key, const void *data, uint8_t eidx,
 {
         piojo_alloc_if ator = tree->allocator;
 
+        bnode->kvs[eidx].key = ator.alloc_cb(tree->eksize);
+        PIOJO_ASSERT(bnode->kvs[eidx].key);
         memcpy(entry_key(eidx, bnode, tree), key, tree->eksize);
+
+        bnode->kvs[eidx].value = ator.alloc_cb(tree->evsize);
+        PIOJO_ASSERT(bnode->kvs[eidx].value);
         memcpy(entry_val(eidx, bnode, tree), data, tree->evsize);
 }
 
@@ -925,12 +934,13 @@ delete_node(const void *key, bool deleted_p,
 
         i = bin_search(key, tree, bnode, &found_p);
         if (found_p){
-                if (! deleted_p){
-                        deleted_p = TRUE;
-                }
-
                 /* Key in leaf, shrink the leaf and finish. */
                 if (bnode->leaf_p){
+                        if (! deleted_p){
+                                tree->allocator.free_cb(bnode->kvs[i].key);
+                                tree->allocator.free_cb(bnode->kvs[i].value);
+                                deleted_p = TRUE;
+                        }
                         --bnode->ecnt;
                         for (; i < bnode->ecnt; ++i){
                                 copy_bentry(i + 1, bnode, i, bnode, tree);
@@ -941,12 +951,22 @@ delete_node(const void *key, bool deleted_p,
                 /* Key in internal node, move prev/next key up and delete it. */
                 iter.bnode = bnode;
                 if (bnode->children[i]->ecnt >= tree->cmin){
+                        if (! deleted_p){
+                                tree->allocator.free_cb(bnode->kvs[i].key);
+                                tree->allocator.free_cb(bnode->kvs[i].value);
+                                deleted_p = TRUE;
+                        }
                         iter.eidx = i;
                         search_max(&iter);
                         copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
                         return delete_node(entry_key(i, bnode, tree), deleted_p,
                                            bnode->children[i], tree);
                 }else if (bnode->children[i + 1]->ecnt >= tree->cmin){
+                        if (! deleted_p){
+                                tree->allocator.free_cb(bnode->kvs[i].key);
+                                tree->allocator.free_cb(bnode->kvs[i].value);
+                                deleted_p = TRUE;
+                        }
                         iter.eidx = i + 1;
                         search_min(&iter);
                         copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
@@ -1062,56 +1082,6 @@ bin_search(const void *key, const piojo_btree_t *tree,
         }
         return imin;
 }
-
-#ifdef PIOJO_DEBUG
-void
-print_tree(piojo_btree_t*tree)
-{
-        piojo_list_t*q=piojo_list_alloc_s(sizeof(bnode_t*));
-        piojo_list_node_t *qnode;
-        bnode_t*bnode,*b2;
-        piojo_btree_node_t iter;
-        size_t idx;
-        piojo_list_append(&tree->root, q);
-        while (piojo_list_size(q) > 0){
-                qnode = piojo_list_first(q);
-                bnode = *(bnode_t**)piojo_list_entry(qnode);
-                piojo_list_delete(qnode, q);
-                printf("\nNode %p (%u)(p:%p/%u leaf:%u) : ", (void*)bnode,
-                       bnode->ecnt,
-                       (void*)bnode->parent,bnode->pidx,bnode->leaf_p);
-                if (bnode->leaf_p){
-                        for (idx=0; idx<bnode->ecnt;++idx){
-                                printf("%d=%d , ", *(int*)entry_key(idx,bnode,tree),
-                                       *(int*)entry_val(idx,bnode,tree));
-                        }
-                }else{
-                        for (idx=0; idx<bnode->ecnt;++idx){
-                                b2 = bnode->children[idx];
-                                printf("[ %p ] ", (void*)b2);
-                                piojo_list_append(&b2,q);
-                                printf("%d=%d ", *(int*)entry_key(idx,bnode,tree),
-                                       *(int*)entry_val(idx,bnode,tree));
-                        }
-                        b2 = bnode->children[idx];
-                        printf("[ %p ]", (void*)b2);
-                        piojo_list_append(&b2,q);
-                }
-                if (bnode->ecnt == tree->cmax - 1){
-                        printf(" @@@ FULL");
-                }
-        }
-        if (tree->ecount > 0){
-                piojo_btree_first(tree, &iter);
-                printf("\nMIN: %d = %d ", *(int*)piojo_btree_entryk(&iter),
-                       *(int*)piojo_btree_entryv(&iter));
-                piojo_btree_last(tree, &iter);
-                printf("MAX: %d = %d\n", *(int*)piojo_btree_entryk(&iter),
-                       *(int*)piojo_btree_entryv(&iter));
-        }
-        piojo_list_free(q);
-}
-#endif /* PIOJO_DEBUG */
 
 /*
  * Private compare functions.
