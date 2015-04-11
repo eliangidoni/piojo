@@ -444,39 +444,42 @@ piojo_hash_delete(const void *key, piojo_hash_t *hash)
 }
 
 /**
- * Reads the first entry key in @a hash.
+ * Reads the first entry in @a hash.
  * @param[in] hash Hash table.
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a hash is empty.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return @b first key or @b NULL if @a hash is empty.
  */
-bool
-piojo_hash_first(const piojo_hash_t *hash, void *key)
+const void*
+piojo_hash_first(const piojo_hash_t *hash, void **data)
 {
         size_t bidx = 0;
         iter_t *iter;
         PIOJO_ASSERT(hash);
-        PIOJO_ASSERT(key);
 
         if (hash->ecount > 0){
                 while (hash->buckets[bidx] == NULL){
                         ++bidx;
                 }
-                memcpy(key, hash->buckets[bidx]->key, hash->eksize);
-                return FALSE;
+                if (data != NULL){
+                        *data = hash->buckets[bidx]->value;
+                }
+                return hash->buckets[bidx]->key;
         }
-        return TRUE;
+        return NULL;
 
 }
 /**
- * Reads the next entry key.
+ * Reads the next entry.
+ * @param[in] key
  * @param[in] hash Hash table.
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a key is the last one.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return @b next key or @b NULL if @a key is the last one.
  */
-bool
-piojo_hash_next(const piojo_hash_t *hash, void *key)
+const void*
+piojo_hash_next(const void *key, const piojo_hash_t *hash, void **data)
 {
         iter_t iter;
+        entry_t *kv;
         PIOJO_ASSERT(hash);
         PIOJO_ASSERT(key);
 
@@ -490,14 +493,16 @@ piojo_hash_next(const piojo_hash_t *hash, void *key)
         }
         if (next_valid_entry(&iter) != NULL){
                 if (iter.prev == NULL){
-                        memcpy(key, hash->buckets[iter.bidx]->key, hash->eksize);
+                        kv = hash->buckets[iter.bidx];
                 }else{
-                        memcpy(key, iter.prev->next->key, hash->eksize);
+                        kv = iter.prev->next;
                 }
-                return FALSE;
+                if (data != NULL){
+                        *data = kv->value;
+                }
+                return kv->key;
         }
-
-        return TRUE;
+        return NULL;
 }
 
 /** @}

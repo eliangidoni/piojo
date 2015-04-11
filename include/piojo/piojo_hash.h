@@ -98,11 +98,11 @@ piojo_hash_search(const void *key, const piojo_hash_t *hash);
 bool
 piojo_hash_delete(const void *key, piojo_hash_t *hash);
 
-bool
-piojo_hash_first(const piojo_hash_t *hash, void *key);
+const void*
+piojo_hash_first(const piojo_hash_t *hash, void **data);
 
-bool
-piojo_hash_next(const piojo_hash_t *hash, void *key);
+const void*
+piojo_hash_next(const void *key, const piojo_hash_t *hash, void **data);
 
 #ifdef __cplusplus
 }

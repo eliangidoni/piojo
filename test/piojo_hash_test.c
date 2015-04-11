@@ -408,12 +408,12 @@ void test_first_next()
         piojo_hash_insert(&i, &j, hash);
         piojo_hash_insert(&i2, &j2, hash);
 
-        piojo_hash_first(hash, &key);
+        key = *(const int*)piojo_hash_first(hash, NULL);
         PIOJO_ASSERT(i == key || i2 == key);
         tmp = *(int*) piojo_hash_search(&key, hash);
         PIOJO_ASSERT(j == tmp || j2 == tmp);
 
-        piojo_hash_next(hash, &key);
+        key = *(const int*)piojo_hash_next(&key, hash, NULL);
         PIOJO_ASSERT(i == key || i2 == key);
         tmp = *(int*) piojo_hash_search(&key, hash);
         PIOJO_ASSERT(j == tmp || j2 == tmp);
@@ -465,10 +465,12 @@ void test_stress()
                 PIOJO_ASSERT(j == i * 10);
         }
 
-        piojo_hash_first(hash, &j);
+        j = *(const int*)piojo_hash_first(hash, NULL);
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 PIOJO_ASSERT(*(int*) piojo_hash_search(&j, hash) == j * 10);
-                piojo_hash_next(hash, &j);
+                if (piojo_hash_next(&j, hash, NULL)){
+                        j = *(const int*)piojo_hash_next(&j, hash, NULL);
+                }
         }
 
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){

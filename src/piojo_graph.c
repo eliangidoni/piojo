@@ -196,8 +196,7 @@ piojo_graph_t*
 piojo_graph_copy(const piojo_graph_t *graph)
 {
         piojo_alloc_if allocator;
-        bool end_p;
-        piojo_graph_vid_t vid;
+        const piojo_graph_vid_t *vid;
         piojo_graph_t *newgraph;
         alist_t *alist;
         PIOJO_ASSERT(graph);
@@ -212,12 +211,10 @@ piojo_graph_copy(const piojo_graph_t *graph)
         newgraph->alists_by_vid = piojo_hash_copy(graph->alists_by_vid);
 
         /* Copy all edges for each vertex. */
-        end_p = piojo_hash_first(newgraph->alists_by_vid, &vid);
-        while (! end_p){
-                alist = (alist_t *)
-                        piojo_hash_search(&vid, newgraph->alists_by_vid);
+        vid = piojo_hash_first(newgraph->alists_by_vid, (void**)&alist);
+        while (vid != NULL){
                 alist->edges_by_vid = piojo_array_copy(alist->edges_by_vid);
-                end_p = piojo_hash_next(newgraph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, newgraph->alists_by_vid, (void**)&alist);
         }
 
         return newgraph;
@@ -685,7 +682,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         edge_t *e;
         alist_t *v;
         piojo_array_t *edges;
-        piojo_graph_vid_t vid;
+        const piojo_graph_vid_t *vid;
         size_t i, ecnt, vcnt;
         bool end_p, found_cycle_p = FALSE, relaxed_p = TRUE;
         PIOJO_ASSERT(graph);
@@ -698,17 +695,15 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         v->weight = 0;
 
         /* Insert every edge to edges array. */
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                v = (alist_t *)
-                    piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&v);
+        while (vid != NULL){
                 ecnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < ecnt; ++i){
                         e = ((edge_t *)
                              piojo_array_at(i, v->edges_by_vid));
                         piojo_array_push(&e, edges);
                 }
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&v);
         }
 
         /* Relax every edge for at most |V| times. */
@@ -741,8 +736,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
         piojo_diset_t *diset;
         alist_t *v;
         edge_t *e;
-        piojo_graph_vid_t vid;
-        bool end_p;
+        const piojo_graph_vid_t *vid;
         size_t ecnt, i;
         piojo_graph_weight_t w=0;
         PIOJO_ASSERT(graph);
@@ -757,10 +751,8 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
         diset = piojo_diset_alloc_cb(graph->allocator);
 
         /* Add every edge to priority queue (sorted by weight). */
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                v = (alist_t *)
-                    piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&v);
+        while (vid != NULL){
                 piojo_graph_insert(v->vid, tree);
                 piojo_diset_insert(v->vid, diset);
 
@@ -770,7 +762,7 @@ piojo_graph_min_tree(const piojo_graph_t *graph, piojo_graph_t *tree)
                              piojo_array_at(i, v->edges_by_vid));
                         insert_prioq((piojo_opaque_t)e, prioq);
                 }
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&v);
         }
 
         /* Add edge to graph if it links two different graph components. */
@@ -873,8 +865,8 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
         reset_attributes(graph);
         calc_incoming(graph, noincoming);
         while (piojo_hash_size(noincoming) > 0){
-                piojo_hash_first(noincoming, &tmp);
-                v = (alist_t *) tmp;
+                tmp = *(const piojo_opaque_t*)piojo_hash_first(noincoming, NULL);
+                v = (alist_t *)tmp;
                 piojo_hash_delete(&tmp, noincoming);
                 piojo_array_push(&v->vid, vertices);
 
@@ -972,53 +964,44 @@ unlink_vertices(alist_t *from, alist_t *to)
 static void
 reset_attributes(const piojo_graph_t *graph)
 {
-        piojo_graph_vid_t vid;
-        bool end_p;
+        const piojo_graph_vid_t *vid;
         alist_t *alist;
 
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                alist = (alist_t *)
-                        piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&alist);
+        while (vid != NULL){
                 alist->counter = 0;
                 alist->weight = WEIGHT_INF;
                 alist->score = WEIGHT_INF;
                 alist->mark = MARK_UNKNOWN;
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&alist);
         }
 }
 
 static void
 copy_weights(const piojo_graph_t *graph, piojo_hash_t *weights)
 {
-        piojo_graph_vid_t vid;
-        bool end_p;
+        const piojo_graph_vid_t *vid;
         alist_t *v;
 
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                v = (alist_t *)
-                    piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&v);
+        while (vid != NULL){
                 if (v->weight != WEIGHT_INF){
                         piojo_hash_insert(&v->vid, &v->weight, weights);
                 }
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&v);
         }
 }
 
 static void
 free_edges(const piojo_graph_t *graph)
 {
-        piojo_graph_vid_t vid;
-        bool end_p;
+        const piojo_graph_vid_t *vid;
         alist_t *alist;
 
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                alist = (alist_t *)
-                        piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&alist);
+        while (vid != NULL){
                 piojo_array_free(alist->edges_by_vid);
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&alist);
         }
 }
 
@@ -1223,17 +1206,14 @@ a_star_relax(alist_t *v, piojo_graph_vid_t dst,
 static void
 calc_incoming(const piojo_graph_t *graph, piojo_hash_t *noincoming)
 {
-        piojo_graph_vid_t vid;
+        const piojo_graph_vid_t *vid;
         alist_t *v, *nv;
         piojo_opaque_t tmp;
         edge_t *e;
         size_t i, ecnt;
-        bool end_p;
 
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                v = (alist_t *)
-                    piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&v);
+        while (vid != NULL){
                 ecnt = piojo_array_size(v->edges_by_vid);
                 for (i = 0; i < ecnt; ++i){
                         e = ((edge_t *)
@@ -1241,17 +1221,15 @@ calc_incoming(const piojo_graph_t *graph, piojo_hash_t *noincoming)
                         nv = vid_to_alist(e->end_vid, graph);
                         ++nv->counter;
                 }
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&v);
         }
 
-        end_p = piojo_hash_first(graph->alists_by_vid, &vid);
-        while (! end_p){
-                v = (alist_t *)
-                    piojo_hash_search(&vid, graph->alists_by_vid);
+        vid = piojo_hash_first(graph->alists_by_vid, (void**)&v);
+        while (vid != NULL){
                 if (v->counter == 0){
                         tmp = (piojo_opaque_t) v;
                         piojo_hash_insert(&tmp, NULL, noincoming);
                 }
-                end_p = piojo_hash_next(graph->alists_by_vid, &vid);
+                vid = piojo_hash_next(vid, graph->alists_by_vid, (void**)&v);
         }
 }
