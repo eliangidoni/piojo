@@ -111,26 +111,7 @@ static int
 i64_cmp(const void *e1, const void *e2);
 
 static int
-int_cmp(const void *e1, const void *e2);
-
-static int
-ptr_cmp(const void *e1, const void *e2);
-
-static int
 siz_cmp(const void *e1, const void *e2);
-
-/**
- * Allocates a new tree.
- * Uses default allocator and key size of @b int.
- * @param[in] evsize Entry value size in bytes.
- * @return New tree.
- */
-piojo_tree_t*
-piojo_tree_alloc_intk(size_t evsize)
-{
-        return piojo_tree_alloc_cb_intk(evsize,
-                                        piojo_alloc_default);
-}
 
 /**
  * Allocates a new tree.
@@ -160,19 +141,6 @@ piojo_tree_alloc_i64k(size_t evsize)
 
 /**
  * Allocates a new tree.
- * Uses default allocator and key size of @b uintptr_t.
- * @param[in] evsize Entry value size in bytes.
- * @return New tree.
- */
-piojo_tree_t*
-piojo_tree_alloc_ptrk(size_t evsize)
-{
-        return piojo_tree_alloc_cb_ptrk(evsize,
-                                        piojo_alloc_default);
-}
-
-/**
- * Allocates a new tree.
  * Uses default allocator and key size of @b size_t.
  * @param[in] evsize Entry value size in bytes.
  * @return New tree.
@@ -182,21 +150,6 @@ piojo_tree_alloc_sizk(size_t evsize)
 {
         return piojo_tree_alloc_cb_sizk(evsize,
                                         piojo_alloc_default);
-}
-
-/**
- * Allocates a new tree.
- * Uses key size of @b int.
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New tree.
- */
-piojo_tree_t*
-piojo_tree_alloc_cb_intk(size_t evsize,
-                         piojo_alloc_if allocator)
-{
-        return piojo_tree_alloc_cb_cmp(evsize,
-                                       int_cmp, sizeof(int), allocator);
 }
 
 /**
@@ -227,21 +180,6 @@ piojo_tree_alloc_cb_i64k(size_t evsize,
 {
         return piojo_tree_alloc_cb_cmp(evsize,
                                        i64_cmp, sizeof(int64_t), allocator);
-}
-
-/**
- * Allocates a new tree.
- * Uses key size of @b uintptr_t.
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New tree.
- */
-piojo_tree_t*
-piojo_tree_alloc_cb_ptrk(size_t evsize,
-                         piojo_alloc_if allocator)
-{
-        return piojo_tree_alloc_cb_cmp(evsize,
-                                       ptr_cmp, sizeof(uintptr_t), allocator);
 }
 
 /**
@@ -966,19 +904,6 @@ int_cmp(const void *e1, const void *e2)
 {
         int v1 = *(int*) e1;
         int v2 = *(int*) e2;
-        if (v1 > v2){
-                return 1;
-        }else if (v1 < v2){
-                return -1;
-        }
-        return 0;
-}
-
-static int
-ptr_cmp(const void *e1, const void *e2)
-{
-        uintptr_t v1 = *(uintptr_t*) e1;
-        uintptr_t v2 = *(uintptr_t*) e2;
         if (v1 > v2){
                 return 1;
         }else if (v1 < v2){

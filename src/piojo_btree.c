@@ -139,26 +139,7 @@ static int
 i64_cmp(const void *e1, const void *e2);
 
 static int
-int_cmp(const void *e1, const void *e2);
-
-static int
-ptr_cmp(const void *e1, const void *e2);
-
-static int
 siz_cmp(const void *e1, const void *e2);
-
-/**
- * Allocates a new tree.
- * Uses default allocator and key size of @b int.
- * @param[in] evsize Entry value size in bytes.
- * @return New tree.
- */
-piojo_btree_t*
-piojo_btree_alloc_intk(size_t evsize)
-{
-        return piojo_btree_alloc_cb_intk(TREE_CHILDREN_MAX, evsize,
-                                        piojo_alloc_default);
-}
 
 /**
  * Allocates a new tree.
@@ -188,19 +169,6 @@ piojo_btree_alloc_i64k(size_t evsize)
 
 /**
  * Allocates a new tree.
- * Uses default allocator and key size of @b uintptr_t.
- * @param[in] evsize Entry value size in bytes.
- * @return New tree.
- */
-piojo_btree_t*
-piojo_btree_alloc_ptrk(size_t evsize)
-{
-        return piojo_btree_alloc_cb_ptrk(TREE_CHILDREN_MAX, evsize,
-                                        piojo_alloc_default);
-}
-
-/**
- * Allocates a new tree.
  * Uses default allocator and key size of @b size_t.
  * @param[in] evsize Entry value size in bytes.
  * @return New tree.
@@ -210,23 +178,6 @@ piojo_btree_alloc_sizk(size_t evsize)
 {
         return piojo_btree_alloc_cb_sizk(TREE_CHILDREN_MAX, evsize,
                                         piojo_alloc_default);
-}
-
-/**
- * Allocates a new tree.
- * Uses key size of @b int.
- * @param[in] maxchildren Maximum children in each node (from 4 to 254,
- *            and multiple of 2).
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New tree.
- */
-piojo_btree_t*
-piojo_btree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_if allocator)
-{
-        return piojo_btree_alloc_cb_cmp(maxchildren, evsize,
-                                       int_cmp, sizeof(int), allocator);
 }
 
 /**
@@ -261,23 +212,6 @@ piojo_btree_alloc_cb_i64k(uint8_t maxchildren, size_t evsize,
 {
         return piojo_btree_alloc_cb_cmp(maxchildren, evsize,
                                        i64_cmp, sizeof(int64_t), allocator);
-}
-
-/**
- * Allocates a new tree.
- * Uses key size of @b uintptr_t.
- * @param[in] maxchildren Maximum children in each node (from 4 to 254,
- *            and multiple of 2).
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New tree.
- */
-piojo_btree_t*
-piojo_btree_alloc_cb_ptrk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_if allocator)
-{
-        return piojo_btree_alloc_cb_cmp(maxchildren, evsize,
-                                       ptr_cmp, sizeof(uintptr_t), allocator);
 }
 
 /**
@@ -1201,32 +1135,6 @@ i64_cmp(const void *e1, const void *e2)
 {
         int64_t v1 = *(int64_t*) e1;
         int64_t v2 = *(int64_t*) e2;
-        if (v1 > v2){
-                return 1;
-        }else if (v1 < v2){
-                return -1;
-        }
-        return 0;
-}
-
-static int
-int_cmp(const void *e1, const void *e2)
-{
-        int v1 = *(int*) e1;
-        int v2 = *(int*) e2;
-        if (v1 > v2){
-                return 1;
-        }else if (v1 < v2){
-                return -1;
-        }
-        return 0;
-}
-
-static int
-ptr_cmp(const void *e1, const void *e2)
-{
-        uintptr_t v1 = *(uintptr_t*) e1;
-        uintptr_t v2 = *(uintptr_t*) e2;
         if (v1 > v2){
                 return 1;
         }else if (v1 < v2){

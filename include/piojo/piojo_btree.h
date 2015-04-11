@@ -38,23 +38,13 @@ typedef struct piojo_btree_t piojo_btree_t;
 extern const size_t piojo_btree_sizeof;
 
 piojo_btree_t*
-piojo_btree_alloc_intk(size_t evsize);
-
-piojo_btree_t*
 piojo_btree_alloc_i32k(size_t evsize);
 
 piojo_btree_t*
 piojo_btree_alloc_i64k(size_t evsize);
 
 piojo_btree_t*
-piojo_btree_alloc_ptrk(size_t evsize);
-
-piojo_btree_t*
 piojo_btree_alloc_sizk(size_t evsize);
-
-piojo_btree_t*
-piojo_btree_alloc_cb_intk(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_if allocator);
 
 piojo_btree_t*
 piojo_btree_alloc_cb_i32k(uint8_t maxchildren, size_t evsize,
@@ -62,10 +52,6 @@ piojo_btree_alloc_cb_i32k(uint8_t maxchildren, size_t evsize,
 
 piojo_btree_t*
 piojo_btree_alloc_cb_i64k(uint8_t maxchildren, size_t evsize,
-                         piojo_alloc_if allocator);
-
-piojo_btree_t*
-piojo_btree_alloc_cb_ptrk(uint8_t maxchildren, size_t evsize,
                          piojo_alloc_if allocator);
 
 piojo_btree_t*

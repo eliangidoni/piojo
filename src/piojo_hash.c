@@ -97,25 +97,7 @@ static bool
 i64_eq(const void *e1, const void *e2);
 
 static bool
-int_eq(const void *e1, const void *e2);
-
-static bool
-ptr_eq(const void *e1, const void *e2);
-
-static bool
 siz_eq(const void *e1, const void *e2);
-
-/**
- * Allocates a new hash table.
- * Uses default allocator and key size of @b int.
- * @param[in] evsize Entry value size in bytes.
- * @return New hash table.
- */
-piojo_hash_t*
-piojo_hash_alloc_intk(size_t evsize)
-{
-        return piojo_hash_alloc_cb_intk(evsize, piojo_alloc_default);
-}
 
 /**
  * Allocates a new hash table.
@@ -143,18 +125,6 @@ piojo_hash_alloc_i64k(size_t evsize)
 
 /**
  * Allocates a new hash table.
- * Uses default allocator and key size of @b uintptr_t.
- * @param[in] evsize Entry value size in bytes.
- * @return New hash table.
- */
-piojo_hash_t*
-piojo_hash_alloc_ptrk(size_t evsize)
-{
-        return piojo_hash_alloc_cb_ptrk(evsize, piojo_alloc_default);
-}
-
-/**
- * Allocates a new hash table.
  * Uses default allocator and key size of @b size_t.
  * @param[in] evsize Entry value size in bytes.
  * @return New hash table.
@@ -163,20 +133,6 @@ piojo_hash_t*
 piojo_hash_alloc_sizk(size_t evsize)
 {
         return piojo_hash_alloc_cb_sizk(evsize, piojo_alloc_default);
-}
-
-/**
- * Allocates a new hash table.
- * Uses key size of @b int.
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New hash table.
- */
-piojo_hash_t*
-piojo_hash_alloc_cb_intk(size_t evsize, piojo_alloc_if allocator)
-{
-        return piojo_hash_alloc_cb_eq(evsize, int_eq, sizeof(int),
-                                      allocator);
 }
 
 /**
@@ -204,20 +160,6 @@ piojo_hash_t*
 piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_if allocator)
 {
         return piojo_hash_alloc_cb_eq(evsize, i64_eq, sizeof(int64_t),
-                                      allocator);
-}
-
-/**
- * Allocates a new hash table.
- * Uses key size of @b uintptr_t.
- * @param[in] evsize Entry value size in bytes.
- * @param[in] allocator Allocator to be used.
- * @return New hash table.
- */
-piojo_hash_t*
-piojo_hash_alloc_cb_ptrk(size_t evsize, piojo_alloc_if allocator)
-{
-        return piojo_hash_alloc_cb_eq(evsize, ptr_eq, sizeof(uintptr_t),
                                       allocator);
 }
 
@@ -809,28 +751,6 @@ i64_eq(const void *e1, const void *e2)
 {
         int64_t v1 = *(int64_t*) e1;
         int64_t v2 = *(int64_t*) e2;
-        if (v1 == v2){
-                return TRUE;
-        }
-        return FALSE;
-}
-
-static bool
-int_eq(const void *e1, const void *e2)
-{
-        int v1 = *(int*) e1;
-        int v2 = *(int*) e2;
-        if (v1 == v2){
-                return TRUE;
-        }
-        return FALSE;
-}
-
-static bool
-ptr_eq(const void *e1, const void *e2)
-{
-        uintptr_t v1 = *(uintptr_t*) e1;
-        uintptr_t v2 = *(uintptr_t*) e2;
         if (v1 == v2){
                 return TRUE;
         }

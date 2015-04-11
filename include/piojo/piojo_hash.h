@@ -38,31 +38,19 @@ typedef struct piojo_hash_t piojo_hash_t;
 extern const size_t piojo_hash_sizeof;
 
 piojo_hash_t*
-piojo_hash_alloc_intk(size_t evsize);
-
-piojo_hash_t*
 piojo_hash_alloc_i32k(size_t evsize);
 
 piojo_hash_t*
 piojo_hash_alloc_i64k(size_t evsize);
 
 piojo_hash_t*
-piojo_hash_alloc_ptrk(size_t evsize);
-
-piojo_hash_t*
 piojo_hash_alloc_sizk(size_t evsize);
-
-piojo_hash_t*
-piojo_hash_alloc_cb_intk(size_t evsize, piojo_alloc_if allocator);
 
 piojo_hash_t*
 piojo_hash_alloc_cb_i32k(size_t evsize, piojo_alloc_if allocator);
 
 piojo_hash_t*
 piojo_hash_alloc_cb_i64k(size_t evsize, piojo_alloc_if allocator);
-
-piojo_hash_t*
-piojo_hash_alloc_cb_ptrk(size_t evsize, piojo_alloc_if allocator);
 
 piojo_hash_t*
 piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_if allocator);
