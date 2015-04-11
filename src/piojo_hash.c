@@ -575,7 +575,7 @@ copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
         size_t ksize = hash->eksize;
 
         kv = ((entry_t*) ator.alloc_cb(sizeof(entry_t) +
-                                                  ksize + hash->evsize));
+                                       ksize + hash->evsize));
         PIOJO_ASSERT(kv);
 
         kv->key = (uint8_t*)kv + sizeof(entry_t);

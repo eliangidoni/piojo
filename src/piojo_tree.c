@@ -37,9 +37,13 @@ typedef enum {
         COLOR_RED
 } color_t;
 
+typedef struct {
+        void *key, *value;
+} kv_t;
+
 typedef struct rbnode_t rbnode_t;
 struct rbnode_t {
-        void *key, *value;
+        kv_t *kv;
         rbnode_t *parent, *right, *left;
         color_t color;
 };
@@ -359,7 +363,7 @@ piojo_tree_clear(piojo_tree_t *tree)
         PIOJO_ASSERT(tree);
 
         while (tree->ecount > 0){
-                delete_node(tree->root->key, tree);
+                delete_node(tree->root->kv->key, tree);
                 --tree->ecount;
         }
 }
@@ -423,7 +427,7 @@ piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
         }
 
         if (data != NULL){
-                memcpy(node->value, data, tree->evsize);
+                memcpy(node->kv->value, data, tree->evsize);
         }
         return FALSE;
 }
@@ -443,7 +447,7 @@ piojo_tree_search(const void *key, const piojo_tree_t *tree)
 
         node = search_node(key, tree);
         if (node != tree->nil){
-                return node->value;
+                return node->kv->value;
         }
         return NULL;
 }
@@ -480,7 +484,8 @@ piojo_tree_first(const piojo_tree_t *tree, void *key)
         PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                memcpy(key, search_min(tree->root, tree)->key, tree->eksize);
+                memcpy(key, search_min(tree->root, tree)->kv->key,
+                       tree->eksize);
                 return FALSE;
         }
         return TRUE;
@@ -499,7 +504,8 @@ piojo_tree_last(const piojo_tree_t *tree, void *key)
         PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                memcpy(key, search_max(tree->root, tree)->key, tree->eksize);
+                memcpy(key, search_max(tree->root, tree)->kv->key,
+                       tree->eksize);
                 return FALSE;
         }
         return TRUE;
@@ -523,7 +529,7 @@ piojo_tree_next(const piojo_tree_t *tree, void *key)
 
         rbnode = next_node(rbnode, tree);
         if (rbnode != tree->nil){
-                memcpy(key, rbnode->key, tree->eksize);
+                memcpy(key, rbnode->kv->key, tree->eksize);
                 return FALSE;
         }
         return TRUE;
@@ -547,7 +553,7 @@ piojo_tree_prev(const piojo_tree_t *tree, void *key)
 
         rbnode = prev_node(rbnode, tree);
         if (rbnode != tree->nil){
-                memcpy(key, rbnode->key, tree->eksize);
+                memcpy(key, rbnode->kv->key, tree->eksize);
                 return FALSE;
         }
         return TRUE;
@@ -562,14 +568,18 @@ alloc_rbnode(const piojo_tree_t *tree)
 {
         piojo_alloc_if ator = tree->allocator;
         rbnode_t *node;
-        size_t nodesiz = sizeof(rbnode_t);
+        kv_t *kv;
 
-        node = ((rbnode_t*)
-                 ator.alloc_cb(nodesiz + tree->eksize + tree->evsize));
+        kv = (kv_t*) ator.alloc_cb(sizeof(kv_t) + tree->eksize + tree->evsize);
+        PIOJO_ASSERT(kv);
+
+        kv->key = (uint8_t*) kv + sizeof(kv_t);
+        kv->value = (uint8_t*) kv->key + tree->eksize;
+
+        node = (rbnode_t*) ator.alloc_cb(sizeof(rbnode_t));
         PIOJO_ASSERT(node);
 
-        node->key = (uint8_t*) node + nodesiz;
-        node->value = (uint8_t*) node->key + tree->eksize;
+        node->kv = kv;
         node->left = tree->nil;
         node->right = tree->nil;
         node->parent = tree->nil;
@@ -581,6 +591,7 @@ alloc_rbnode(const piojo_tree_t *tree)
 static void
 free_rbnode(const rbnode_t *node, const piojo_tree_t *tree)
 {
+        tree->allocator.free_cb(node->kv);
         tree->allocator.free_cb(node);
 }
 
@@ -595,8 +606,8 @@ init_rbnode(const void *key, const void *data, const rbnode_t *node,
                 data = &null_p;
         }
 
-        memcpy(node->key, key, tree->eksize);
-        memcpy(node->value, data, tree->evsize);
+        memcpy(node->kv->key, key, tree->eksize);
+        memcpy(node->kv->value, data, tree->evsize);
 }
 
 static void
@@ -605,8 +616,8 @@ copy_rbnode(const void *key, const void *data, const rbnode_t *node,
 {
         piojo_alloc_if ator = tree->allocator;
 
-        memcpy(node->key, key, tree->eksize);
-        memcpy(node->value, data, tree->evsize);
+        memcpy(node->kv->key, key, tree->eksize);
+        memcpy(node->kv->value, data, tree->evsize);
 }
 
 static void
@@ -666,7 +677,7 @@ insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
         rbnode_t *newnode, *parent = tree->nil, *cur = tree->root;
         while (cur != tree->nil){
                 parent = cur;
-                cmpval = tree->cmp_cb(key, cur->key);
+                cmpval = tree->cmp_cb(key, cur->kv->key);
                 if (cmpval == 0){
                         return cur;
                 }else if (cmpval < 0){
@@ -681,7 +692,7 @@ insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
         if (parent == tree->nil){
                 tree->root = newnode;
         }else{
-                cmpval = tree->cmp_cb(key, parent->key);
+                cmpval = tree->cmp_cb(key, parent->kv->key);
                 if (cmpval < 0){
                         parent->left = newnode;
                 }else{
@@ -753,7 +764,7 @@ search_node(const void *key, const piojo_tree_t *tree)
         int cmpval;
         rbnode_t *cur = tree->root;
         while (cur != tree->nil){
-                cmpval = tree->cmp_cb(key, cur->key);
+                cmpval = tree->cmp_cb(key, cur->kv->key);
                 if (cmpval == 0){
                         return cur;
                 }else if (cmpval < 0){
@@ -818,6 +829,7 @@ prev_node(rbnode_t *node, const piojo_tree_t *tree)
 static bool
 delete_node(const void *key, piojo_tree_t *tree)
 {
+        kv_t *tmp;
         rbnode_t *x, *y, *node = search_node(key, tree);
         if (node == tree->nil){
                 return FALSE;
@@ -844,8 +856,9 @@ delete_node(const void *key, piojo_tree_t *tree)
         }
 
         if (node != y){
-                memcpy(node->key, y->key, tree->eksize);
-                memcpy(node->value, y->value, tree->evsize);
+                tmp = y->kv;
+                y->kv = node->kv;
+                node->kv = tmp;
         }
         if (y->color == COLOR_BLACK){
                 fix_delete(x, tree);
