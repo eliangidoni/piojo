@@ -314,8 +314,8 @@ piojo_tree_t*
 piojo_tree_copy(const piojo_tree_t *tree)
 {
         piojo_tree_t *newtree;
-        void *key;
-        bool end_p;
+        const void *key;
+        void *data;
         PIOJO_ASSERT(tree);
 
         newtree = piojo_tree_alloc_cb_cmp(tree->evsize,
@@ -323,17 +323,11 @@ piojo_tree_copy(const piojo_tree_t *tree)
                                           tree->allocator);
         newtree->ecount = tree->ecount;
 
-        key = tree->allocator.alloc_cb(tree->eksize);
-        PIOJO_ASSERT(key);
-
-        end_p = piojo_tree_first(tree, key);
-        while (! end_p){
-                insert_node(key, piojo_tree_search(key, tree),
-                            INSERT_COPY, newtree);
-                end_p = piojo_tree_next(tree, key);
+        key = piojo_tree_first(tree, &data);
+        while (key != NULL){
+                insert_node(key, data, INSERT_COPY, newtree);
+                key = piojo_tree_next(key, tree, &data);
         }
-        tree->allocator.free_cb(key);
-
         return newtree;
 }
 
@@ -474,51 +468,56 @@ piojo_tree_delete(const void *key, piojo_tree_t *tree)
 /**
  * Reads the first key in @a tree (order given by @a keycmp function).
  * @param[in] tree
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a tree is empty.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return first key or @b NULL if @a tree is empty.
  */
-bool
-piojo_tree_first(const piojo_tree_t *tree, void *key)
+const void*
+piojo_tree_first(const piojo_tree_t *tree, void **data)
 {
+        kv_t *kv;
         PIOJO_ASSERT(tree);
-        PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                memcpy(key, search_min(tree->root, tree)->kv->key,
-                       tree->eksize);
-                return FALSE;
+                kv = search_min(tree->root, tree)->kv;
+                if (data != NULL){
+                        *data = kv->value;
+                }
+                return kv->key;
         }
-        return TRUE;
+        return NULL;
 }
 
 /**
  * Reads the last key in @a tree (order given by @a keycmp function).
  * @param[in] tree
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a tree is empty.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return last key or @b NULL if @a tree is empty.
  */
-bool
-piojo_tree_last(const piojo_tree_t *tree, void *key)
+const void*
+piojo_tree_last(const piojo_tree_t *tree, void **data)
 {
+        kv_t *kv;
         PIOJO_ASSERT(tree);
-        PIOJO_ASSERT(key);
 
         if (tree->ecount > 0){
-                memcpy(key, search_max(tree->root, tree)->kv->key,
-                       tree->eksize);
-                return FALSE;
+                kv = search_max(tree->root, tree)->kv;
+                if (data != NULL){
+                        *data = kv->value;
+                }
+                return kv->key;
         }
-        return TRUE;
+        return NULL;
 }
 
 /**
  * Reads the next key (order given by @a keycmp function).
+ * @param[in] key
  * @param[in] tree
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a key is the last one.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return next key or @b NULL if @a key is the last one.
  */
-bool
-piojo_tree_next(const piojo_tree_t *tree, void *key)
+const void*
+piojo_tree_next(const void *key, const piojo_tree_t *tree, void **data)
 {
         rbnode_t *rbnode;
         PIOJO_ASSERT(tree);
@@ -529,20 +528,23 @@ piojo_tree_next(const piojo_tree_t *tree, void *key)
 
         rbnode = next_node(rbnode, tree);
         if (rbnode != tree->nil){
-                memcpy(key, rbnode->kv->key, tree->eksize);
-                return FALSE;
+                if (data != NULL){
+                        *data = rbnode->kv->value;
+                }
+                return rbnode->kv->key;
         }
-        return TRUE;
+        return NULL;
 }
 
 /**
  * Reads the previous key (order given by @a keycmp function).
+ * @param[in] key
  * @param[in] tree
- * @param[out] key
- * @return @b FALSE or @b TRUE if @a key is the first one.
+ * @param[out] data Entry value, can be @b NULL.
+ * @return previous key or @b NULL if @a key is the first one.
  */
-bool
-piojo_tree_prev(const piojo_tree_t *tree, void *key)
+const void*
+piojo_tree_prev(const void *key, const piojo_tree_t *tree, void **data)
 {
         rbnode_t *rbnode;
         PIOJO_ASSERT(tree);
@@ -553,10 +555,12 @@ piojo_tree_prev(const piojo_tree_t *tree, void *key)
 
         rbnode = prev_node(rbnode, tree);
         if (rbnode != tree->nil){
-                memcpy(key, rbnode->kv->key, tree->eksize);
-                return FALSE;
+                if (data != NULL){
+                        *data = rbnode->kv->value;
+                }
+                return rbnode->kv->key;
         }
-        return TRUE;
+        return NULL;
 }
 
 /** @}

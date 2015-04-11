@@ -104,17 +104,17 @@ piojo_tree_search(const void *key, const piojo_tree_t *tree);
 bool
 piojo_tree_delete(const void *key, piojo_tree_t *tree);
 
-bool
-piojo_tree_first(const piojo_tree_t *tree, void *key);
+const void*
+piojo_tree_first(const piojo_tree_t *tree, void **data);
 
-bool
-piojo_tree_last(const piojo_tree_t *tree, void *key);
+const void*
+piojo_tree_last(const piojo_tree_t *tree, void **data);
 
-bool
-piojo_tree_next(const piojo_tree_t *tree, void *key);
+const void*
+piojo_tree_next(const void *key, const piojo_tree_t *tree, void **data);
 
-bool
-piojo_tree_prev(const piojo_tree_t *tree, void *key);
+const void*
+piojo_tree_prev(const void *key, const piojo_tree_t *tree, void **data);
 
 #ifdef __cplusplus
 }
