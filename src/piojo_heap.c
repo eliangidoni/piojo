@@ -215,7 +215,7 @@ piojo_heap_decrease(piojo_opaque_t data, piojo_heap_t *heap)
         size_t *idx;
         PIOJO_ASSERT(heap);
 
-        idx = piojo_hash_search(&data, heap->indices_by_data);
+        idx = (size_t*)piojo_hash_search(&data, heap->indices_by_data);
         PIOJO_ASSERT(idx != NULL);
 
         sort_up(*idx, heap);

@@ -23,6 +23,8 @@ set(piojo_SOURCES
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_BINARY_DIR}/include")
 
+#set_source_files_properties( ${piojo_SOURCES} PROPERTIES LANGUAGE CXX )
+
 add_library(piojo ${piojo_SOURCES})
 
 set_target_properties(piojo PROPERTIES

@@ -6,6 +6,8 @@ FILE(GLOB_RECURSE piojo_TEST_SOURCES ${PROJECT_SOURCE_DIR}/test/piojo_*_test.c)
 FILE(GLOB_RECURSE piojo_TEST_SOURCESCPP ${PROJECT_SOURCE_DIR}/test/piojo_*_test.cpp)
 set(piojo_TEST_SOURCES ${piojo_TEST_SOURCES} ${piojo_TEST_SOURCESCPP})
 
+#set_source_files_properties( ${piojo_TEST_SOURCES} PROPERTIES LANGUAGE CXX )
+
 foreach(testsource ${piojo_TEST_SOURCES})
   get_filename_component(name ${testsource} NAME_WE)
   add_executable(${name} ${testsource} ${PROJECT_SOURCE_DIR}/test/piojo_test.c)

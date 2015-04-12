@@ -204,7 +204,7 @@ piojo_stream_readu64(piojo_stream_t *stream)
         PIOJO_ASSERT(sizeof(uint64_t) <=
                      piojo_stream_size(stream) - stream->ridx);
 
-        val = be64decode(piojo_array_at(stream->ridx, stream->data));
+        val = be64decode((uint8_t*)piojo_array_at(stream->ridx, stream->data));
         stream->ridx += sizeof(uint64_t);
         return val;
 }
@@ -263,7 +263,7 @@ piojo_stream_readu32(piojo_stream_t *stream)
         PIOJO_ASSERT(sizeof(uint32_t) <=
                      piojo_stream_size(stream) - stream->ridx);
 
-        val = be32decode(piojo_array_at(stream->ridx, stream->data));
+        val = be32decode((uint8_t*)piojo_array_at(stream->ridx, stream->data));
         stream->ridx += sizeof(uint32_t);
         return val;
 }
@@ -322,7 +322,7 @@ piojo_stream_readu16(piojo_stream_t *stream)
         PIOJO_ASSERT(sizeof(uint16_t) <=
                      piojo_stream_size(stream) - stream->ridx);
 
-        val = be16decode(piojo_array_at(stream->ridx, stream->data));
+        val = be16decode((uint8_t*)piojo_array_at(stream->ridx, stream->data));
         stream->ridx += sizeof(uint16_t);
         return val;
 }
