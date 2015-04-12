@@ -182,7 +182,7 @@ piojo_hash_alloc_cb_sizk(size_t evsize, piojo_alloc_if allocator)
  * Uses default allocator.
  * @param[in] evsize Entry value size in bytes.
  * @param[in] keyeq Entry key equality function.
- * @param[in] eksize Entry key size in bytes (0 for @b NULL terminated strings).
+ * @param[in] eksize Entry key size in bytes.
  * @return New hash table.
  */
 piojo_hash_t*
@@ -196,7 +196,7 @@ piojo_hash_alloc_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize)
  * Allocates a new hash table.
  * @param[in] evsize Entry value size in bytes.
  * @param[in] keyeq Entry key equality function.
- * @param[in] eksize Entry key size in bytes (0 for @b NULL terminated strings).
+ * @param[in] eksize Entry key size in bytes.
  * @param[in] allocator Allocator to be used.
  * @return New hash table.
  */
@@ -709,7 +709,7 @@ alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
 
         piojo_hash_t * hash;
         size_t size;
-        PIOJO_ASSERT(evsize > 0);
+        PIOJO_ASSERT(eksize > 0 && evsize > 0);
         PIOJO_ASSERT(bucketcnt > 0);
         PIOJO_ASSERT(piojo_safe_mulsiz_p(bucketcnt,
                                          sizeof(entry_t*)));
