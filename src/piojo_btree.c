@@ -117,6 +117,9 @@ copy_entry(const void *key, const void *data, uint8_t eidx,
            const bnode_t *bnode, const piojo_btree_t *tree);
 
 static void
+free_entry(const kv_t *kv, const piojo_btree_t *tree, bool *deleted_p);
+
+static void
 search_min(iter_t *from);
 
 static void
@@ -837,6 +840,16 @@ copy_entry(const void *key, const void *data, uint8_t eidx,
         memcpy(entry_val(eidx, bnode, tree), data, tree->evsize);
 }
 
+static void
+free_entry(const kv_t *kv, const piojo_btree_t *tree, bool *deleted_p)
+{
+        if (*deleted_p == FALSE){
+                tree->allocator.free_cb(kv->key);
+                tree->allocator.free_cb(kv->value);
+                *deleted_p = TRUE;
+        }
+}
+
 /* Binary search for key. */
 static iter_t
 search_node(const void *key, const piojo_btree_t *tree)
@@ -936,11 +949,7 @@ delete_node(const void *key, bool deleted_p,
         if (found_p){
                 /* Key in leaf, shrink the leaf and finish. */
                 if (bnode->leaf_p){
-                        if (! deleted_p){
-                                tree->allocator.free_cb(bnode->kvs[i].key);
-                                tree->allocator.free_cb(bnode->kvs[i].value);
-                                deleted_p = TRUE;
-                        }
+                        free_entry(&bnode->kvs[i], tree, &deleted_p);
                         --bnode->ecnt;
                         for (; i < bnode->ecnt; ++i){
                                 copy_bentry(i + 1, bnode, i, bnode, tree);
@@ -951,22 +960,14 @@ delete_node(const void *key, bool deleted_p,
                 /* Key in internal node, move prev/next key up and delete it. */
                 iter.bnode = bnode;
                 if (bnode->children[i]->ecnt >= tree->cmin){
-                        if (! deleted_p){
-                                tree->allocator.free_cb(bnode->kvs[i].key);
-                                tree->allocator.free_cb(bnode->kvs[i].value);
-                                deleted_p = TRUE;
-                        }
+                        free_entry(&bnode->kvs[i], tree, &deleted_p);
                         iter.eidx = i;
                         search_max(&iter);
                         copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
                         return delete_node(entry_key(i, bnode, tree), deleted_p,
                                            bnode->children[i], tree);
                 }else if (bnode->children[i + 1]->ecnt >= tree->cmin){
-                        if (! deleted_p){
-                                tree->allocator.free_cb(bnode->kvs[i].key);
-                                tree->allocator.free_cb(bnode->kvs[i].value);
-                                deleted_p = TRUE;
-                        }
+                        free_entry(&bnode->kvs[i], tree, &deleted_p);
                         iter.eidx = i + 1;
                         search_min(&iter);
                         copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
