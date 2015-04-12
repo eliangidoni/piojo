@@ -34,13 +34,14 @@
 #include <piojo_defs.h>
 
 typedef struct {
-        void *key, *value;
+        void *value;
 } kv_t;
 
 typedef struct bnode_t bnode_t;
 struct bnode_t {
         bool leaf_p;
         uint8_t ecnt, pidx;
+        uint8_t *keys;
         kv_t *kvs;
         bnode_t **children, *parent;
 };
@@ -603,15 +604,17 @@ alloc_bnode(const piojo_btree_t *tree)
 {
         piojo_alloc_if ator = tree->allocator;
         bnode_t *bnode;
+        size_t keysiz = tree->eksize * (tree->cmax - 1);
         size_t kvsize = sizeof(kv_t) * (tree->cmax - 1);
         size_t childrensiz = sizeof(bnode_t*) * tree->cmax;
         size_t bnodesiz = sizeof(bnode_t);
 
         bnode = ((bnode_t*)
-                 ator.alloc_cb(bnodesiz + kvsize + childrensiz));
+                 ator.alloc_cb(bnodesiz + keysiz + kvsize + childrensiz));
         PIOJO_ASSERT(bnode);
 
-        bnode->kvs = (kv_t*)((uint8_t*) bnode + bnodesiz);
+        bnode->keys = (uint8_t*) bnode + bnodesiz;
+        bnode->kvs = (kv_t*)((uint8_t*) bnode->keys + keysiz);
         bnode->children = ((bnode_t**)
                            ((uint8_t*) bnode->kvs + kvsize));
         bnode->ecnt = bnode->pidx = 0;
@@ -787,7 +790,9 @@ static void
 copy_bentry(uint8_t eidx, const bnode_t *bnode, uint8_t toidx,
             const bnode_t *to, const piojo_btree_t *tree)
 {
-        to->kvs[toidx].key = bnode->kvs[eidx].key;
+        memcpy(&to->keys[toidx * tree->eksize],
+               &bnode->keys[eidx * tree->eksize], tree->eksize);
+
         to->kvs[toidx].value = bnode->kvs[eidx].value;
 }
 
@@ -795,7 +800,7 @@ static void*
 entry_key(uint8_t eidx, const bnode_t *bnode,
           const piojo_btree_t *tree)
 {
-        return bnode->kvs[eidx].key;
+        return &bnode->keys[eidx * tree->eksize];
 }
 
 static void*
@@ -816,8 +821,6 @@ init_entry(const void *key, const void *data, uint8_t eidx,
                 data = &null_p;
         }
 
-        bnode->kvs[eidx].key = ator.alloc_cb(tree->eksize);
-        PIOJO_ASSERT(bnode->kvs[eidx].key);
         memcpy(entry_key(eidx, bnode, tree), key, tree->eksize);
 
         bnode->kvs[eidx].value = ator.alloc_cb(tree->evsize);
@@ -831,8 +834,6 @@ copy_entry(const void *key, const void *data, uint8_t eidx,
 {
         piojo_alloc_if ator = tree->allocator;
 
-        bnode->kvs[eidx].key = ator.alloc_cb(tree->eksize);
-        PIOJO_ASSERT(bnode->kvs[eidx].key);
         memcpy(entry_key(eidx, bnode, tree), key, tree->eksize);
 
         bnode->kvs[eidx].value = ator.alloc_cb(tree->evsize);
@@ -844,7 +845,6 @@ static void
 free_entry(const kv_t *kv, const piojo_btree_t *tree, bool *deleted_p)
 {
         if (*deleted_p == FALSE){
-                tree->allocator.free_cb(kv->key);
                 tree->allocator.free_cb(kv->value);
                 *deleted_p = TRUE;
         }
