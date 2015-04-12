@@ -123,15 +123,11 @@
 #define graph_sort piojo_graph_sort
 
 /* Hash */
-#define hash_alloc_intk piojo_hash_alloc_intk
 #define hash_alloc_i32k piojo_hash_alloc_i32k
 #define hash_alloc_i64k piojo_hash_alloc_i64k
-#define hash_alloc_ptrk piojo_hash_alloc_ptrk
 #define hash_alloc_sizk piojo_hash_alloc_sizk
-#define hash_alloc_cb_intk piojo_hash_alloc_cb_intk
 #define hash_alloc_cb_i32k piojo_hash_alloc_cb_i32k
 #define hash_alloc_cb_i64k piojo_hash_alloc_cb_i64k
-#define hash_alloc_cb_ptrk piojo_hash_alloc_cb_ptrk
 #define hash_alloc_cb_sizk piojo_hash_alloc_cb_sizk
 #define hash_alloc_eq piojo_hash_alloc_eq
 #define hash_alloc_cb_eq piojo_hash_alloc_cb_eq
@@ -245,15 +241,11 @@
 #define stream_writebool piojo_stream_writebool
 
 /* B tree */
-#define btree_alloc_intk piojo_btree_alloc_intk
 #define btree_alloc_i32k piojo_btree_alloc_i32k
 #define btree_alloc_i64k piojo_btree_alloc_i64k
-#define btree_alloc_ptrk piojo_btree_alloc_ptrk
 #define btree_alloc_sizk piojo_btree_alloc_sizk
-#define btree_alloc_cb_intk piojo_btree_alloc_cb_intk
 #define btree_alloc_cb_i32k piojo_btree_alloc_cb_i32k
 #define btree_alloc_cb_i64k piojo_btree_alloc_cb_i64k
-#define btree_alloc_cb_ptrk piojo_btree_alloc_cb_ptrk
 #define btree_alloc_cb_sizk piojo_btree_alloc_cb_sizk
 #define btree_alloc_cmp piojo_btree_alloc_cmp
 #define btree_alloc_cb_cmp piojo_btree_alloc_cb_cmp
@@ -271,15 +263,11 @@
 #define btree_prev piojo_btree_prev
 
 /* Red-Black tree */
-#define tree_alloc_intk piojo_tree_alloc_intk
 #define tree_alloc_i32k piojo_tree_alloc_i32k
 #define tree_alloc_i64k piojo_tree_alloc_i64k
-#define tree_alloc_ptrk piojo_tree_alloc_ptrk
 #define tree_alloc_sizk piojo_tree_alloc_sizk
-#define tree_alloc_cb_intk piojo_tree_alloc_cb_intk
 #define tree_alloc_cb_i32k piojo_tree_alloc_cb_i32k
 #define tree_alloc_cb_i64k piojo_tree_alloc_cb_i64k
-#define tree_alloc_cb_ptrk piojo_tree_alloc_cb_ptrk
 #define tree_alloc_cb_sizk piojo_tree_alloc_cb_sizk
 #define tree_alloc_cmp piojo_tree_alloc_cmp
 #define tree_alloc_cb_cmp piojo_tree_alloc_cb_cmp
