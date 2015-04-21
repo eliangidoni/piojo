@@ -56,8 +56,8 @@ const size_t piojo_hash_sizeof = sizeof(piojo_hash_t);
 static const size_t DEFAULT_BUCKET_COUNT = 32;
 static const double LOAD_RATIO_MAX = 0.8f;
 
-static unsigned long
-calc_hash(const unsigned char *str, size_t len);
+static uint32_t
+calc_hash(const unsigned char *buf, size_t len);
 
 static piojo_hash_t*
 alloc_hash(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
@@ -451,19 +451,20 @@ piojo_hash_next(const void *key, const piojo_hash_t *hash, void **data)
  * Private functions.
  */
 
-/* djb2 hash */
-static unsigned long
-calc_hash(const unsigned char *str, size_t len)
+/* 32 bit Fowler/Noll/Vo FNV-1a hash on a buffer. */
+static uint32_t
+calc_hash(const unsigned char *buf, size_t len)
 {
-        unsigned long hash = 5381;
-        int c;
-
-        while (len-- > 0){
-                c = *str++;
-                hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+        uint32_t hval = (uint32_t)0x811c9dc5;
+        unsigned char *bp = (unsigned char *)buf;
+        unsigned char *be = bp + len;
+        while (bp < be) {
+                /* xor the bottom with the current octet */
+                hval ^= (uint32_t)*bp++;
+                /* multiply by the 32 bit FNV magic prime mod 2^32 */
+                hval *= (uint32_t)0x01000193;
         }
-
-        return hash;
+        return hval;
 }
 
 static iter_t*
