@@ -129,8 +129,7 @@ static iter_t
 search_node(const void *key, const piojo_btree_t *tree);
 
 static bool
-delete_node(const void *key, bool deleted_p,
-            bnode_t *bnode, piojo_btree_t *tree);
+delete_node(const void *key, bnode_t *bnode, piojo_btree_t *tree);
 
 static size_t
 bin_search(const void *key, const piojo_btree_t *tree,
@@ -343,7 +342,7 @@ piojo_btree_clear(piojo_btree_t *tree)
         PIOJO_ASSERT(key);
         while (tree->ecount > 0){
                 memcpy(key, entry_key(0, tree->root, tree), tree->eksize);
-                delete_node(key, FALSE, tree->root, tree);
+                delete_node(key, tree->root, tree);
                 --tree->ecount;
         }
         tree->allocator.free_cb(key);
@@ -448,7 +447,7 @@ piojo_btree_delete(const void *key, piojo_btree_t *tree)
         PIOJO_ASSERT(tree);
         PIOJO_ASSERT(key);
 
-        if (delete_node(key, FALSE, tree->root, tree)){
+        if (delete_node(key, tree->root, tree)){
                 --tree->ecount;
                 return TRUE;
         }
@@ -907,67 +906,65 @@ insert_node(const void *key, const void *data, piojo_btree_t *tree)
         return iter;
 }
 
-
-/*
- * Recursively delete key if it's found.
- * 'deleted_p' is TRUE if the original key was found/deleted.
- */
 static bool
-delete_node(const void *key, bool deleted_p,
-              bnode_t *bnode, piojo_btree_t *tree)
+delete_node(const void *key, bnode_t *bnode, piojo_btree_t *tree)
 {
-        bool found_p;
+        bool found_p, deleted_p=FALSE;
         size_t i;
         bnode_t *next;
         iter_t iter;
 
-        i = bin_search(key, tree, bnode, &found_p);
-        if (found_p){
-                /* Key in leaf, shrink the leaf and finish. */
-                if (bnode->leaf_p){
-                        free_entry(&bnode->kvs[i], tree, &deleted_p);
-                        --bnode->ecnt;
-                        for (; i < bnode->ecnt; ++i){
-                                copy_bentry(i + 1, bnode, i, bnode, tree);
+        while (bnode != NULL){
+                i = bin_search(key, tree, bnode, &found_p);
+                if (found_p){
+                        /* Key in leaf, shrink the leaf and finish. */
+                        if (bnode->leaf_p){
+                                free_entry(&bnode->kvs[i], tree, &deleted_p);
+                                --bnode->ecnt;
+                                for (; i < bnode->ecnt; ++i){
+                                        copy_bentry(i + 1, bnode, i, bnode, tree);
+                                }
+                                return TRUE;
                         }
-                        return deleted_p;
-                }
 
-                /* Key in internal node, move prev/next key up and delete it. */
-                iter.bnode = bnode;
-                if (bnode->children[i]->ecnt >= tree->cmin){
-                        free_entry(&bnode->kvs[i], tree, &deleted_p);
-                        iter.eidx = i;
-                        search_max(&iter);
-                        copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
-                        return delete_node(entry_key(i, bnode, tree), deleted_p,
-                                           bnode->children[i], tree);
-                }else if (bnode->children[i + 1]->ecnt >= tree->cmin){
-                        free_entry(&bnode->kvs[i], tree, &deleted_p);
-                        iter.eidx = i + 1;
-                        search_min(&iter);
-                        copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
-                        return delete_node(entry_key(i, bnode, tree), deleted_p,
-                                           bnode->children[i + 1], tree);
+                        /* Key in internal node, move prev/next key up and delete it. */
+                        iter.bnode = bnode;
+                        if (bnode->children[i]->ecnt >= tree->cmin){
+                                free_entry(&bnode->kvs[i], tree, &deleted_p);
+                                iter.eidx = i;
+                                search_max(&iter);
+                                copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
+                                key = entry_key(i, bnode, tree);
+                                bnode = bnode->children[i];
+                        }else if (bnode->children[i + 1]->ecnt >= tree->cmin){
+                                free_entry(&bnode->kvs[i], tree, &deleted_p);
+                                iter.eidx = i + 1;
+                                search_min(&iter);
+                                copy_bentry(iter.eidx, iter.bnode, i, bnode, tree);
+                                key = entry_key(i, bnode, tree);
+                                bnode = bnode->children[i + 1];
+                        }else{
+                                /* Both node children are key deficient, merge and try again. */
+                                PIOJO_ASSERT(bnode->children[i]->ecnt == tree->cmin - 1);
+                                PIOJO_ASSERT(bnode->children[i + 1]->ecnt == tree->cmin - 1);
+                                next = bnode->children[i];
+                                merge_bnodes(tree, i, next, bnode->children[i + 1], bnode);
+                                bnode = next;
+                        }
+                }else if (! bnode->leaf_p){
+                        /* Key not in internal node, rebalance and try again. */
+                        next = bnode->children[i];
+                        if (next->ecnt < tree->cmin){
+                                PIOJO_ASSERT(next->ecnt == tree->cmin - 1);
+                                next = rebalance_bnode(tree, i, next, bnode);
+                        }
+                        bnode = next;
+                }else{
+                        /* Key not in leaf. */
+                        bnode = NULL;
                 }
-
-                /* Both node children are key deficient, merge and try again. */
-                PIOJO_ASSERT(bnode->children[i]->ecnt == tree->cmin - 1);
-                PIOJO_ASSERT(bnode->children[i + 1]->ecnt == tree->cmin - 1);
-                next = bnode->children[i];
-                merge_bnodes(tree, i, next, bnode->children[i + 1], bnode);
-                return delete_node(key, deleted_p, next, tree);
-        }else if (! bnode->leaf_p){
-                /* Key not in internal node, rebalance and try again. */
-                next = bnode->children[i];
-                if (next->ecnt < tree->cmin){
-                        PIOJO_ASSERT(next->ecnt == tree->cmin - 1);
-                        next = rebalance_bnode(tree, i, next, bnode);
-                }
-                return delete_node(key, deleted_p, next, tree);
         }
-        /* Key not in leaf. */
-        return deleted_p;
+        return FALSE;
 }
 
 /* Returns bnode if it wasn't freed by merge, left sibling otherwise. */
