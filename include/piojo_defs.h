@@ -60,15 +60,6 @@ extern "C" {
 #define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
 #endif
 
-static const size_t DEFAULT_ADT_ECOUNT = 128;
-static const size_t ADT_GROWTH_DENOMINATOR = 2;
-
-typedef enum {
-        INSERT_NEW,
-        INSERT_COPY,
-        INSERT_PTR
-} insert_t;
-
 #ifdef __cplusplus
 }
 #endif

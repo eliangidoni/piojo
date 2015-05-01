@@ -686,7 +686,7 @@ piojo_graph_neg_source_path(piojo_graph_vid_t root, const piojo_graph_t *graph,
         piojo_array_t *edges;
         const piojo_graph_vid_t *vid;
         size_t i, ecnt, vcnt;
-        bool end_p, found_cycle_p = FALSE, relaxed_p = TRUE;
+        bool found_cycle_p = FALSE, relaxed_p = TRUE;
         PIOJO_ASSERT(graph);
         PIOJO_ASSERT(dists);
 

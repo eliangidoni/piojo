@@ -68,17 +68,13 @@ init_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree);
 
 static void
-copy_rbnode(const void *key, const void *data, const rbnode_t *node,
-            const piojo_tree_t *tree);
-
-static void
 rotate_left(rbnode_t *node, piojo_tree_t *tree);
 
 static void
 rotate_right(rbnode_t *node, piojo_tree_t *tree);
 
 static rbnode_t*
-insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree);
+insert_node(const void *key, const void *data, piojo_tree_t *tree);
 
 static void
 fix_insert(rbnode_t *node, piojo_tree_t *tree);
@@ -263,7 +259,7 @@ piojo_tree_copy(const piojo_tree_t *tree)
 
         key = piojo_tree_first(tree, &data);
         while (key != NULL){
-                insert_node(key, data, INSERT_COPY, newtree);
+                insert_node(key, data, newtree);
                 key = piojo_tree_next(key, tree, &data);
         }
         return newtree;
@@ -328,7 +324,7 @@ piojo_tree_insert(const void *key, const void *data, piojo_tree_t *tree)
         PIOJO_ASSERT(tree->ecount < SIZE_MAX);
         PIOJO_ASSERT(data || tree->evsize == sizeof(bool));
 
-        if (insert_node(key, data, INSERT_NEW, tree) == tree->nil){
+        if (insert_node(key, data, tree) == tree->nil){
                 ++tree->ecount;
                 return TRUE;
         }
@@ -351,7 +347,7 @@ piojo_tree_set(const void *key, const void *data, piojo_tree_t *tree)
         PIOJO_ASSERT(key);
         PIOJO_ASSERT(data || tree->evsize == sizeof(bool));
 
-        node = insert_node(key, data, INSERT_NEW, tree);
+        node = insert_node(key, data, tree);
         if (node == tree->nil){
                 PIOJO_ASSERT(tree->ecount < SIZE_MAX);
                 ++tree->ecount;
@@ -542,21 +538,10 @@ init_rbnode(const void *key, const void *data, const rbnode_t *node,
             const piojo_tree_t *tree)
 {
         bool null_p = TRUE;
-        piojo_alloc_if ator = tree->allocator;
 
         if (data == NULL){
                 data = &null_p;
         }
-
-        memcpy(node->kv->key, key, tree->eksize);
-        memcpy(node->kv->value, data, tree->evsize);
-}
-
-static void
-copy_rbnode(const void *key, const void *data, const rbnode_t *node,
-            const piojo_tree_t *tree)
-{
-        piojo_alloc_if ator = tree->allocator;
 
         memcpy(node->kv->key, key, tree->eksize);
         memcpy(node->kv->value, data, tree->evsize);
@@ -613,7 +598,7 @@ rotate_right(rbnode_t *node, piojo_tree_t *tree)
 }
 
 static rbnode_t*
-insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
+insert_node(const void *key, const void *data, piojo_tree_t *tree)
 {
         int cmpval;
         rbnode_t *newnode, *parent = tree->nil, *cur = tree->root;
@@ -643,17 +628,7 @@ insert_node(const void *key, const void *data, insert_t op, piojo_tree_t *tree)
         }
         fix_insert(newnode, tree);
 
-        switch (op){
-        case INSERT_NEW:
-                init_rbnode(key, data, newnode, tree);
-                break;
-        case INSERT_COPY:
-                copy_rbnode(key, data, newnode, tree);
-                break;
-        default:
-                PIOJO_ASSERT(FALSE);
-                break;
-        }
+        init_rbnode(key, data, newnode, tree);
         return tree->nil;
 }
 
@@ -891,19 +866,6 @@ i64_cmp(const void *e1, const void *e2)
 {
         int64_t v1 = *(int64_t*) e1;
         int64_t v2 = *(int64_t*) e2;
-        if (v1 > v2){
-                return 1;
-        }else if (v1 < v2){
-                return -1;
-        }
-        return 0;
-}
-
-static int
-int_cmp(const void *e1, const void *e2)
-{
-        int v1 = *(int*) e1;
-        int v2 = *(int*) e2;
         if (v1 > v2){
                 return 1;
         }else if (v1 < v2){

@@ -40,6 +40,9 @@ struct piojo_array_t {
 /** @hideinitializer Size of array in bytes */
 const size_t piojo_array_sizeof = sizeof(piojo_array_t);
 
+static const size_t INITIAL_ENTRY_COUNT = 128;
+static const float GROWTH_FACTOR = 1.5f;
+
 static void
 move_left_from(size_t idx, piojo_array_t *array);
 
@@ -75,7 +78,7 @@ piojo_array_t*
 piojo_array_alloc_cb(size_t esize, piojo_alloc_if allocator)
 {
         piojo_array_t * arr;
-        const size_t ecount = DEFAULT_ADT_ECOUNT;
+        const size_t ecount = INITIAL_ENTRY_COUNT;
 
         arr = (piojo_array_t *) allocator.alloc_cb(sizeof(piojo_array_t));
         PIOJO_ASSERT(arr);
@@ -207,7 +210,7 @@ piojo_array_insert(size_t idx, const void *data, piojo_array_t *array)
         if (idx < array->ecount){
                 move_right_until(idx, array);
         }else{
-                expand_array(array->ecount / ADT_GROWTH_DENOMINATOR, array);
+                expand_array(array->ecount * GROWTH_FACTOR, array);
         }
         memcpy(&array->data[curidx], data, array->esize);
         ++array->usedcnt;

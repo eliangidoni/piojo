@@ -44,6 +44,11 @@ typedef struct {
         const piojo_hash_t *table;
 } iter_t;
 
+typedef enum {
+        INSERT_NEW,
+        INSERT_PTR
+} insert_t;
+
 struct piojo_hash_t {
         entry_t **buckets;
         size_t eksize, evsize, ecount, bucketcnt;
@@ -53,7 +58,8 @@ struct piojo_hash_t {
 /** @hideinitializer Size of hash table in bytes */
 const size_t piojo_hash_sizeof = sizeof(piojo_hash_t);
 
-static const size_t DEFAULT_BUCKET_COUNT = 32;
+static const double GROWTH_FACTOR = 1.5f;
+static const size_t INITIAL_BUCKET_COUNT = 32;
 static const double LOAD_RATIO_MAX = 0.8f;
 
 static uint32_t
@@ -74,9 +80,6 @@ delete_entry(iter_t iter, piojo_hash_t *hash);
 
 static entry_t*
 init_entry(const void *key, const void *data, const piojo_hash_t *hash);
-
-static entry_t*
-copy_entry(const void *key, const void *data, const piojo_hash_t *hash);
 
 static void
 finish_entry(const piojo_hash_t *hash, entry_t *kv);
@@ -205,7 +208,7 @@ piojo_hash_alloc_cb_eq(size_t evsize, piojo_eq_cb keyeq, size_t eksize,
                        piojo_alloc_if allocator)
 {
         return alloc_hash(evsize, keyeq, eksize, allocator,
-                          DEFAULT_BUCKET_COUNT);
+                          INITIAL_BUCKET_COUNT);
 }
 
 /**
@@ -227,7 +230,7 @@ piojo_hash_copy(const piojo_hash_t *hash)
         for (bidx = 0; bidx < hash->bucketcnt; ++bidx){
                 kv = hash->buckets[bidx];
                 while (kv != NULL){
-                        insert_entry(kv, INSERT_COPY, newhash);
+                        insert_entry(kv, INSERT_NEW, newhash);
                         kv = kv->next;
                 }
         }
@@ -395,7 +398,6 @@ const void*
 piojo_hash_first(const piojo_hash_t *hash, void **data)
 {
         size_t bidx = 0;
-        iter_t *iter;
         PIOJO_ASSERT(hash);
 
         if (hash->ecount > 0){
@@ -515,28 +517,6 @@ init_entry(const void *key, const void *data, const piojo_hash_t *hash)
         return kv;
 }
 
-static entry_t*
-copy_entry(const void *key, const void *data, const piojo_hash_t *hash)
-{
-        entry_t *kv;
-        piojo_alloc_if ator = hash->allocator;
-        size_t ksize = hash->eksize;
-
-        kv = ((entry_t*) ator.alloc_cb(sizeof(entry_t) +
-                                       ksize + hash->evsize));
-        PIOJO_ASSERT(kv);
-
-        kv->key = (uint8_t*)kv + sizeof(entry_t);
-        memcpy(kv->key, key, ksize);
-
-        kv->value = (uint8_t*)kv->key + ksize;
-        memcpy(kv->value, data, hash->evsize);
-
-        kv->next = NULL;
-
-        return kv;
-}
-
 static void
 finish_entry(const piojo_hash_t *hash, entry_t *kv)
 {
@@ -570,9 +550,9 @@ expand_table(piojo_hash_t *hash)
         piojo_alloc_if ator = hash->allocator;
         PIOJO_ASSERT(hash->bucketcnt < SIZE_MAX);
 
-        newcnt = hash->bucketcnt / ADT_GROWTH_DENOMINATOR;
-        PIOJO_ASSERT(piojo_safe_addsiz_p(hash->bucketcnt, newcnt));
-        hash->bucketcnt += newcnt;
+        newcnt = hash->bucketcnt * GROWTH_FACTOR;
+        PIOJO_ASSERT(newcnt > hash->bucketcnt);
+        hash->bucketcnt = newcnt;
 
         PIOJO_ASSERT(piojo_safe_mulsiz_p(hash->bucketcnt,
                                          sizeof(entry_t*)));
@@ -636,21 +616,9 @@ insert_entry(entry_t *newkv, insert_t op, piojo_hash_t *hash)
                 }
         }
 
-        switch (op){
-        case INSERT_NEW:
+        if (op == INSERT_NEW){
                 newkv = init_entry(newkv->key, newkv->value, hash);
-                break;
-        case INSERT_COPY:
-                newkv = copy_entry(newkv->key, newkv->value, hash);
-                break;
-        case INSERT_PTR:
-                /* Nothing to do. */
-                break;
-        default:
-                PIOJO_ASSERT(FALSE);
-                break;
         }
-
         if (kv != NULL){
                 kv->next = newkv;
         }else{
