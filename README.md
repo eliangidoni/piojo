@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/eliangidoni/piojo.svg?branch=master)](https://travis-ci.org/eliangidoni/piojo)
 
+```
     Piojo is a small C (C99) library of common containers and other useful
     structures.
 
@@ -54,3 +55,6 @@ $ CTEST_OUTPUT_ON_FAILURE=1 make test
 - Function/Callback type names end with '_cb'.
 - Any other type names end with '_t'.
 - Don't use typedef to hide pointer types. (exception: functions/callbacks)
+
+```
+
