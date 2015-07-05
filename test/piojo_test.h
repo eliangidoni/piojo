@@ -35,7 +35,7 @@
 #define PIOJO_UNUSED(x) (void)(x)
 #define PIOJO_ASSERT(cond) do{ assert(cond); } while(0)
 #define PIOJO_FAIL_IF(cond) do{ assert(! (cond)); } while(0)
-#define TEST_STRESS_COUNT 10000000
+#define TEST_STRESS_COUNT 1000000
 
 #define assert_allocator_init(val)
 #define assert_allocator_alloc(val)
