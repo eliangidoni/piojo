@@ -11,26 +11,17 @@ option(PIOJO_DEBUG "Build with debugging support" OFF)
 option(BUILD_SHARED_LIBS "Build library as shared" ON)
 option(BUILD_DOCUMENTATION "Use Doxygen to create the HTML based API documentation" ON)
 
-if(BUILD_DOCUMENTATION)
-  find_package(Doxygen REQUIRED)
-  #-- Configure the Template Doxyfile for our specific project
-  configure_file(${PROJECT_SOURCE_DIR}/doc/Doxyfile.in
-                 ${PROJECT_BINARY_DIR}/Doxyfile  @ONLY IMMEDIATE)
-  #-- Add a custom target to run Doxygen when ever the project is built
-  add_custom_target (doc
-                     COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
-                     SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
-endif(BUILD_DOCUMENTATION)
-
 set(EXTRA_LIBS ${EXTRA_LIBS} m)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Testing")
+  set(BUILD_DOCUMENTATION OFF)
   set(EXTRA_LIBS ${EXTRA_LIBS} gcov)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -W -Wall -pedantic -pg -fprofile-arcs -ftest-coverage")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -pedantic -pg -fprofile-arcs -ftest-coverage")
 endif(CMAKE_BUILD_TYPE STREQUAL "Testing")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(BUILD_DOCUMENTATION OFF)
   set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -W -Wall -pedantic")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -W -Wall -pedantic")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -45,6 +36,17 @@ endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 #    include_directories(${CURSES_INCLUDE_DIR})
 #    set(EXTRA_LIBS ${EXTRA_LIBS} ${CURSES_LIBRARIES})
 #endif(CURSES_FOUND)
+
+if(BUILD_DOCUMENTATION)
+  find_package(Doxygen REQUIRED)
+  #-- Configure the Template Doxyfile for our specific project
+  configure_file(${PROJECT_SOURCE_DIR}/doc/Doxyfile.in
+                 ${PROJECT_BINARY_DIR}/Doxyfile  @ONLY IMMEDIATE)
+  #-- Add a custom target to run Doxygen when ever the project is built
+  add_custom_target (doc
+                     COMMAND ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
+                     SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
+endif(BUILD_DOCUMENTATION)
 
 add_subdirectory(src)
 add_subdirectory(test)
