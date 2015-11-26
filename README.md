@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/eliangidoni/piojo.svg?branch=master)](https://travis-ci.org/eliangidoni/piojo)
 
+[![Coverage Status](https://coveralls.io/repos/eliangidoni/piojo/badge.svg?branch=master&service=github)](https://coveralls.io/github/eliangidoni/piojo?branch=master)
+
 ```
     Piojo is a small C (C99) library of common containers and other useful
     structures.
