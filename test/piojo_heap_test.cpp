@@ -42,7 +42,7 @@ bool entry_leq(piojo_opaque_t e1, piojo_opaque_t e2)
         return (((struct entry*)e1)->key <= ((struct entry*)e2)->key);
 }
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_heap_t *heap;
 
@@ -60,7 +60,7 @@ void test_alloc()
         assert_allocator_init(0);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_heap_t *heap, *copy;
         int i=10,j;
@@ -82,7 +82,7 @@ void test_copy_def()
         assert_allocator_init(0);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_heap_t *heap, *copy;
         int i=0;
@@ -102,7 +102,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_heap_t *heap;
         int i=0;
@@ -115,7 +115,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_heap_t *heap;
         int i=0;
@@ -131,7 +131,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_heap_t *heap;
         int i=0;
@@ -162,7 +162,7 @@ void test_size()
         assert_allocator_init(0);
 }
 
-void test_push()
+void test_push(void)
 {
         piojo_heap_t *heap;
         int i=1234, j=0;
@@ -189,7 +189,7 @@ void test_push()
         assert_allocator_init(0);
 }
 
-void test_pop()
+void test_pop(void)
 {
         piojo_heap_t *heap;
         int i=1234, j=0;
@@ -217,7 +217,7 @@ void test_pop()
         assert_allocator_init(0);
 }
 
-void test_peek()
+void test_peek(void)
 {
         piojo_heap_t *heap;
         int i=1234, j=0;
@@ -241,7 +241,7 @@ void test_peek()
         assert_allocator_init(0);
 }
 
-void test_heap_expand()
+void test_heap_expand(void)
 {
         piojo_heap_t *heap;
         int i,j;
@@ -265,7 +265,7 @@ void test_heap_expand()
         assert_allocator_init(0);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_heap_t *heap;
         int i,j,prev;
@@ -300,7 +300,7 @@ void test_stress()
         assert_allocator_init(0);
 }
 
-void test_heap_decr()
+void test_heap_decr(void)
 {
         piojo_heap_t *heap;
         unsigned int j=0;
@@ -335,7 +335,7 @@ void test_heap_decr()
         assert_allocator_init(0);
 }
 
-void test_heap_contain_p()
+void test_heap_contain_p(void)
 {
         piojo_heap_t *heap;
         int i=1234;
@@ -357,7 +357,7 @@ void test_heap_contain_p()
         assert_allocator_init(0);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

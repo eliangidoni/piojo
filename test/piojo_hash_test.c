@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_hash.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_hash_t *hash;
 
@@ -46,7 +46,7 @@ void test_alloc()
         piojo_hash_free(hash);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_hash_t *hash, *copy;
         int i=1, j=0;
@@ -65,7 +65,7 @@ void test_copy_def()
         piojo_hash_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_hash_t *hash, *copy;
         int i=1, j=0;
@@ -89,7 +89,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -102,7 +102,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -118,7 +118,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -146,7 +146,7 @@ void test_size()
         piojo_hash_free(hash);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_hash_t *hash;
         int i=1;
@@ -165,7 +165,7 @@ void test_insert()
         assert_allocator_init(0);
 }
 
-void test_insertset()
+void test_insertset(void)
 {
         piojo_hash_t *hash;
         int i=1;
@@ -182,7 +182,7 @@ void test_insertset()
         piojo_hash_free(hash);
 }
 
-void test_set()
+void test_set(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -215,7 +215,7 @@ my_eq(const void *e1, const void *e2)
         return FALSE;
 }
 
-void test_search()
+void test_search(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -240,7 +240,7 @@ void test_search()
         piojo_hash_free(hash);
 }
 
-void test_search32()
+void test_search32(void)
 {
         piojo_hash_t *hash;
         int32_t i=1;
@@ -266,7 +266,7 @@ void test_search32()
         piojo_hash_free(hash);
 }
 
-void test_search64()
+void test_search64(void)
 {
         piojo_hash_t *hash;
         int64_t i=1;
@@ -292,7 +292,7 @@ void test_search64()
         piojo_hash_free(hash);
 }
 
-void test_searchsiz()
+void test_searchsiz(void)
 {
         piojo_hash_t *hash;
         size_t i=1;
@@ -318,7 +318,7 @@ void test_searchsiz()
         piojo_hash_free(hash);
 }
 
-void test_delete()
+void test_delete(void)
 {
         piojo_hash_t *hash;
         int i=1, j=10;
@@ -338,7 +338,7 @@ void test_delete()
         piojo_hash_free(hash);
 }
 
-void test_first_next()
+void test_first_next(void)
 {
         piojo_hash_t *hash;
         int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
@@ -360,7 +360,7 @@ void test_first_next()
         piojo_hash_free(hash);
 }
 
-void test_hash_expand()
+void test_hash_expand(void)
 {
         piojo_hash_t *hash;
         int i,j;
@@ -380,7 +380,7 @@ void test_hash_expand()
         piojo_hash_free(hash);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_hash_t *hash;
         int i,j;
@@ -420,7 +420,7 @@ void test_stress()
         piojo_hash_free(hash);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

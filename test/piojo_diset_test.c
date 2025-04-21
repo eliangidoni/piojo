@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_diset.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_diset_t *diset;
 
@@ -39,7 +39,7 @@ void test_alloc()
         piojo_diset_free(diset);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_diset_t *diset, *copy;
         unsigned int i=10;
@@ -54,7 +54,7 @@ void test_copy_def()
         piojo_diset_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_diset_t *diset, *copy;
         unsigned int i=10;
@@ -71,7 +71,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_diset_t *diset;
         unsigned int i=10;
@@ -84,7 +84,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_diset_t *diset;
         unsigned int i=10;
@@ -100,7 +100,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_diset_t *diset;
         unsigned int i=10;
@@ -118,7 +118,7 @@ void test_insert()
         assert_allocator_init(0);
 }
 
-void test_find()
+void test_find(void)
 {
         piojo_diset_t *diset, *copy;
         unsigned int i=10;
@@ -144,7 +144,7 @@ void test_find()
         assert_allocator_init(0);
 }
 
-void test_union()
+void test_union(void)
 {
         piojo_diset_t *diset, *copy;
         unsigned int i=10;
@@ -202,7 +202,7 @@ void test_union()
         assert_allocator_init(0);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

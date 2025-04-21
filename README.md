@@ -45,6 +45,11 @@ $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Testing ..
 $ make
 $ CTEST_OUTPUT_ON_FAILURE=1 make test
 
+Run valgrind image:
+
+$ docker buildx build -t valgrind .
+$ docker run -it -v $PWD:/user -w /user valgrind
+
 3) Code Style
 
 - Avoid lines with more than 80 characters.

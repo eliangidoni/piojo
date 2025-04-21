@@ -39,7 +39,7 @@ bool vvisit (piojo_graph_vid_t v, const piojo_graph_t *graph)
         return FALSE;
 }
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_graph_t *graph;
 
@@ -56,7 +56,7 @@ void test_alloc()
         piojo_graph_free(graph);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_graph_t *graph,*copy;
         piojo_graph_vid_t v=1,v2=2;
@@ -96,7 +96,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1,v2=2;
@@ -111,7 +111,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1,v2=2;
@@ -126,7 +126,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1,v2=2;
@@ -139,7 +139,7 @@ void test_insert()
         assert_allocator_init(0);
 }
 
-void test_delete()
+void test_delete(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1,v2=2;
@@ -155,7 +155,7 @@ void test_delete()
         assert_allocator_init(0);
 }
 
-void test_link()
+void test_link(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2=1;
@@ -171,7 +171,7 @@ void test_link()
         assert_allocator_init(0);
 }
 
-void test_unlink()
+void test_unlink(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2=1;
@@ -190,7 +190,7 @@ void test_unlink()
         assert_allocator_init(0);
 }
 
-void test_unlink_all()
+void test_unlink_all(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2=1;
@@ -212,7 +212,7 @@ void test_unlink_all()
         assert_allocator_init(0);
 }
 
-void test_neighbors_undir()
+void test_neighbors_undir(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2=1,v3=2;
@@ -249,7 +249,7 @@ void test_neighbors_undir()
         assert_allocator_init(0);
 }
 
-void test_neighbors_dir()
+void test_neighbors_dir(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2=1,v3=2;
@@ -281,7 +281,7 @@ void test_neighbors_dir()
         assert_allocator_init(0);
 }
 
-void test_bfs()
+void test_bfs(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2;
@@ -310,7 +310,7 @@ void test_bfs()
         assert_allocator_init(0);
 }
 
-void test_dfs()
+void test_dfs(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=0,v2;
@@ -340,7 +340,7 @@ void test_dfs()
         assert_allocator_init(0);
 }
 
-void test_source_path()
+void test_source_path(void)
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
@@ -417,7 +417,7 @@ void test_source_path()
         assert_allocator_init(0);
 }
 
-void test_pair_path()
+void test_pair_path(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1, *vp;
@@ -460,7 +460,7 @@ void test_pair_path()
 }
 
 
-void test_neg_source_path()
+void test_neg_source_path(void)
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
@@ -526,7 +526,7 @@ void test_neg_source_path()
         assert_allocator_init(0);
 }
 
-void test_neg_source_path_2()
+void test_neg_source_path_2(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1;
@@ -558,7 +558,7 @@ void test_neg_source_path_2()
         assert_allocator_init(0);
 }
 
-void test_neg_source_path_3()
+void test_neg_source_path_3(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1;
@@ -591,7 +591,7 @@ void test_neg_source_path_3()
         assert_allocator_init(0);
 }
 
-void test_neg_source_path_4()
+void test_neg_source_path_4(void)
 {
         piojo_graph_t *graph;
         piojo_graph_weight_t *w;
@@ -669,7 +669,7 @@ void test_neg_source_path_4()
         assert_allocator_init(0);
 }
 
-void test_min_tree()
+void test_min_tree(void)
 {
         piojo_graph_t *graph, *tree;
         piojo_graph_vid_t v=1;
@@ -727,7 +727,7 @@ heuristic (piojo_graph_vid_t from, piojo_graph_vid_t to,
         return 1;
 }
 
-void test_a_star()
+void test_a_star(void)
 {
         piojo_graph_t *graph;
         piojo_graph_vid_t v=1, *vp;
@@ -772,7 +772,7 @@ void test_a_star()
         assert_allocator_init(0);
 }
 
-void test_sort()
+void test_sort(void)
 {
         piojo_graph_t *graph;
         piojo_array_t *vertices;
@@ -810,7 +810,7 @@ void test_sort()
         assert_allocator_init(0);
 }
 
-void test_sort_2()
+void test_sort_2(void)
 {
         piojo_graph_t *graph;
         piojo_array_t *vertices;
@@ -849,7 +849,7 @@ void test_sort_2()
         assert_allocator_init(0);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

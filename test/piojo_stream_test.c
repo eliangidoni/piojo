@@ -27,7 +27,7 @@
 #include <piojo/piojo_stream.h>
 
 
-void test_stream()
+void test_stream(void)
 {
         piojo_stream_t *stream, *copy;
         char*str;
@@ -87,7 +87,7 @@ void test_stream()
         piojo_stream_free(stream);
 }
 
-void test_concat()
+void test_concat(void)
 {
         piojo_stream_t *stream, *stream2;
         char*str;
@@ -151,7 +151,7 @@ void test_concat()
         piojo_stream_free(stream);
 }
 
-int main()
+int main(void)
 {
         test_stream();
         test_concat();

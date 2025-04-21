@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_array.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_array_t *array;
 
@@ -41,7 +41,7 @@ void test_alloc()
         piojo_array_free(array);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_array_t *array, *copy;
         int i=10,j;
@@ -59,7 +59,7 @@ void test_copy_def()
         piojo_array_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_array_t *array, *copy;
         int i=10;
@@ -79,7 +79,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_array_t *array;
         int i=0;
@@ -92,7 +92,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_array_t *array;
         int i=0;
@@ -108,7 +108,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_array_t *array;
         int i=0;
@@ -134,7 +134,7 @@ void test_size()
         piojo_array_free(array);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -158,7 +158,7 @@ void test_insert()
         piojo_array_free(array);
 }
 
-void test_set()
+void test_set(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -191,7 +191,7 @@ void test_set()
         assert_allocator_init(0);
 }
 
-void test_push()
+void test_push(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -228,7 +228,7 @@ my_cmp(const void *e1, const void *e2)
         return 0;
 }
 
-void test_push_cmp()
+void test_push_cmp(void)
 {
         piojo_array_t *array;
         unsigned int i=1234, j=0, k;
@@ -253,7 +253,7 @@ void test_push_cmp()
         piojo_array_free(array);
 }
 
-void test_delete()
+void test_delete(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -281,7 +281,7 @@ void test_delete()
         piojo_array_free(array);
 }
 
-void test_pop()
+void test_pop(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -306,7 +306,7 @@ void test_pop()
         piojo_array_free(array);
 }
 
-void test_last()
+void test_last(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -327,7 +327,7 @@ void test_last()
         piojo_array_free(array);
 }
 
-void test_at()
+void test_at(void)
 {
         piojo_array_t *array;
         int i=1234, j=0;
@@ -353,7 +353,7 @@ void test_at()
         piojo_array_free(array);
 }
 
-void test_array_expand()
+void test_array_expand(void)
 {
         piojo_array_t *array;
         int i,j;
@@ -373,7 +373,7 @@ void test_array_expand()
         piojo_array_free(array);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_array_t *array;
         int i,j;
@@ -392,7 +392,7 @@ void test_stress()
         piojo_array_free(array);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_bitset.h>
 
-void test_init()
+void test_init(void)
 {
         piojo_bitset_t *bitset;
 
@@ -41,7 +41,7 @@ void test_init()
         assert_allocator_alloc(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_bitset_t *bitset;
 
@@ -54,7 +54,7 @@ void test_clear()
         assert_allocator_alloc(0);
 }
 
-void test_empty_p()
+void test_empty_p(void)
 {
         piojo_bitset_t *bitset;
 
@@ -68,7 +68,7 @@ void test_empty_p()
         assert_allocator_alloc(0);
 }
 
-void test_full_p()
+void test_full_p(void)
 {
         piojo_bitset_t *bitset;
 
@@ -86,7 +86,7 @@ void test_full_p()
         assert_allocator_alloc(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_bitset_t *bitset;
 
@@ -107,7 +107,7 @@ void test_size()
         assert_allocator_alloc(0);
 }
 
-void test_set_p()
+void test_set_p(void)
 {
         piojo_bitset_t *bitset;
 
@@ -128,7 +128,7 @@ void test_set_p()
         assert_allocator_alloc(0);
 }
 
-void test_set()
+void test_set(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -146,7 +146,7 @@ void test_set()
         assert_allocator_alloc(0);
 }
 
-void test_unset()
+void test_unset(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -167,7 +167,7 @@ void test_unset()
         assert_allocator_alloc(0);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_bitset_t *bitset, *copy;
         size_t i;
@@ -193,7 +193,7 @@ void test_copy()
         assert_allocator_alloc(0);
 }
 
-void test_count()
+void test_count(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -215,7 +215,7 @@ void test_count()
         assert_allocator_alloc(0);
 }
 
-void test_toggle()
+void test_toggle(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -237,7 +237,7 @@ void test_toggle()
         assert_allocator_alloc(0);
 }
 
-void test_union()
+void test_union(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -286,7 +286,7 @@ void test_union()
         assert_allocator_alloc(0);
 }
 
-void test_xor()
+void test_xor(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -335,7 +335,7 @@ void test_xor()
         assert_allocator_alloc(0);
 }
 
-void test_inter()
+void test_inter(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -374,7 +374,7 @@ void test_inter()
         assert_allocator_alloc(0);
 }
 
-void test_complement()
+void test_complement(void)
 {
         piojo_bitset_t *bitset,*bout;
 
@@ -397,7 +397,7 @@ void test_complement()
         assert_allocator_alloc(0);
 }
 
-void test_diff()
+void test_diff(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -446,7 +446,7 @@ void test_diff()
         assert_allocator_alloc(0);
 }
 
-void test_eq()
+void test_eq(void)
 {
         piojo_bitset_t *bitset,*bout;
 
@@ -479,7 +479,7 @@ void test_eq()
         assert_allocator_alloc(0);
 }
 
-void test_lshift()
+void test_lshift(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -519,7 +519,7 @@ void test_lshift()
         assert_allocator_alloc(0);
 }
 
-void test_rshift()
+void test_rshift(void)
 {
         piojo_bitset_t *bitset,*bout;
         size_t i;
@@ -559,7 +559,7 @@ void test_rshift()
         assert_allocator_alloc(0);
 }
 
-void test_lshift_2()
+void test_lshift_2(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -592,7 +592,7 @@ void test_lshift_2()
         assert_allocator_alloc(0);
 }
 
-void test_rshift_2()
+void test_rshift_2(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -625,7 +625,7 @@ void test_rshift_2()
         assert_allocator_alloc(0);
 }
 
-void test_lshift_3()
+void test_lshift_3(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -649,7 +649,7 @@ void test_lshift_3()
         assert_allocator_alloc(0);
 }
 
-void test_rshift_3()
+void test_rshift_3(void)
 {
         piojo_bitset_t *bitset;
         size_t i;
@@ -673,7 +673,7 @@ void test_rshift_3()
         assert_allocator_alloc(0);
 }
 
-int main()
+int main(void)
 {
         test_init();
         test_clear();

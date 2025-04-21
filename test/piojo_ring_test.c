@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_ring.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_ring_t *ring;
 
@@ -46,7 +46,7 @@ void test_alloc()
         piojo_ring_free(ring);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_ring_t *ring, *copy;
         int i=10,j;
@@ -66,7 +66,7 @@ void test_copy_def()
         piojo_ring_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_ring_t *ring, *copy;
         int i=0;
@@ -86,7 +86,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_ring_t *ring;
         int i=0;
@@ -99,7 +99,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_ring_t *ring;
         int i=0;
@@ -115,7 +115,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_ring_t *ring;
         int i=0;
@@ -140,7 +140,7 @@ void test_size()
         piojo_ring_free(ring);
 }
 
-void test_push()
+void test_push(void)
 {
         piojo_ring_t *ring;
         int i=1234, j=0;
@@ -164,7 +164,7 @@ void test_push()
         piojo_ring_free(ring);
 }
 
-void test_pop()
+void test_pop(void)
 {
         piojo_ring_t *ring;
         int i=1234, j=0;
@@ -189,7 +189,7 @@ void test_pop()
         piojo_ring_free(ring);
 }
 
-void test_peek()
+void test_peek(void)
 {
         piojo_ring_t *ring;
         int i=1234, j=0;
@@ -211,7 +211,7 @@ void test_peek()
         piojo_ring_free(ring);
 }
 
-void test_full_p()
+void test_full_p(void)
 {
         piojo_ring_t *ring;
         int i;
@@ -231,7 +231,7 @@ void test_full_p()
         piojo_ring_free(ring);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_ring_t *ring;
         int i,j;
@@ -251,7 +251,7 @@ void test_stress()
         piojo_ring_free(ring);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

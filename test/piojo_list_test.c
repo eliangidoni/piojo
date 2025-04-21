@@ -26,7 +26,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_list.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_list_t *list;
 
@@ -46,7 +46,7 @@ void test_alloc()
         piojo_list_free(list);
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_list_t *list, *copy;
         int i=10,j;
@@ -65,7 +65,7 @@ void test_copy_def()
         piojo_list_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_list_t *list, *copy;
         int i=0;
@@ -85,7 +85,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_list_t *list;
         int i=0;
@@ -98,7 +98,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_list_t *list;
         int i=0;
@@ -114,7 +114,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_list_t *list;
         int i=0;
@@ -140,7 +140,7 @@ void test_size()
         piojo_list_free(list);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -168,7 +168,7 @@ void test_insert()
         piojo_list_free(list);
 }
 
-void test_set()
+void test_set(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -201,7 +201,7 @@ void test_set()
         assert_allocator_init(0);
 }
 
-void test_prepend()
+void test_prepend(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -225,7 +225,7 @@ void test_prepend()
         piojo_list_free(list);
 }
 
-void test_append()
+void test_append(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -249,7 +249,7 @@ void test_append()
         piojo_list_free(list);
 }
 
-void test_delete()
+void test_delete(void)
 {
         piojo_list_t *list;
         piojo_list_node_t *node;
@@ -288,7 +288,7 @@ void test_delete()
         piojo_list_free(list);
 }
 
-void test_first_last()
+void test_first_last(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -314,7 +314,7 @@ void test_first_last()
         piojo_list_free(list);
 }
 
-void test_next_prev()
+void test_next_prev(void)
 {
         piojo_list_t *list;
         int i=1234, j=0;
@@ -340,7 +340,7 @@ void test_next_prev()
         piojo_list_free(list);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_list_t *list;
         piojo_list_node_t *node;
@@ -363,7 +363,7 @@ void test_stress()
 
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();

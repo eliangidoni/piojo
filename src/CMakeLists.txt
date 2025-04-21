@@ -16,6 +16,7 @@ set(piojo_SOURCES
     piojo_hash.c
     piojo_heap.c
     piojo_list.c
+    piojo_skiplist.c
     piojo_ring.c
     piojo_tree.c
     piojo_btree.c)

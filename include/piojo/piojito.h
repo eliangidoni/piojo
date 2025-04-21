@@ -175,6 +175,28 @@
 #define list_prev piojo_list_prev
 #define list_entry piojo_list_entry
 
+/* Skip List */
+#define skiplist_alloc_i32k piojo_skiplist_alloc_i32k
+#define skiplist_alloc_i64k piojo_skiplist_alloc_i64k
+#define skiplist_alloc_sizk piojo_skiplist_alloc_sizk
+#define skiplist_alloc_cb_i32k piojo_skiplist_alloc_cb_i32k
+#define skiplist_alloc_cb_i64k piojo_skiplist_alloc_cb_i64k
+#define skiplist_alloc_cb_sizk piojo_skiplist_alloc_cb_sizk
+#define skiplist_alloc_cmp piojo_skiplist_alloc_cmp
+#define skiplist_alloc_cb_cmp piojo_skiplist_alloc_cb_cmp
+#define skiplist_copy piojo_skiplist_copy
+#define skiplist_free piojo_skiplist_free
+#define skiplist_clear piojo_skiplist_clear
+#define skiplist_size piojo_skiplist_size
+#define skiplist_insert piojo_skiplist_insert
+#define skiplist_set piojo_skiplist_set
+#define skiplist_search piojo_skiplist_search
+#define skiplist_delete piojo_skiplist_delete
+#define skiplist_first piojo_skiplist_first
+#define skiplist_last piojo_skiplist_last
+#define skiplist_next piojo_skiplist_next
+#define skiplist_prev piojo_skiplist_prev
+
 /* Piojo */
 #define opaque_eq piojo_opaque_eq
 #define id_eq piojo_id_eq

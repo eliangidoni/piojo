@@ -29,7 +29,7 @@
 #include <piojo_test.h>
 #include <piojo/piojo_btree.h>
 
-void test_alloc()
+void test_alloc(void)
 {
         piojo_btree_t *tree;
 
@@ -50,7 +50,7 @@ void test_alloc()
 
 }
 
-void test_copy_def()
+void test_copy_def(void)
 {
         piojo_btree_t *tree, *copy;
         int i=10,j;
@@ -69,7 +69,7 @@ void test_copy_def()
         piojo_btree_free(copy);
 }
 
-void test_copy()
+void test_copy(void)
 {
         piojo_btree_t *tree, *copy;
         int i=1;
@@ -90,7 +90,7 @@ void test_copy()
         assert_allocator_init(0);
 }
 
-void test_free()
+void test_free(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -103,7 +103,7 @@ void test_free()
         assert_allocator_init(0);
 }
 
-void test_clear()
+void test_clear(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -119,7 +119,7 @@ void test_clear()
         assert_allocator_init(0);
 }
 
-void test_size()
+void test_size(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -147,7 +147,7 @@ void test_size()
         piojo_btree_free(tree);
 }
 
-void test_insert()
+void test_insert(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -166,7 +166,7 @@ void test_insert()
         assert_allocator_init(0);
 }
 
-void test_set()
+void test_set(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -188,7 +188,7 @@ void test_set()
         assert_allocator_init(0);
 }
 
-void test_insertset()
+void test_insertset(void)
 {
         piojo_btree_t *tree;
         int i=1;
@@ -217,7 +217,7 @@ my_cmp(const void *e1, const void *e2)
         return 0;
 }
 
-void test_search()
+void test_search(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -247,7 +247,7 @@ void test_search()
         piojo_btree_free(tree);
 }
 
-void test_searchi32()
+void test_searchi32(void)
 {
         piojo_btree_t *tree;
         int32_t i=3;
@@ -277,7 +277,7 @@ void test_searchi32()
         piojo_btree_free(tree);
 }
 
-void test_searchi64()
+void test_searchi64(void)
 {
         piojo_btree_t *tree;
         int64_t i=3;
@@ -307,7 +307,7 @@ void test_searchi64()
         piojo_btree_free(tree);
 }
 
-void test_searchsiz()
+void test_searchsiz(void)
 {
         piojo_btree_t *tree;
         size_t i=3;
@@ -337,7 +337,7 @@ void test_searchsiz()
         piojo_btree_free(tree);
 }
 
-void test_delete()
+void test_delete(void)
 {
         piojo_btree_t *tree;
         int i=1, j=10;
@@ -356,7 +356,7 @@ void test_delete()
         piojo_btree_free(tree);
 }
 
-void test_first_next()
+void test_first_next(void)
 {
         piojo_btree_t *tree;
         int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
@@ -377,7 +377,7 @@ void test_first_next()
         piojo_btree_free(tree);
 }
 
-void test_last_prev()
+void test_last_prev(void)
 {
         piojo_btree_t *tree;
         int i=1, i2=i+1, j=10, j2=j+1, tmp, key;
@@ -398,7 +398,7 @@ void test_last_prev()
         piojo_btree_free(tree);
 }
 
-void test_tree_expand()
+void test_tree_expand(void)
 {
         piojo_btree_t *tree;
         int i,j;
@@ -419,7 +419,7 @@ void test_tree_expand()
         piojo_btree_free(tree);
 }
 
-void test_stress()
+void test_stress(void)
 {
         piojo_btree_t *tree, *copy;
         int i,j,k;
@@ -497,7 +497,7 @@ void test_stress()
         assert_allocator_alloc(0);
 }
 
-void test_stress_rand_uniq()
+void test_stress_rand_uniq(void)
 {
         piojo_btree_t *tree, *copy;
         int elems[TEST_STRESS_COUNT];
@@ -580,7 +580,7 @@ void test_stress_rand_uniq()
         assert_allocator_alloc(0);
 }
 
-void test_stress_rand()
+void test_stress_rand(void)
 {
         piojo_btree_t *tree, *copy;
         int elems[TEST_STRESS_COUNT];
@@ -640,7 +640,7 @@ void test_stress_rand()
         assert_allocator_alloc(0);
 }
 
-int main()
+int main(void)
 {
         test_alloc();
         test_copy();
