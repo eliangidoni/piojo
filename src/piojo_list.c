@@ -60,9 +60,6 @@ finish_all(const piojo_list_t *list);
 static piojo_list_node_t*
 alloc_node(const piojo_list_t *list);
 
-static void
-link_tail(piojo_list_node_t *node, piojo_list_t *list);
-
 /**
  * Allocates a new list.
  * Uses default allocator and entry size of @b int.
@@ -103,8 +100,10 @@ piojo_list_alloc_cb(size_t esize, piojo_alloc_if allocator)
         list->allocator = allocator;
         list->esize = esize;
         list->ecount = 0;
-        list->head = NULL;
-        list->tail = NULL;
+        list->head = alloc_node(list);
+        list->tail = alloc_node(list);
+        list->head->next = list->tail;
+        list->tail->prev = list->head;
 
         return list;
 }
@@ -124,11 +123,14 @@ piojo_list_copy(const piojo_list_t *list)
         newlist = piojo_list_alloc_cb(list->esize, list->allocator);
         PIOJO_ASSERT(newlist);
 
-        node = list->head;
-        while (node != NULL){
+        node = list->head->next;
+        while (node != list->tail){
                 next = node->next;
                 newnode = copy_node(node, newlist);
-                link_tail(newnode, newlist);
+                newnode->prev = newlist->tail->prev;
+                newnode->prev->next = newnode;
+                newnode->next = newlist->tail;
+                newlist->tail->prev = newnode;
                 node = next;
         }
         newlist->ecount = list->ecount;
@@ -162,8 +164,10 @@ piojo_list_clear(piojo_list_t *list)
         PIOJO_ASSERT(list);
         finish_all(list);
         list->ecount = 0;
-        list->head = NULL;
-        list->tail = NULL;
+        list->head = alloc_node(list);
+        list->tail = alloc_node(list);
+        list->head->next = list->tail;
+        list->tail->prev = list->head;
 }
 
 /**
@@ -199,12 +203,7 @@ piojo_list_insert(const void *data, piojo_list_node_t *next,
         node->next = next;
         node->prev = next->prev;
         next->prev = node;
-        if (node->prev != NULL){
-                node->prev->next = node;
-        }
-        if (next == list->head){
-                list->head = node;
-        }
+        node->prev->next = node;
         ++list->ecount;
 
         return node;
@@ -244,14 +243,13 @@ piojo_list_prepend(const void *data, piojo_list_t *list)
         PIOJO_ASSERT(data);
         PIOJO_ASSERT(list->ecount < SIZE_MAX);
 
-        if (list->head != NULL){
-                return piojo_list_insert(data, list->head, list);
-        }
-
         node = init_node(data, list);
-        list->head = list->tail = node;
-        ++list->ecount;
+        node->next = list->head->next;
+        node->next->prev = node;
+        node->prev = list->head;
+        list->head->next = node;
 
+        ++list->ecount;
         return node;
 }
 
@@ -270,7 +268,10 @@ piojo_list_append(const void *data, piojo_list_t *list)
         PIOJO_ASSERT(list->ecount < SIZE_MAX);
 
         node = init_node(data, list);
-        link_tail(node, list);
+        node->prev = list->tail->prev;
+        node->prev->next = node;
+        node->next = list->tail;
+        list->tail->prev = node;
         ++list->ecount;
 
         return node;
@@ -285,32 +286,19 @@ piojo_list_append(const void *data, piojo_list_t *list)
 piojo_list_node_t*
 piojo_list_delete(const piojo_list_node_t *node, piojo_list_t *list)
 {
-        piojo_list_node_t *next, *prev;
+        piojo_list_node_t *next;
         PIOJO_ASSERT(list);
         PIOJO_ASSERT(node);
         PIOJO_ASSERT(list->ecount > 0);
 
         next = node->next;
-        prev = node->prev;
-        if (next != NULL){
-                next->prev = prev;
-        }
-        if (prev != NULL){
-                prev->next = next;
-        }
-
-        if (node == list->head){
-                list->head = next;
-        }else if (node == list->tail){
-                list->tail = prev;
-        }
-
+        next->prev = node->prev;
+        next->prev->next = next;
         --list->ecount;
-        if (list->ecount == 0){
-                list->head = list->tail = NULL;
-        }
         finish_node(node, list);
-
+        if (list->ecount == 0){
+                return NULL;
+        }
         return next;
 }
 
@@ -323,7 +311,10 @@ piojo_list_node_t*
 piojo_list_first(const piojo_list_t *list)
 {
         PIOJO_ASSERT(list);
-        return list->head;
+        if (list->ecount == 0){
+                return NULL;
+        }
+        return list->head->next;
 }
 
 /**
@@ -335,7 +326,10 @@ piojo_list_node_t*
 piojo_list_last(const piojo_list_t *list)
 {
         PIOJO_ASSERT(list);
-        return list->tail;
+        if (list->ecount == 0){
+                return NULL;
+        }
+        return list->tail->prev;
 }
 
 /**
@@ -347,6 +341,9 @@ piojo_list_node_t*
 piojo_list_next(const piojo_list_node_t *node)
 {
         PIOJO_ASSERT(node);
+        if (node->next->next == NULL){
+                return NULL;
+        }
         return node->next;
 }
 
@@ -359,6 +356,9 @@ piojo_list_node_t*
 piojo_list_prev(const piojo_list_node_t *node)
 {
         PIOJO_ASSERT(node);
+        if (node->prev->prev == NULL){
+                return NULL;
+        }
         return node->prev;
 }
 
@@ -410,19 +410,6 @@ finish_all(const piojo_list_t *list)
                 next = node->next;
                 finish_node(node, list);
                 node = next;
-        }
-}
-
-
-static void
-link_tail(piojo_list_node_t *node, piojo_list_t *list)
-{
-        if (list->tail != NULL){
-                node->prev = list->tail;
-                node->prev->next = node;
-                list->tail = node;
-        }else{
-                list->head = list->tail = node;
         }
 }
 
