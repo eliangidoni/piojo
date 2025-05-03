@@ -142,6 +142,11 @@ a_star_relax(alist_t *v, piojo_graph_vid_t dst,
 static void
 calc_incoming(const piojo_graph_t *graph, piojo_hash_t *noincoming);
 
+static void
+strong_connect(alist_t *v, piojo_array_t *st,
+               piojo_hash_t *scc, piojo_graph_weight_t *counter,
+               const piojo_graph_t *graph);
+
 /**
  * Allocates a new graph.
  * Uses default allocator.
@@ -896,6 +901,40 @@ piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices)
                 piojo_array_size(vertices));
 }
 
+/**
+ * Finds the SCC (strongly connected components) (Tarjan's algorithm).
+ * @warning The graph must be directed.
+ * @param[in] graph
+ * @param[out] scc Strongly connected components.
+ */
+void
+piojo_graph_strongly_connected(const piojo_graph_t *graph, piojo_hash_t *scc)
+{
+        piojo_array_t *st;
+        const piojo_graph_vid_t *vid;
+        alist_t *v;
+        piojo_graph_weight_t counter=0;
+        PIOJO_ASSERT(graph);
+        PIOJO_ASSERT(graph->dir == PIOJO_GRAPH_DIR_TRUE);
+
+        if (piojo_hash_size(graph->alists_by_vid) == 0){
+                return;
+        }
+
+        st = piojo_array_alloc_cb(sizeof(void*), graph->allocator);
+        reset_attributes(graph);
+        vid = ((const piojo_graph_vid_t*)
+               piojo_hash_first(graph->alists_by_vid, (void**)&v));
+        while (vid != NULL){
+                if (v->weight == WEIGHT_INF) {
+                        strong_connect(v, st, scc, &counter, graph);
+                }
+                vid = ((const piojo_graph_vid_t*)
+                       piojo_hash_next(vid, graph->alists_by_vid, (void**)&v));
+        }
+        piojo_array_free(st);
+}
+
 /** @}
  * Private functions.
  */
@@ -1248,4 +1287,43 @@ calc_incoming(const piojo_graph_t *graph, piojo_hash_t *noincoming)
                 vid = ((const piojo_graph_vid_t*)
                        piojo_hash_next(vid, graph->alists_by_vid, (void**)&v));
         }
+}
+
+static void
+strong_connect(alist_t *v, piojo_array_t *st,
+               piojo_hash_t *scc, piojo_graph_weight_t *counter,
+               const piojo_graph_t *graph)
+{
+        edge_t *e;
+        alist_t *nv;
+        size_t i, cnt;
+
+        v->mark = MARK_VISITED;
+        v->weight = *counter;
+        v->score = *counter;
+        ++(*counter);
+        piojo_array_push(&v, st);
+        cnt = piojo_array_size(v->edges_by_vid);
+        for (i = 0; i < cnt; ++i){
+                e = ((edge_t *)
+                     piojo_array_at(i, v->edges_by_vid));
+                nv = vid_to_alist(e->end_vid, graph);
+                if (nv->weight == WEIGHT_INF){
+                        strong_connect(nv, st, scc, counter, graph);
+                        v->score = fminf(v->score, nv->score);
+                }else if (nv->mark == MARK_VISITED){
+                        v->score = fminf(v->score, nv->weight);
+                }
+        }
+
+        // it's a root of a SCC
+        if (v->weight == v->score){
+                do {
+                        nv = *(alist_t**) piojo_array_last(st);
+                        piojo_array_pop(st);
+                        nv->mark = MARK_UNKNOWN;
+                        piojo_hash_insert(&nv->vid, &v->score, scc);
+                }  while (nv != v);
+        }
+
 }

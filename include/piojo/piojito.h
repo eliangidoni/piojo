@@ -121,6 +121,7 @@
 #define graph_min_tree piojo_graph_min_tree
 #define graph_a_star piojo_graph_a_star
 #define graph_sort piojo_graph_sort
+#define graph_strongly_connected piojo_graph_strongly_connected
 
 /* Hash */
 #define hash_alloc_i32k piojo_hash_alloc_i32k

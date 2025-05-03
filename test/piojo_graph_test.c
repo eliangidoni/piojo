@@ -849,6 +849,87 @@ void test_sort_2(void)
         assert_allocator_init(0);
 }
 
+void test_strongly_connected(void)
+{
+        piojo_graph_t *graph;
+        piojo_hash_t *scc;
+        piojo_graph_vid_t v;
+        piojo_graph_weight_t *c1, *c2, *c3, components[4];
+
+        scc = piojo_hash_alloc_eq(sizeof(piojo_graph_weight_t),
+                                    piojo_graph_vid_eq,
+                                    sizeof(piojo_graph_vid_t));
+        graph = piojo_graph_alloc_cb(PIOJO_GRAPH_DIR_TRUE, my_allocator);
+
+        piojo_graph_insert(1,graph);
+        piojo_graph_insert(2,graph);
+        piojo_graph_insert(3,graph);
+        piojo_graph_insert(4,graph);
+        piojo_graph_insert(5,graph);
+        piojo_graph_insert(6,graph);
+        piojo_graph_insert(7,graph);
+        piojo_graph_insert(8,graph);
+
+        piojo_graph_link(100, 1, 2, graph);
+        piojo_graph_link(100, 2, 3, graph);
+        piojo_graph_link(100, 3, 1, graph);
+        piojo_graph_link(100, 4, 2, graph);
+        piojo_graph_link(100, 4, 3, graph);
+        piojo_graph_link(100, 4, 5, graph);
+        piojo_graph_link(100, 5, 4, graph);
+        piojo_graph_link(100, 5, 6, graph);
+        piojo_graph_link(100, 6, 3, graph);
+        piojo_graph_link(100, 6, 7, graph);
+        piojo_graph_link(100, 7, 6, graph);
+        piojo_graph_link(100, 8, 5, graph);
+        piojo_graph_link(100, 8, 7, graph);
+        piojo_graph_link(100, 8, 8, graph);
+
+        piojo_graph_strongly_connected(graph, scc);
+
+        PIOJO_ASSERT(piojo_hash_size(scc) == 8);
+
+        v = 1;
+        c1 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        v = 2;
+        c2 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        v = 3;
+        c3 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        PIOJO_ASSERT(c1 != NULL && c2 != NULL && c3 != NULL && *c1 == *c2 && *c1 == *c3);
+        components[0] = *c1;
+
+        v = 4;
+        c1 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        v = 5;
+        c2 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        PIOJO_ASSERT(c1 != NULL && c2 != NULL && *c1 == *c2);
+        components[1] = *c1;
+
+        v = 6;
+        c1 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        v = 7;
+        c2 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        PIOJO_ASSERT(c1 != NULL && c2 != NULL && *c1 == *c2);
+        components[2] = *c1;
+
+        v = 8;
+        c1 = (piojo_graph_weight_t *)piojo_hash_search(&v, scc);
+        PIOJO_ASSERT(c1 != NULL);
+        components[3] = *c1;
+
+        PIOJO_ASSERT(components[0] != components[1] &&
+                components[0] != components[2] &&
+                components[0] != components[3] &&
+                components[1] != components[2] &&
+                components[1] != components[3] &&
+                components[2] != components[3]);
+
+        piojo_graph_free(graph);
+        piojo_hash_free(scc);
+        assert_allocator_alloc(0);
+        assert_allocator_init(0);
+}
+
 int main(void)
 {
         test_alloc();
@@ -874,6 +955,7 @@ int main(void)
         test_a_star();
         test_sort();
         test_sort_2();
+        test_strongly_connected();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);

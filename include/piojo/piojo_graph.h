@@ -169,6 +169,9 @@ piojo_graph_a_star(piojo_graph_vid_t root, piojo_graph_vid_t dst,
 bool
 piojo_graph_sort(const piojo_graph_t *graph, piojo_array_t *vertices);
 
+void
+piojo_graph_strongly_connected(const piojo_graph_t *graph, piojo_hash_t *scc);
+
 #ifdef __cplusplus
 }
 #endif
