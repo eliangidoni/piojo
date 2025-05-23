@@ -49,6 +49,10 @@ Run valgrind image:
 
 $ docker buildx build -t valgrind .
 $ docker run -it -v $PWD:/user -w /user valgrind
+$ mkdir -p build && cd build
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+$ make clean && make
+$ valgrind --leak-check=full ./test/piojo_array_test
 
 3) Code Style
 

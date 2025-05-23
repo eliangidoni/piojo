@@ -307,6 +307,18 @@
 #define tree_next piojo_tree_next
 #define tree_prev piojo_tree_prev
 
+/* Combinatoric functions */
+#define comb_alloc piojo_comb_alloc
+#define comb_alloc_cb piojo_comb_alloc_cb
+#define comb_free piojo_comb_free
+#define comb_next piojo_comb_next
+#define comb_with_rep_alloc piojo_comb_with_rep_alloc
+#define comb_with_rep_alloc_cb piojo_comb_with_rep_alloc_cb
+#define comb_perm_alloc piojo_comb_perm_alloc
+#define comb_perm_alloc_cb piojo_comb_perm_alloc_cb
+#define comb_prod_alloc piojo_comb_prod_alloc
+#define comb_prod_alloc_cb piojo_comb_prod_alloc_cb
+
 /** @} */
 
 #endif
