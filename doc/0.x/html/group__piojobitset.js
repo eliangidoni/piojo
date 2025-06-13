@@ -1,10 +1,10 @@
 var group__piojobitset =
 [
-    [ "piojo_bitset_alloc", "group__piojobitset.html#ga8965562d4452e5dc4c58693d7f777c76", null ],
-    [ "piojo_bitset_alloc_cb", "group__piojobitset.html#ga487c648d58f151efd43bb192671f3a51", null ],
+    [ "piojo_bitset_alloc", "group__piojobitset.html#gad03ef29c61e021097219c93a8e3ca7b6", null ],
+    [ "piojo_bitset_alloc_cb", "group__piojobitset.html#ga5f2b618ad49a61036e327bcb82c0f5fe", null ],
     [ "piojo_bitset_and", "group__piojobitset.html#gae6dda88216f70ab164ab9d25ca2b893f", null ],
     [ "piojo_bitset_clear", "group__piojobitset.html#gad563f80e0da484706319f4864151d95a", null ],
-    [ "piojo_bitset_copy", "group__piojobitset.html#ga8bff4e4b46cd8f7bb908d9fb93b097e6", null ],
+    [ "piojo_bitset_copy", "group__piojobitset.html#gaa6fa5cc2eed0beca984a83f12c522f08", null ],
     [ "piojo_bitset_count", "group__piojobitset.html#ga0c6bc6d77c8c691864606d63e570c2b9", null ],
     [ "piojo_bitset_diff", "group__piojobitset.html#ga9bd03d2b98a9f842ee5cc85843f15095", null ],
     [ "piojo_bitset_empty_p", "group__piojobitset.html#ga5836007fca1e3fbce98f03efdf0b65e3", null ],

@@ -37,6 +37,18 @@ void test_alloc(void)
         comb = piojo_comb_alloc_cb(2, 2, piojo_alloc_default);
         PIOJO_ASSERT(comb);
         piojo_comb_free(comb);
+
+        comb = piojo_comb_perm_alloc(2, 2);
+        PIOJO_ASSERT(comb);
+        piojo_comb_free(comb);
+
+        comb = piojo_comb_with_rep_alloc(2, 2);
+        PIOJO_ASSERT(comb);
+        piojo_comb_free(comb);
+
+        comb = piojo_comb_prod_alloc(2, 2);
+        PIOJO_ASSERT(comb);
+        piojo_comb_free(comb);
 }
 
 void test_free(void)

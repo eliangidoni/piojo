@@ -38,12 +38,12 @@ $ cd build
 $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Debug ..
 $ make
 
-2) Testing / Coverage
+2) Testing (outputs Coverage)
 
 $ cd build
 $ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DCMAKE_BUILD_TYPE=Testing ..
-$ make
-$ CTEST_OUTPUT_ON_FAILURE=1 make test
+$ cmake --build .
+$ ctest --output-on-failure
 
 Run valgrind image:
 

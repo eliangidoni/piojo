@@ -1,12 +1,12 @@
 var group__piojoheap =
 [
     [ "piojo_heap_key_t", "group__piojoheap.html#ga8062a84148c02c8ce63d53c8d691a0c1", null ],
-    [ "piojo_heap_leq_cb", "group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010", null ],
-    [ "piojo_heap_alloc", "group__piojoheap.html#gaf1b53effde627ea7b26e67277105bbb6", null ],
-    [ "piojo_heap_alloc_cb", "group__piojoheap.html#gab3194e7e3b74682cc0681d1d0d2c1f4c", null ],
+    [ "piojo_heap_leq_cb", "group__piojoheap.html#gab8cc834b13083bcce84b6e2b6eff7f0e", null ],
+    [ "piojo_heap_alloc", "group__piojoheap.html#gafb28c306e8b84b5244016859bf15bace", null ],
+    [ "piojo_heap_alloc_cb", "group__piojoheap.html#gac0f5139dd61df3fb453a1dc5f595a20a", null ],
     [ "piojo_heap_clear", "group__piojoheap.html#ga4e927d37e077ab6f0e408b92c8a3d63c", null ],
     [ "piojo_heap_contain_p", "group__piojoheap.html#gad72d6c28be5f8599a11652cd30e5b269", null ],
-    [ "piojo_heap_copy", "group__piojoheap.html#ga86841f37dc94c7c0be8e0889d4fe0a77", null ],
+    [ "piojo_heap_copy", "group__piojoheap.html#gaadbf9f229487932f1f8b769404aa0d0e", null ],
     [ "piojo_heap_decrease", "group__piojoheap.html#gacbf5f1d46ace9bb7403482ee5dd5a1a0", null ],
     [ "piojo_heap_free", "group__piojoheap.html#ga4c1f3fc8208fc4500f1064ca219145d9", null ],
     [ "piojo_heap_peek", "group__piojoheap.html#ga9ec7908545247c58511f105b59c38d0d", null ],

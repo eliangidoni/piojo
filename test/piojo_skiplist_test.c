@@ -183,6 +183,21 @@ void test_insert(void)
         piojo_skiplist_free(list);
 }
 
+void test_insert_bool(void)
+{
+        piojo_skiplist_t *list;
+        int i=1234;
+
+        list = piojo_skiplist_alloc_i32k(sizeof(bool));
+        PIOJO_ASSERT(piojo_skiplist_size(list) == 0);
+
+        bool inserted = piojo_skiplist_insert(&i, NULL, list);
+        PIOJO_ASSERT(inserted);
+        PIOJO_ASSERT(piojo_skiplist_size(list) == 1);
+
+        piojo_skiplist_free(list);
+}
+
 
 void test_set(void)
 {
@@ -192,7 +207,7 @@ void test_set(void)
         list = piojo_skiplist_alloc_cb_i32k(sizeof(int), my_allocator);
         PIOJO_ASSERT(piojo_skiplist_size(list) == 0);
 
-        bool inserted = piojo_skiplist_insert(&i, &i, list);
+        bool inserted = piojo_skiplist_set(&i, &i, list);
         PIOJO_ASSERT(inserted);
         PIOJO_ASSERT(piojo_skiplist_size(list) == 1);
 
@@ -262,6 +277,13 @@ void test_first_last(void)
         int i=1234, j=0;
 
         list = piojo_skiplist_alloc_i32k(sizeof(int));
+
+        const void * last = piojo_skiplist_last(list, NULL);
+        PIOJO_ASSERT(last == NULL);
+
+        const void * first = piojo_skiplist_first(list, NULL);
+        PIOJO_ASSERT(first == NULL);
+
         piojo_skiplist_insert(&i, &i, list);
 
         j = *(int*) piojo_skiplist_first(list, NULL);
@@ -311,15 +333,19 @@ void test_next_prev(void)
 void test_search(void)
 {
         piojo_skiplist_t *list;
-        const int *nodekey, *nodedata;
+        const size_t *nodekey, *nodedata;
         int i;
-        int sorted[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int unsorted[10] = {10, 3, 2, 6, 7, 5, 4, 9, 8, 1};
-        list = piojo_skiplist_alloc_i32k(sizeof(int));
+        size_t sorted[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        size_t unsorted[10] = {10, 3, 2, 6, 7, 5, 4, 9, 8, 1};
+        list = piojo_skiplist_alloc_sizk(sizeof(size_t));
+
+        void * notfound = piojo_skiplist_search(&unsorted[0], list);
+        PIOJO_ASSERT(notfound == NULL);
+
         for (i = 0; i < 10; ++i){
                 bool inserted = piojo_skiplist_insert(&unsorted[i], &unsorted[i], list);
                 PIOJO_ASSERT(inserted);
-                int elem = *(int*)piojo_skiplist_search(&unsorted[i], list);
+                size_t elem = *(size_t*)piojo_skiplist_search(&unsorted[i], list);
                 PIOJO_ASSERT(elem == unsorted[i]);
         }
 
@@ -344,9 +370,9 @@ void test_stress(void)
 {
         piojo_skiplist_t *list;
         const int *nodekey, *nodedata;
-        int i;
+        int64_t i;
 
-        list = piojo_skiplist_alloc_i32k(sizeof(int));
+        list = piojo_skiplist_alloc_i64k(sizeof(int));
         for (i = 1; i <= TEST_STRESS_COUNT; ++i){
                 bool inserted = piojo_skiplist_insert(&i, &i, list);
                 PIOJO_ASSERT(inserted);
@@ -383,6 +409,27 @@ void test_stress_rand(void)
         piojo_skiplist_free(list);
 }
 
+void test_stress_set_rand(void)
+{
+        piojo_skiplist_t *list;
+        int elems[TEST_STRESS_COUNT];
+        int i,j;
+
+        srand(time(NULL));
+        list = piojo_skiplist_alloc_cb_i32k(sizeof(int), my_allocator);
+        for (i = 1; i <= TEST_STRESS_COUNT; ++i){
+                elems[i-1] = rand();
+                j = elems[i-1] * 10;
+                piojo_skiplist_set(&elems[i-1], &j, list);
+        }
+
+        for (i = TEST_STRESS_COUNT; i > 0; --i){
+                j = *(int*) piojo_skiplist_search(&elems[i-1], list);
+                PIOJO_ASSERT(j == elems[i-1] * 10);
+        }
+        piojo_skiplist_free(list);
+}
+
 int main(void)
 {
         test_alloc();
@@ -392,6 +439,7 @@ int main(void)
         test_clear();
         test_size();
         test_insert();
+        test_insert_bool();
         test_set();
         test_delete();
         test_first_last();
@@ -399,6 +447,7 @@ int main(void)
         test_search();
         test_stress();
         test_stress_rand();
+        test_stress_set_rand();
 
         assert_allocator_init(0);
         assert_allocator_alloc(0);

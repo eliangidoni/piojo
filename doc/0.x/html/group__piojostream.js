@@ -1,11 +1,11 @@
 var group__piojostream =
 [
-    [ "piojo_stream_alloc", "group__piojostream.html#gad525dd06f113bd6458e7128166397a96", null ],
-    [ "piojo_stream_alloc_cb", "group__piojostream.html#ga5e1cbff8b8730a5129c0423c41e791df", null ],
+    [ "piojo_stream_alloc", "group__piojostream.html#gad6d6933407f8701f95c106d5ef348ea9", null ],
+    [ "piojo_stream_alloc_cb", "group__piojostream.html#ga573ca4c10ed66ea571f34386fe6d6ee0", null ],
     [ "piojo_stream_clear", "group__piojostream.html#ga048414d0a56376a640fff86172665092", null ],
     [ "piojo_stream_concat", "group__piojostream.html#ga8ef9fb239e384b50d20a81c708d99128", null ],
-    [ "piojo_stream_copy", "group__piojostream.html#ga47389de11252828c423bd90b3c58e652", null ],
-    [ "piojo_stream_data", "group__piojostream.html#gad44ab80c1323a6a4a5ac0bd979da5ba6", null ],
+    [ "piojo_stream_copy", "group__piojostream.html#gafdc29fef84821cb55c1b81aa70d26956", null ],
+    [ "piojo_stream_data", "group__piojostream.html#gaff255e548e17e07a859e61657f46d351", null ],
     [ "piojo_stream_free", "group__piojostream.html#gab7c560ac7249786b9ea321ee59b77eba", null ],
     [ "piojo_stream_readbool", "group__piojostream.html#ga0c449ad699ac22d48b5c4ee614a89646", null ],
     [ "piojo_stream_readi16", "group__piojostream.html#gabe8d4247c91be5c79c612bf765646bb9", null ],
