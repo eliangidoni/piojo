@@ -4,6 +4,7 @@ var topics =
     [ "Piojo Alloc", "group__piojoalloc.html", "group__piojoalloc" ],
     [ "Piojo Array", "group__piojoarray.html", "group__piojoarray" ],
     [ "Piojo Bitset", "group__piojobitset.html", "group__piojobitset" ],
+    [ "Piojo Bloom Filter", "group__piojobloom.html", "group__piojobloom" ],
     [ "Piojo B-tree", "group__piojobtree.html", "group__piojobtree" ],
     [ "Piojo Combinatoric functions", "group__piojocomb.html", "group__piojocomb" ],
     [ "Piojo Disjoint-set", "group__piojodiset.html", "group__piojodiset" ],

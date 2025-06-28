@@ -319,6 +319,21 @@
 #define comb_prod_alloc piojo_comb_prod_alloc
 #define comb_prod_alloc_cb piojo_comb_prod_alloc_cb
 
+/* Bloom Filter */
+#define bloom_alloc_i32k piojo_bloom_alloc_i32k
+#define bloom_alloc_i64k piojo_bloom_alloc_i64k
+#define bloom_alloc_sizk piojo_bloom_alloc_sizk
+#define bloom_alloc_cb_i32k piojo_bloom_alloc_cb_i32k
+#define bloom_alloc_cb_i64k piojo_bloom_alloc_cb_i64k
+#define bloom_alloc_cb_sizk piojo_bloom_alloc_cb_sizk
+#define bloom_alloc_eq piojo_bloom_alloc_eq
+#define bloom_alloc_cb_eq piojo_bloom_alloc_cb_eq
+#define bloom_copy piojo_bloom_copy
+#define bloom_free piojo_bloom_free
+#define bloom_clear piojo_bloom_clear
+#define bloom_insert piojo_bloom_insert
+#define bloom_search piojo_bloom_search
+
 /** @} */
 
 #endif
