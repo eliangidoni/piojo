@@ -176,6 +176,23 @@
 #define list_prev piojo_list_prev
 #define list_entry piojo_list_entry
 
+/* Piece Table */
+#define piecet_alloc piojo_piecet_alloc
+#define piecet_alloc_cb piojo_piecet_alloc_cb
+#define piecet_alloc_from piojo_piecet_alloc_from
+#define piecet_alloc_cb_from piojo_piecet_alloc_cb_from
+#define piecet_copy piojo_piecet_copy
+#define piecet_free piojo_piecet_free
+#define piecet_clear piojo_piecet_clear
+#define piecet_size piojo_piecet_size
+#define piecet_piece_count piojo_piecet_piece_count
+#define piecet_insert piojo_piecet_insert
+#define piecet_delete piojo_piecet_delete
+#define piecet_replace piojo_piecet_replace
+#define piecet_read piojo_piecet_read
+#define piecet_flatten piojo_piecet_flatten
+#define piecet_at piojo_piecet_at
+
 /* Skip List */
 #define skiplist_alloc_i32k piojo_skiplist_alloc_i32k
 #define skiplist_alloc_i64k piojo_skiplist_alloc_i64k
