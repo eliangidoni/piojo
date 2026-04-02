@@ -1,0 +1,9 @@
+digraph "Piojo Red-Black Tree"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="Piojo Red-Black Tree",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 [label="Piojo B-tree",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__piojobtree.html",tooltip=" "];
+  Node1->Node2 [shape=plaintext, label="kv_t", color="orange", dir="none", style="dashed"];
+}

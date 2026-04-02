@@ -70,7 +70,8 @@ typedef bool
 typedef void*
 (*piojo_alloc_cb) (size_t size);
 
-/** Reallocates @a ptr to @a size bytes of memory. */
+/** Reallocates @a ptr to @a size bytes of memory.
+ *  If @a ptr is NULL, behaves like @c piojo_alloc_cb. */
 typedef void*
 (*piojo_realloc_cb) (const void *ptr, size_t size);
 

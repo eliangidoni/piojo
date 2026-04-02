@@ -198,7 +198,6 @@ piojo_piecet_t*
 piojo_piecet_copy(const piojo_piecet_t *piecet)
 {
         piojo_piecet_t *newpiecet;
-        size_t i;
         PIOJO_ASSERT(piecet);
 
         newpiecet = piojo_piecet_alloc_cb(piecet->esize, piecet->allocator);
@@ -224,9 +223,8 @@ piojo_piecet_copy(const piojo_piecet_t *piecet)
         }
 
         ensure_piece_cap(piecet->piece_count, newpiecet);
-        for (i = 0; i < piecet->piece_count; ++i){
-                newpiecet->pieces[i] = piecet->pieces[i];
-        }
+        memcpy(newpiecet->pieces, piecet->pieces,
+               piecet->piece_count * sizeof(piece_t));
         newpiecet->piece_count = piecet->piece_count;
         newpiecet->total_count = piecet->total_count;
 
@@ -361,6 +359,8 @@ piojo_piecet_free(const piojo_piecet_t *piecet)
 /**
  * Clears all edits and restores original content view.
  * @param[out] piecet Piece table being cleared.
+ * @warning All existing snapshots must be freed before calling clear();
+ *          restoring a snapshot taken before clear() is undefined behaviour.
  */
 void
 piojo_piecet_clear(piojo_piecet_t *piecet)
@@ -651,7 +651,8 @@ piojo_piecet_flatten(const piojo_piecet_t *piecet, void *out)
 
 /**
  * Returns direct pointer to entry at logical position @a pos.
- * Pointer remains valid until modifying operation that may reallocate buffers.
+ * @warning Pointer is invalidated by any subsequent insert or replace call,
+ *          prefer piojo_piecet_read().
  * @param[in] pos Entry position.
  * @param[in] piecet Piece table being accessed.
  * @return Pointer to entry at @a pos.
@@ -689,13 +690,8 @@ ensure_piece_cap(size_t min_cap, piojo_piecet_t *piecet)
         }
 
         PIOJO_ASSERT(piojo_safe_mulsiz_p(new_cap, sizeof(piece_t)));
-        if (piecet->pieces){
-                piecet->pieces = (piece_t*) piecet->allocator.realloc_cb(
-                        piecet->pieces, new_cap * sizeof(piece_t));
-        }else{
-                piecet->pieces = (piece_t*) piecet->allocator.alloc_cb(
-                        new_cap * sizeof(piece_t));
-        }
+        piecet->pieces = (piece_t*) piecet->allocator.realloc_cb(
+                piecet->pieces, new_cap * sizeof(piece_t));
         PIOJO_ASSERT(piecet->pieces);
         piecet->piece_cap = new_cap;
 }
@@ -717,13 +713,8 @@ ensure_add_cap(size_t min_cap, piojo_piecet_t *piecet)
         }
 
         PIOJO_ASSERT(piojo_safe_mulsiz_p(new_cap, piecet->esize));
-        if (piecet->add_data){
-                piecet->add_data = (uint8_t*) piecet->allocator.realloc_cb(
-                        piecet->add_data, new_cap * piecet->esize);
-        }else{
-                piecet->add_data = (uint8_t*) piecet->allocator.alloc_cb(
-                        new_cap * piecet->esize);
-        }
+        piecet->add_data = (uint8_t*) piecet->allocator.realloc_cb(
+                piecet->add_data, new_cap * piecet->esize);
         PIOJO_ASSERT(piecet->add_data);
         piecet->add_cap = new_cap;
 }

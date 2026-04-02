@@ -113,6 +113,8 @@ void test_many_edits(void)
         piojo_piecet_t *piecet;
         int val;
         size_t i;
+        int expected_content[800];
+        int flat[800];
 
         piecet = piojo_piecet_alloc(sizeof(int));
         for (i = 0; i < 1000; ++i){
@@ -126,6 +128,15 @@ void test_many_edits(void)
         }
         PIOJO_ASSERT(piojo_piecet_size(piecet) == 800);
         PIOJO_ASSERT(piojo_piecet_piece_count(piecet) > 0);
+
+        /* The 200 deleted elements were positions 100..299 (one per iteration
+         * from index 100, advancing the window). Surviving content: [0..99, 300..999]. */
+        for (i = 0; i < 100; ++i)
+                expected_content[i] = (int) i;
+        for (i = 0; i < 700; ++i)
+                expected_content[100 + i] = (int) (300 + i);
+        piojo_piecet_flatten(piecet, flat);
+        PIOJO_ASSERT(memcmp(expected_content, flat, sizeof(flat)) == 0);
 
         piojo_piecet_free(piecet);
 }
@@ -211,12 +222,29 @@ void test_snapshot_alloc_cb(void)
         piojo_piecet_free(piecet);
 }
 
+void test_prepend(void)
+{
+        int base[] = {1, 2, 3, 4};
+        int pre[] = {9};
+        int expected[] = {9, 1, 2, 3, 4};
+        int out[5] = {0, 0, 0, 0, 0};
+        piojo_piecet_t *piecet;
+
+        piecet = piojo_piecet_alloc_from(sizeof(int), base, 4);
+        piojo_piecet_insert(0, pre, 1, piecet);
+        PIOJO_ASSERT(piojo_piecet_size(piecet) == 5);
+        piojo_piecet_flatten(piecet, out);
+        PIOJO_ASSERT(memcmp(expected, out, sizeof(expected)) == 0);
+        piojo_piecet_free(piecet);
+}
+
 int main(void)
 {
         test_alloc();
         test_insert_delete_read();
         test_replace_copy_clear();
         test_many_edits();
+        test_prepend();
         test_snapshot_restore();
         test_snapshot_empty();
         test_snapshot_alloc_cb();

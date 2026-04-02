@@ -194,7 +194,7 @@ piojo_comb_next(piojo_comb_t *comb)
 {
         PIOJO_ASSERT(comb);
         if (comb->first_p) {
-                comb->first_p = false;
+                comb->first_p = FALSE;
                 return comb->sample;
         }
         return comb->next_cb(comb);
@@ -232,7 +232,7 @@ comb_alloc(size_t n, size_t r, piojo_alloc_if allocator)
         comb->n = n;
         comb->r = r;
         comb->allocator = allocator;
-        comb->first_p = true;
+        comb->first_p = TRUE;
         comb->sample_idx = r;
         comb->cycles = piojo_array_alloc_cb(sizeof(size_t), allocator);
         comb->sample = piojo_array_alloc_cb(sizeof(size_t), allocator);

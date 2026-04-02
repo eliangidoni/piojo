@@ -511,7 +511,7 @@ void test_stress_rand_uniq()
                 while (unique.count(elems[i-1]) > 0){
                         elems[i-1] = rand();
                 }
-                unique[elems[i-1]]=true;
+                unique[elems[i-1]]=TRUE;
                 j = elems[i-1] * 10;
                 piojo_tree_insert(&elems[i-1], &j, tree);
         }

@@ -5,6 +5,9 @@
     "dockerfile": "../Dockerfile"
   },
   "workspaceFolder": "/workspaces/piojo",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  },
   "remoteUser": "root",
   "runArgs": [
     "--cap-add=SYS_PTRACE"

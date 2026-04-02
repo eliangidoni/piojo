@@ -36,6 +36,9 @@ void* my_alloc(size_t size)
 
 void* my_realloc(const void *ptr, size_t size)
 {
+        if (ptr == NULL){
+                ++alloc_cnt;
+        }
         return piojo_alloc_def_realloc(ptr,size);
 }
 

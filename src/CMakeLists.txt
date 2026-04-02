@@ -12,6 +12,7 @@ set(piojo_SOURCES
     piojo_bitset.c
     piojo_comb.c
     piojo_stream.c
+    piojo_hnsw.c
     piojo_diset.c
     piojo_graph.c
     piojo_hash.c

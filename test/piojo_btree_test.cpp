@@ -512,7 +512,7 @@ void test_stress_rand_uniq(void)
                 while (unique.count(elems[i-1]) > 0){
                         elems[i-1] = rand();
                 }
-                unique[elems[i-1]]=true;
+                unique[elems[i-1]]=TRUE;
                 j = elems[i-1] * 10;
                 piojo_btree_insert(&elems[i-1], &j, tree);
         }

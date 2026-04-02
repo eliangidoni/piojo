@@ -278,7 +278,7 @@ void test_stress(void)
                 while (unique.count(j) > 0){
                         j = rand();
                 }
-                unique[j]=true;
+                unique[j]=TRUE;
                 piojo_heap_push((piojo_opaque_t)j, heap);
         }
 

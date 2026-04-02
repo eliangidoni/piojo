@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2013 G. Elian Gidoni
+ * Copyright (c) 2026 G. Elian Gidoni
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -350,6 +350,22 @@
 #define bloom_clear piojo_bloom_clear
 #define bloom_insert piojo_bloom_insert
 #define bloom_search piojo_bloom_search
+
+/* HNSW */
+#define hnsw_alloc piojo_hnsw_alloc
+#define hnsw_alloc_cb piojo_hnsw_alloc_cb
+#define hnsw_copy piojo_hnsw_copy
+#define hnsw_free piojo_hnsw_free
+#define hnsw_clear piojo_hnsw_clear
+#define hnsw_size piojo_hnsw_size
+#define hnsw_dim piojo_hnsw_dim
+#define hnsw_m piojo_hnsw_m
+#define hnsw_ef_construction piojo_hnsw_ef_construction
+#define hnsw_insert piojo_hnsw_insert
+#define hnsw_search piojo_hnsw_search
+#define hnsw_delete piojo_hnsw_delete
+#define hnsw_contain_p piojo_hnsw_contain_p
+#define hnsw_knn piojo_hnsw_knn
 
 /** @} */
 

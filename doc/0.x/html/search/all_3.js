@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['disjoint_20set_0',['Piojo Disjoint-set',['../group__piojodiset.html',1,'']]]
+  ['realloc_5fcb_363',['realloc_cb',['../structpiojo__alloc__if.html#a857080cabafe489e50254e66406a5277',1,'piojo_alloc_if']]]
 ];
