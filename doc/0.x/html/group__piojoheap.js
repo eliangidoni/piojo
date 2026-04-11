@@ -1,7 +1,7 @@
 var group__piojoheap =
 [
     [ "piojo_heap_key_t", "group__piojoheap.html#ga8062a84148c02c8ce63d53c8d691a0c1", null ],
-    [ "piojo_heap_leq_cb", "group__piojoheap.html#ga1b98393e832e1d5094cb802d3e611010", null ],
+    [ "piojo_heap_leq_cb", "group__piojoheap.html#gab8cc834b13083bcce84b6e2b6eff7f0e", null ],
     [ "piojo_heap_alloc", "group__piojoheap.html#gaf1b53effde627ea7b26e67277105bbb6", null ],
     [ "piojo_heap_alloc_cb", "group__piojoheap.html#gab3194e7e3b74682cc0681d1d0d2c1f4c", null ],
     [ "piojo_heap_clear", "group__piojoheap.html#ga4e927d37e077ab6f0e408b92c8a3d63c", null ],

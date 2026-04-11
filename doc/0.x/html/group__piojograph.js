@@ -1,8 +1,8 @@
 var group__piojograph =
 [
-    [ "piojo_graph_cost_cb", "group__piojograph.html#ga1318ad50f6bf9103fa138506f1493bea", null ],
+    [ "piojo_graph_cost_cb", "group__piojograph.html#ga1e8955c9e4573000ff9388bf16965e50", null ],
     [ "piojo_graph_vid_t", "group__piojograph.html#gad93ceca48a79b695fd8a8b41ab36c22f", null ],
-    [ "piojo_graph_visit_cb", "group__piojograph.html#ga6223d2e1b7caf9c971394cbf2c2b1f0e", null ],
+    [ "piojo_graph_visit_cb", "group__piojograph.html#gafa1d73d0c9ac1f747960d62fb3a7be0b", null ],
     [ "piojo_graph_weight_t", "group__piojograph.html#gadd1545e67ffbb0d81960b6368d81c64b", null ],
     [ "piojo_graph_dir_t", "group__piojograph.html#gad02d61c2733dd25a338630cc84e19b14", [
       [ "PIOJO_GRAPH_DIR_TRUE", "group__piojograph.html#ggad02d61c2733dd25a338630cc84e19b14afd85f4bfee075b038dfb250b6992cc26", null ],
@@ -31,6 +31,7 @@ var group__piojograph =
     [ "piojo_graph_set_vvalue", "group__piojograph.html#ga5a52830f6aa2ca4d5216a4b29efe0778", null ],
     [ "piojo_graph_sort", "group__piojograph.html#gaa73377e4d17cb95cb75a58863acded71", null ],
     [ "piojo_graph_source_path", "group__piojograph.html#ga8fbd8257dd1a54a91b7fa19f1ac42920", null ],
+    [ "piojo_graph_strongly_connected", "group__piojograph.html#ga407ead3c776e9d099ade531c1c1d14ef", null ],
     [ "piojo_graph_unlink", "group__piojograph.html#ga753b0ffcdb70eb6c11c85363a7f4d3bd", null ],
     [ "piojo_graph_unlink_all", "group__piojograph.html#ga8bfe3e327e69521259bfd16589281784", null ],
     [ "piojo_graph_vid_eq", "group__piojograph.html#gabebbe456e7df124f3a07b36d578e2013", null ],
